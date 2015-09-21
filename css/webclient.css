@@ -1,0 +1,38 @@
+/* A body that is full-height, full-width, but not more */
+body {
+  height: 100vh; 
+  display:flex; 
+  flex-direction: column; 
+  overflow: hidden; 
+  top: 0px; bottom: 0px; left: 0px; right: 0px;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.flex-row {
+  display:flex; 
+  flex-direction: row; 
+  height:100%;
+}
+
+.full-height {
+  height:100%;
+}
+
+.flex-column {
+  display:flex; 
+  flex-direction: column; 
+}
+
+.leftbar {
+  /*width: 27.5%;*/
+}
+
+.rightbar {
+  width: 100%;
+}
+
+.chat {
+  overflow-y: auto; 
+  height: 100%;
+}
