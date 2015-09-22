@@ -1,0 +1,6 @@
+{
+  "name": "po-web",
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
+}
