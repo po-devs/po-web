@@ -13,7 +13,7 @@ function serverConnect() {
         // open
         function () {
             console.log("Connected to relay.");
-            network.command("connect", "localhost:" + config.hostPort);
+            network.command("connect", {ip: "localhost:" + config.hostPort});
         },
         // error
         function () {

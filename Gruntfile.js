@@ -1,5 +1,19 @@
 module.exports = function(grunt) {
 
+  var js_backend = [
+    './app/assets/javascript/config.js',
+    './app/assets/javascript/network.js',
+    './app/assets/javascript/serverconnect.js',
+    './app/assets/javascript/backend.js'
+  ];
+
+  var js_frontend = [
+    './bower_components/jquery/dist/jquery.js',
+    './bower_components/bootstrap/dist/js/bootstrap.js',
+    './app/assets/javascript/utils.js',
+    './app/assets/javascript/frontend.js'
+  ];
+
   //Initializing the configuration object
     grunt.initConfig({
 
@@ -22,20 +36,11 @@ module.exports = function(grunt) {
         separator: ';',
       },
       js_frontend: {
-        src: [
-          './bower_components/jquery/dist/jquery.js',
-          './bower_components/bootstrap/dist/js/bootstrap.js',
-          './app/assets/javascript/frontend.js'
-        ],
+        src: js_frontend,
         dest: './public/assets/javascript/frontend.js',
       },
       js_backend: {
-        src: [
-          './app/assets/javascript/config.js',
-          './app/assets/javascript/network.js',
-          './app/assets/javascript/serverconnect.js',
-          './app/assets/javascript/backend.js'
-        ],
+        src: js_backend,
         dest: './public/assets/javascript/backend.js',
       },
     },
@@ -62,24 +67,14 @@ module.exports = function(grunt) {
     },
     watch: {
         js_frontend: {
-          files: [
-            //watched files
-            './bower_components/jquery/jquery.js',
-            './bower_components/bootstrap/dist/js/bootstrap.js',
-            './app/assets/javascript/frontend.js'
-            ],   
+          files: js_frontend,   
           tasks: ['concat:js_frontend'/*,'uglify:frontend'*/],     //tasks to run
           options: {
             livereload: true                        //reloads the browser
           }
         },
         js_backend: {
-          files: [
-            //watched files
-            './bower_components/jquery/jquery.js',
-            './bower_components/bootstrap/dist/js/bootstrap.js',
-            './app/assets/javascript/backend.js'
-          ],   
+          files: js_backend,   
           tasks: ['concat:js_backend','uglify:backend'],     //tasks to run
           options: {
             livereload: true                        //reloads the browser

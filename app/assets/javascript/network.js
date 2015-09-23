@@ -103,8 +103,6 @@ function createNetwork(WebSocket) {
         defaultserver: function (payload) {
             /* If the server is on the same IP as the relay, we display the server IP but
                 send localhost */
-            return;
-
             var server = payload.replace("localhost", this.relay),
                 qserver = utils.queryField("server");
 
@@ -117,8 +115,6 @@ function createNetwork(WebSocket) {
             }
         },
         servers: function (payload) {
-            return;
-
             var servers = JSON.parse(payload),
                 html = "",
                 server, len, i;
@@ -149,14 +145,8 @@ function createNetwork(WebSocket) {
             webclient.print(payload);
         },
         chat: function (payload) {
-            var params = JSON.parse(payload),
-                chan = webclient.channels.channel(params.channel);
-
-            if ((params.channel == -1 && params.message.charAt(0) != "~") || !chan) {
-                webclient.print(params.message, params.html);
-            } else {
-                chan.print(params.message, params.html);
-            }
+            var params = JSON.parse(payload);
+            webclient.onChat(params);
         },
         challenge: function (payload) {
             var password = $("#password").val(),
@@ -223,21 +213,7 @@ function createNetwork(WebSocket) {
         },
         players: function (payload) {
             var params = JSON.parse(payload);
-            webclient.players.addPlayer(params);
-
-            if (webclient.shownPlayer !== -1 && webclient.shownPlayer in params && "info" in params[webclient.shownPlayer]) {
-                webclient.updatePlayerInfo(params[webclient.shownPlayer]);
-            }
-            for (var player in params) {
-                if ("info" in params[player]) {
-                    if (webclient.shownPlayer == player) {
-                        webclient.updatePlayerInfo(params[player]);
-                    } else if (player in webclient.dialogs) {
-                        webclient.updatePlayerInfo(params[player], webclient.dialogs[player]);
-                        delete webclient.dialogs[player];
-                    }
-                }
-            }
+            webclient.onPlayers(params);
         },
         playerlogout: function (payload) {
             webclient.players.removePlayer(payload);
@@ -341,6 +317,15 @@ function createNetwork(WebSocket) {
         tiers: function (payload) {
             window.tiersList = JSON.parse(payload);
         }
+    };
+
+    //actual working commands:
+    parsers = {
+        connected: parsers.connected,
+        disconnected: parsers.disconnected,
+        msg: parsers.msg,
+        error : parsers.error,
+        chat: parsers.chat
     };
 
     function Network() {
