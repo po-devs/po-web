@@ -1,3 +1,6 @@
-var relayIP = "server.pokemon-online.eu";
-var relayPort = 10508;
-var hostPort = 5080;
+var config = {
+	relayIP : "server.pokemon-online.eu",
+	relayPort : 10508,
+	hostPort : 5080,
+	userName : "testWebClient"
+};

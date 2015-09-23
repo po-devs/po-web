@@ -25,15 +25,15 @@ module.exports = function(grunt) {
         src: [
           './bower_components/jquery/dist/jquery.js',
           './bower_components/bootstrap/dist/js/bootstrap.js',
-          './app/assets/javascript/config.js',
           './app/assets/javascript/frontend.js'
         ],
         dest: './public/assets/javascript/frontend.js',
       },
       js_backend: {
         src: [
-          './bower_components/jquery/dist/jquery.js',
-          './bower_components/bootstrap/dist/js/bootstrap.js',
+          './app/assets/javascript/config.js',
+          './app/assets/javascript/network.js',
+          './app/assets/javascript/serverconnect.js',
           './app/assets/javascript/backend.js'
         ],
         dest: './public/assets/javascript/backend.js',
