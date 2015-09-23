@@ -1,0 +1,43 @@
+/* css for contents of the chat window */
+
+/* name part of server message */
+.server-message {
+    color: orange;
+    font-weight: bold;
+}
+
+/* name part of welcome message */
+.welcome-message {
+    color: blue;
+    font-weight: bold;
+}
+
+/* name part of scripted message / unknown name */
+.script-message {
+    color: #318739;
+    font-weight: bold;
+}
+
+/* name part of player message */
+.player-message {
+    font-weight: bold;
+}
+
+/* line beginning with *** */
+.action {
+    color: magenta;
+}
+
+/* Hide timestamps if they only have the .timestamp-enabled class, show them if they have the timestamp class.
+    If there is ever a problem here, add !important to .timestamp's display.
+*/
+.timestamp-enabled {
+    display: none;
+}
+
+.timestamp {
+    display: inline;
+    float: right;
+    color: #B7B7B7;
+    opacity: 0.7;
+}
