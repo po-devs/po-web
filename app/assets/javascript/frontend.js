@@ -48,5 +48,7 @@ var webclientUI = {
 };
 
 $(function() {
-
+    $("#chatInput").keydown(utils.onEnterPressed(function () {
+        webclient.sendMessage($(this).val(), 0);
+    }));
 });

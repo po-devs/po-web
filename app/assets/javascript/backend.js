@@ -79,6 +79,22 @@ var webclient = {
 
 	print: function(msg) {
 		console.log(msg);
+	},
+
+	sendMessage: function (message, id) {
+		network.command('chat', {channel: 0, message: message});
+	    // if (!network.isOpen()) {
+	    //     webclient.printRaw("ERROR: Connect to the relay station before sending a message.");
+	    //     return;
+	    // }
+
+	    // if (/^send-channel-/.test(id)) {
+	    //     webclient.channels.channel(+id.replace('send-channel-', '')).sendMessage(message);
+	    // } else if (/^send-pm-/.test(id)) {
+	    //     webclient.pms.pm(+id.replace('send-pm-', '')).sendMessage(message);
+	    // } else if(/^send-battle-/.test(id)) {
+	    //     battles.battles[(+id.replace('send-battle-', ''))].sendMessage(message);
+	    // }
 	}
 };
 
