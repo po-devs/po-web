@@ -90,4 +90,57 @@ $(function() {
         webclient.sendMessage($(this).val(), 0);
         $(this).val('');
     }));
+
+    /* handle clicks on links, especially with po: urls */
+    $(document).on("click", "a", function (event) {
+        var href = this.href,
+            sep, cmd, payload, pid;
+
+        if (/^po:/.test(href)) {
+            event.preventDefault();
+
+            sep = href.indexOf("/");
+            cmd = href.slice(3, sep);
+
+            payload = decodeURIComponent(href.slice(sep + 1));
+
+            // Add other commands here..
+            pid = webclient.players.id(payload);
+            if (pid === -1) {
+                pid = parseInt(payload, 10);
+            }
+
+            if (cmd === "join") {
+                webclient.joinChannel(payload);
+            } else if (cmd === "pm") { // Create pm window
+                if (!isNaN(pid)) {
+                    webclient.pms.pm(pid).activateTab();
+                }
+            } else if (cmd === "ignore") {
+                // Ignore the user
+                if (!isNaN(pid)) {
+                    if (webclient.players.isIgnored(pid)) {
+                        webclient.players.addIgnore(pid);
+                    } else {
+                        webclient.players.removeIgnore(pid);
+                    }
+                }
+            } else if (cmd === "watch") {
+                network.command('watch', {battle: +payload});
+            } else if (cmd === "send") {
+                webclient.channel.sendMessage(payload);
+            } else if (cmd === "setmsg") {
+                webclient.channel.chat.input.val(payload);
+            } else if (cmd === "appendmsg") {
+                webclient.channel.chat.input.val(webclient.channel.chat.input.val() + payload);
+            } else if (cmd === "reconnect") {
+                //window.location.href= window.location.pathname;
+                window.location.reload();
+            }
+            // TODO: watchbattle(id/name)
+        } else {
+            /* Make sure link opens in a new window */
+            this.target = "_blank";
+        }
+    });
 });
