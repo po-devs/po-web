@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     './app/assets/javascript/config.js',
     './app/assets/javascript/libs/riot.js',
     './app/assets/javascript/libs/md5.js',
+    './app/assets/javascript/postorage.js',
     './app/assets/javascript/network.js',
     './app/assets/javascript/serverconnect.js',
     './app/assets/javascript/players.js',

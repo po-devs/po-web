@@ -7,14 +7,14 @@ var webclient = {
 
         var loginInfo = {version:1, idle: true};
 
-        //loginInfo.name = config.userName;
-        
-        network.command('login', loginInfo);
+        loginInfo.name = poStorage.get("user");
 
-        // var username = $("#username").val();
-        // if (username && username.length > 0) {
-        //     poStorage.set("player.name", username);
-        // }
+        if (!loginInfo.name) {
+            delete loginInfo.name;
+            webclientUI.printHtml("<timestamp/> <strong>No name set. Do so on the <a href=http://registry.pokemon-online.eu>main page</a>.</strong>");
+        }
+
+        network.command('login', loginInfo);
 
         // var data = {version: 1};
         // data.default = utils.queryField("channel");
@@ -31,28 +31,6 @@ var webclient = {
         // }
 
         // data.color = poStorage.get('player.color');
-
-        // if (utils.queryField("user") || username) {
-        //     data.name = utils.queryField("user") || username;
-        //     this.command('login', data);
-        // } else {
-        //     vex.dialog.open({
-        //         message: 'Enter your username:',
-        //         input: '<input name="username" type="text" placeholder="Username"/>',
-        //         buttons: [
-        //             $.extend({}, vex.dialog.buttons.YES, {text: 'Login'}),
-        //             $.extend({}, vex.dialog.buttons.NO, {text: 'Login as Guest'})
-        //         ],
-        //         callback: function (res) {
-        //             if (res && res.username) {
-        //                 data.name = res.username;
-        //             }
-
-        //             net.command('login', data);
-        //         }
-        //     });
-        // }
-
         // webclient.connectedToServer = true;
 	},
 
@@ -89,5 +67,19 @@ var webclient = {
 };
 
 $(function() {
+    var userGiven = utils.queryField('user');
+    var relayGiven = utils.queryField('relay');
+    var portGiven = utils.queryField('port');
+
+    if (userGiven) {
+        poStorage.set("user", userGiven);
+    }
+    if (relayGiven){
+        poStorage.set("relay", relayGiven);
+    }
+    if (portGiven) {
+        poStorage.set("port", portGiven);
+    }
+
 	serverConnect();
 });

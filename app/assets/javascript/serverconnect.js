@@ -3,17 +3,20 @@ function serverConnect() {
         network.close();
     }
 
+    var relayIP = poStorage.get("relay") || config.relayIP;
+    var port = poStorage.get("port") || config.hostPort;
+
     //var fullIP = $("#relay").val();
 
     //console.log("Connecting to relay @ " + fullIP);
     //poStorage.set("relay", fullIP);
 
     network.open(
-        config.relayIP + ":" + config.relayPort,
+        relayIP + ":" + config.relayPort,
         // open
         function () {
             console.log("Connected to relay.");
-            network.command("connect", {ip: "localhost:" + config.hostPort});
+            network.command("connect", {ip: "localhost:" + port});
         },
         // error
         function () {
