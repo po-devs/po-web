@@ -1,4 +1,6 @@
 function ChannelData(name) {
+    $.observable(this);
+
     this.players = {};
     this.name = name || "";
 };
@@ -9,14 +11,26 @@ channeldata.setPlayers = function(ids) {
     for (x in ids) {
         this.newPlayer(ids[x]);
     }
+
+    this.trigger("setplayers", ids)
 };
 
 channeldata.newPlayer = function(id) {
+    if (id in this.players) {
+        return;
+    }
+
     this.players[id] = true;
+    this.trigger("playeradd", id);
 };
 
 channeldata.removePlayer = function(id) {
+    if (! (id in this.players)) {
+        return;
+    }
+
     delete this.players[id];
+    this.trigger("playerremove", id);
 };
 
 channeldata.changeName = function(name) {

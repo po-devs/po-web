@@ -1,4 +1,6 @@
 var webclientUI = {
+    players: new PlayerList(),
+
     printHtml : function(html) {
         webclientUI.insertMessage(html);
         //$(".chat").html($(".chat").html() + html + "<br>");
@@ -80,6 +82,8 @@ var webclientUI = {
 };
 
 $(function() {
+    new ChannelTab(0, webclient.channels.channel(0).name);
+
     $("#chatInput").keydown(utils.onEnterPressed(function () {
         webclient.sendMessage($(this).val(), 0);
         $(this).val('');

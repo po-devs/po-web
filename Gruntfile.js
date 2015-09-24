@@ -14,6 +14,9 @@ module.exports = function(grunt) {
     './bower_components/jquery/dist/jquery.js',
     './bower_components/bootstrap/dist/js/bootstrap.js',
     './app/assets/javascript/utils.js',
+    './app/assets/javascript/basetab.js',
+    './app/assets/javascript/channeltab.js',
+    './app/assets/javascript/playerlistui.js',
     './app/assets/javascript/frontend.js'
   ];
 
