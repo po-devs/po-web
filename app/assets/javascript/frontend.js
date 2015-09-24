@@ -18,14 +18,13 @@ var webclientUI = {
             msg = "<span class='action'>" + msg + "</span>";
         } else if (msg.indexOf(":") !== -1) {
             var pref = msg.substr(0, msg.indexOf(":"));
-            var id = -1;
-            var auth = 0;
-            // id = webclient.players.id(pref);
-            // auth = webclient.players.auth(id);
+            var id = webclient.players.id(pref);
 
-            // if (webclient.players.isIgnored(id)) {
-            //     return;
-            // }
+            var auth = webclient.players.auth(id);
+
+            if (webclient.players.isIgnored(id)) {
+                return;
+            }
 
             if (pref === "~~Server~~") {
                 pref = "<span class='server-message'>" + pref + ":</span>";
@@ -35,11 +34,11 @@ var webclientUI = {
                 pref = "<span class='script-message'>" + pref + ":</span>";
             } else {
                 pref = "<span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(pref + ":", auth) + "</span>";
-                this.activateTab();
+                //this.activateTab();
             }
 
-            //msg = pref + utils.addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
-            msg = pref + msg.slice(msg.indexOf(":") + 1);
+            msg = pref + utils.addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
+            //msg = pref + msg.slice(msg.indexOf(":") + 1);
         }
 
         webclientUI.insertMessage(msg);

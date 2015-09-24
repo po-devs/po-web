@@ -326,6 +326,7 @@ function createNetwork(WebSocket) {
         msg: parsers.msg,
         error : parsers.error,
         chat: parsers.chat,
+        players: parsers.players,
         channels: parsers.channels,
         newchannel: parsers.newchannel,
         removechannel: parsers.removechannel,
