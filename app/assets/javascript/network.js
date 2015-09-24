@@ -149,9 +149,12 @@ function createNetwork(WebSocket) {
             webclient.onChat(params);
         },
         challenge: function (payload) {
-            var password = $("#password").val(),
-                net = this,
-                hash;
+            var net = this;
+
+            //var password = $("#password").val();
+            var password = '';
+
+            var hash;
 
             if (password) {
                 hash = MD5(MD5(password) + payload);
@@ -335,7 +338,8 @@ function createNetwork(WebSocket) {
         leave: parsers.leave,
         playerlogout: parsers.playerlogout,
         login: parsers.login,
-        channelplayers: parsers.channelplayers
+        channelplayers: parsers.channelplayers,
+        challenge: parsers.challenge
     };
 
     function Network() {

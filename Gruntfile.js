@@ -2,7 +2,8 @@ module.exports = function(grunt) {
 
   var js_backend = [
     './app/assets/javascript/config.js',
-    './app/assets/javascript/riot.js',
+    './app/assets/javascript/libs/riot.js',
+    './app/assets/javascript/libs/md5.js',
     './app/assets/javascript/network.js',
     './app/assets/javascript/serverconnect.js',
     './app/assets/javascript/players.js',
@@ -13,6 +14,7 @@ module.exports = function(grunt) {
   var js_frontend = [
     './bower_components/jquery/dist/jquery.js',
     './bower_components/bootstrap/dist/js/bootstrap.js',
+    './app/assets/javascript/libs/vex.combined.min.js',
     './app/assets/javascript/utils.js',
     './app/assets/javascript/basetab.js',
     './app/assets/javascript/channeltab.js',
