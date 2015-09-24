@@ -31,10 +31,16 @@ grunt less
 grunt concat
 ```
 
+You may need to run the terminal in administrative mode (Windows) or do commands with sudo (Linux).
+
 Open a terminal in the project directory and type the `grunt` command. It'll update automatically when files are changed.
 
 ### Running
 
-Open `index.html` with your browser.
+Open `index.html` with your browser. 
+
+You can instead run `nodejs server.js` and open your browser at http://localhost:7070.
 
 ### Configuration
+
+You can edit `serverconfig.js`.

@@ -49,6 +49,10 @@ module.exports = function(grunt) {
         src: js_backend,
         dest: './public/assets/javascript/backend.js',
       },
+      simple_copy: {
+        src: ['./views/index.kiwi'],
+        dest: './index.html'
+      }
     },
     uglify: {
       options: {
@@ -82,6 +86,13 @@ module.exports = function(grunt) {
         js_backend: {
           files: js_backend,   
           tasks: ['concat:js_backend','uglify:backend'],     //tasks to run
+          options: {
+            livereload: true                        //reloads the browser
+          }
+        },
+        simple_copy: {
+          files: ['./views/index.kiwi'],   
+          tasks: ['concat:simple_copy'],     //tasks to run
           options: {
             livereload: true                        //reloads the browser
           }
