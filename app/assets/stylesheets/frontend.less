@@ -36,8 +36,12 @@ body {
 }
 
 .stretchY {
-  overflow-y: auto; 
+  overflow-y: hidden; 
   height: 100%;
+
+  &:hover {
+  	overflow-y: auto; 
+  }
 }
 
 .chat {
