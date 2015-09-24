@@ -10,13 +10,16 @@
 </head>
 <body>
 
+<!-- use of tabindex to be able to give focus (so that it can be scrolled
+  on mobile) -->
+
 <div class="flex-row">
   <div class="flex-column leftbar" style="width:27.5%">
     <div id="playercount" class="hide"></div>
-    <ul id="playerlist" class="stretchY list-group"></ul>
+    <ul id="playerlist" class="stretchY list-group" tabindex=1></ul>
   </div>
   <div class="flex-column rightbar">
-    <div class="chat">
+    <div class="chat" tabindex=2>
      
     </div>
 
