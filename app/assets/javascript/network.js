@@ -161,7 +161,7 @@ function createNetwork(WebSocket) {
                 net.send('auth', {hash: hash});
             } else {
                 vex.dialog.open({
-                    message: 'Enter your password:',
+                    message: 'Please enter your password, <strong>' + poStorage.get("user") +'</strong>:',
                     input: '<input name="password" type="password" placeholder="Password" required />',
                     callback: function (res) {
                         if (res && res.password) {
