@@ -1,4 +1,7 @@
 var webclient = {
+  players : new PlayerHolder(),
+  channels : new ChannelHolder(),
+
 	onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
         network.command('login', {version:1, idle: true});
@@ -46,24 +49,6 @@ var webclient = {
         // }
 
         // webclient.connectedToServer = true;
-	},
-
-	onPlayers: function(params) {
-		// webclient.players.addPlayer(params);
-
-  //       if (webclient.shownPlayer !== -1 && webclient.shownPlayer in params && "info" in params[webclient.shownPlayer]) {
-  //           webclient.updatePlayerInfo(params[webclient.shownPlayer]);
-  //       }
-  //       for (var player in params) {
-  //           if ("info" in params[player]) {
-  //               if (webclient.shownPlayer == player) {
-  //                   webclient.updatePlayerInfo(params[player]);
-  //               } else if (player in webclient.dialogs) {
-  //                   webclient.updatePlayerInfo(params[player], webclient.dialogs[player]);
-  //                   delete webclient.dialogs[player];
-  //               }
-  //           }
-  //       }
 	},
 
 	onChat: function(params) {

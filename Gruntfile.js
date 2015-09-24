@@ -2,8 +2,11 @@ module.exports = function(grunt) {
 
   var js_backend = [
     './app/assets/javascript/config.js',
+    './app/assets/javascript/riot.js',
     './app/assets/javascript/network.js',
     './app/assets/javascript/serverconnect.js',
+    './app/assets/javascript/players.js',
+    './app/assets/javascript/channels.js',
     './app/assets/javascript/backend.js'
   ];
 

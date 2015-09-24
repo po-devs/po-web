@@ -213,7 +213,7 @@ function createNetwork(WebSocket) {
         },
         players: function (payload) {
             var params = JSON.parse(payload);
-            webclient.onPlayers(params);
+            webclient.players.addPlayer(params);
         },
         playerlogout: function (payload) {
             webclient.players.removePlayer(payload);
@@ -325,10 +325,21 @@ function createNetwork(WebSocket) {
         disconnected: parsers.disconnected,
         msg: parsers.msg,
         error : parsers.error,
-        chat: parsers.chat
+        chat: parsers.chat,
+        channels: parsers.channels,
+        newchannel: parsers.newchannel,
+        removechannel: parsers.removechannel,
+        channelnamechange: parsers.channelnamechange,
+        join: parsers.join,
+        leave: parsers.leave,
+        playerlogout: parsers.playerlogout,
+        login: parsers.login,
+        channelplayers: parsers.channelplayers
     };
 
     function Network() {
+        $.observable(this);
+
         this.buffer = [];
         this.socket = null;
 
@@ -438,6 +449,8 @@ function createNetwork(WebSocket) {
                 payload = data.slice(pipe + 1);
                 if (parsers.hasOwnProperty(cmd)) {
                     parsers[cmd].call(net, payload);
+                } else {
+                    net.trigger(cmd, payload);
                 }
             }
         };
