@@ -9,13 +9,6 @@ var webclient = {
 
         loginInfo.name = poStorage.get("user");
 
-        if (!loginInfo.name) {
-            delete loginInfo.name;
-            webclientUI.printHtml("<timestamp/> <strong>No name set. Do so on the <a href=http://registry.pokemon-online.eu>main page</a>.</strong>");
-        }
-
-        network.command('login', loginInfo);
-
         // var data = {version: 1};
         // data.default = utils.queryField("channel");
         // data.autojoin = poStorage("auto-join-"+webclient.serverIp(), "array");
@@ -32,6 +25,27 @@ var webclient = {
 
         // data.color = poStorage.get('player.color');
         // webclient.connectedToServer = true;
+
+        if (loginInfo.name) {
+            network.command('login', loginInfo);
+        } else {
+            vex.dialog.open({
+                message: 'Enter your username:',
+                input: '<input name="username" type="text" placeholder="Username"/>',
+                buttons: [
+                    $.extend({}, vex.dialog.buttons.YES, {text: 'Login'}),
+                    $.extend({}, vex.dialog.buttons.NO, {text: 'Login as Guest'})
+                ],
+                callback: function (res) {
+                    if (res && res.username) {
+                        loginInfo.name = res.username;
+                        poStorage.set("user", res.username);
+                    }
+
+                    network.command('login', loginInfo);
+                }
+            });
+        }
 	},
 
 	onChat: function(params) {
