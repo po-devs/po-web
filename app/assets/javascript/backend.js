@@ -40,6 +40,8 @@ var webclient = {
                     if (res && res.username) {
                         loginInfo.name = res.username;
                         poStorage.set("user", res.username);
+                    } else {
+                        delete loginInfo.name;
                     }
 
                     network.command('login', loginInfo);
