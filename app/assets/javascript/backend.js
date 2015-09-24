@@ -4,7 +4,12 @@ var webclient = {
 
 	onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
-        network.command('login', {version:1, idle: true});
+
+        var loginInfo = {version:1, idle: true};
+
+        //loginInfo.name = config.userName;
+        
+        network.command('login', loginInfo);
 
         // var username = $("#username").val();
         // if (username && username.length > 0) {

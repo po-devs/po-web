@@ -81,6 +81,8 @@ var webclientUI = {
     }
 };
 
+vex.defaultOptions.className = 'vex-theme-os';
+
 $(function() {
     new ChannelTab(0, webclient.channels.channel(0).name);
 
