@@ -46,6 +46,10 @@ utils.inherits(ChannelTab, BaseTab);
 
 var channeltab = ChannelTab.prototype;
 
+channeltab.onSetCurrent = function() {
+    this.chat.scrollDown();
+};
+
 channeltab.close = function() {
     this.trigger("close");
 };

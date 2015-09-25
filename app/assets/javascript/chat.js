@@ -13,6 +13,7 @@ function Chat() {
     this.element = $("<div class='flex-column'>").html(chatHtml);
     this.chatTextArea = this.element.find(".chat");
     this.chatSend = this.element.find(".chatInput");
+    this.chatCount = 0;
 
     var self = this;
     this.chatSend.keydown(utils.onEnterPressed(function () {
@@ -45,11 +46,15 @@ Chat.prototype.insertMessage = function (msg, opts) {
     chatTextArea.append("<div class='chat-line'>" + msg + "</div>");
 
     /* Limit number of lines */
-    // if (this.chatCount++ % 500 === 0) {
-    //     chatTextArea.html(chatTextArea.find(".chat-line").slice(-500));
-    // }
+    if (this.chatCount++ % 500 === 0) {
+        chatTextArea.html(chatTextArea.find(".chat-line").slice(-500));
+    }
 
     if (scrollDown) {
-        chatTextArea.animate({scrollTop: cta.scrollHeight}, "fast");
+        this.scrollDown();
     }
+};
+
+Chat.prototype.scrollDown = function() {
+    this.chatTextArea.animate({scrollTop: this.chatTextArea[0].scrollHeight}, "fast");
 };

@@ -30,6 +30,8 @@ BaseTab.prototype.setCurrentTab = function() {
 	webclient.currentTab = this;
 
 	webclientUI.players.setPlayers(this.getPlayers());
+
+    this.onSetCurrent();
 };
 
 BaseTab.prototype.addTab = function(element) {
@@ -45,4 +47,8 @@ BaseTab.prototype.addTab = function(element) {
         $(".tab").removeClass("current");
         tab.addClass("current");
     }
+};
+
+BaseTab.prototype.onSetCurrent = function() {
+
 };
