@@ -23,7 +23,7 @@ function serverConnect() {
     };
 
     network.open(
-        relayIP + ":" + config.relayPort,
+        relayIP + ":" + (utils.queryField("rport") || config.relayPort),
         // open
         function () {
             console.log("Connected to relay.");
