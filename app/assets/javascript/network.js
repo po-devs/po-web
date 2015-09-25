@@ -239,6 +239,7 @@ function createNetwork(WebSocket) {
         channelplayers: function (payload) {
             var params = JSON.parse(payload);
             webclient.channels.channel(params.channel).setPlayers(params.players);
+            webclient.channels.joinChannel(params.channel);
         },
         login: function (payload) {
             var params = JSON.parse(payload);

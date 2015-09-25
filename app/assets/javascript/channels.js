@@ -40,6 +40,7 @@ channeldata.changeName = function(name) {
 function ChannelHolder() {
     $.observable(this);
 
+    this.joinedChannels = [];
     this.channels = {};
     this.channelCount = 0;
     this.names = {}; // id -> name
@@ -52,15 +53,8 @@ var channelholder = ChannelHolder.prototype;
 
 channelholder.channel = function (id) {
     var chan;
-    if (id === -1) {
+    if (id === -1 || !(id in this.channels)) {
         return null;
-    }
-
-    if (!(id in this.channels)) {
-        this.newChannel(id, this.names[id]);
-        // if (id != 0) {
-        //     this.updateAutoJoin();
-        // }
     }
 
     return this.channels[id];
@@ -76,13 +70,15 @@ channelholder.hasChannel = function (id) {
 
 channelholder.updateAutoJoin = function() {
     var names = [];
-    for (var id in this.channels) {
+    for (var i in this.joinedChannels) {
+        var id = this.joinedChannels[i];
+
         if (id != 0) {
             names.push(this.name(id));
         }
     }
 
-    poStorage.set("auto-join-"+ webclient.serverIp(), names);
+    poStorage.set("auto-join-"+ webclient.serverIp, names);
 };
 
 channelholder.setNames = function (names) {
@@ -97,6 +93,12 @@ channelholder.setNames = function (names) {
     for (i in this.channels) {
         if ((i in names) && (chan = this.channel(i)).name !== names[i]) {
             chan.changeName(names[i]);
+        }
+    }
+
+    for (i in this.names) {
+        if (!(i in this.channels)) {
+            this.newChannel(i, this.names[i]);
         }
     }
 
@@ -117,6 +119,8 @@ channelholder.changeChannelName = function (id, name) {
     if (id in this.channels) {
         this.channels[id].changeName(name);
     }
+
+    this.trigger("changename", id);
 };
 
 channelholder.newChannel = function (id, name) {
@@ -142,6 +146,21 @@ channelholder.removeChannel = function (id) {
     this.trigger("channeldestroyed", id);
     //webclient.ui.channellist.removeChannel(id);
 };
+
+channelholder.joinChannel = function(id) {
+    if (this.joinedChannels.indexOf(id) == -1) {
+        //code to update
+        this.joinedChannels.push(id);
+
+        if (id != 0) {
+             this.updateAutoJoin();
+        }
+
+        this.trigger("joinchannel", id);
+    } else {
+        console.log("Channel already joined: " + id);
+    }
+}
 
 channelholder.current = function () {
     return this.channel(this.currentId());

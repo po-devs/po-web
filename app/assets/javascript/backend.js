@@ -79,7 +79,11 @@ var webclient = {
 	    // } else if(/^send-battle-/.test(id)) {
 	    //     battles.battles[(+id.replace('send-battle-', ''))].sendMessage(message);
 	    // }
-	}
+	},
+
+    joinChannel: function(id) {
+        network.command('joinchannel', {channel: id});
+    }
 };
 
 $(function() {
@@ -96,6 +100,8 @@ $(function() {
     if (portGiven) {
         poStorage.set("port", portGiven);
     }
+
+    webclient.channels.joinChannel(0);
 
 	serverConnect();
 });

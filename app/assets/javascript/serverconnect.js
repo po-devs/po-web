@@ -6,6 +6,8 @@ function serverConnect() {
     var relayIP = poStorage.get("relay") || config.relayIP;
     var port = poStorage.get("port") || config.hostPort;
 
+    webclient.serverIP = relayIP;
+
     //var fullIP = $("#relay").val();
 
     //console.log("Connecting to relay @ " + fullIP);

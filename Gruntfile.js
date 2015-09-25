@@ -20,6 +20,7 @@ module.exports = function(grunt) {
     './app/assets/javascript/basetab.js',
     './app/assets/javascript/channeltab.js',
     './app/assets/javascript/playerlistui.js',
+    './app/assets/javascript/channellistui.js',
     './app/assets/javascript/frontend.js'
   ];
 

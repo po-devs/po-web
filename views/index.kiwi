@@ -15,11 +15,14 @@
 
 <div class="flex-row">
   <div class="flex-column leftbar" style="width:27.5%">
+    <div class="po-tabs-list" style="max-height: 50%">
+      <ul id="channellist" class="hiddenScroll list-group" tabindex=1></ul>
+    </div>
     <div id="playercount" class="hide"></div>
-    <ul id="playerlist" class="stretchY list-group" tabindex=1></ul>
+    <ul id="playerlist" class="stretchY list-group" tabindex=2></ul>
   </div>
   <div class="flex-column rightbar">
-    <div class="chat" tabindex=2>
+    <div class="chat" tabindex=3>
      
     </div>
 

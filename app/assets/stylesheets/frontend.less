@@ -38,13 +38,18 @@ body {
   width: 100%;
 }
 
-.stretchY {
+.hiddenScroll {
   overflow-y: hidden; 
-  height: 100%;
 
   &:hover, &:focus {
-  	overflow-y: auto; 
+    overflow-y: auto; 
   }
+}
+
+.stretchY {
+  height: 100%;
+
+  .hiddenScroll;
 }
 
 .chat {
