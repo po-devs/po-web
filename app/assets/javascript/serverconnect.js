@@ -11,6 +11,15 @@ function serverConnect() {
     //console.log("Connecting to relay @ " + fullIP);
     //poStorage.set("relay", fullIP);
 
+    var closeFunction = function () {
+        if (webclient.connectedToServer) {
+            webclientUI.printDisconnectionMessage();
+            webclient.connectedToServer = false;
+        }
+        console.log("Disconnected from relay.");
+        network.close();
+    };
+
     network.open(
         relayIP + ":" + config.relayPort,
         // open
@@ -20,6 +29,10 @@ function serverConnect() {
         },
         // error
         function () {
+            if (webclient.connectedToServer) {
+                closeFunction();
+                return;
+            }
             vex.dialog.alert({
                 message: "Could not connect to the server. It could be offline, the address could be invalid, or you might have trouble connecting. <br><br> You will be taken back to the list of servers.",
                 callback: function() {document.location.href=config.registry;}
@@ -29,13 +42,6 @@ function serverConnect() {
             network.close();
         },
         // close
-        function () {
-            if (webclient.connectedToServer) {
-                webclientUI.printDisconnectionMessage();
-                webclient.connectedToServer = false;
-            }
-            console.log("Disconnected from relay.");
-            network.close();
-        }
+        closeFunction
     );
 };
