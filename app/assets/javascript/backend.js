@@ -24,7 +24,7 @@ var webclient = {
         // }
 
         // data.color = poStorage.get('player.color');
-        // webclient.connectedToServer = true;
+        webclient.connectedToServer = true;
 
         if (loginInfo.name) {
             network.command('login', loginInfo);

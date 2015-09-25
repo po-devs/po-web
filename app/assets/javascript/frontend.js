@@ -139,8 +139,10 @@ $(function() {
             }
             // TODO: watchbattle(id/name)
         } else {
-            /* Make sure link opens in a new window */
-            this.target = "_blank";
+            if (webclient.connectedToServer && !$(this).attr("target")) {
+                /* Make sure link opens in a new window */
+                this.target = "_blank";
+            }
         }
     });
 });
