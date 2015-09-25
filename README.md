@@ -1,5 +1,5 @@
 # po-web
-A simple webclient for Pokemon Online written in javascript
+A simple webclient for Pokemon Online written in javascript. You can try it [online](http://webclient.pokemon-online.eu).
 
 ### Requirements
 
