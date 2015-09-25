@@ -21,14 +21,7 @@
     <div id="playercount" class="hide"></div>
     <ul id="playerlist" class="stretchY list-group" tabindex=2></ul>
   </div>
-  <div class="flex-column rightbar">
-    <div class="chat" tabindex=3>
-     
-    </div>
-
-    <div class="chatInputContainer">
-      <input type="text" class="form-control" placeholder="Type your message..." id="chatInput">
-    </div>
+  <div class="flex-column rightbar" id="tabs">
   </div>
 </div>
 </body>

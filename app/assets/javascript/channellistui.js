@@ -36,6 +36,10 @@ channellist.channel = function(id) {
 	return this.ids[id];
 };
 
+channellist.channels = function() {
+	return this.ids;
+};
+
 channellist.startObserving = function(channels) {
 	var self = this;
 

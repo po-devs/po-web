@@ -51,14 +51,13 @@ var webclient = {
 	},
 
 	onChat: function(params) {
-		webclientUI.printMessage(params.message, params.html);
-		// var chan = webclient.channels.channel(params.channel);
+		var chan = webclientUI.channels.channel(params.channel);
 
-  //       if ((params.channel == -1 && params.message.charAt(0) != "~") || !chan) {
-  //           webclient.print(params.message, params.html);
-  //       } else {
-  //           chan.print(params.message, params.html);
-  //       }
+        if ((params.channel == -1 && params.message.charAt(0) != "~") || !chan) {
+            webclientUI.printMessage(params.message, params.html);
+        } else {
+            chan.printMessage(params.message, params.html);
+        }
 	},
 
 	print: function(msg) {
@@ -66,7 +65,7 @@ var webclient = {
 	},
 
 	sendMessage: function (message, id) {
-		network.command('chat', {channel: 0, message: message});
+		network.command('chat', {channel: id, message: message});
 	    // if (!network.isOpen()) {
 	    //     webclient.printRaw("ERROR: Connect to the relay station before sending a message.");
 	    //     return;

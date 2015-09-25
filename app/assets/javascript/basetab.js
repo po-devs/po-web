@@ -18,11 +18,31 @@ BaseTab.makeName = function(name) {
 };
 
 BaseTab.prototype.setCurrentTab = function() {
-	if (this.isCurrent()) {
+	if (this.tab) {
+        $(".tab").removeClass("current");
+        this.tab.addClass("current");
+    }
+
+    if (this.isCurrent()) {
 		return;
 	}
 
 	webclient.currentTab = this;
 
 	webclientUI.players.setPlayers(this.getPlayers());
+};
+
+BaseTab.prototype.addTab = function(element) {
+    var tab = $("<div class='tab'></div>");
+    //tab.append(element);
+
+    tab.appendTo($("#tabs"));
+    element.appendTo(tab);
+
+    this.tab = tab;
+
+    if (this.isCurrent()) {
+        $(".tab").removeClass("current");
+        tab.addClass("current");
+    }
 };

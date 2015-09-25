@@ -1,4 +1,3 @@
-
 function ChannelTab(id, name) {
     $.observable(this);
     this.shortHand = "channel";
@@ -35,6 +34,12 @@ function ChannelTab(id, name) {
     //     this.chat.appendTo($("#channel-" + id));
     //     $chan.data('initialized', true);
     // }
+    this.chat = new Chat();
+    this.addTab(this.chat.element);
+
+    this.chat.on("chat", function(msg) {
+        webclient.sendMessage(msg, self.id);
+    });
 }
 
 utils.inherits(ChannelTab, BaseTab);
@@ -141,6 +146,48 @@ channeltab.print = function (msg, html, raw) {
     //  });
 };
 
+channeltab.printHtml = function(html) {
+    this.printMessage(html, true);
+};
+
+channeltab.printMessage = function(msg, html) {
+    if (html) {
+        //msg = webclient.convertImages($("<div>").html(msg)).html();
+    } else {
+        msg = utils.escapeHtml(msg);
+
+        if (msg.substr(0, 3) === "***") {
+            msg = "<span class='action'>" + msg + "</span>";
+        } else if (msg.indexOf(":") !== -1) {
+            var pref = msg.substr(0, msg.indexOf(":"));
+            var id = webclient.players.id(pref);
+
+            var auth = webclient.players.auth(id);
+
+            if (webclient.players.isIgnored(id)) {
+                return;
+            }
+
+            if (pref === "~~Server~~") {
+                pref = "<span class='server-message'>" + pref + ":</span>";
+            } else if (pref === "Welcome Message") {
+                pref = "<span class='welcome-message'>" + pref + ":</span>";
+            } else if (id === -1) {
+                pref = "<span class='script-message'>" + pref + ":</span>";
+            } else {
+                pref = "<span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(pref + ":", auth) + "</span>";
+                //this.activateTab();
+            }
+
+            msg = pref + utils.addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
+            //msg = pref + msg.slice(msg.indexOf(":") + 1);
+        }
+    }
+
+    this.chat.insertMessage(msg);
+    //$(".chat").html($(".chat").html() + utils.stripHtml(msg) + "<br>");
+};
+
 channeltab.sendMessage = function (message) {
     // var lines = message.trim().split('\n'),
     //     line, pid, len, i;
@@ -175,12 +222,3 @@ channeltab.remove = function () {
     //this.trigger("remove");
 };
 
-channeltab.playerIds = function() {
-    // var ids = [], id;
-
-    // for (id in this.players) {
-    //     ids.push(+id);
-    // }
-
-    // return ids;
-};
