@@ -30,7 +30,10 @@ function serverConnect() {
         },
         // close
         function () {
-            webclientUI.printHtml("<b>Disconnected</b>");
+            if (webclient.connectedToServer) {
+                webclientUI.printDisconnectionMessage();
+                webclient.connectedToServer = false;
+            }
             console.log("Disconnected from relay.");
             network.close();
         }
