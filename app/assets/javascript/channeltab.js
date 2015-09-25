@@ -14,12 +14,16 @@ function ChannelTab(id, name) {
       We keep track with this variable. */
     this.closable = 0; // 1 = Server close, 2=Player close
 
-    var relatedObject = webclient.channels.channel(id);
+    this.channel = webclient.channels.channel(id);
 
-    relatedObject.off("*");
-    relatedObject.on("setplayers", function(ids) {self.setPlayers(ids);});
-    relatedObject.on("playeradd", function(id) {self.newPlayer(id);});
-    relatedObject.on("playerremove", function(id) {self.removePlayer(id);});
+    if (!webclient.currentTab) {
+        webclient.currentTab = this;
+    }
+
+    this.channel.off("*");
+    this.channel.on("setplayers", function(ids) {self.setPlayers(ids);});
+    this.channel.on("playeradd", function(id) {self.newPlayer(id);});
+    this.channel.on("playerremove", function(id) {self.removePlayer(id);});
     // var $chan = $("#channel-" + id);
     // if ($chan.length === 0 || $chan.data('initialized') === false) {
     //     /* Create new tab */
@@ -39,6 +43,10 @@ var channeltab = ChannelTab.prototype;
 
 channeltab.close = function() {
     this.trigger("close");
+};
+
+channeltab.getPlayers = function() {
+    return Object.keys(this.channel.players);
 };
 
 channeltab.setPlayers = function (players) {

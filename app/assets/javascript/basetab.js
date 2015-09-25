@@ -4,7 +4,7 @@ function BaseTab(/* id */) {
 
 BaseTab.prototype.isCurrent = function () {
     //return this === webclient.channel;
-    return true;
+    return this === webclient.currentTab;
 };
 
 BaseTab.prototype.activateTab = function () {
@@ -15,4 +15,14 @@ BaseTab.prototype.activateTab = function () {
 
 BaseTab.makeName = function(name) {
     return "<span class='channel-title'>"+name+"</span>" + '<i class="fa fa-times-circle"></i>'
+};
+
+BaseTab.prototype.setCurrentTab = function() {
+	if (this.isCurrent()) {
+		return;
+	}
+
+	webclient.currentTab = this;
+
+	webclientUI.players.setPlayers(this.getPlayers());
 };

@@ -46,7 +46,7 @@ function ChannelHolder() {
     this.names = {}; // id -> name
     this.byName = {}; // name -> id
 
-    this.newChannel(0, 'Console');
+    this.newChannel(0, 'Main Channel');
 }
 
 var channelholder = ChannelHolder.prototype;

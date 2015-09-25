@@ -83,14 +83,27 @@ var webclientUI = {
         if (scrollDown) {
             chatTextArea.animate({scrollTop: cta.scrollHeight}, "fast");
         }
+    },
+
+    switchToTab : function(wid) {
+        console.log("Switch to tab: " + wid);
+        var id = wid.substr(wid.lastIndexOf("-") + 1)
+        var obj;
+        if (/^channel-/.test(wid)) {
+            obj = webclientUI.channels.channel(id);
+        } else if (/^pm-/.test(wid)) {
+            obj = webclient.pms.pm(id);
+        } else if (/^battle-/.test(wid)) {
+            obj = battles.battle(id);
+        }
+
+        obj.setCurrentTab();
     }
 };
 
 vex.defaultOptions.className = 'vex-theme-os';
 
 $(function() {
-    new ChannelTab(0, webclient.channels.channel(0).name);
-
     $("#chatInput").keydown(utils.onEnterPressed(function () {
         webclient.sendMessage($(this).val(), 0);
         $(this).val('');

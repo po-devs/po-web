@@ -1,5 +1,5 @@
 function ChannelList() {
-	this.ids = [];
+	this.ids = {};
 }
 
 var channellist = ChannelList.prototype;
@@ -8,9 +8,9 @@ channellist.createChannelItem = function (id) {
     var name = webclient.channels.name(id),
         ret;
 
-    ret = "<li class='list-group-item channel-list-item";
-
-    ret += "' id='channel-"+id+"'>#" + utils.escapeHtml(name) + "</li>";
+    ret = "<li class='list-group-item channel-list-item' ";
+    ret += "onclick='webclientUI.switchToTab(this.id)' "
+    ret += "id='channel-"+id+"'>#" + utils.escapeHtml(name) + "</li>";
     return ret;
 };
 
@@ -22,17 +22,19 @@ channellist.updateChannelName = function(id) {
 };
 
 channellist.hasChannel = function(id) {
-	return this.ids.indexOf(+id) != -1;
+	return id in this.ids;
 };
 
 channellist.addChannel = function(id) {
-	id = +id;
-
 	if (!this.hasChannel(id)) {
-		this.ids.push(id);
 		this.element.append(this.createChannelItem(id));
+		this.ids[id] = new ChannelTab(id, webclient.channels.name(id));
 	}
-}
+};
+
+channellist.channel = function(id) {
+	return this.ids[id];
+};
 
 channellist.startObserving = function(channels) {
 	var self = this;
