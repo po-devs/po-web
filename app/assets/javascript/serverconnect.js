@@ -22,7 +22,7 @@ function serverConnect() {
         function () {
             vex.dialog.alert({
                 message: "Could not connect to the server. It could be offline, the address could be invalid, or you might have trouble connecting. <br><br> You will be taken back to the list of servers.",
-                callback: function() {document.location.href="http://registry.pokemon-online.eu";}
+                callback: function() {document.location.href=config.registry;}
             });
             console.log("Failed to connect to relay.");
 
@@ -30,6 +30,7 @@ function serverConnect() {
         },
         // close
         function () {
+            webclientUI.printHtml("<b>Disconnected</b>");
             console.log("Disconnected from relay.");
             network.close();
         }
