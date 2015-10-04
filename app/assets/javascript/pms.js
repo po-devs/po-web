@@ -7,6 +7,10 @@ function PMHolder() {
 
 var pmholder = PMHolder.prototype;
 pmholder.pm = function (pid) {
+    if (pid == webclient.ownId) {
+        return;
+    }
+
     var pm;
     pid = +pid;
     if (pid in this.pms) {

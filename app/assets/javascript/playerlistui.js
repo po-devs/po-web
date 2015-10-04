@@ -48,7 +48,7 @@ playerlist.createPlayerItem = function (id) {
     //     ret += ' player-battling';
     // }
 
-    ret += "' id='player-"+id+"'>" + utils.escapeHtml(name) + "</li>";
+    ret += "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</li>";
     return ret;
 };
 
@@ -100,4 +100,11 @@ playerlist.updatePlayer = function (id) {
 $(function() {
     webclientUI.players.element = $("#playerlist");
     webclientUI.players.count = $("#playercount");
+
+    /* PM on player click */
+    webclientUI.players.element.on("click", "li", function (event) {
+        var pid = $(this).attr("pid");
+
+        webclient.pms.pm(pid);
+    });
 });
