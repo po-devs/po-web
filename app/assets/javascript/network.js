@@ -253,7 +253,7 @@ function createNetwork(WebSocket) {
         pm: function (payload) {
             var params = JSON.parse(payload),
                 src = params.src;
-            webclient.pms.pm(src).print(src, params.message);
+            webclient.pms.pm(src).printMessage(src, params.message);
         },
         watchbattle: function (payload) {
             var id = payload.split("|")[0];
@@ -340,7 +340,8 @@ function createNetwork(WebSocket) {
         playerlogout: parsers.playerlogout,
         login: parsers.login,
         channelplayers: parsers.channelplayers,
-        challenge: parsers.challenge
+        challenge: parsers.challenge,
+        pm: parsers.pm
     };
 
     function Network() {

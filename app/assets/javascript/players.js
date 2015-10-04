@@ -16,6 +16,8 @@ PlayerHolder.prototype.login = function (id, info) {
     obj[id] = info;
     this.addPlayer(obj);
 
+    webclient.ownId = id;
+
     this.trigger("login", id, info);
 };
 

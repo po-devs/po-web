@@ -1,6 +1,7 @@
 var webclientUI = {
     players: new PlayerList(),
     channels: new ChannelList(),
+    pms: new PMList(),
 
     printDisconnectionMessage : function(html) {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");

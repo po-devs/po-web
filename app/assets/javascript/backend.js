@@ -1,6 +1,7 @@
 var webclient = {
-  players : new PlayerHolder(),
-  channels : new ChannelHolder(),
+    players : new PlayerHolder(),
+    channels : new ChannelHolder(),
+    pms: new PMHolder(),
 
 	onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
@@ -79,6 +80,18 @@ var webclient = {
 	    //     battles.battles[(+id.replace('send-battle-', ''))].sendMessage(message);
 	    // }
 	},
+
+    sendPM: function (message, id) {
+        var lines = message.trim().split('\n'),
+            line, len, i;
+
+        for (i = 0, len = lines.length; i < len; i += 1) {
+            line = lines[i];
+
+            this.pms.pm(id).printMessage(webclient.ownId, line);
+            network.command('pm', {to: id, message: line});
+        }
+    },
 
     joinChannel: function(id) {
         network.command('joinchannel', {channel: id});

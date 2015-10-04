@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     './app/assets/javascript/serverconnect.js',
     './app/assets/javascript/players.js',
     './app/assets/javascript/channels.js',
+    './app/assets/javascript/pms.js',
     './app/assets/javascript/backend.js'
   ];
 
@@ -20,8 +21,10 @@ module.exports = function(grunt) {
     './app/assets/javascript/basetab.js',
     './app/assets/javascript/chat.js',
     './app/assets/javascript/channeltab.js',
+    './app/assets/javascript/pmtab.js',
     './app/assets/javascript/playerlistui.js',
     './app/assets/javascript/channellistui.js',
+    './app/assets/javascript/pmlistui.js',
     './app/assets/javascript/frontend.js'
   ];
 
