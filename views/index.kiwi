@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="public/assets/stylesheets/frontend.css">
+  <link rel="icon" type="image/png" href="public/favicon.png">
   <script src="public/assets/javascript/frontend.js"></script>
   <script src="public/assets/javascript/backend.js"></script>
 </head>
