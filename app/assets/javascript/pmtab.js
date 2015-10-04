@@ -28,6 +28,7 @@ pmtab.name = function() {
 
 pmtab.close = function() {
     this.trigger("close");
+    this.removeTab();
 };
 
 pmtab.getPlayers = function() {

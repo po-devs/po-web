@@ -16,7 +16,7 @@
 
 <div class="flex-row">
   <div class="flex-column leftbar" style="width:27.5%">
-    <div class="po-tabs-list" style="max-height: 50%">
+    <div id="po-tabs-list" style="max-height: 50%">
       <ul id="channellist" class="hiddenScroll list-group" tabindex=1></ul>
       <ul id="pmlist" class="hiddenScroll list-group" tabindex=2>
       </ul>

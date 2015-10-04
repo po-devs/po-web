@@ -43,11 +43,25 @@ BaseTab.prototype.addTab = function(element) {
 
     this.tab = tab;
 
+    webclientUI.tabs.push(this);
+
     if (this.isCurrent()) {
         $(".tab").removeClass("current");
         tab.addClass("current");
     }
 };
+
+
+BaseTab.prototype.removeTab = function() {
+    this.tab.remove();
+
+    webclientUI.tabs.splice(webclientUI.tabs.indexOf(this), 1);
+
+    if (webclientUI.tabs.length > 0) {
+        webclientUI.tabs[0].setCurrentTab();
+    }
+};
+
 
 BaseTab.prototype.onSetCurrent = function() {
 
