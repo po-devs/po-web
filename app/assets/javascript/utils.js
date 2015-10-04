@@ -158,6 +158,16 @@ utils.unenumerable(Array.prototype, 'dichotomy', function (func) {
 // Unused
 String.prototype.startsWith = function(str) { return this.lastIndexOf(str, 0) === 0; }
 
+window.isActive = true;
+
+$(window).focus(function() {
+    window.isActive = true;
+});
+
+$(window).blur(function() {
+    window.isActive = false;
+});
+
 // Unused
 /*
 function loadjscssfile(filename, filetype){
