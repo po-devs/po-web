@@ -21,6 +21,11 @@ playerlist.setPlayers = function (playerIds) {
 
     this.element.html(html);
     this.ids = playerIds;
+
+    for (var i in this.ids) {
+        this.ids[i] = +this.ids[i];
+    }
+
     this.updatePlayerCount();
 };
 
@@ -62,6 +67,7 @@ playerlist.findPos = function(id) {
 };
 
 playerlist.addPlayer = function (id) {
+    id = +id;
     /* Find the place where to put the name - dichotomy */
     var pos = this.findPos(id);
 
@@ -80,7 +86,7 @@ playerlist.addPlayer = function (id) {
 };
 
 playerlist.removePlayer = function (id) {
-    var pos = this.ids.indexOf(id);
+    var pos = this.ids.indexOf(+id);
     if (pos !== -1) {
         this.ids.splice(pos, 1);
     }
@@ -91,7 +97,7 @@ playerlist.removePlayer = function (id) {
 };
 
 playerlist.updatePlayer = function (id) {
-    if (this.ids.indexOf(id) !== -1) {
+    if (this.ids.indexOf(+id) !== -1) {
         this.removePlayer(id);
         this.addPlayer(id);
     }
