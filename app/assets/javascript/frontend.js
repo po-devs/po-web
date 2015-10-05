@@ -94,3 +94,9 @@ $(function() {
         }
     });
 });
+
+window.onbeforeunload = function(e) {
+    if (webclient.connectedToServer) {
+        return 'Are you sure you want to disconnect from the server?';
+    }
+};
