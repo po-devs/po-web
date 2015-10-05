@@ -13,6 +13,12 @@ BaseTab.prototype.activateTab = function () {
     }
 };
 
+BaseTab.prototype.flashTab = function () {
+    if (!this.isCurrent()) {
+        $("#" + this.shortHand + "-" + this.id).addClass("tab-flash");
+    }
+};
+
 BaseTab.makeName = function(name) {
     return "<span class='channel-title'>"+name+"</span>" + '<i class="fa fa-times-circle"></i>'
 };
@@ -27,7 +33,7 @@ BaseTab.prototype.setCurrentTab = function() {
 		return;
 	}
 
-	$("#" + this.shortHand + "-" + this.id).removeClass("tab-active");
+	$("#" + this.shortHand + "-" + this.id).removeClass("tab-active tab-flash");
 
 	webclient.currentTab = this;
 

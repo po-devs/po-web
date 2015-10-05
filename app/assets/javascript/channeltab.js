@@ -155,8 +155,9 @@ channeltab.printHtml = function(html) {
 };
 
 channeltab.printMessage = function(msg, html) {
-    this.activateTab();
-
+    if (msg.indexOf(webclient.players.name(webclient.ownId)) != -1) {
+        this.flashTab();
+    }
     if (html) {
         //msg = webclient.convertImages($("<div>").html(msg)).html();
     } else {
@@ -182,7 +183,7 @@ channeltab.printMessage = function(msg, html) {
                 pref = "<span class='script-message'>" + pref + ":</span>";
             } else {
                 pref = "<span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(pref + ":", auth) + "</span>";
-                //this.activateTab();
+                this.activateTab();
             }
 
             msg = pref + utils.addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
