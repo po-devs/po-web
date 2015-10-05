@@ -1,8 +1,9 @@
-function ChannelData(name) {
+function ChannelData(id, name) {
     $.observable(this);
 
     this.players = {};
     this.name = name || "";
+    this.id = id;
 };
 
 var channeldata = ChannelData.prototype;
@@ -31,6 +32,10 @@ channeldata.removePlayer = function(id) {
 
     delete this.players[id];
     this.trigger("playerremove", id);
+
+    if (id == webclient.ownId) {
+        webclient.channels.leaveChannel(this.id);
+    }
 };
 
 channeldata.changeName = function(name) {
@@ -126,7 +131,7 @@ channelholder.changeChannelName = function (id, name) {
 };
 
 channelholder.newChannel = function (id, name) {
-    this.channels[id] = new ChannelData(name);
+    this.channels[id] = new ChannelData(id, name);
     this.names[id] = name;
     this.byName[name] = id;
 
@@ -164,15 +169,6 @@ channelholder.joinChannel = function(id) {
     }
 }
 
-channelholder.current = function () {
-    return this.channel(this.currentId());
-};
-
-channelholder.currentId = function() {
-    return 0;
-    //return webclient.currentChannel();
-};
-
 channelholder.channelsByName = function (lowercase) {
     var o = [],
         name;
@@ -185,10 +181,5 @@ channelholder.channelsByName = function (lowercase) {
 };
 
 channelholder.leaveChannel = function (chanid) {
-    // if (!this.hasChannel(chanid) || this.channel(chanid).closable & 1) {
-    //     $('#channel-tabs').tabs("remove", "#channel-" + chanid);
-    // } else {
-    //     this.channel(chanid).closable |= 2;
-    //     network.command('leavechannel', {channel: chanid});
-    // }
+    this.trigger("leavechannel", chanid);
 };

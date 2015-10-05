@@ -10,14 +10,14 @@ channellist.createChannelItem = function (id) {
 
     ret = "<li class='list-group-item channel-list-item' ";
     ret += "onclick='webclientUI.switchToTab(this.id)' "
-    ret += "id='channel-"+id+"'>#" + utils.escapeHtml(name) + "</li>";
+    ret += "id='channel-"+id+"'><span class='channel-name'>#" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="webclient.leaveChannel(' + id + '); event.stopPropagation();"><span aria-hidden="true">&times;</span></button></li>';
     return ret;
 };
 
 
 channellist.updateChannelName = function(id) {
 	if (this.hasChannel(id)) {
-		$('#channel-'+id).text('#' + utils.escapeHtml(webclient.channels.name(id)));
+		$('#channel-'+id+">.channel-name").text('#' + utils.escapeHtml(webclient.channels.name(id)));
 	}
 };
 
@@ -29,6 +29,14 @@ channellist.addChannel = function(id) {
 	if (!this.hasChannel(id)) {
 		this.element.append(this.createChannelItem(id));
 		this.ids[id] = new ChannelTab(id, webclient.channels.name(id));
+	}
+};
+
+channellist.removeChannel = function(id) {
+	if (this.hasChannel(id)) {
+        this.element.find("#channel-" + id).remove();
+        this.channel(id).close();
+        delete this.ids[id];
 	}
 };
 
@@ -45,6 +53,10 @@ channellist.startObserving = function(channels) {
 
 	channels.on("joinchannel", function(id) {
 		self.addChannel(id);
+	});
+
+	channels.on("leavechannel", function(id) {
+		self.removeChannel(id);
 	});
 
 	channels.on("changename", function(id) {

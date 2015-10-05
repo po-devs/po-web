@@ -53,6 +53,7 @@ channeltab.onSetCurrent = function() {
 
 channeltab.close = function() {
     this.trigger("close");
+    this.removeTab();
 };
 
 channeltab.getPlayers = function() {

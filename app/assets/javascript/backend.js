@@ -95,6 +95,10 @@ var webclient = {
 
     joinChannel: function(id) {
         network.command('joinchannel', {channel: id});
+    },
+
+    leaveChannel: function(id) {
+        network.command('leavechannel', {channel: id});
     }
 };
 
