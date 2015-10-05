@@ -23,6 +23,7 @@ function ChannelTab(id, name) {
     this.channel.on("setplayers", function(ids) {self.setPlayers(ids);});
     this.channel.on("playeradd", function(id) {self.newPlayer(id);});
     this.channel.on("playerremove", function(id) {self.removePlayer(id);});
+    this.channel.on("changename", function(name) {self.changeName(name);});
     // var $chan = $("#channel-" + id);
     // if ($chan.length === 0 || $chan.data('initialized') === false) {
     //     /* Create new tab */
@@ -157,6 +158,14 @@ channeltab.printHtml = function(html) {
 channeltab.printMessage = function(msg, html) {
     if (msg.indexOf(webclient.players.name(webclient.ownId)) != -1) {
         this.flashTab();
+
+        /* When flashed, also display a notification */
+        if (!window.isActive) {
+            if ("Notification" in window) {
+                //console.log("spawning notification");
+                var notification = new window.Notification("In #"+this.name + ": ", {body: html ? utils.stripHtml(msg): msg});
+            }
+        }
     }
     if (html) {
         //msg = webclient.convertImages($("<div>").html(msg)).html();
@@ -215,7 +224,7 @@ channeltab.sendMessage = function (message) {
 };
 
 channeltab.changeName = function (name) {
-    // this.name = name;
+    this.name = name;
 
     // $("#channel-tabs > ul a[href=\"#channel-" + this.id + "\"]").html("<span>" + webclient.classes.BaseTab.makeName(name) + '</span>');
 };

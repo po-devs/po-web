@@ -35,6 +35,8 @@ channeldata.removePlayer = function(id) {
 
 channeldata.changeName = function(name) {
     this.name = name;
+
+    this.trigger("changename", name);
 };
 
 function ChannelHolder() {
