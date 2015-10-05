@@ -36,6 +36,8 @@ pmtab.getPlayers = function() {
 };
 
 pmtab.printMessage = function(id, msg) {
+    this.activateTab();
+    
     var raw = id === -1,
         auth, pref;
     var orMsg = msg;

@@ -9,7 +9,7 @@ BaseTab.prototype.isCurrent = function () {
 
 BaseTab.prototype.activateTab = function () {
     if (!this.isCurrent()) {
-        $("#channel-tabs > ul li a[href='#" + this.shortHand + "-" + this.id + "']").addClass("tab-active");
+        $("#" + this.shortHand + "-" + this.id).addClass("tab-active");
     }
 };
 
@@ -26,6 +26,8 @@ BaseTab.prototype.setCurrentTab = function() {
     if (this.isCurrent()) {
 		return;
 	}
+
+	$("#" + this.shortHand + "-" + this.id).removeClass("tab-active");
 
 	webclient.currentTab = this;
 

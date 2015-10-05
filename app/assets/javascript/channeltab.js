@@ -155,6 +155,8 @@ channeltab.printHtml = function(html) {
 };
 
 channeltab.printMessage = function(msg, html) {
+    this.activateTab();
+
     if (html) {
         //msg = webclient.convertImages($("<div>").html(msg)).html();
     } else {
