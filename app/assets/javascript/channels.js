@@ -180,6 +180,17 @@ channelholder.channelsByName = function (lowercase) {
     return o;
 };
 
-channelholder.leaveChannel = function (chanid) {
-    this.trigger("leavechannel", chanid);
+channelholder.leaveChannel = function (id) {
+    id = +id;
+    var index = this.joinedChannels.indexOf(id);
+    if (index !== -1) {
+        //code to update
+        this.joinedChannels.splice(index, 1);
+        this.updateAutoJoin();
+
+        this.trigger("leavechannel", id);
+        console.log("left channel " + id);
+    } else {
+        console.log("Channel not joined: " + id);
+    }
 };
