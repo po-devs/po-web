@@ -85,7 +85,7 @@ channelholder.updateAutoJoin = function() {
         }
     }
 
-    poStorage.set("auto-join-"+ webclient.serverIp, names);
+    poStorage.set("auto-join-"+ webclient.serverIP, names);
 };
 
 channelholder.setNames = function (names) {

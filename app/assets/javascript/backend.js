@@ -12,7 +12,7 @@ var webclient = {
 
         // var data = {version: 1};
         // data.default = utils.queryField("channel");
-        // data.autojoin = poStorage("auto-join-"+webclient.serverIp(), "array");
+        loginInfo.autojoin = poStorage("auto-join-"+webclient.serverIP, "array");
 
         // data.ladder = poStorage.get('player.ladder', 'boolean');
         // if (data.ladder == null) {
