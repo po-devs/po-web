@@ -21,6 +21,8 @@ pmholder.pm = function (pid) {
         return;
     }
 
+    webclient.players.addFriend(pid);
+
     pm = this.pms[pid] = new PMTab(pid);
     this.observe(pm);
 

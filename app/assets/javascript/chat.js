@@ -7,6 +7,9 @@ var chatHtml =
       <input type="text" class="form-control chatInput" placeholder="Type your message...">\
     </div>';
 
+// At least Chrome (I assume other browsers do the same) expand <timestamp/> to <timestamp><timestamp/> (as it is an unknown element).
+var timestampRegex = /<timestamp *\/ *>|<timestamp><\/timestamp>/gi;
+
 function Chat() {
     $.observable(this);
 

@@ -69,11 +69,25 @@ pmtab.printMessage = function(id, msg) {
 };
 
 pmtab.reconnect = function() {
-    //print reconnect message
+    msg = "<span class='text-center pm-disconnect'><em>The player reconnected.</em></span>";
+    this.chat.insertMessage(msg, {
+        timestamps: true,
+        // TODO: pm.timestamps
+        timestampCheck: 'chat.timestamps',
+        html: true,
+        linebreak: true
+    });
 };
 
 pmtab.disconnect = function() {
-    //print disconnect message
+    msg = "<span class='text-center pm-disconnect'><em>The player was disconnected.</em></span>";
+    this.chat.insertMessage(msg, {
+        timestamps: true,
+        // TODO: pm.timestamps
+        timestampCheck: 'chat.timestamps',
+        html: true,
+        linebreak: true
+    });
 };
 
 $(function() {
