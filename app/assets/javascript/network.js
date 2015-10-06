@@ -242,6 +242,8 @@ function createNetwork(WebSocket) {
             webclient.channels.joinChannel(params.channel);
         },
         login: function (payload) {
+            webclient.connectedToServer = true;
+
             var params = JSON.parse(payload);
             webclient.players.login(params.id, params.info);
 
