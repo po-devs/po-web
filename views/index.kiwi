@@ -24,17 +24,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a href="#" class="navbar-brand">PO</a>
+        <a href="http://pokemon-online.eu" class="navbar-brand">PO</a>
     </div>
     <!-- Collection of nav links and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="http://pokemon-online.eu">Home</a></li>
-            <li><a href="#">Teambuilder</a></li>
+            <!-- can use class="active" on li elems if planning to make tabs in the future-->
+            <li><a href="http://pokemon-online.eu/threads/webclient-the-third-time-is-the-right-one.32175/">Help</a></li>
+            <li><a href="po:teambuilder/">Teambuilder</a></li>
             <li><a href="http://servers.pokemon-online.eu">Servers</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><!--<span class='glyphicon glyphicon-settings' aria-label="settings"></span>--><strong>Settings</strong></a></li>
+            <li><a href="po:settings/"><!--<span class='glyphicon glyphicon-settings' aria-label="settings"></span>--><strong>Settings</strong></a></li>
         </ul>
     </div>
   </nav>
