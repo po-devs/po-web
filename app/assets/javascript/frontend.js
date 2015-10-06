@@ -44,6 +44,10 @@ $(function() {
         var href = this.href,
             sep, cmd, payload, pid;
 
+        if (href == "#") {
+            event.preventDefault();
+            return false;
+        }
         if (/^po:/.test(href)) {
             event.preventDefault();
 
