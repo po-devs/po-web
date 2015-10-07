@@ -33,7 +33,9 @@ BaseTab.prototype.setCurrentTab = function() {
 		return;
 	}
 
-	$("#" + this.shortHand + "-" + this.id).removeClass("tab-active tab-flash");
+    $("#" + this.shortHand + "-" + this.id).removeClass("tab-active tab-flash");
+	$("#po-tabs-list li").removeClass("po-tab-current");
+    $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current");
 
 	webclient.currentTab = this;
 
@@ -56,6 +58,7 @@ BaseTab.prototype.addTab = function(element) {
     if (this.isCurrent()) {
         $(".tab").removeClass("current");
         tab.addClass("current");
+        $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current");
     }
 };
 
