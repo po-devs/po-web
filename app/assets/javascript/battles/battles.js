@@ -102,7 +102,7 @@ Battles.prototype.watchBattle = function(bid, conf) {
 
 Battles.prototype.startBattle = function(battle) {
     this.battles[battle.id] = this.battleList[battle.id];
-    this.battles[battle.id].addData(battle);
+    this.battles[battle.id].start(battle);
 
     this.trigger("activebattle", battle.id);
 };

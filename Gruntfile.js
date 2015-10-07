@@ -10,8 +10,9 @@ module.exports = function(grunt) {
     './app/assets/javascript/players.js',
     './app/assets/javascript/channels.js',
     './app/assets/javascript/pms.js',
-    './app/assets/javascript/battledata.js',
-    './app/assets/javascript/battles.js',    
+    './app/assets/javascript/battles/battledata.js',
+    './app/assets/javascript/battles/battles.js',    
+    './app/assets/javascript/battles/commandhandling.js',    
     './app/assets/javascript/backend.js'
   ];
 
@@ -25,10 +26,10 @@ module.exports = function(grunt) {
     './app/assets/javascript/chat.js',
     './app/assets/javascript/channeltab.js',
     './app/assets/javascript/pmtab.js',
-    './app/assets/javascript/battletab.js',
+    './app/assets/javascript/battles/battletab.js',
     './app/assets/javascript/playerlistui.js',
     './app/assets/javascript/channellistui.js',
-    './app/assets/javascript/battlelistui.js',
+    './app/assets/javascript/battles/battlelistui.js',
     './app/assets/javascript/pmlistui.js',
     './app/assets/javascript/frontend.js'
   ];
