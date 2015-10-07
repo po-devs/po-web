@@ -17,8 +17,10 @@ body {
 .flex-row {
   display:flex; 
   flex-direction: row; 
-  height:100%;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
+  /* Tell the row to stretch vertically as possible without overflowing */
+  flex-basis: 0px;
+  flex-grow: 1;
 }
 
 .full-height {
@@ -28,7 +30,7 @@ body {
 .flex-column {
   display:flex; 
   flex-direction: column; 
-  .full-height;
+  flex-grow: 1;
 }
 
 .leftbar {
@@ -48,19 +50,21 @@ body {
 }
 
 .stretchY {
-  .full-height;
+  flex-grow: 1;
+  flex-basis: 0px;
 
   .hiddenScroll;
 }
 
 .tab {
-  .full-height;
+  flex-basis: 0px;
+  flex-grow: 1;
 
   display: none;
 }
 
 .tab.current {
-  display: initial;
+  display: inherit;
 }
 
 .chat {
