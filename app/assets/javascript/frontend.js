@@ -40,8 +40,7 @@ var webclientUI = {
 vex.defaultOptions.className = 'vex-theme-os';
 
 $(function() {
-    /* handle clicks on links, especially with po: urls */
-    $(document).on("click", "a", function (event) {
+    webclientUI.linkClickHandler = function (event) {
         var href = this.href,
             sep, cmd, payload, pid;
 
@@ -93,7 +92,9 @@ $(function() {
                 this.target = "_blank";
             }
         }
-    });
+    };
+    /* handle clicks on links, especially with po: urls */
+    $(document).on("click", "a", webclientUI.linkClickHandler);
 });
 
 window.onbeforeunload = function(e) {

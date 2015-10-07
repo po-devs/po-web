@@ -113,4 +113,22 @@ $(function() {
 
         webclient.pms.pm(pid);
     });
+    /* Show context menu when clicked */
+    webclientUI.players.element.contextmenu({
+        target: "#player-context-menu",
+        before: function(event, context) {
+            var player = $(event.target);
+            var pid = player.attr("pid");
+            var menu = this.getMenu();
+
+            menu.find("a").each(function(i) {
+                this.href = this.href.substr(0, this.href.lastIndexOf("/") + 1) + pid;
+            });
+            menu.on("click", "a", webclientUI.linkClickHandler);
+        },
+        onItem: function(event, context) {
+            event.preventDefault();
+            //var item = $(event.target);
+        }
+    });
 });

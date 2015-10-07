@@ -53,5 +53,15 @@
     </div>
   </div>
 </div>
+<div id="player-context-menu">
+  <ul class="dropdown-menu" role="menu">
+    <li><a tabindex="-1" href="po:info/">Player Info</a></li>
+    <li><a tabindex="-1" href="po:pm/">PM</a></li>
+    <li><a tabindex="-1" href="po:ignore/">Ignore</a></li>
+    <li class="divider"></li>
+    <li><a tabindex="-1" href="po:kick/">Kick</a></li>
+    <li><a tabindex="-1" href="po:ban/">Ban</a></li>
+  </ul>
+</div>
 </body>
 </html>

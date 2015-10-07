@@ -1,6 +1,7 @@
 {
   "name": "po-web",
   "dependencies": {
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "bootstrap-contextmenu": "~0.3.3"
   }
 }
