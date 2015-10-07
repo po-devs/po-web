@@ -10,6 +10,14 @@ Battles.prototype.isBattling = function(pid) {
     return (pid in this.battlesByPlayer);
 };
 
+Battles.prototype.battleOfPlayer = function(pid) {
+    if (this.isBattling(pid)) {
+        for (x in this.battlesByPlayer[pid]) {
+            return this.battlesByPlayer[pid][x].id;
+        }
+    }
+};
+
 Battles.prototype.addBattle = function (battles) {
     for (var id in battles) {
         var battle = battles[id];

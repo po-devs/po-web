@@ -149,7 +149,11 @@ $(function() {
                 menu.find("#player-ban-menu").hide(); 
             }
 
-            
+            if (webclient.battles.isBattling(pid)) {
+                menu.find("#player-watch-menu").show(); 
+            } else {
+                menu.find("#player-watch-menu").hide(); 
+            }
         },
         onItem: function(context, event) {
             event.preventDefault();

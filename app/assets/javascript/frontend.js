@@ -86,8 +86,11 @@ $(function() {
             } else if (cmd === "reconnect") {
                 //window.location.href= window.location.pathname;
                 window.location.reload();
+            } else if (cmd === "watch-player") {
+                if (webclient.battles.isBattling(+payload)) {
+                    network.command('watch', {battle: webclient.battles.battleOfPlayer(+payload)});
+                }
             }
-            // TODO: watchbattle(id/name)
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {
                 /* Make sure link opens in a new window */
