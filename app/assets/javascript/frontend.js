@@ -90,6 +90,10 @@ $(function() {
                 if (webclient.battles.isBattling(+payload)) {
                     network.command('watch', {battle: webclient.battles.battleOfPlayer(+payload)});
                 }
+            } else if (cmd === "kick") {
+                network.command('kick', {id: +payload});
+            } else if (cmd === "ban") {
+                network.command('ban', {id: +payload});
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {

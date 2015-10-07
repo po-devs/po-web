@@ -96,6 +96,12 @@ function createNetwork(WebSocket) {
                 mult *= 2;
             }
             return 'challenge|' + JSON.stringify(copy);
+        },
+        kick : function(payload) {
+            return 'kick|' + payload.id;
+        },
+        ban : function(payload) {
+            return 'ban|' + payload.id;
         }
     };
 
