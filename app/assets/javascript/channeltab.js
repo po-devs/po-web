@@ -157,8 +157,10 @@ channeltab.printHtml = function(html) {
 };
 
 channeltab.printMessage = function(msg, html) {
-    if (msg.indexOf(webclient.players.name(webclient.ownId)) != -1) {
+    var flash = false;
+    if (!msg.startsWith(webclient.ownName()) && msg.indexOf(webclient.ownName()) != -1) {
         this.flashTab();
+        flash = true;
 
         /* When flashed, also display a notification */
         if (!window.isActive) {
@@ -199,6 +201,10 @@ channeltab.printMessage = function(msg, html) {
             msg = pref + utils.addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
             //msg = pref + msg.slice(msg.indexOf(":") + 1);
         }
+    }
+
+    if (flash) {
+        msg = "<mark>" + msg + "</mark>";
     }
 
     this.chat.insertMessage(msg);
