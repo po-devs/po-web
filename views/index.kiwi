@@ -41,10 +41,10 @@
   </nav>
   <div class="flex-row">
     <div class="flex-column leftbar" style="width:27.5%">
-      <div id="po-tabs-list" style="max-height: 50%">
-        <ul id="channellist" class="hiddenScroll list-group" tabindex=1></ul>
-        <ul id="pmlist" class="hiddenScroll list-group" tabindex=2>
-        </ul>
+      <div id="po-tabs-list" style="max-height: 50%" class="hiddenScroll">
+        <ul id="channellist" class="list-group" tabindex=1></ul>
+        <ul id="battlelist" class="list-group" tabindex=2></ul>
+        <ul id="pmlist" class="list-group" tabindex=3></ul>
       </div>
       <div id="playercount" class="hide"></div>
       <ul id="playerlist" class="stretchY list-group" tabindex=10></ul>

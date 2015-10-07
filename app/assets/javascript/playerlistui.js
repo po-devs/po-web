@@ -49,9 +49,9 @@ playerlist.createPlayerItem = function (id) {
         ret += ' player-away';
     }
 
-    // if (battles.isBattling(id)) {
-    //     ret += ' player-battling';
-    // }
+    if (webclient.battles.isBattling(id)) {
+        ret += ' player-battling';
+    }
 
     ret += "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</li>";
     return ret;

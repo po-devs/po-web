@@ -260,12 +260,12 @@ function createNetwork(WebSocket) {
         watchbattle: function (payload) {
             var id = payload.split("|")[0];
             var params = JSON.parse(payload.slice(id.length + 1));
-            battles.watchBattle(+id, params);
+            webclient.battles.watchBattle(+id, params);
         },
         battlecommand: function (payload) {
             var battleid = payload.split("|")[0];
-            if (battleid in battles.battles) {
-                battles.battle(battleid).dealWithCommand(JSON.parse(payload.slice(battleid.length + 1)));
+            if (battleid in webclient.battles.battles) {
+                webclient.battles.battle(battleid).dealWithCommand(JSON.parse(payload.slice(battleid.length + 1)));
             }
         },
         battlestarted: function (payload) {
@@ -274,7 +274,7 @@ function createNetwork(WebSocket) {
                 obj = {};
 
             obj[battleid] = battle;
-            battles.addBattle(obj);
+            webclient.battles.addBattle(obj);
         },
         channelbattle: function (payload) {
             var chanid = payload.split("|")[0],
@@ -282,24 +282,24 @@ function createNetwork(WebSocket) {
                 obj = {};
 
             obj[params.battleid] = params.battle;
-            battles.addBattle(obj);
+            webclient.battles.addBattle(obj);
         },
         channelbattlelist: function (payload) {
             var chanid = payload.split("|")[0],
                 battle = JSON.parse(payload.slice(chanid.length + 1));
 
-            battles.addBattle(battle);
+            webclient.battles.addBattle(battle);
 
             /* Update whole player list */
-            if (chanid === webclient.currentChannel()) {
-                webclient.ui.playerList.setPlayers(webclient.channel.playerIds());
-            }
+            // if (chanid === webclient.currentChannel()) {
+            //     webclient.ui.playerList.setPlayers(webclient.channel.playerIds());
+            // }
         },
         battlefinished: function (payload) {
             var battleid = payload.split("|")[0],
                 result = JSON.parse(payload.slice(battleid.length + 1));
 
-            battles.battleEnded(battleid, result);
+            webclient.battles.battleEnded(battleid, result);
         },
         rankings: function (payload) {
             var parts = payload.split("|"),
@@ -343,7 +343,13 @@ function createNetwork(WebSocket) {
         login: parsers.login,
         channelplayers: parsers.channelplayers,
         challenge: parsers.challenge,
-        pm: parsers.pm
+        pm: parsers.pm,
+        watchbattle: parsers.watchbattle,
+        battlecommand: parsers.battlecommand,
+        battlestarted: parsers.battlestarted,
+        battlefinished: parsers.battlefinished,
+        channelbattle: parsers.channelbattle,
+        channelbattlelist: parsers.channelbattlelist
     };
 
     function Network() {

@@ -2,6 +2,11 @@ var webclient = {
     players : new PlayerHolder(),
     channels : new ChannelHolder(),
     pms: new PMHolder(),
+    battles: new Battles(),
+
+    ownName: function() {
+        return webclient.players.name(webclient.ownId);
+    },
 
 	onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
