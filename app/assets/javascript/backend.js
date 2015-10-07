@@ -8,6 +8,10 @@ var webclient = {
         return webclient.players.name(webclient.ownId);
     },
 
+    ownAuth: function() {
+        return webclient.players.auth(webclient.ownId);
+    },
+
 	onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
 

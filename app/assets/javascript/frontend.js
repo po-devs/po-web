@@ -47,6 +47,8 @@ $(function() {
         if (/^po:/.test(href)) {
             event.preventDefault();
 
+            console.log("trigger " + href);
+
             sep = href.indexOf("/");
             cmd = href.slice(3, sep);
 
@@ -67,7 +69,7 @@ $(function() {
             } else if (cmd === "ignore") {
                 // Ignore the user
                 if (!isNaN(pid)) {
-                    if (webclient.players.isIgnored(pid)) {
+                    if (!webclient.players.isIgnored(pid)) {
                         webclient.players.addIgnore(pid);
                     } else {
                         webclient.players.removeIgnore(pid);
@@ -95,6 +97,12 @@ $(function() {
     };
     /* handle clicks on links, especially with po: urls */
     $(document).on("click", "a", webclientUI.linkClickHandler);
+
+    webclient.players.on("ignoreadd", function(id) {
+        webclientUI.printHtml("<em>You ignored " + utils.escapeHtml(webclient.players.name(id)) + ".</em>");
+    }).on("ignoreremove", function(id) {
+        webclientUI.printHtml("<em>You stopped ignoring " + utils.escapeHtml(webclient.players.name(id)) + ".</em>");
+    });
 });
 
 window.onbeforeunload = function(e) {

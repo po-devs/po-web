@@ -255,7 +255,9 @@ function createNetwork(WebSocket) {
         pm: function (payload) {
             var params = JSON.parse(payload),
                 src = params.src;
-            webclient.pms.pm(src).printMessage(src, params.message);
+            if (!webclient.players.isIgnored(src)) {
+                webclient.pms.pm(src).printMessage(src, params.message);
+            }
         },
         watchbattle: function (payload) {
             var id = payload.split("|")[0];

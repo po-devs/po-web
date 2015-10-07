@@ -121,12 +121,37 @@ $(function() {
             var pid = player.attr("pid");
             var menu = this.getMenu();
 
+            /* Add this once, handler of links on context menu */
+            if (!menu.attr("weaned")) {
+                menu.attr("weaned", true);
+                menu.on("click", "a", webclientUI.linkClickHandler);
+            }
+
             menu.find("a").each(function(i) {
                 this.href = this.href.substr(0, this.href.lastIndexOf("/") + 1) + pid;
             });
-            menu.on("click", "a", webclientUI.linkClickHandler);
+
+            menu.find("#player-ignore-menu").find("a").text(webclient.players.isIgnored(pid) ? "Unignore" : "Ignore");
+
+            var ownAuth = webclient.ownAuth();
+
+            if (ownAuth > webclient.players.auth(pid)) {
+               menu.find(".divider").show();
+               menu.find("#player-kick-menu").show(); 
+               if (ownAuth >= 2) {
+                    menu.find("#player-ban-menu").show(); 
+               } else {
+                    menu.find("#player-ban-menu").hide(); 
+               }
+            } else {
+                menu.find(".divider").hide();
+                menu.find("#player-kick-menu").hide(); 
+                menu.find("#player-ban-menu").hide(); 
+            }
+
+            
         },
-        onItem: function(event, context) {
+        onItem: function(context, event) {
             event.preventDefault();
             //var item = $(event.target);
         }
