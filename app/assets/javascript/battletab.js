@@ -1,6 +1,11 @@
 
 
-function BattleTab(pid, conf, team) {
+function BattleTab(id) {
+    $.observable(this);
+
+    var databattle = webclient.battles.battle(id);
+    var conf = databattle.conf;
+    var team = databattle.team;
     var self = this;
 
     /* me and meIdent are needed by PS stuff */
@@ -13,7 +18,7 @@ function BattleTab(pid, conf, team) {
         named: 'init'
     };
 
-    new BattleAnimator(this);
+    //new BattleAnimator(this);
     this.paused = false;
 
     this.queue = [];//Queues of message not yet processed
@@ -24,7 +29,15 @@ function BattleTab(pid, conf, team) {
     };
 
     this.shortHand = "battle";
-    this.id = pid;
+
+    this.chat = new Chat();
+    this.addTab(this.chat.element);
+
+    this.chat.on("chat", function(msg) {
+        //webclient.sendPM(msg, self.id);
+    });
+
+    this.id = id;
     this.conf = conf;
     /* pokemons on the fields */
     this.pokes = {};
@@ -44,15 +57,15 @@ function BattleTab(pid, conf, team) {
 
     var name = webclient.players.name(conf.players[0]) + " vs " + webclient.players.name(conf.players[1]);
 
-    if ($("#battle-" + pid).length === 0) {
+    if ($("#battle-" + id).length === 0 && 0) {
         /* Create new tab */
-        $('#channel-tabs').tabs("add", "#battle-" + pid, webclient.classes.BaseTab.makeName(name));
+        $('#channel-tabs').tabs("add", "#battle-" + id, webclient.classes.BaseTab.makeName(name));
         /* Cleaner solution to create the tab would be appreciated */
-        this.$content = $("#battle-" + pid);
+        this.$content = $("#battle-" + id);
         this.$content.html($("#battle-html").html());
         this.$backgrounds = this.$content.find(".backgrounds");
 
-        battles.battles[pid] = this;
+        battles.battles[id] = this;
 
         if (team) {
             this.myself = conf.players[1] === webclient.ownId ? 1 : 0;
@@ -192,7 +205,7 @@ BattleTab.prototype.updateTimers = function() {
             }
         }
         //Full bar is 5 minutes, aka 300 seconds, so time/3 gives the percentage. (time is in seconds)
-        this.$content.find("." + this.playercss(i) + "_name .battler_bg").css("width", time/3 + "%");
+        //this.$content.find("." + this.playercss(i) + "_name .battler_bg").css("width", time/3 + "%");
     }
 };
 
@@ -306,7 +319,7 @@ BattleTab.prototype.onControlsChooseTeamPreview = function($obj) {
     this.choose(choice);
 };
 
-BattleTab.prototype.playerIds = function() {
+BattleTab.prototype.getPlayers = function() {
     var array = [];
     for (var i = 0; i < this.conf.players.length; i++) {
         array.push(this.conf.players[i]);
@@ -328,14 +341,17 @@ BattleTab.prototype.isBattle = function() {
 };
 
 BattleTab.prototype.close = function() {
-    delete battles.battles[this.id];
+    delete webclient.battles.battles[this.id];
     clearInterval(this.timer);
-    $('#channel-tabs').tabs("remove", "#battle-" + this.id);
+
     if (this.isBattle()) {
         network.command('forfeit', {battle: this.id});
     } else {
         network.command('stopwatching', {battle: this.id});
     }
+
+    this.trigger("close");
+    this.removeTab();
 };
 
 /* Receives a battle command - a battle message.

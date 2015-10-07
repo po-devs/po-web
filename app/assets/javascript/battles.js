@@ -14,7 +14,7 @@ Battles.prototype.addBattle = function (battles) {
     for (var id in battles) {
         var battle = battles[id];
         battle.id = id;
-        this.battleList[id] = battle;
+        this.battleList[id] = new BattleData(battle);
         if (!(battle.ids[0] in this.battlesByPlayer)) {
             this.battlesByPlayer[battle.ids[0]] = {};
         }
@@ -29,7 +29,7 @@ Battles.prototype.addBattle = function (battles) {
 
         /* Is it a battle we're taking part in ? */
         if (battle.team) {
-            new BattleTab(battle.id, battle.conf, battle.team);
+            this.startBattle(battle);
         }
     }
 };
@@ -88,8 +88,15 @@ Battles.prototype.watchBattle = function(bid, conf) {
         console.log("Already watching battle " + bid + " with conf " + JSON.stringify(conf));
         return;
     }
-    new BattleTab(bid, conf);
-    webclient.switchToTab("#battle-" + bid);
+
+    this.startBattle({id: bid, conf: conf});
+};
+
+Battles.prototype.startBattle = function(battle) {
+    this.battles[battle.id] = this.battleList[battle.id];
+    this.battles[battle.id].addData(battle);
+
+    this.trigger("activebattle", battle.id);
 };
 
 

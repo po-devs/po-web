@@ -2,6 +2,7 @@ var webclientUI = {
     players: new PlayerList(),
     channels: new ChannelList(),
     pms: new PMList(),
+    battles: new BattleList(),
     tabs: [],
 
     printDisconnectionMessage : function(html) {
@@ -29,7 +30,7 @@ var webclientUI = {
         } else if (/^pm-/.test(wid)) {
             obj = webclient.pms.pm(id);
         } else if (/^battle-/.test(wid)) {
-            obj = battles.battle(id);
+            obj = webclientUI.battles.battle(id);
         }
 
         obj.setCurrentTab();

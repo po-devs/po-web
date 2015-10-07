@@ -32,6 +32,7 @@ npm install
 bower install
 grunt less
 grunt concat
+grunt copy
 ```
 
 You may need to run the terminal in administrative mode (Windows) or do commands with sudo (Linux).

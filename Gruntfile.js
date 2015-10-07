@@ -10,7 +10,8 @@ module.exports = function(grunt) {
     './app/assets/javascript/players.js',
     './app/assets/javascript/channels.js',
     './app/assets/javascript/pms.js',
-    './app/assets/javascript/battles.js',
+    './app/assets/javascript/battledata.js',
+    './app/assets/javascript/battles.js',    
     './app/assets/javascript/backend.js'
   ];
 
@@ -63,6 +64,13 @@ module.exports = function(grunt) {
       simple_copy: {
         src: ['./views/index.kiwi'],
         dest: './index.html'
+      }
+    },
+    copy: {
+      fonts: {
+        files: [
+          {expand: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true}
+        ]
       }
     },
     uglify: {
@@ -127,6 +135,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   //grunt.loadNpmTasks('grunt-phpunit');
 
   // Task definition
