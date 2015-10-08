@@ -1,5 +1,19 @@
 module.exports = function(grunt) {
 
+  var poke_base_db = [
+    './db/moves/moves.js',
+    './db/moves/move_message.js',
+    './db/pokes/pokemons.js',
+    './db/generations.js',
+    './db/generations.options.js',
+    './db/abilities/abilities.js',
+    './db/abilities/ability_messages.js',
+    './db/items/items.js',
+    './db/items/item_messages.js',
+    './db/status/stats.js',
+    './db/status/status.js'
+  ];
+
   var js_backend = [
     './app/assets/javascript/config.js',
     './app/assets/javascript/libs/riot.js',
@@ -12,7 +26,8 @@ module.exports = function(grunt) {
     './app/assets/javascript/pms.js',
     './app/assets/javascript/battles/battledata.js',
     './app/assets/javascript/battles/battles.js',    
-    './app/assets/javascript/battles/commandhandling.js',    
+    './app/assets/javascript/battles/commandhandling.js', 
+    './app/assets/javascript/pokeinfo.js',
     './app/assets/javascript/backend.js'
   ];
 
@@ -60,7 +75,7 @@ module.exports = function(grunt) {
         dest: './public/assets/javascript/frontend.js',
       },
       js_backend: {
-        src: js_backend,
+        src: js_backend.concat(poke_base_db),
         dest: './public/assets/javascript/backend.js',
       },
       simple_copy: {
