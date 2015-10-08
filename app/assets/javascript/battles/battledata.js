@@ -161,3 +161,14 @@ BattleData.immediateCommands = {
     "reconnect" : true
 };
 
+battledata.sendMessage = function (message) {
+    var lines = message.trim().split('\n'),
+        command = (this.isBattle() ? "battlechat": "spectatingchat"),
+        line, len, i;
+
+    for (i = 0, len = lines.length; i < len; i += 1) {
+        line = lines[i];
+
+        network.command(command, {battle: this.id, message: line});
+    }
+};

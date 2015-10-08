@@ -11,7 +11,7 @@ function BattleTab(id) {
     this.battle = databattle;
     this.players = this.battle.players;
 
-    this.battle.on("print", function(msg){self.print(msg)});
+    this.battle.on("print", function(msg, args){self.print(msg, args)});
     this.battle.on("playeradd", function(id) {self.newPlayer(id);});
     this.battle.on("playerremove", function(id) {self.removePlayer(id);});
 
@@ -28,7 +28,7 @@ function BattleTab(id) {
     this.addTab(this.chat.element);
 
     this.chat.on("chat", function(msg) {
-        //webclient.sendPM(msg, self.id);
+        self.battle.sendMessage(msg);
     });
 
     this.id = id;
@@ -54,9 +54,14 @@ BattleTab.prototype.print = function(msg, args) {
     }
 
     if (args) {
-        if ("player" in args) {
+        if ("spectator" in args) {
             msg = utils.escapeHtml(msg);
-            var pid = this.conf.players[args.player];
+            var name = this.battle.spectators[args.spectator];
+            var pref = "<span class='spectator-message'>" + name + ":</span>";
+            msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
+        } else if ("player" in args) {
+            msg = utils.escapeHtml(msg);
+            var pid = this.battle.conf.players[args.player];
             var pref = "<span class='player-message' style='color: " + webclient.players.color(pid) + "'>" + webclient.players.name(pid) + ":</span>";
             msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
         } else if ("css" in args && args.css == "turn") {
@@ -67,18 +72,6 @@ BattleTab.prototype.print = function(msg, args) {
 
     this.chat.insertMessage(msg, {linebreak: linebreak});
     this.activateTab();
-};
-
-BattleTab.prototype.sendMessage = function (message) {
-    var lines = message.trim().split('\n'),
-        command = (this.isBattle() ? "battlechat": "spectatingchat"),
-        line, len, i;
-
-    for (i = 0, len = lines.length; i < len; i += 1) {
-        line = lines[i];
-
-        network.command(command, {battle: this.id, message: line});
-    }
 };
 
 BattleTab.prototype.playercss = function(spot) {

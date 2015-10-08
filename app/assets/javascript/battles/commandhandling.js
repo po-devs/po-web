@@ -260,8 +260,7 @@ battledata.dealWithSpectatorleave = function(params) {
 };
 
 battledata.dealWithSpectatorchat = function(params) {
-    var name = this.spectators[params.id];
-    this.print(name + ": " + params.message);
+    this.print(params.message, {"spectator": params.id});
 };
 
 battledata.dealWithClock = function(params) {
