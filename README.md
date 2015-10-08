@@ -48,3 +48,7 @@ You can instead run `nodejs server.js` and open your browser at http://localhost
 ### Configuration
 
 You can edit `serverconfig.js`.
+
+### Additional Setup
+
+You may want to install other things in order to run the scripts: `python3` and `imagemagick`. They can be both installed in a similar fashion with `apt-get` / `choco`.
