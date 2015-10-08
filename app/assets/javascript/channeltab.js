@@ -171,7 +171,7 @@ channeltab.printMessage = function(msg, html) {
         }
     }
     if (html) {
-        //msg = webclient.convertImages($("<div>").html(msg)).html();
+        msg = webclientUI.convertImages($("<div>").html(msg)).html();
     } else {
         msg = utils.escapeHtml(msg);
 
