@@ -105,6 +105,7 @@ battledata.dealWithHpchange = function(params) {
         this.pokes[params.spot].percent = params.newHP;
     }
 
+    this.updateTeamPokes(this.player(params.spot), [this.slot(params.spot)]);
     /* Is it healing or damage? */
 /*    if (params.newHP > current || params.newHP == (this.pokes[params.spot].totalLife || 100)) {
         this.addCommand(["-heal", this.spotToPlayer(params.spot), this.pokemonDetails(this.pokes[params.spot])], this.damageCause);

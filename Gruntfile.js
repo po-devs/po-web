@@ -9,7 +9,9 @@ module.exports = function(grunt) {
     './db/abilities/abilities.js',
     './db/abilities/ability_messages.js',
     './db/items/items.js',
+    './db/items/berries.js',
     './db/items/item_messages.js',
+    './db/items/berry_messages.js',
     './db/status/stats.js',
     './db/status/status.js',
     './db/types/types.js'

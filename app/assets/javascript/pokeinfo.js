@@ -324,6 +324,10 @@ genderinfo.name = function(gender) {
     return {1: 'male', 2: 'female', 3: 'neutral'}[gender];
 };
 
+genderinfo.shorthand = function(gender) {
+    return {1: '(M)', 2: '(F)', 3: '', 0: ''}[gender];
+};
+
 natureinfo.list = function() {
     return pokedex.natures.nature;
 };

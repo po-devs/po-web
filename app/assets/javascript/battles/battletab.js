@@ -1,4 +1,4 @@
-var pokeballrowHtml = "<span class='status status0'></span>".repeat(6);
+var pokeballrowHtml = "<span class='status status0' data-toggle='tooltip' title=''></span>".repeat(6);
 
 function BattleTab(id) {
     $.observable(this);
@@ -14,7 +14,7 @@ function BattleTab(id) {
     this.battle.on("print", function(msg, args){self.print(msg, args)});
     this.battle.on("playeradd", function(id) {self.newPlayer(id);});
     this.battle.on("playerremove", function(id) {self.removePlayer(id);});
-    this.battle.on("updateteampokes", function(player, pokes) {self.updateTeamPokes(player, pokes)});
+
     //new BattleAnimator(this);
 
     /* ui data */
@@ -28,13 +28,19 @@ function BattleTab(id) {
     var layout = $("<div>");
     layout.addClass("flex-row");
 
-    var row1 = $("<div>").addClass("status-row").html("<span class='stretchX'></span>"+pokeballrowHtml);
-    var row2 = $("<div>").addClass("status-row").html(pokeballrowHtml);
+    var row1 = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[0]) + "</span><span class='stretchX'></span>"+pokeballrowHtml);
+    row1.find('[data-toggle="tooltip"]').attr("data-placement", "top");
+    var row2 = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[1]) + "</span>");
+    row2.find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
     layout.append($("<div>").addClass("battle-view").append(row1).append($("<div>").addClass("battle-canvas")).append(row2));
     layout.append(this.chat.element);
     this.addTab(layout);
 
     this.teampokes = [row1, row2];
+
+    this.updateTeamPokes(0);
+    this.updateTeamPokes(1);
+    this.battle.on("updateteampokes", function(player, pokes) {self.updateTeamPokes(player, pokes)});
 
     this.chat.on("chat", function(msg) {
         self.battle.sendMessage(msg);
@@ -45,9 +51,8 @@ function BattleTab(id) {
     this.print("<strong>Battle between " + this.battle.name(0) + " and " + this.battle.name(1) + " just started!</strong><br />");
     this.print("<strong>Mode:</strong> " + BattleTab.modes[conf.mode]);
 
-    this.updateTeamPokes(0);
-    this.updateTeamPokes(1);
-}
+    //layout.find('[data-toggle="tooltip"]').tooltip();
+};
 
 utils.inherits(BattleTab, BaseTab);
 
@@ -120,16 +125,20 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
 
     for (var i = 0; i < pokes.length; i++) {
         var $img = $pokes.find(".status:eq("+pokes[i]+")");
-        if (this.battle.teams[player][pokes[i]]) {
+        var tpok = this.battle.teams[player][pokes[i]]; 
+        if (tpok) {
             $img.removeClass();
-            $img.addClass("status status"+(this.battle.teams[player][pokes[i]].status || 0));
+            $img.addClass("status status"+(tpok.status || 0));
+
+            var tooltip = "";
+            if (tpok.num) tooltip += pokeinfo.name(tpok);
+            if (tpok.gender) tooltip += " " + genderinfo.shorthand(tpok.gender);
+            if (tpok.level && tpok.level != 100) tooltip += " lv. " + tpok.level;
+            if (tpok.percent !== undefined) tooltip += " - " + tpok.percent + "%";
+            //tooltip+= JSON.stringify(tpok);
+            if (!tooltip)  tooltip="No Info";
+            $img.attr("title", tooltip).tooltip("fixTitle");
         }
-/*        if (this.teams[player][pokes[i]] && this.teams[player][pokes[i]].num) {
-            $img.attr("src", "");
-            $img.attr("src", pokeinfo.icon(this.teams[player][pokes[i]]));
-        } else {
-            $img.attr("src", "images/pokeballicon.png");
-        }*/
     }
 
 /*    if (this.isBattle() && player == this.myself) {
