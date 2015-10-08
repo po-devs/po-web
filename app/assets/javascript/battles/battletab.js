@@ -25,7 +25,11 @@ function BattleTab(id) {
     this.shortHand = "battle";
 
     this.chat = new Chat();
-    this.addTab(this.chat.element);
+    var layout = $("<div>");
+    layout.addClass("flex-row");
+    layout.append($("<div>").addClass("battle-canvas"));
+    layout.append(this.chat.element)
+    this.addTab(layout);
 
     this.chat.on("chat", function(msg) {
         self.battle.sendMessage(msg);

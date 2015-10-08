@@ -11,7 +11,8 @@ module.exports = function(grunt) {
     './db/items/items.js',
     './db/items/item_messages.js',
     './db/status/stats.js',
-    './db/status/status.js'
+    './db/status/status.js',
+    './db/types/types.js'
   ];
 
   var js_backend = [
