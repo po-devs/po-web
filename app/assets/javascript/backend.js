@@ -129,3 +129,5 @@ $(function() {
 
 	serverConnect();
 });
+
+window.webclient = webclient;
