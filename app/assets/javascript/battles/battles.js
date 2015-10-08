@@ -101,7 +101,8 @@ Battles.prototype.watchBattle = function(bid, conf) {
 };
 
 Battles.prototype.startBattle = function(battle) {
-    this.battles[battle.id] = this.battleList[battle.id];
+    /* The battle isn't always in the list - if the 2 players don't share channels with you */
+    this.battles[battle.id] = this.battleList[battle.id] || new BattleData(battle);
     this.battles[battle.id].start(battle);
 
     this.trigger("activebattle", battle.id);

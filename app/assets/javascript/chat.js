@@ -13,7 +13,7 @@ var timestampRegex = /<timestamp *\/ *>|<timestamp><\/timestamp>/gi;
 function Chat() {
     $.observable(this);
 
-    this.element = $("<div class='flex-column'>").html(chatHtml);
+    this.element = $("<div class='flex-column chat-column'>").html(chatHtml);
     this.chatTextArea = this.element.find(".chat");
     this.chatSend = this.element.find(".chatInput");
     this.chatCount = 0;
