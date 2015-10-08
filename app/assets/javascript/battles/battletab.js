@@ -1,4 +1,4 @@
-
+var pokeballrowHtml = "<span class='status status0'></span>".repeat(6);
 
 function BattleTab(id) {
     $.observable(this);
@@ -27,8 +27,11 @@ function BattleTab(id) {
     this.chat = new Chat();
     var layout = $("<div>");
     layout.addClass("flex-row");
-    layout.append($("<div>").addClass("battle-canvas"));
-    layout.append(this.chat.element)
+
+    var row1 = $("<div>").addClass("status-row").html("<span class='stretchX'></span>"+pokeballrowHtml);
+    var row2 = $("<div>").addClass("status-row").html(pokeballrowHtml);
+    layout.append($("<div>").addClass("battle-view").append(row1).append($("<div>").addClass("battle-canvas")).append(row2));
+    layout.append(this.chat.element);
     this.addTab(layout);
 
     this.chat.on("chat", function(msg) {

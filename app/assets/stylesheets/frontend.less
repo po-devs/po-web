@@ -3,6 +3,7 @@
 @import 'vex-theme-os.less';
 @import 'chat.less';
 @import 'player-list.less';
+@import 'battle.less';
 
 /* A body that is full-height, full-width, but not more */
 body {
@@ -55,6 +56,10 @@ body {
   flex-basis: 0px;
 
   .hiddenScroll;
+}
+
+.stretchX {
+  flex-grow: 1;
 }
 
 .tab {
@@ -128,13 +133,4 @@ span.glyphicon {
     max-width: 350px;
     min-width: 350px;
   }
-}
-
-.battle-canvas {
-  width: 600px;
-  height: 360px;
-  border: 1px solid #000;
-  margin: auto auto auto 18px;
-  background: url("../images/battlefields/36.png");
-  background-size: 100%;
 }

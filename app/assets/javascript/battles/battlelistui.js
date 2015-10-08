@@ -10,7 +10,7 @@ battlelist.createBattleItem = function (id) {
 
     ret = "<li class='list-group-item battle-list-item' ";
     ret += "onclick='webclientUI.switchToTab(this.id)' "
-    ret += "id='battle-"+id+"'><span class='glyphicon glyphicon-flash'></span>&nbsp;" + utils.escapeHtml(name) + '<button type="button" class="close" aria-label="Close" onclick="webclientUI.battles.quit(' + id + '); event.stopPropagation();"><span aria-hidden="true">&times;</span></button></li>';
+    ret += "id='battle-"+id+"'><span class='glyphicon glyphicon-fire'></span>&nbsp;" + utils.escapeHtml(name) + '<button type="button" class="close" aria-label="Close" onclick="webclientUI.battles.quit(' + id + '); event.stopPropagation();"><span aria-hidden="true">&times;</span></button></li>';
     return ret;
 };
 
