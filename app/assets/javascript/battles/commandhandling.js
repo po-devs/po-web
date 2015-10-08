@@ -186,6 +186,7 @@ battledata.dealWithStatus = function(params) {
 
 battledata.dealWithTeamstatus = function(params) {
     this.teams[params.player][params.slot].status = params.status;
+
     this.updateTeamPokes(params.player, [params.slot]);
 };
 

@@ -14,7 +14,7 @@ function BattleTab(id) {
     this.battle.on("print", function(msg, args){self.print(msg, args)});
     this.battle.on("playeradd", function(id) {self.newPlayer(id);});
     this.battle.on("playerremove", function(id) {self.removePlayer(id);});
-
+    this.battle.on("updateteampokes", function(player, pokes) {self.updateTeamPokes(player, pokes)});
     //new BattleAnimator(this);
 
     /* ui data */
@@ -34,6 +34,8 @@ function BattleTab(id) {
     layout.append(this.chat.element);
     this.addTab(layout);
 
+    this.teampokes = [row1, row2];
+
     this.chat.on("chat", function(msg) {
         self.battle.sendMessage(msg);
     });
@@ -42,6 +44,9 @@ function BattleTab(id) {
 
     this.print("<strong>Battle between " + this.battle.name(0) + " and " + this.battle.name(1) + " just started!</strong><br />");
     this.print("<strong>Mode:</strong> " + BattleTab.modes[conf.mode]);
+
+    this.updateTeamPokes(0);
+    this.updateTeamPokes(1);
 }
 
 utils.inherits(BattleTab, BaseTab);
@@ -111,19 +116,23 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
     if (!pokes) {
         pokes = [0,1,2,3,4,5];
     }
-    var $pokes = this.$content.find(".p" + (player + 1) + "_pokeballs");
+    var $pokes = this.teampokes[player];
 
     for (var i = 0; i < pokes.length; i++) {
-        var $img = $pokes.find("img:eq("+pokes[i]+")");
-        if (this.teams[player][pokes[i]] && this.teams[player][pokes[i]].num) {
+        var $img = $pokes.find(".status:eq("+pokes[i]+")");
+        if (this.battle.teams[player][pokes[i]]) {
+            $img.removeClass();
+            $img.addClass("status status"+(this.battle.teams[player][pokes[i]].status || 0));
+        }
+/*        if (this.teams[player][pokes[i]] && this.teams[player][pokes[i]].num) {
             $img.attr("src", "");
             $img.attr("src", pokeinfo.icon(this.teams[player][pokes[i]]));
         } else {
             $img.attr("src", "images/pokeballicon.png");
-        }
+        }*/
     }
 
-    if (this.isBattle() && player == this.myself) {
+/*    if (this.isBattle() && player == this.myself) {
         var $team = this.$content.find(".battle_options_pokemon");
         for (var i = 0; i < pokes.length; i++) {
             var $ct = $team.find(".battle_pokemon_content:eq("+pokes[i]+")");
@@ -132,7 +141,7 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
             var text = poke.name + "<br/>" + poke.life + "/" + poke.totalLife;
             $ct.find(".battle_pokemon_content_text").html(text);
         }
-    }
+    }*/
 };
 
 /** Calls the onXxxxXxxx functions where xxxxXxxx is the name attribute of the button

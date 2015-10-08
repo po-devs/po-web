@@ -103,8 +103,8 @@ battledata.tpoke = function(spot) {
 battledata.updateFieldPoke = function(spot) {
 };
 
-battledata.updateTeamPokes = function() {
-
+battledata.updateTeamPokes = function(player, pokes) {
+    this.trigger("updateteampokes", player, pokes);
 };
 
 battledata.pause = function() {
