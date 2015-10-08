@@ -40,7 +40,7 @@
     </div>
   </nav>
   <div class="flex-row">
-    <div class="flex-column leftbar" style="width:27.5%">
+    <div class="flex-column leftbar">
       <div id="po-tabs-list" style="max-height: 50%" class="hiddenScroll">
         <ul id="channellist" class="list-group" tabindex=1></ul>
         <ul id="battlelist" class="list-group" tabindex=2></ul>

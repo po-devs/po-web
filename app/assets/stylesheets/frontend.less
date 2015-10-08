@@ -32,6 +32,7 @@ body {
   display:flex; 
   flex-direction: column; 
   flex-grow: 1;
+  max-width: 100%;
 }
 
 .leftbar {
@@ -39,7 +40,6 @@ body {
 }
 
 .rightbar {
-  width: 100%;
 }
 
 .hiddenScroll {
@@ -70,6 +70,8 @@ body {
 
 .chat {
 	.stretchY;
+
+  word-wrap: break-word;
 }
 
 .chat, .chatInputContainer{
@@ -106,4 +108,24 @@ span.glyphicon {
 
 #po-tabs-list .po-tab-current{
   font-style: italic;
+}
+
+/* When editing those test by typing a very long unbreakable word in chat, i.e. "aaaaaaaaaaa..."*/
+.leftbar {
+  width: 27.5%;
+  max-width: 27.5%;
+  min-width: 27.5%;
+}
+
+.rightbar {
+  width: 72.5%;
+  min-width: 72.5%; 
+}
+
+@media screen and (min-width: 1272px) {
+  .leftbar {
+    width: 350px;
+    max-width: 350px;
+    min-width: 350px;
+  }
 }
