@@ -26,7 +26,7 @@ function BattleTab(id) {
 
     this.chat = new Chat();
     var layout = $("<div>");
-    layout.addClass("flex-row");
+    layout.addClass("flex-row battle-tab-layout");
 
     var row1 = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[0]) + "</span><span class='stretchX'></span>"+pokeballrowHtml);
     row1.find('[data-toggle="tooltip"]').attr("data-placement", "top");
