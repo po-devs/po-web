@@ -34,7 +34,7 @@ Chat.prototype.insertMessage = function (msg, opts) {
     opts = opts || {};
 
     if (opts.timestamps) {
-        timestampPart = "<span class='timestamp-enabled" + (poStorage(opts.timestampCheck, 'boolean') ? ' timestamp' : '') + "'>" + utils.timestamp() + "</span>";
+        timestampPart = "<span class='timestamp'>" + utils.timestamp() + "</span>";
         if (opts.html) {
             msg = msg.replace(timestampRegex, timestampPart);
         } else if (msg) {

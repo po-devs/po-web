@@ -53,9 +53,7 @@ pmtab.printMessage = function(id, msg) {
     }
 
     this.chat.insertMessage(msg, {
-        timestamps: true,
-        // TODO: pm.timestamps
-        timestampCheck: 'chat.timestamps',
+        timestamps: webclientUI.timestamps,
         html: raw,
         linebreak: true
     });
@@ -71,9 +69,7 @@ pmtab.printMessage = function(id, msg) {
 pmtab.reconnect = function() {
     msg = "<span class='text-center pm-disconnect'><em>The player reconnected.</em></span>";
     this.chat.insertMessage(msg, {
-        timestamps: true,
-        // TODO: pm.timestamps
-        timestampCheck: 'chat.timestamps',
+        timestamps: webclientUI.timestamps,
         html: true,
         linebreak: true
     });
@@ -82,9 +78,7 @@ pmtab.reconnect = function() {
 pmtab.disconnect = function() {
     msg = "<span class='text-center pm-disconnect'><em>The player was disconnected.</em></span>";
     this.chat.insertMessage(msg, {
-        timestamps: true,
-        // TODO: pm.timestamps
-        timestampCheck: 'chat.timestamps',
+        timestamps: webclientUI.timestamps,
         html: true,
         linebreak: true
     });

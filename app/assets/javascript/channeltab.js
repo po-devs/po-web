@@ -207,7 +207,7 @@ channeltab.printMessage = function(msg, html) {
         msg = "<mark>" + msg + "</mark>";
     }
 
-    this.chat.insertMessage(msg);
+    this.chat.insertMessage(msg, {timestamps: webclientUI.timestamps});
     //$(".chat").html($(".chat").html() + utils.stripHtml(msg) + "<br>");
 };
 

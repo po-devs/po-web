@@ -5,7 +5,7 @@ var webclientUI = {
     battles: new BattleList(),
     tabs: [],
     timestamps: false,
-
+    
     printDisconnectionMessage : function(html) {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
     },
@@ -153,6 +153,7 @@ $(function() {
             } else if (cmd == "timestamps") {
                 webclientUI.timestamps = !webclientUI.timestamps;
                 setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps)});
+                poStorage.set("chat.timestamps", webclientUI.timestamps);
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {
@@ -181,6 +182,7 @@ $(function() {
     //    $( event.target ).blur();
     //    //return false;
     // });
+    webclientUI.timestamps = poStorage.get("chat.timestamps", "boolean");
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-idle-dd").prop("checked", poStorage.get("player.idle", 'boolean') === null ? true: poStorage.get("player.idle", 'boolean'));
