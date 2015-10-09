@@ -34,9 +34,20 @@
             <li><a href="po:teambuilder/">Teambuilder</a></li>
             <li><a href="http://servers.pokemon-online.eu">Servers</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="po:settings/"><!--<span class='glyphicon glyphicon-settings' aria-label="settings"></span>--><strong>Settings</strong></a></li>
-        </ul>
+        <div class="btn-group nav navbar-nav navbar-right">
+          <a type="button" class="btn btn-default navbar-btn" href="po:settings/">Settings</a>
+          <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </div>
     </div>
   </nav>
   <div class="flex-row">
