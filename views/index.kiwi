@@ -41,10 +41,10 @@
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="#">Idle</a></li>
-            <li><a href="#">Timestamps</a></li>
+            <li><a href="po:idle/" class="checkbox-dd"><input type="checkbox" id="checkbox-idle-dd"/>&nbsp;Idle</a></li>
+            <li><a href="po:timestamps/" class="checkbox-dd"><input type="checkbox" id="checkbox-timestamps-dd"/>&nbsp;Timestamps</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Register</a></li>
+            <li><a href="po:register/">Register</a></li>
           </ul>
         </div>
     </div>

@@ -4,6 +4,7 @@ var webclientUI = {
     pms: new PMList(),
     battles: new BattleList(),
     tabs: [],
+    timestamps: false,
 
     printDisconnectionMessage : function(html) {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
@@ -145,6 +146,13 @@ $(function() {
                 network.command('kick', {id: +payload});
             } else if (cmd === "ban") {
                 network.command('ban', {id: +payload});
+            } else if (cmd === "idle") {
+                var isAway = webclient.players.away(webclient.ownId);
+                poStorage.get('player.idle', !isAway);
+                //todo : send network command to that effect, and when getting own player, change checkbox value to reflect
+            } else if (cmd == "timestamps") {
+                webclientUI.timestamps = !webclientUI.timestamps;
+                setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps)});
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {
@@ -161,6 +169,21 @@ $(function() {
     }).on("ignoreremove", function(id) {
         webclientUI.printHtml("<em>You stopped ignoring " + utils.escapeHtml(webclient.players.name(id)) + ".</em>");
     });
+
+
+    // $( '.dropdown-menu a.checkbox-dd' ).on( 'click', function( event ) {
+
+    //    var $target = $( event.currentTarget ),
+    //        $inp = $target.find( 'input' );
+
+    //     setTimeout( function() { $inp.prop( 'checked', !$inp.prop( 'checked') ) }, 0);
+
+    //    $( event.target ).blur();
+    //    //return false;
+    // });
+
+    $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
+    $("#checkbox-idle-dd").prop("checked", poStorage.get("player.idle", 'boolean') === null ? true: poStorage.get("player.idle", 'boolean'));
 });
 
 window.onbeforeunload = function(e) {

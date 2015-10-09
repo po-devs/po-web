@@ -15,7 +15,7 @@ var webclient = {
 	onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
 
-        var loginInfo = {version:1, idle: true};
+        var loginInfo = {version:1};
 
         loginInfo.name = poStorage.get("user");
 
@@ -28,10 +28,10 @@ var webclient = {
         //     data.ladder = true;
         // }
 
-        // data.idle = poStorage.get('player.idle', 'boolean');
-        // if (data.idle == null) {
-        //     data.idle = false;
-        // }
+        loginInfo.idle = poStorage.get('player.idle', 'boolean');
+        if (loginInfo.idle == null) {
+            loginInfo.idle = true;
+        }
 
         // data.color = poStorage.get('player.color');
         
