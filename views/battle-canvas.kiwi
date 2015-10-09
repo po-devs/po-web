@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>battle viewport</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+  .battle-canvas {
+    width: 100%;
+    height: 100%;
+    background: transparent url("public/assets/images/battlefields/36.png") repeat scroll 0% 0% / 100% auto;
+    margin: 0px !important;
+    padding: 0px !important;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    overflow: hidden;
+  }
+  </style>
+</head>
+<body class="battle-canvas">
+<script type="text/javascript">
+var  queryField = function (key, default_,query) {
+    var match = new RegExp('[?&]' + key + '=([^&]*)')
+        .exec(query || window.location.search);
+    return (match && decodeURIComponent(match[1].replace(/\+/g, ' '))) || default_;
+};
+
+var battleId = queryField("battle");
+var battle = window.top.webclient.battles.battle(battleId);
+
+/* Code after the page is loaded, to show that we can access data from the javascript variable of the parent window! */
+window.onload = function() {
+  document.getElementById("battle-conf").innerHTML = JSON.stringify(battle.conf);
+}
+</script>
+
+<p id="battle-conf"></p>
+
+</body>
+</html>

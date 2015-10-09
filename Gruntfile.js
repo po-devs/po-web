@@ -84,6 +84,10 @@ module.exports = function(grunt) {
       simple_copy: {
         src: ['./views/index.kiwi'],
         dest: './index.html'
+      },
+      simple_copy2: {
+        src: ['./views/battle-canvas.kiwi'],
+        dest: './battle-canvas.html'
       }
     },
     copy: {

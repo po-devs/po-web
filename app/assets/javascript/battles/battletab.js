@@ -32,7 +32,7 @@ function BattleTab(id) {
     row1.find('[data-toggle="tooltip"]').attr("data-placement", "top");
     var row2 = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[1]) + "</span>");
     row2.find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
-    layout.append($("<div>").addClass("battle-view").append(row1).append($("<div>").addClass("battle-canvas")).append(row2));
+    layout.append($("<div>").addClass("battle-view").append(row1).append($("<div>").addClass("battle-canvas").append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")).append(row2));
     layout.append(this.chat.element);
     this.addTab(layout);
 

@@ -28,4 +28,4 @@ node_modules
 public
 bower_components
 
-index.html
+*.html
