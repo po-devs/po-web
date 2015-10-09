@@ -46,11 +46,11 @@ playerlist.createPlayerItem = function (id) {
     ret = "<li class='list-group-item player-list-item player-auth-" + webclient.players.auth(id);
 
     if (webclient.players.away(id)) {
-        ret += ' player-away';
+        ret += ' player-away-' + webclient.players.auth(id);
     }
 
     if (webclient.battles.isBattling(id)) {
-        ret += ' player-battling';
+        ret += ' player-battling-' + webclient.players.auth(id);
     }
 
     ret += "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</li>";
