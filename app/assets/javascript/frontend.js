@@ -148,8 +148,8 @@ $(function() {
                 network.command('ban', {id: +payload});
             } else if (cmd === "idle") {
                 var isAway = webclient.players.away(webclient.ownId);
-                poStorage.get('player.idle', !isAway);
-                //todo : send network command to that effect, and when getting own player, change checkbox value to reflect
+                poStorage.set('player.idle', !isAway);
+                network.command("idle", {"away":!isAway});
             } else if (cmd == "timestamps") {
                 webclientUI.timestamps = !webclientUI.timestamps;
                 setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps)});

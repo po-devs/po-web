@@ -102,6 +102,12 @@ function createNetwork(WebSocket) {
         },
         ban : function(payload) {
             return 'ban|' + payload.id;
+        },
+        idle : function(payload) {
+            return 'idle|' + (payload.away ? 1 : 0);
+        },
+        ladder : function(payload) {
+            return 'ladder|' + (payload.ladder ? 1 : 0);
         }
     };
 
