@@ -154,6 +154,26 @@ function createNetwork(WebSocket) {
             var params = JSON.parse(payload);
             webclient.onChat(params);
         },
+        playerkick: function (payload) {
+            var params = JSON.parse(payload);
+            if (params.source) {
+                webclientUI.printHtml('<span class="player-kick">' + utils.escapeHtml(webclient.players.name(params.source)) + ' kicked ' + 
+                    utils.escapeHtml(webclient.players.name(params.target)) + '!</span>');
+            } else {
+                webclientUI.printHtml('<span class="player-kick">' + utils.escapeHtml(webclient.players.name(params.target)) +
+                    ' was kicked by the server!</span>');
+            }
+        },
+        playerban: function (payload) {
+            var params = JSON.parse(payload);
+            if (params.source) {
+                webclientUI.printHtml('<span class="player-ban">' + utils.escapeHtml(webclient.players.name(params.source)) + ' banned ' + 
+                    utils.escapeHtml(webclient.players.name(params.target)) + (params.hasOwnProperty('time') ? ' for ' + params.time + ' minute(s)' : '') + '!</span>');
+            } else {
+                webclientUI.printHtml('<span class="player-ban">' + utils.escapeHtml(webclient.players.name(params.target)) +
+                    ' was banned by the server' + (params.hasOwnProperty('time') ? ' for ' + params.time + ' minute(s)' : '') + '!</span>');
+            }
+        },
         challenge: function (payload) {
             var net = this;
 
@@ -340,6 +360,8 @@ function createNetwork(WebSocket) {
         msg: parsers.msg,
         error : parsers.error,
         chat: parsers.chat,
+        playerkick: parsers.playerkick,
+        playerban: parsers.playerban,
         players: parsers.players,
         channels: parsers.channels,
         newchannel: parsers.newchannel,
