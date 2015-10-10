@@ -150,7 +150,7 @@ $(function() {
                 var isAway = webclient.players.away(webclient.ownId);
                 poStorage.set('player.idle', !isAway);
                 network.command("idle", {"away":!isAway});
-            } else if (cmd == "timestamps") {
+            } else if (cmd === "timestamps") {
                 webclientUI.timestamps = !webclientUI.timestamps;
                 setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps)});
                 poStorage.set("chat.timestamps", webclientUI.timestamps);
@@ -169,6 +169,9 @@ $(function() {
         webclientUI.printHtml("<em>You ignored " + utils.escapeHtml(webclient.players.name(id)) + ".</em>");
     }).on("ignoreremove", function(id) {
         webclientUI.printHtml("<em>You stopped ignoring " + utils.escapeHtml(webclient.players.name(id)) + ".</em>");
+    }).on("ownplayerupdated", function(id) {
+        var player = webclient.players.player(id);
+        $("#checkbox-idle-dd").prop("checked", player.away);
     });
 
 

@@ -107,6 +107,12 @@ $(function() {
     webclientUI.players.element = $("#playerlist");
     webclientUI.players.count = $("#playercount");
 
+    webclient.players.on("playeradd", function(id, obj) {
+        webclientUI.players.updatePlayer(+id);
+    });
+    webclient.players.on("playerupdated", function(id, obj) {
+        webclientUI.players.updatePlayer(+id);
+    });
     /* PM on player click */
     webclientUI.players.element.on("click", "li", function (event) {
         var pid = $(this).attr("pid");

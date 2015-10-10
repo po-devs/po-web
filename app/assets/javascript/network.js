@@ -336,6 +336,9 @@ function createNetwork(WebSocket) {
         },
         tiers: function (payload) {
             window.tiersList = JSON.parse(payload);
+        },
+        optionschange: function (payload) {
+            webclient.players.optionsChange(JSON.parse(payload));
         }
     };
 
@@ -363,7 +366,8 @@ function createNetwork(WebSocket) {
         battlestarted: parsers.battlestarted,
         battlefinished: parsers.battlefinished,
         channelbattle: parsers.channelbattle,
-        channelbattlelist: parsers.channelbattlelist
+        channelbattlelist: parsers.channelbattlelist,
+        optionschange: parsers.optionschange
     };
 
     function Network() {

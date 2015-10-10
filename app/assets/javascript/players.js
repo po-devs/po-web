@@ -14,9 +14,10 @@ PlayerHolder.prototype.login = function (id, info) {
     var obj = {};
 
     obj[id] = info;
-    this.addPlayer(obj);
 
     webclient.ownId = id;
+
+    this.addPlayer(obj);
 
     this.trigger("login", id, info);
 };
@@ -49,8 +50,26 @@ PlayerHolder.prototype.addPlayer = function (players) {
         }
 
         this.names[name] = playerObj;
-        this.trigger("playeradd", playerObj, +id, name);
+        this.trigger("playeradd", +id, playerObj, name);
+        if (id == webclient.ownId) {
+            this.trigger("ownplayerupdated", +id);
+        }
     }
+};
+
+PlayerHolder.prototype.optionsChange = function(player) {
+    var id = player.id;
+    var playerObj = this.player(id);
+
+    for (x in player) {
+        playerObj[x] = player[x];
+    }
+
+    if (id == webclient.ownId) {
+        this.trigger("ownplayerupdated", +id);
+    }
+
+    this.trigger("playerupdated", +id, playerObj);
 };
 
 PlayerHolder.prototype.addFriend = function (id) {
