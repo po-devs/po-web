@@ -91,6 +91,10 @@ BattleTab.prototype.print = function(msg, args) {
     this.activateTab();
 };
 
+BattleTab.prototype.onSetCurrent = function() {
+    this.chat.scrollDown();
+};
+
 BattleTab.prototype.playercss = function(spot) {
     return "p" + ((spot % 2)+1);
 };
