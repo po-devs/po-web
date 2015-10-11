@@ -59,9 +59,14 @@ var webclientUI = {
             ownTeams.append($("<option>").text(tier));
         }
 
-        if (!pl.hasOwnProperty("info")) {
+        if (!pl.hasOwnProperty("info") || !pl.hasOwnProperty("ratings")) {
             webclientUI.waitingInfos[id] = info;
             network.command("player", {"id": id});
+        } else {
+            var oppTeams = info.find("#opp-team");
+            for (tier in pl.ratings) {
+                oppTeams.append($("<option>").text(tier));
+            }
         }
 
         var fullInfo = $("<div>").addClass("flex-row").append(info);
