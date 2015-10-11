@@ -109,15 +109,22 @@ $(function() {
 
     webclient.players.on("playeradd", function(id, obj) {
         webclientUI.players.updatePlayer(+id);
-    });
-    webclient.players.on("playerupdated", function(id, obj) {
+
+        if (obj.info) {
+            webclientUI.updateInfo(id, obj.info);
+        }
+    }).on("playerupdated", function(id, obj) {
         webclientUI.players.updatePlayer(+id);
+
+        if (obj.info) {
+            webclientUI.updateInfo(id, obj.info);
+        }
     });
-    /* PM on player click */
+    /* Open window on player click */
     webclientUI.players.element.on("click", "li", function (event) {
         var pid = $(this).attr("pid");
 
-        webclient.pms.pm(pid);
+        webclientUI.displayPlayerWindow(pid);
     });
     /* Show context menu when clicked */
     webclientUI.players.element.contextmenu({

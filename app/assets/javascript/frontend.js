@@ -5,6 +5,7 @@ var webclientUI = {
     battles: new BattleList(),
     tabs: [],
     timestamps: false,
+    waitingInfos: {},
     
     printDisconnectionMessage : function(html) {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
@@ -35,6 +36,29 @@ var webclientUI = {
         }
 
         obj.setCurrentTab();
+    },
+
+    displayPlayerWindow : function(id) {
+        var info = "Loading player info...";
+        var pl = webclient.players.player(id);
+
+        if (pl.info) {
+            info = $('<iframe class="player-info" sandbox></iframe>').attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(pl.info)).html());
+        } else {
+            info = $('<iframe class="player-info" sandbox></iframe>').attr("src", "data:text/html;charset=utf-8,"+info);
+            webclientUI.waitingInfos[id] = info;
+            network.command("player", {"id": id});
+        }        
+
+        BootstrapDialog.show({
+            title: utils.escapeHtml(webclient.players.name(id)),
+            message: info
+        });
+    },
+
+    updateInfo: function(id, info) {
+        webclientUI.waitingInfos[id].attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
+        delete webclientUI.waitingInfos[id];
     },
 
     convertImages: function(element) {

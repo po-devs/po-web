@@ -36,7 +36,8 @@ module.exports = function(grunt) {
 
   var js_frontend = [
     './bower_components/jquery/dist/jquery.js',
-    './bower_components/bootstrap/dist/js/bootstrap.js',
+    './bower_components/bootstrap/dist/js/bootstrap.min.js',
+    './bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
     './bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js',
     './app/assets/javascript/libs/vex.combined.min.js',
     './app/assets/javascript/utils.js',
