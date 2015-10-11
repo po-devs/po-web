@@ -285,7 +285,21 @@ BattleTab.clauses = {
     5: "No Timeout",
     6: "Species Clause",
     7: "Wifi Battle",
-    8: "Self-KO Clause"
+    8: "Self-KO Clause",
+    9: "Inverted Clause"
+};
+
+BattleTab.clauseDescs = {
+    0:"You can not put more than one Pokemon of the opposing team to sleep at the same time.",
+    1:"You can not freeze more than one Pokemon of the opposing team at the same time.",
+    2:"Nobody can watch your battle.",
+    3:"No more than one of the same items is allowed per team.",
+    4:"Random teams are given to trainers.",
+    5:"No time limit for playing.",
+    6:"One player cannot have more than one of the same pokemon per team.",
+    7:"At the beginning of the battle, you can see the opponent's team and rearrange yours accordingly.",
+    8:"The one who causes a tie (Recoil, Explosion, Destinybond, ...) loses the battle.",
+    9:"All Type Effectivenesses are inverted (Ex: Water is weak to Fire)"
 };
 
 BattleTab.modes = {

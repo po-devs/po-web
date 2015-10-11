@@ -42,17 +42,38 @@ var webclientUI = {
         var info = "Loading player info...";
         var pl = webclient.players.player(id);
 
-        if (pl.info) {
+        if (pl.hasOwnProperty("info")) {
             info = $('<iframe class="player-info" sandbox></iframe>').attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(pl.info)).html());
         } else {
             info = $('<iframe class="player-info" sandbox></iframe>').attr("src", "data:text/html;charset=utf-8,"+info);
+        }
+        info = $("<div class='well well-sm info-block'>").append(info);
+
+        var firstRow = $("<div class='flex-row'>").append("<img src='" + pokeinfo.trainerSprite(pl.avatar || 167) + "' alt='trainer sprite' class='player-avatar'>");
+        firstRow.append($("<div class='player-teams'><div class='form-group'><label for='opp-team'>Opponent's team:</label><select class='form-control' id='opp-team'></select></div><div class='form-group'><label for='your-team'>Your team:</label><select class='form-control' id='your-team'></select></div></div>"));
+        info = $("<div class='flex-column'>").append(firstRow).append(info);
+
+        var ownTeams = info.find("#your-team");
+        var ownPl = webclient.ownPlayer();
+        for (tier in ownPl.ratings) {
+            ownTeams.append($("<option>").text(tier));
+        }
+
+        if (!pl.hasOwnProperty("info")) {
             webclientUI.waitingInfos[id] = info;
             network.command("player", {"id": id});
-        }        
+        }
+
+        var fullInfo = $("<div>").addClass("flex-row").append(info);
+        var clauses = $("<div>").addClass("input-group checkbox battle-clauses");
+        for (var i in BattleTab.clauses) {
+            clauses.append("<div class='checkbox'><label title='" + BattleTab.clauseDescs[i] + "'><input type='checkbox'>" + BattleTab.clauses[i] + "</label></div>");
+        }
+        fullInfo.append(clauses);
 
         BootstrapDialog.show({
             title: utils.escapeHtml(webclient.players.name(id)),
-            message: info,
+            message: fullInfo,
             buttons: [{
                 label: 'PM',
                 action: function(dialogItself){
@@ -71,7 +92,15 @@ var webclientUI = {
 
     updateInfo: function(id, info) {
         if (id in webclientUI.waitingInfos) {
-            webclientUI.waitingInfos[id].attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
+            var plInfo = webclientUI.waitingInfos[id];
+            var oppPl = webclient.players.player(id);
+            plInfo.find(".player-avatar").attr("src", pokeinfo.trainerSprite(oppPl.avatar  || 167 ));
+            plInfo.find(".player-info").attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
+
+            var oppTeams = plInfo.find("#opp-team");
+            for (tier in oppPl.ratings) {
+                oppTeams.append($("<option>").text(tier));
+            }
             delete webclientUI.waitingInfos[id];
         }
     },

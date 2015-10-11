@@ -12,6 +12,10 @@ var webclient = {
         return webclient.players.auth(webclient.ownId);
     },
 
+    ownPlayer: function() {
+        return webclient.players.player(webclient.ownId);
+    },
+
 	onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
 
