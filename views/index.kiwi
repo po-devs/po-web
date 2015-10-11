@@ -44,7 +44,7 @@
             <li><a href="po:idle/" class="checkbox-dd"><input type="checkbox" id="checkbox-idle-dd"/>&nbsp;Idle</a></li>
             <li><a href="po:timestamps/" class="checkbox-dd"><input type="checkbox" id="checkbox-timestamps-dd"/>&nbsp;Timestamps</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="po:register/">Register</a></li>
+            <li id="register-dd" class="disabled"><a href="po:register/">Register</a></li>
           </ul>
         </div>
     </div>

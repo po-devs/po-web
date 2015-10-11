@@ -154,6 +154,8 @@ $(function() {
                 webclientUI.timestamps = !webclientUI.timestamps;
                 setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps)});
                 poStorage.set("chat.timestamps", webclientUI.timestamps);
+            } else if (cmd === "register") {
+                network.command("register");
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {

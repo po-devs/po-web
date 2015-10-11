@@ -161,6 +161,9 @@ function createNetwork(WebSocket) {
             webclient.onChat(params);
         },
         challenge: function (payload) {
+            webclient.registered = true;
+            $("#register-dd").addClass("disabled");
+
             var net = this;
 
             //var password = $("#password").val();
@@ -262,7 +265,8 @@ function createNetwork(WebSocket) {
             this.command('getrankings', {id: params.id});
         },
         unregistered: function (payload) {
-            $("#register").attr("disabled", false);
+            $("#register-dd").removeClass("disabled");
+            webclient.registered = false;
         },
         pm: function (payload) {
             var params = JSON.parse(payload),
@@ -367,7 +371,8 @@ function createNetwork(WebSocket) {
         battlefinished: parsers.battlefinished,
         channelbattle: parsers.channelbattle,
         channelbattlelist: parsers.channelbattlelist,
-        optionschange: parsers.optionschange
+        optionschange: parsers.optionschange,
+        unregistered: parsers.unregistered
     };
 
     function Network() {
