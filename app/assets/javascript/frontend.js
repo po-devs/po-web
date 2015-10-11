@@ -52,7 +52,20 @@ var webclientUI = {
 
         BootstrapDialog.show({
             title: utils.escapeHtml(webclient.players.name(id)),
-            message: info
+            message: info,
+            buttons: [{
+                label: 'PM',
+                action: function(dialogItself){
+                    webclient.pms.pm(id);
+                    dialogItself.close();
+                }
+            }, {
+                label: 'Challenge',
+                action: function(dialogItself){
+                    webclient.challenge(id);
+                    dialogItself.close();
+                }
+            }]
         });
     },
 
@@ -182,6 +195,8 @@ $(function() {
                 poStorage.set("chat.timestamps", webclientUI.timestamps);
             } else if (cmd === "register") {
                 network.command("register");
+            } else if (cmd === "info") {
+                webclientUI.displayPlayerWindow(+payload);
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {
