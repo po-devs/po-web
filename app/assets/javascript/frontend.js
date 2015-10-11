@@ -57,8 +57,10 @@ var webclientUI = {
     },
 
     updateInfo: function(id, info) {
-        webclientUI.waitingInfos[id].attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
-        delete webclientUI.waitingInfos[id];
+        if (id in webclientUI.waitingInfos) {
+            webclientUI.waitingInfos[id].attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
+            delete webclientUI.waitingInfos[id];
+        }
     },
 
     convertImages: function(element) {

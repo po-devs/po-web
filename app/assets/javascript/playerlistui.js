@@ -110,13 +110,13 @@ $(function() {
     webclient.players.on("playeradd", function(id, obj) {
         webclientUI.players.updatePlayer(+id);
 
-        if ("info" in obj) {
+        if (obj.hasOwnProperty("info")) {
             webclientUI.updateInfo(id, obj.info);
         }
     }).on("playerupdated", function(id, obj) {
         webclientUI.players.updatePlayer(+id);
 
-        if ("info" in obj) {
+        if (obj.hasOwnProperty("info")) {
             webclientUI.updateInfo(id, obj.info);
         }
     });
