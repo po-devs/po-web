@@ -15,6 +15,7 @@ function BattleTab(id) {
     this.battle.on("playeradd", function(id) {self.newPlayer(id);});
     this.battle.on("playerremove", function(id) {self.removePlayer(id);});
     this.battle.on("tier", function(tier) {
+        //console.log("battle tab changing name");
         self.trigger("changename", id, tier);
     });
 

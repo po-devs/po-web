@@ -5,9 +5,10 @@ function BattleList() {
 var battlelist = BattleList.prototype;
 
 battlelist.createBattleItem = function (id) {
-    var name = "Gen " + webclient.battles.battle(id).conf.gen.num + "-" + webclient.battles.battle(id).conf.gen.subnum;
+    var battle = webclient.battles.battle(id);
+    var name = "Gen " + battle.conf.gen.num + "-" + battle.conf.gen.subnum;
     var ret;
-    name = ""; //better temporary name!
+    name = battle.tier || ""; //better temporary name!
 
     ret = "<li class='list-group-item battle-list-item' ";
     ret += "onclick='webclientUI.switchToTab(this.id)' "
@@ -29,10 +30,16 @@ battlelist.addBattle = function(id) {
     var self = this;
     if (!this.hasBattle(id)) {
         this.element.append(this.createBattleItem(id));
-        this.ids[id] = new BattleTab(id);
-        this.ids[id].on("changename", function(id, name) {
+        var battle = new BattleTab(id);
+        this.ids[id] = battle;
+        battle.on("changename", function(id, name) {
+            //console.log("battle list changing name");
             self.changeName(id, name);
         });
+        /* In case already received */
+        if (battle.battle.tier) {
+            this.changeName(id, battle.battle.tier);
+        }
     }
 };
 
