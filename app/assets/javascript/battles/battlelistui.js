@@ -40,6 +40,7 @@ battlelist.quit = function(id) {
     if (this.hasBattle(id)) {
         this.element.find("#battle-" + id).remove();
         this.battle(id).close();
+        webclient.battles.leaveBattle(id);
         delete this.ids[id];
     }
 };

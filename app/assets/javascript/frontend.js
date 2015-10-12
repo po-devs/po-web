@@ -61,7 +61,7 @@ var webclientUI = {
 
         if (!pl.hasOwnProperty("info") || !pl.hasOwnProperty("ratings")) {
             webclientUI.waitingInfos[id] = info;
-            network.command("player", {"id": id});
+            webclient.requestInfo(id);
         } else {
             var oppTeams = info.find("#opp-team");
             for (tier in pl.ratings) {

@@ -32,7 +32,17 @@ battledata.start = function(data) {
     this.spectators = {};
     this.timers = [{'value':300, 'ticking': false}, {'value':300, 'ticking': false}];
     /* player names */
-    this.players = [webclient.players.name(conf.players[0]), webclient.players.name(conf.players[1])];
+    if (conf.names && conf.names[0]) {
+        this.players = conf.names;
+    } else {
+        this.players = [webclient.players.name(conf.players[0]), webclient.players.name(conf.players[1])];
+    }
+    if (!webclient.players.hasPlayer(conf.players[0])) {
+        webclient.requestInfo(conf.players[0]);
+    }
+    if (!webclient.players.hasPlayer(conf.players[1])) {
+        webclient.requestInfo(conf.players[1]);
+    }
 
 /*    this.timer = setInterval(function() {
         self.updateTimers()
@@ -72,6 +82,13 @@ battledata.player = function(spot) {
     return spot % 2;
 };
 
+battledata.updateInfo = function(id, player) {
+    if (this.ids[0] == id) {
+        this.players[0] = player.name;
+    } else if (this.ids[1] == id) {
+        this.players[1] = player.name;
+    }
+};
 
 battledata.updateClock = function(player, time, ticking) {
     this.timers[player] = {"time": time, "ticking": ticking, "lastupdate": new Date().getTime()};

@@ -112,6 +112,8 @@ $(function() {
 
         if (obj.hasOwnProperty("info")) {
             webclientUI.updateInfo(id, obj.info);
+            /* In case a battle was not sharing a channel, get their name / color */
+            webclient.battles.updateInfo(id, obj);
         }
     }).on("playerupdated", function(id, obj) {
         webclientUI.players.updatePlayer(+id);

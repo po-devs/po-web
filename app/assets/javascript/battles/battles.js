@@ -81,6 +81,7 @@ Battles.prototype.removeBattle = function(battleid) {
     if (!Object.keys(this.battlesByPlayer[ids[1]]).length) {
         delete this.battlesByPlayer[ids[1]];
     }
+    this.leaveBattle(battleid);
 };
 
 Battles.prototype.battle = function(pid) {
@@ -108,6 +109,17 @@ Battles.prototype.startBattle = function(battle) {
     this.trigger("activebattle", battle.id);
 };
 
+Battles.prototype.leaveBattle = function(id) {
+    if (id in this.battles) {
+        delete this.battles[id];
+    }
+};
+
+Battles.prototype.updateInfo = function(id, player) {
+    for (bid in this.battles) {
+        this.battles[bid].updateInfo(id, player);
+    }
+};
 
 $(function() {
     webclient.players.on("playerremove", function(id) {
