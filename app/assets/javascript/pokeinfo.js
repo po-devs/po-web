@@ -568,6 +568,14 @@ iteminfo.message = function(item, part) {
     return '';
 };
 
+iteminfo.itemSprite = function(item) {
+    if (+item >= 8000) {
+        return 'http://pokemon-online.eu/images/berries/' + (items-8000) + '.png';
+    } else {
+        return 'http://pokemon-online.eu/images/items/' + items + '.png';
+    }
+};
+
 statinfo.list = function() {
     return pokedex.status.stats;
 };

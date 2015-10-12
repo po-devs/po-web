@@ -140,8 +140,7 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
 
     for (var i = 0; i < pokes.length; i++) {
         var $img = $pokes.find(".status:eq("+pokes[i]+")");
-        console.log("teampokes " + player);
-        console.log(this.battle.teams);
+        //console.log(this.battle.teams);
         var tpok = this.battle.teams[player][pokes[i]]; 
         if (tpok) {
             $img.removeClass();

@@ -210,6 +210,9 @@ var webclientUI = {
                         img.attr("src", pokeinfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
                     }).attr("src", pokeinfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
                     break;
+                case "item":
+                    img.attr("src", iteminfo.itemSprite(query));
+                    break;
                 case "trainer":
                     img.attr("src", pokeinfo.trainerSprite(query));
                     break;
