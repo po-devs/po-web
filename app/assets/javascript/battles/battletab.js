@@ -43,7 +43,15 @@ function BattleTab(id) {
 
     this.updateTeamPokes(0);
     this.updateTeamPokes(1);
-    this.battle.on("updateteampokes", function(player, pokes) {self.updateTeamPokes(player, pokes)});
+    this.battle.on("updateteampokes", function(player, pokes) {
+        self.updateTeamPokes(player, pokes);
+    }).on("playernameupdated", function(spot, name) {
+        if (spot == 0) {
+            row1.find(".trainer-name").text(name);
+        } else if (spot == 1) {
+            row2.find(".trainer-name").text(name);
+        }
+    });
 
     this.chat.on("chat", function(msg) {
         self.battle.sendMessage(msg);

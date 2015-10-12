@@ -85,8 +85,10 @@ battledata.player = function(spot) {
 battledata.updateInfo = function(id, player) {
     if (this.ids[0] == id) {
         this.players[0] = player.name;
+        this.trigger("playernameupdated", 0, player.name);
     } else if (this.ids[1] == id) {
         this.players[1] = player.name;
+        this.trigger("playernameupdated", 1, player.name);
     }
 };
 
