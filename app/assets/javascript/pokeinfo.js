@@ -570,9 +570,9 @@ iteminfo.message = function(item, part) {
 
 iteminfo.itemSprite = function(item) {
     if (+item >= 8000) {
-        return 'http://pokemon-online.eu/images/berries/' + (items-8000) + '.png';
+        return 'http://pokemon-online.eu/images/berries/' + (item-8000) + '.png';
     } else {
-        return 'http://pokemon-online.eu/images/items/' + items + '.png';
+        return 'http://pokemon-online.eu/images/items/' + item + '.png';
     }
 };
 

@@ -45,6 +45,17 @@ function BattleTab(id) {
 
     this.teampokes = rows;
 
+    /* Show switch row */
+    if (this.isBattle()) {
+        var pokeRow = $("<div>").addClass("battle-switchrow");
+        for (var i in this.battle.teams[this.myself]) {
+            var poke = this.battle.teams[this.myself][i];
+            pokeRow.append($("<span>").addClass("btn btn-default btn-xs battle-poke").append($("<img>")).append($("<span>").addClass("battle-poke-text")));
+        }
+        layout.find(".battle-view").append(pokeRow);
+        this.switchRow = pokeRow;
+    }
+
     this.updateTeamPokes(this.myself);
     this.updateTeamPokes(this.opponent);
     this.battle.on("updateteampokes", function(player, pokes) {
@@ -154,19 +165,15 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
             //tooltip+= JSON.stringify(tpok);
             if (!tooltip)  tooltip="No Info";
             $img.attr("title", tooltip).tooltip("fixTitle");
+
+            if (this.isBattle() && player == this.myself) {
+                var $ct = this.switchRow.find(".battle-poke:eq("+pokes[i]+")");
+                $ct.find("img").attr("src", pokeinfo.icon(tpok));
+                var text = tpok.name + "<br/>" + tpok.life + "/" + tpok.totalLife;
+                $ct.find(".battle-poke-text").html(text);
+            }
         }
     }
-
-/*    if (this.isBattle() && player == this.myself) {
-        var $team = this.$content.find(".battle_options_pokemon");
-        for (var i = 0; i < pokes.length; i++) {
-            var $ct = $team.find(".battle_pokemon_content:eq("+pokes[i]+")");
-            var poke = this.request.team[pokes[i]];
-            $ct.find("img").attr("src", pokeinfo.icon(poke.num));
-            var text = poke.name + "<br/>" + poke.life + "/" + poke.totalLife;
-            $ct.find(".battle_pokemon_content_text").html(text);
-        }
-    }*/
 };
 
 /** Calls the onXxxxXxxx functions where xxxxXxxx is the name attribute of the button
