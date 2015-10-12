@@ -50,11 +50,17 @@ battledata.start = function(data) {
 */
     if (team) {
         this.myself = conf.players[1] === webclient.ownId ? 1 : 0;
+
         //ugly way to clone, better way at http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
         this.teams[this.myself] = JSON.parse(JSON.stringify(team));
+        console.log("own team");
+        console.log(this.teams[this.myself]);
         //this.updateTeamPokes(this.myself);
     } else {
+        this.myself = 0;
     }
+
+    this.opponent = 1-this.myself;
 };
 
 battledata.isBattle = function() {

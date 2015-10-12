@@ -13,14 +13,8 @@ battledata.dealWithSend = function(params) {
     var poke = params.pokemon;
     var sl = this.slot(params.spot);
 
-    if (this.isBattle()) {
-        if (this.player(params.spot) == this.myself) {
-            var tpoke = this.request.team[sl];
-            this.request.team[sl] = this.request.team[params.slot];
-            this.request.team[params.slot] = tpoke;
-
-            $.extend(poke, this.request.team[this.slot(params.spot)]);
-        }
+    if (this.isBattle() && this.player(params.spot) == this.myself) {
+        $.extend(poke, this.teams[this.myself][this.slot(params.spot)]);
     }
     /* Stores the pokemon in field memory */
     this.pokes[params.spot] = poke;
@@ -57,27 +51,26 @@ battledata.dealWithTeampreview = function(params) {
     var team = params.team;
     var player = params.player;
 
-    for (var i = 0; i < team.length; i++) {
+/*    for (var i = 0; i < team.length; i++) {
         this.addCommand(["poke", this.spotToPlayer(player), this.pokemonToPS(team[i])]);
-    }
+    }*/
 
     /* triggers the display */
-    this.addCommand(["teampreview"]);
+//    this.addCommand(["teampreview"]);
 
     /* triggers the choice */
-    this.request.teamPreview = true;
-    this.receiveRequest(this.request);
+    //this.teamPreview = true;
 };
 
 battledata.dealWithPpchange = function(params) {
-    this.request.team[Math.floor(params.spot/2)].moves[params.move].pp = params.pp;
+    this.teams[Math.floor(params.spot/2)].moves[params.move].pp = params.pp;
 };
 
 battledata.dealWithOfferchoice = function(params) {
     this.choices[params.choice.slot] = params.choice;
 
     /* Force the user to switch */
-    this.request.forceSwitch = !params.choice.attack;
+   // this.request.forceSwitch = !params.choice.attack;
 };
 
 battledata.dealWithKo = function(params) {

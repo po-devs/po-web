@@ -32,26 +32,23 @@ function BattleTab(id) {
     var layout = $("<div>");
     layout.addClass("flex-row battle-tab-layout");
 
-    var row1 = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[0]) + "</span><span class='stretchX'></span>"+pokeballrowHtml);
-    row1.find('[data-toggle="tooltip"]').attr("data-placement", "top");
-    var row2 = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[1]) + "</span>");
-    row2.find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
-    layout.append($("<div>").addClass("battle-view").append(row1).append($("<div>").addClass("battle-canvas").append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")).append(row2));
+    var rows = [0,0];
+    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[this.opponent]) + "</span><span class='stretchX'></span>"+pokeballrowHtml);
+    rows[this.opponent].find('[data-toggle="tooltip"]').attr("data-placement", "top");
+    rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
+    rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
+    layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas").append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")).append(rows[this.myself]));
     layout.append(this.chat.element);
     this.addTab(layout);
 
-    this.teampokes = [row1, row2];
+    this.teampokes = rows;
 
-    this.updateTeamPokes(0);
-    this.updateTeamPokes(1);
+    this.updateTeamPokes(this.myself);
+    this.updateTeamPokes(this.opponent);
     this.battle.on("updateteampokes", function(player, pokes) {
         self.updateTeamPokes(player, pokes);
     }).on("playernameupdated", function(spot, name) {
-        if (spot == 0) {
-            row1.find(".trainer-name").text(name);
-        } else if (spot == 1) {
-            row2.find(".trainer-name").text(name);
-        }
+        rows[spot].find(".trainer-name").text(name);
     });
 
     this.chat.on("chat", function(msg) {

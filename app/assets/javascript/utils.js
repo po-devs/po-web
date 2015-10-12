@@ -24,7 +24,7 @@ var utils = {
         return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     },
     escapeHtml: function (ret) {
-        return ret.replace(/&/g, "&amp;")
+        return (ret||"").replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/\b((?:https?|ftp):\/\/\S+)/gi, "<a href='$1' target='_blank'>$1</a>")

@@ -67,6 +67,11 @@ var webclient = {
         }
 	},
 
+    challenge: function(id, params) {
+        //network.send("challengeplayer", {"id": id, "team": 0, "clauses": clauses, "tier": tier });
+        network.send("challengeplayer", $.extend({"id": id}, params));
+    },
+
     dealWithChallenge: function(params) {
         if (params.desc == "sent") {
             if (webclient.players.isIgnored(params.id) || params.mode != 0) {
@@ -77,16 +82,17 @@ var webclient = {
         } else if (params.desc == "cancelled") {
             webclientUI.cancelChallenge(params);
         } else {
+            console.log(params);
             var messages = {
                 "busy": "#player is busy.",
                 "refused": "#player refused your challenge.",
-                "invalidtier": "You can't challenge #player in " + params.opptier + ".",
+                "invalidtier": "You can't challenge #player in " + params.tier + ".",
                 "invalidgen": "You can't challenge #player, generation is invalid.",
                 "invalidteam": "You can't challenge #player by selecting this team."
             };
 
             if (params.desc in messages) {
-                webclient.printHtml($("<div>").append($("<span>").addClass("challenge-"+params.desc).text(messages[params.desc].replace("#player", webclient.players.name(params.id)))).html());
+                webclientUI.printHtml($("<div>").append($("<span>").addClass("challenge-"+params.desc).text(messages[params.desc].replace("#player", webclient.players.name(params.id)))).html());
             } else {
                 console.log("unknown challenge type received");
                 console.log(payload);

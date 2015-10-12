@@ -73,7 +73,7 @@ var webclientUI = {
         } else if (!params.desc) {
             var oppTeams = info.find("#opp-team");
             for (tier in pl.ratings) {
-                oppTeams.append($("<option>").text(tier));
+                oppTeams.append($("<option>").text(tier).attr("value", tier));
             }
         }
 
@@ -104,7 +104,15 @@ var webclientUI = {
             }, {
                 label: 'Challenge',
                 action: function(dialogItself){
-                    webclient.challenge(id);
+                    var params = {"team": 0, "mode": 0};
+                    params.clauses = [];
+
+                    for (var i = 0; i < BattleTab.length; i = i+1) {
+                        params.clauses.push($("input:eq(" + i + ")").prop("checked") ? 1 : 0);
+                    }
+                    params.tier = info.find("#opp-team").val();
+
+                    webclient.challenge(id, params);
                     dialogItself.close();
                 }
             }];
@@ -159,7 +167,7 @@ var webclientUI = {
             if (plInfo.updateRatings) {
                 var oppTeams = plInfo.find("#opp-team");
                 for (tier in oppPl.ratings) {
-                    oppTeams.append($("<option>").text(tier));
+                    oppTeams.append($("<option>").text(tier).attr("value", tier));
                 }
             }
             delete webclientUI.waitingInfos[id];
@@ -199,7 +207,7 @@ var webclientUI = {
                             return;
                         }
 
-                        img.attr("src", pokeinfo.sprite({num: pokenum, forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
+                        img.attr("src", pokeinfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
                     }).attr("src", pokeinfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
                     break;
                 case "trainer":
