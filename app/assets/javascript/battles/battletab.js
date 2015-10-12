@@ -14,6 +14,9 @@ function BattleTab(id) {
     this.battle.on("print", function(msg, args){self.print(msg, args)});
     this.battle.on("playeradd", function(id) {self.newPlayer(id);});
     this.battle.on("playerremove", function(id) {self.removePlayer(id);});
+    this.battle.on("tier", function(tier) {
+        self.trigger("changename", id, tier);
+    });
 
     //new BattleAnimator(this);
 

@@ -370,6 +370,9 @@ battledata.dealWithDamage = function(params)
 
 battledata.dealWithTier = function(params) {
     this.print("<strong>Tier: </strong> " + params.tier);
+
+    this.tier = params.tier;
+    this.trigger("tier", params.tier);
 };
 
 battledata.dealWithRated = function(params) {
