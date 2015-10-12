@@ -83,6 +83,10 @@ channeltab.setPlayers = function (players) {
 channeltab.newPlayer = function (player) {
     //this.players[player] = true;
 
+    if (webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
+        this.printHtml('<span class="player-join">' + utils.escapeHtml(webclient.players.name(player)) + ' joined the channel.');
+    }
+
     if (this.isCurrent()) {
         webclientUI.players.addPlayer(player);
     }
@@ -99,6 +103,11 @@ channeltab.removePlayer = function (player) {
     //         this.print("<i>You were removed from this channel</i>", true);
     //     }
     // }
+    
+    if (webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
+        this.printHtml('<span class="player-leave">' + utils.escapeHtml(webclient.players.name(player)) + ' left the channel.');
+    }
+
     if (this.isCurrent()) {
         webclientUI.players.removePlayer(player);
     }

@@ -1,13 +1,13 @@
 function BattleData(data) {
-	$.observable(this);
+    $.observable(this);
 
-	this.addData(data);
+    this.addData(data);
 };
 
 var battledata = BattleData.prototype;
 
 battledata.addData = function(data) {
-	$.extend(this, data);
+    $.extend(this, data);
 };
 
 battledata.print = function(msg, args) {
@@ -15,10 +15,10 @@ battledata.print = function(msg, args) {
 };
 
 battledata.start = function(data) {
-	this.addData(data);
+    this.addData(data);
 
-	var conf = this.conf;
-	var team = this.team;
+    var conf = this.conf;
+    var team = this.team;
 
     this.paused = false;
 
