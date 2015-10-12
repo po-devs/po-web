@@ -38,7 +38,8 @@ var webclientUI = {
         obj.setCurrentTab();
     },
 
-    displayPlayerWindow : function(id) {
+    displayPlayerWindow : function(id, params) {
+        var params = params || {};
         var info = "Loading player info...";
         var pl = webclient.players.player(id);
 
@@ -59,10 +60,17 @@ var webclientUI = {
             ownTeams.append($("<option>").text(tier));
         }
 
+        if (params.hasOwnProperty("opptier")) {
+            var oppTeams = info.find("#opp-team");
+            oppTeams.append($("<option>").text(params.opptier));
+            oppTeams.prop('disabled', 'disabled');
+        }
+
         if (!pl.hasOwnProperty("info") || !pl.hasOwnProperty("ratings")) {
             webclientUI.waitingInfos[id] = info;
+            info.updateRatings = params.desc ? false: true;
             webclient.requestInfo(id);
-        } else {
+        } else if (!params.desc) {
             var oppTeams = info.find("#opp-team");
             for (tier in pl.ratings) {
                 oppTeams.append($("<option>").text(tier));
@@ -76,10 +84,18 @@ var webclientUI = {
         }
         fullInfo.append(clauses);
 
-        BootstrapDialog.show({
-            title: utils.escapeHtml(webclient.players.name(id)),
-            message: fullInfo,
-            buttons: [{
+        if (params.clauses) {
+            for (var i = 0; i < params.clauses.length; i = i+1) {
+                if (params.clauses[i]) {
+                    clauses.find("input:eq(" + i + ")").prop("checked", true);
+                }
+            }
+        }
+
+        var buttons;
+
+        if (!params.desc) {
+            buttons = [{
                 label: 'PM',
                 action: function(dialogItself){
                     webclient.pms.pm(id);
@@ -91,8 +107,46 @@ var webclientUI = {
                     webclient.challenge(id);
                     dialogItself.close();
                 }
-            }]
+            }];
+        } else {
+            buttons = [{
+                label: 'Decline',
+                action: function(dialogItself){
+                    webclient.declineChallenge(params);
+                    dialogItself.declined = true;
+                    dialogItself.close();
+                }
+            }, {
+                label: 'Accept',
+                action: function(dialogItself){
+                    webclient.acceptChallenge(params);
+                    dialogItself.accepted = true;
+                    dialogItself.close();
+                }
+            }];
+        }
+
+        BootstrapDialog.show({
+            title: utils.escapeHtml(webclient.players.name(id)) + (params.desc? " challenged you!" : ""),
+            message: fullInfo,
+            "buttons": buttons ,
+            onhidden: function(dialogItself) {
+                if (params.desc) {
+                    if (!dialogItself.accepted && !dialogItself.declined) {
+                        webclient.declineChallenge(params);
+                    }
+                }
+            }
         });
+    },
+
+    showChallenge : function(params) {
+        console.log(params);
+        webclientUI.displayPlayerWindow(params.id, params);
+    },
+
+    cancelChallenge: function(params) {
+
     },
 
     updateInfo: function(id, info) {
@@ -102,9 +156,11 @@ var webclientUI = {
             plInfo.find(".player-avatar").attr("src", pokeinfo.trainerSprite(oppPl.avatar  || 167 ));
             plInfo.find(".player-info").attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
 
-            var oppTeams = plInfo.find("#opp-team");
-            for (tier in oppPl.ratings) {
-                oppTeams.append($("<option>").text(tier));
+            if (plInfo.updateRatings) {
+                var oppTeams = plInfo.find("#opp-team");
+                for (tier in oppPl.ratings) {
+                    oppTeams.append($("<option>").text(tier));
+                }
             }
             delete webclientUI.waitingInfos[id];
         }

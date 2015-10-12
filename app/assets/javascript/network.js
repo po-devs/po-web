@@ -224,12 +224,7 @@ function createNetwork(WebSocket) {
             }
             params.clauses = clauses;
 
-            if (params.desc == "sent") {
-                showChallenge(params);
-            } else {
-                webclient.print("<b>info on challenge with " + webclient.players.name(params.id) + ": " + params.desc
-                    + "</b>", true);
-            }
+            webclient.dealWithChallenge(params);
         },
         announcement: function (payload) {
             /*webclient.sandboxHtml(announcement, payload);
@@ -388,6 +383,7 @@ function createNetwork(WebSocket) {
         challenge: parsers.challenge,
         pm: parsers.pm,
         watchbattle: parsers.watchbattle,
+        battlechallenge: parsers.battlechallenge,
         battlecommand: parsers.battlecommand,
         battlestarted: parsers.battlestarted,
         battlefinished: parsers.battlefinished,

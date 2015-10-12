@@ -67,6 +67,41 @@ var webclient = {
         }
 	},
 
+    dealWithChallenge: function(params) {
+        if (params.desc == "sent") {
+            if (webclient.players.isIgnored(params.id) || params.mode != 0) {
+                webclient.declineChallenge(params);
+            } else {
+                webclientUI.showChallenge(params);
+            }
+        } else if (params.desc == "cancelled") {
+            webclientUI.cancelChallenge(params);
+        } else {
+            var messages = {
+                "busy": "#player is busy.",
+                "refused": "#player refused your challenge.",
+                "invalidtier": "You can't challenge #player in " + params.opptier + ".",
+                "invalidgen": "You can't challenge #player, generation is invalid.",
+                "invalidteam": "You can't challenge #player by selecting this team."
+            };
+
+            if (params.desc in messages) {
+                webclient.printHtml($("<div>").append($("<span>").addClass("challenge-"+params.desc).text(messages[params.desc].replace("#player", webclient.players.name(params.id)))).html());
+            } else {
+                console.log("unknown challenge type received");
+                console.log(payload);
+            }
+        }
+    },
+
+    declineChallenge: function(params) {
+        console.log("declining " + JSON.stringify(params));
+    },
+
+    acceptChallenge: function(params) {
+        console.log("accepting " + JSON.stringify(params));
+    },
+
 	onChat: function(params) {
 		var chan = webclientUI.channels.channel(params.channel);
 
