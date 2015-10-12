@@ -49,7 +49,7 @@ var webclientUI = {
         }
         info = $("<div class='well well-sm info-block'>").append(info);
 
-        var firstRow = $("<div class='flex-row'>").append("<img src='" + pokeinfo.trainerSprite(pl.avatar || 167) + "' alt='trainer sprite' class='player-avatar'>");
+        var firstRow = $("<div class='flex-row-no-shrink'>").append("<img src='" + pokeinfo.trainerSprite(pl.avatar || 167) + "' alt='trainer sprite' class='player-avatar'>");
         firstRow.append($("<div class='player-teams'><div class='form-group'><label for='opp-team'>Opponent's team:</label><select class='form-control' id='opp-team'></select></div><div class='form-group'><label for='your-team'>Your team:</label><select class='form-control' id='your-team'></select></div></div>"));
         info = $("<div class='flex-column'>").append(firstRow).append(info);
 

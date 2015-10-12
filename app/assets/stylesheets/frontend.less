@@ -16,13 +16,18 @@ body {
   box-sizing: border-box;
 }
 
-.flex-row {
+.flex-row-no-shrink {
   display:flex; 
   flex-direction: row; 
   /*overflow-y: auto;*/
+  flex-grow: 1;
+}
+
+.flex-row {
+  .flex-row-no-shrink;
+  
   /* Tell the row to stretch vertically as possible without overflowing */
   flex-basis: 0px;
-  flex-grow: 1;
 }
 
 .full-height {
