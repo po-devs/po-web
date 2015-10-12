@@ -295,7 +295,10 @@ battledata.dealWithWeatherstart = function(params) {
         "%1's Snow Warning whipped up a hailstorm!",
         "%1's Drizzle made it rain!",
         "%1's Sand Stream whipped up a sandstorm!",
-        "%1's Drought intensified the sun's rays!"
+        "%1's Drought intensified the sun's rays!",
+        "%1's Desolate Land turned the sunlight extremely harsh!",
+        "%1's Primordial Sea causes a heavy rain to fall!",
+        "%1's Delta Stream stirs up a mysterious air current to protect Flying-type Pokémon!"
     ];
 
     var weatherRegularMessage = [
