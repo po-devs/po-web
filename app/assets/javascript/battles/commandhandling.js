@@ -13,8 +13,13 @@ battledata.dealWithSend = function(params) {
     var poke = params.pokemon;
     var sl = this.slot(params.spot);
 
+    console.log("send");
+    console.log(params);
+
     if (this.isBattle() && this.player(params.spot) == this.myself) {
-        $.extend(poke, this.teams[this.myself][this.slot(params.spot)]);
+        console.log(this.teams[this.myself][params.slot]);
+        poke = $.extend({}, this.teams[this.myself][params.slot], poke);
+        console.log(this.teams[this.myself][params.slot]);
     }
     /* Stores the pokemon in field memory */
     this.pokes[params.spot] = poke;
@@ -385,10 +390,21 @@ battledata.dealWithRated = function(params) {
 };
 
 battledata.dealWithChoiceselection = function(params) {
-    if (this.request && params.spot%2 == this.myself) {
-        //Todo: deal with choice selection
+    if (this.isBattle() && this.player(params.spot) == this.myself) {
+        this.choicesAvailable = true;
+        console.log("Choices availabled");
+        this.trigger("choicesavailable");
     }
 };
+
+/* When we send a wrong choice */
+battledata.dealWithChoicecancellation = function(params) {
+    if (params.player == this.myself) {
+        this.choicesAvailable = true;
+        console.log("Choices availabled");
+        this.trigger("choicesavailable");
+    }
+}
 
 /*
  Forfeit,

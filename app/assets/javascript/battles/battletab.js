@@ -47,10 +47,19 @@ function BattleTab(id) {
 
     /* Show switch row */
     if (this.isBattle()) {
-        var pokeRow = $("<div>").addClass("battle-switchrow");
+        var pokeRow = $("<div>").addClass("battle-switchrow btn-group btn-group-justified").attr("data-toggle", "buttons");
         for (var i in this.battle.teams[this.myself]) {
             var poke = this.battle.teams[this.myself][i];
-            pokeRow.append($("<span>").addClass("btn btn-default btn-xs battle-poke").append($("<img>")).append($("<span>").addClass("battle-poke-text")));
+            var item = $("<span>").addClass("btn btn-default btn-xs battle-poke").append($("<input type='radio'>")).append($("<img>")).append($("<span>").addClass("battle-poke-text")).attr("slot", i);
+            pokeRow.append(item);
+
+            item.on("click", function(event) {
+                if (!self.battle.choicesAvailable) {
+                    return false;
+                }
+
+                self.onControlsChooseSwitch(+$(this).attr("slot"));
+            });
         }
         layout.find(".battle-view").append(pokeRow);
         this.switchRow = pokeRow;
@@ -62,6 +71,8 @@ function BattleTab(id) {
         self.updateTeamPokes(player, pokes);
     }).on("playernameupdated", function(spot, name) {
         rows[spot].find(".trainer-name").text(name);
+    }).on("choicesavailable", function() {
+        self.enableChoices();
     });
 
     this.chat.on("chat", function(msg) {
@@ -73,11 +84,21 @@ function BattleTab(id) {
     this.print("<strong>Battle between " + this.battle.name(0) + " and " + this.battle.name(1) + " just started!</strong><br />");
     this.print("<strong>Mode:</strong> " + BattleTab.modes[conf.mode]);
 
+    if (!this.battle.choicesAvailable) {
+        this.disableChoices();
+    }
     //layout.find('[data-toggle="tooltip"]').tooltip();
 };
 
 utils.inherits(BattleTab, BaseTab);
 
+BattleTab.prototype.disableChoices = function() {
+    this.switchRow.find(".battle-poke").attr("disabled", "disabled");
+}
+
+BattleTab.prototype.enableChoices = function() {
+    this.switchRow.find(".battle-poke").removeAttr("disabled");
+}
 
 BattleTab.prototype.print = function(msg, args) {
     var linebreak = true;
@@ -176,32 +197,6 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
     }
 };
 
-/** Calls the onXxxxXxxx functions where xxxxXxxx is the name attribute of the button
- * in the controls that was clicked
- * @param event the click event
- */
-BattleTab.prototype.dealWithControlsClick = function(event) {
-    var $obj = $(event.target);
-    var battle = event.data;
-    while ($obj.length > 0 && $obj != $(this)) {
-        var name = $obj.attr("name");
-        if (name !== undefined) {
-            var funcName = "onControlsChoose"+name[0].toUpperCase()+name.slice(1);
-            if (funcName in BattleTab.prototype) {
-                this[funcName]($obj);
-                return true;
-            }
-        }
-        var oldobj = $obj;
-        $obj = $obj.parent();
-
-        if (oldobj == $obj) {
-            break;
-        }
-    }
-    return false;
-};
-
 /**
  * Called when a chooseMove button is clicked
  * @param $obj The button jquery object
@@ -216,9 +211,9 @@ BattleTab.prototype.onControlsChooseMove = function($obj) {
  * Called when a chooseMove button is clicked
  * @param $obj The button jquery object
  */
-BattleTab.prototype.onControlsChooseSwitch = function($obj) {
-    console.log ("poke " + $obj.attr("slot") + " ( " + $obj.attr("value") + ") called");
-    var choice = {"type":"switch", "slot":this.myself, "pokeSlot": + $obj.attr("slot")};
+BattleTab.prototype.onControlsChooseSwitch = function(slot) {
+    //console.log ("poke " + $obj.attr("slot") + " ( " + $obj.attr("value") + ") called");
+    var choice = {"type":"switch", "slot":this.myself, "pokeSlot": +slot};
     this.choose(choice);
 };
 
@@ -241,6 +236,9 @@ BattleTab.prototype.getPlayers = function() {
 
 BattleTab.prototype.choose = function(choice)
 {
+    console.log({id: this.id, choice: choice});
+    this.battle.choicesAvailable = false;
+    this.disableChoices();
     network.command('battlechoice', {id: this.id, choice: choice});
 };
 
