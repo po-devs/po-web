@@ -102,10 +102,12 @@ var webclient = {
 
     declineChallenge: function(params) {
         console.log("declining " + JSON.stringify(params));
+        network.send("challengeplayer", $.extend({}, params, {"desc": "refused"}));
     },
 
     acceptChallenge: function(params) {
         console.log("accepting " + JSON.stringify(params));
+        network.send("challengeplayer", $.extend({}, params, {"desc": "accepted"}));
     },
 
     onChat: function(params) {

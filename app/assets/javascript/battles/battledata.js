@@ -31,11 +31,20 @@ battledata.start = function(data) {
     this.choices = {};
     this.spectators = {};
     this.timers = [{'value':300, 'ticking': false}, {'value':300, 'ticking': false}];
+    this.players = ["", ""];
     /* player names */
-    if (conf.names && conf.names[0]) {
-        this.players = conf.names;
-    } else {
-        this.players = [webclient.players.name(conf.players[0]), webclient.players.name(conf.players[1])];
+    if (conf.names) {
+        for (var i in conf.names) {
+            if (conf.names[i]) {
+                this.players[i] = conf.names[i];
+            }
+        }
+    }
+    if (!this.players[0]) {
+        this.players[0] = webclient.players.name(conf.players[0]);
+    }
+    if (!this.players[1]) {
+        this.players[1] = webclient.players.name(conf.players[1]);
     }
     if (!webclient.players.hasPlayer(conf.players[0])) {
         webclient.requestInfo(conf.players[0]);

@@ -5,6 +5,7 @@ var webclientUI = {
     battles: new BattleList(),
     tabs: [],
     timestamps: false,
+    challenges: [],
     waitingInfos: {},
     
     printDisconnectionMessage : function(html) {
@@ -121,40 +122,57 @@ var webclientUI = {
                 label: 'Decline',
                 action: function(dialogItself){
                     webclient.declineChallenge(params);
-                    dialogItself.declined = true;
+                    dialogItself.setData("declined", true);
                     dialogItself.close();
                 }
             }, {
                 label: 'Accept',
                 action: function(dialogItself){
                     webclient.acceptChallenge(params);
-                    dialogItself.accepted = true;
+                    dialogItself.setData("accepted", true);
                     dialogItself.close();
                 }
             }];
         }
 
-        BootstrapDialog.show({
+        var dialogInstance = new BootstrapDialog({
             title: utils.escapeHtml(webclient.players.name(id)) + (params.desc? " challenged you!" : ""),
             message: fullInfo,
             "buttons": buttons ,
             onhidden: function(dialogItself) {
-                if (params.desc) {
-                    if (!dialogItself.accepted && !dialogItself.declined) {
+                if (params.desc && !dialogItself.getData("cancelled")) {
+                    if (!dialogItself.getData("accepted") && !dialogItself.getData("declined")) {
                         webclient.declineChallenge(params);
                     }
                 }
             }
         });
+        dialogInstance.open();
+        dialogInstance.setData("params", params);
+
+        return dialogInstance;
     },
 
     showChallenge : function(params) {
         console.log(params);
-        webclientUI.displayPlayerWindow(params.id, params);
+        webclientUI.challenges.push(webclientUI.displayPlayerWindow(params.id, params));
     },
 
     cancelChallenge: function(params) {
+        var newChalls = [];
 
+        for (var i in webclientUI.challenges) {
+            var chall = webclientUI.challenges[i];
+
+            if (chall.params.id == params.id && chall.params.tier == params.tier) {
+                chall.setData("cancelled", true);
+                chall.close();
+            } else {
+                newChalls.push(chall);
+            }
+        }
+
+        webclientUI.challenges = newChalls;
     },
 
     updateInfo: function(id, info) {

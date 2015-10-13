@@ -95,6 +95,8 @@ function createNetwork(WebSocket) {
                 copy.clauses += mult * payload.clauses[i];
                 mult *= 2;
             }
+            console.log(payload);
+            console.log(copy);
             return 'challenge|' + JSON.stringify(copy);
         },
         kick : function(payload) {
@@ -223,6 +225,7 @@ function createNetwork(WebSocket) {
                 }
             }
             params.clauses = clauses;
+            console.log(params);
 
             webclient.dealWithChallenge(params);
         },
