@@ -94,7 +94,8 @@ module.exports = function(grunt) {
     copy: {
       fonts: {
         files: [
-          {expand: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true}
+          {expand: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true},
+          {expand: true, cwd: 'animated-battle-window/html/', src: ['**'], dest: './public/battle/'}
         ]
       }
     },

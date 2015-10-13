@@ -28,6 +28,8 @@ npm install -g grunt-cli
 In your project's directory:
 
 ```
+git submodule init
+git submodule update
 npm install
 bower install
 grunt less
@@ -35,9 +37,23 @@ grunt concat
 grunt copy
 ```
 
+**Follow** the instructions in the [battle window folder](animated-battle-window) as well! Afterwards, as well as each time the battle window is rebuilt, do:
+
+```
+grunt copy
+```
+
 You may need to run the terminal in administrative mode (Windows) or do commands with sudo (Linux).
 
-Open a terminal in the project directory and type the `grunt` command. It'll update automatically when files are changed.
+Open a terminal in the project directory and type the `grunt` command. It'll update automatically when `css` and `js` files are changed.
+
+Basic explanation of the commmands:
+
+* `npm install`: To run when nodejs dependencies are updated, aka `package.json` is changed
+* `bower install`: To run when new libraries are downloaded via bower, aka `bower.json` is changed
+* `grunt less`: To run when `.less` files are changed, generates the `.css` files.
+* `grunt concat`: To run when the `.js` files are updated. Generates the aggregated `.js` files as well as the `.html` files
+* `grunt copy`: To run once after `bower install` to copy bootstrap fonts to the `public/` folder. Also copies animated battle window files to `public/battle`.
 
 ### Running
 
