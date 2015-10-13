@@ -73,6 +73,8 @@ function BattleTab(id) {
         rows[spot].find(".trainer-name").text(name);
     }).on("choicesavailable", function() {
         self.enableChoices();
+    }).on("teampreview", function(team1, team2) {
+        self.showTeamPreview(team1, team2);
     });
 
     this.chat.on("chat", function(msg) {
@@ -87,6 +89,9 @@ function BattleTab(id) {
     if (this.isBattle() && !this.battle.choicesAvailable) {
         this.disableChoices();
     }
+
+    this.battle.allowStart();
+
     //layout.find('[data-toggle="tooltip"]').tooltip();
 };
 
@@ -94,11 +99,75 @@ utils.inherits(BattleTab, BaseTab);
 
 BattleTab.prototype.disableChoices = function() {
     this.switchRow.find(".battle-poke").attr("disabled", "disabled");
-}
+};
 
 BattleTab.prototype.enableChoices = function() {
     this.switchRow.find(".battle-poke").removeAttr("disabled");
-}
+};
+
+BattleTab.prototype.showTeamPreview = function(team1, team2) {
+    var self = this;
+
+    var selected = -1;
+    var row = $("<div>").attr("data-toggle", "buttons").addClass("btn-group-justified team-preview-row");
+    for (var i  = 0; i < 6; i++) {
+        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", pokeinfo.icon(team1[i]))).attr("slot", i);
+        poke.append("<br/>").append($("<smaller>").text("Lv. " + team1[i].level));
+        row.append(poke);
+    }
+
+    row.on("click", "span.team-preview-poke", function(event) {
+        var clicked = $(this).attr("slot");
+
+        if (clicked == selected) {
+            selected = -1;
+        } else if (selected == -1) {
+            selected = clicked;
+        } else {
+            row.find("span.team-preview-poke").removeClass("active");
+
+            var sel = row.find("span.team-preview-poke[slot=" + selected + "]");
+            var s1 = $(this).clone();
+            var s2 = sel.clone();
+
+            $(this).replaceWith(s2);
+            sel.replaceWith(s1);
+
+            selected = -1;
+
+            return false;
+        }
+    });
+
+    var row2 = $("<div>").addClass("btn-group-justified team-preview-row");
+    for (var i  = 0; i < 6; i++) {
+        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").attr("disabled", "disabled").append($("<img>").attr("src", pokeinfo.icon(team2[i])));
+        poke.append("<br/>").append($("<smaller>").text("Lv. " + team2[i].level));
+        row2.append(poke);
+    }
+
+    BootstrapDialog.show({
+        title: "Team preview",
+        message: $("<div>").append(row).append(row2),
+        buttons: [
+            {
+                label: 'Done',
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            }
+        ],
+        onhidden: function(dialogItself) {
+            //Send team preview
+            var order = [];
+            for (var i = 0; i < 6; i++) {
+                order.push(row.find(".team-preview-poke:eq("+i+")").attr("slot"));
+            }
+
+            self.onControlsChooseTeamPreview(order);
+        }
+    });
+};
 
 BattleTab.prototype.print = function(msg, args) {
     var linebreak = true;
@@ -217,7 +286,7 @@ BattleTab.prototype.onControlsChooseSwitch = function(slot) {
     this.choose(choice);
 };
 
-BattleTab.prototype.onControlsChooseTeamPreview = function($obj) {
+BattleTab.prototype.onControlsChooseTeamPreview = function(neworder) {
     var choice = {"type":"rearrange", "slot":this.myself, "neworder": neworder};
     this.choose(choice);
 };
@@ -236,6 +305,7 @@ BattleTab.prototype.getPlayers = function() {
 
 BattleTab.prototype.choose = function(choice)
 {
+    console.log("choose");
     console.log({id: this.id, choice: choice});
     this.battle.choicesAvailable = false;
     this.disableChoices();
@@ -301,7 +371,7 @@ BattleTab.clauses = {
     4: "Challenge Cup",
     5: "No Timeout",
     6: "Species Clause",
-    7: "Wifi Battle",
+    7: "Team Preview",
     8: "Self-KO Clause",
     9: "Inverted Clause"
 };

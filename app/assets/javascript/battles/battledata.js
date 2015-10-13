@@ -132,7 +132,11 @@ battledata.slot = function(spot) {
 };
 
 battledata.tpoke = function(spot) {
-    return this.teams[this.player(spot)][this.slot(spot)];
+    if (arguments.length == 1) {
+        return this.teams[this.player(spot)][this.slot(spot)];
+    } else {
+        return this.teams[arguments[0]][arguments[1]];
+    }
 };
 
 battledata.updateFieldPoke = function(spot) {
@@ -141,6 +145,14 @@ battledata.updateFieldPoke = function(spot) {
 battledata.updateTeamPokes = function(player, pokes) {
     this.trigger("updateteampokes", player, pokes);
 };
+
+battledata.allowStart = function() {
+    this.canStart = true;
+
+    if (!this.paused) {
+        this.readQueue();
+    }
+}
 
 battledata.pause = function() {
     this.paused = true;
@@ -152,7 +164,7 @@ battledata.unpause = function() {
 };
 
 battledata.readQueue = function() {
-    if (this.queue.length == 0 || this.readingQueue) {
+    if (this.queue.length == 0 || this.readingQueue ||!this.canStart) {
         return;
     }
 
@@ -176,7 +188,7 @@ battledata.readQueue = function() {
    Calls the appropriate function from battle/commandshandling.js to handle it.
  */
 battledata.dealWithCommand = function(params) {
-    if (this.paused && !(params.command in BattleData.immediateCommands)) {
+    if ((this.paused || !this.canStart) && !(params.command in BattleData.immediateCommands)) {
         this.queue.push(params);
         return;
     }

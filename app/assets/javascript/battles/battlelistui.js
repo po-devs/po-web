@@ -40,6 +40,8 @@ battlelist.addBattle = function(id) {
         if (battle.battle.tier) {
             this.changeName(id, battle.battle.tier);
         }
+
+        webclientUI.switchToTab("battle-"+id);
     }
 };
 

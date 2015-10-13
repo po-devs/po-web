@@ -57,18 +57,26 @@ battledata.dealWithSendback = function(params) {
 };
 
 battledata.dealWithTeampreview = function(params) {
+    console.log("Team preview");
+    console.log(params);
     var team = params.team;
     var player = params.player;
 
-/*    for (var i = 0; i < team.length; i++) {
-        this.addCommand(["poke", this.spotToPlayer(player), this.pokemonToPS(team[i])]);
-    }*/
+    var yourTeam = [];
+    var oppTeam = [];
+    for (var i = 0; i< 6; i++) {
+        yourTeam.push(pokeinfo.name(this.tpoke(this.myself, i)));
+        oppTeam.push(pokeinfo.name(team[i]));
+    }
 
-    /* triggers the display */
-//    this.addCommand(["teampreview"]);
+    this.print("<strong>Your team: </strong>" + yourTeam.join(" / "));
+    this.print("<strong>Opponent's team: </strong>" + oppTeam.join(" / "));
+    this.print("");
 
     /* triggers the choice */
-    //this.teamPreview = true;
+    this.teamPreview = true;
+
+    this.trigger("teampreview", this.teams[this.myself], team);
 };
 
 battledata.dealWithPpchange = function(params) {
@@ -76,6 +84,9 @@ battledata.dealWithPpchange = function(params) {
 };
 
 battledata.dealWithOfferchoice = function(params) {
+    console.log("Choice");
+    console.log(params);
+
     this.choices[params.choice.slot] = params.choice;
 
     /* Force the user to switch */
@@ -401,6 +412,7 @@ battledata.dealWithRated = function(params) {
 
 battledata.dealWithChoiceselection = function(params) {
     if (this.isBattle() && this.player(params.spot) == this.myself) {
+        console.log("Make your move!");
         this.choicesAvailable = true;
         console.log("Choices availabled");
         this.trigger("choicesavailable");
@@ -410,6 +422,7 @@ battledata.dealWithChoiceselection = function(params) {
 /* When we send a wrong choice */
 battledata.dealWithChoicecancellation = function(params) {
     if (this.isBattle() && params.player == this.myself) {
+        console.log("Make your move!");
         this.choicesAvailable = true;
         console.log("Choices availabled");
         this.trigger("choicesavailable");
