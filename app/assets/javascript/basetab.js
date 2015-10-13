@@ -24,22 +24,22 @@ BaseTab.makeName = function(name) {
 };
 
 BaseTab.prototype.setCurrentTab = function() {
-	if (this.tab) {
+    if (this.tab) {
         $(".tab").removeClass("current");
         this.tab.addClass("current");
     }
 
     if (this.isCurrent()) {
-		return;
-	}
+        return;
+    }
 
     $("#" + this.shortHand + "-" + this.id).removeClass("tab-active tab-flash");
-	$("#po-tabs-list li").removeClass("po-tab-current");
+    $("#po-tabs-list li").removeClass("po-tab-current");
     $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current");
 
-	webclient.currentTab = this;
+    webclient.currentTab = this;
 
-	webclientUI.players.setPlayers(this.getPlayers());
+    webclientUI.players.setPlayers(this.getPlayers());
 
     this.onSetCurrent();
 };

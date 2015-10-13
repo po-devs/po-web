@@ -20,7 +20,7 @@ var webclient = {
         network.command("player", {"id": id});
     },
 
-	onConnected: function() {
+    onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
 
         var loginInfo = {version:1};
@@ -65,7 +65,7 @@ var webclient = {
                 }
             });
         }
-	},
+    },
 
     challenge: function(id, params) {
         //network.send("challengeplayer", {"id": id, "team": 0, "clauses": clauses, "tier": tier });
@@ -108,35 +108,35 @@ var webclient = {
         console.log("accepting " + JSON.stringify(params));
     },
 
-	onChat: function(params) {
-		var chan = webclientUI.channels.channel(params.channel);
+    onChat: function(params) {
+        var chan = webclientUI.channels.channel(params.channel);
 
         if ((params.channel == -1 && params.message.charAt(0) != "~") || !chan) {
             webclientUI.printMessage(params.message, params.html);
         } else {
             chan.printMessage(params.message, params.html);
         }
-	},
+    },
 
-	print: function(msg) {
-		console.log(msg);
-	},
+    print: function(msg) {
+        console.log(msg);
+    },
 
-	sendMessage: function (message, id) {
-		network.command('chat', {channel: id, message: message});
-	    // if (!network.isOpen()) {
-	    //     webclient.printRaw("ERROR: Connect to the relay station before sending a message.");
-	    //     return;
-	    // }
+    sendMessage: function (message, id) {
+        network.command('chat', {channel: id, message: message});
+        // if (!network.isOpen()) {
+        //     webclient.printRaw("ERROR: Connect to the relay station before sending a message.");
+        //     return;
+        // }
 
-	    // if (/^send-channel-/.test(id)) {
-	    //     webclient.channels.channel(+id.replace('send-channel-', '')).sendMessage(message);
-	    // } else if (/^send-pm-/.test(id)) {
-	    //     webclient.pms.pm(+id.replace('send-pm-', '')).sendMessage(message);
-	    // } else if(/^send-battle-/.test(id)) {
-	    //     battles.battles[(+id.replace('send-battle-', ''))].sendMessage(message);
-	    // }
-	},
+        // if (/^send-channel-/.test(id)) {
+        //     webclient.channels.channel(+id.replace('send-channel-', '')).sendMessage(message);
+        // } else if (/^send-pm-/.test(id)) {
+        //     webclient.pms.pm(+id.replace('send-pm-', '')).sendMessage(message);
+        // } else if(/^send-battle-/.test(id)) {
+        //     battles.battles[(+id.replace('send-battle-', ''))].sendMessage(message);
+        // }
+    },
 
     sendPM: function (message, id) {
         var lines = message.trim().split('\n'),
@@ -176,7 +176,7 @@ $(function() {
 
     webclient.channels.joinChannel(0);
 
-	serverConnect();
+    serverConnect();
 });
 
 window.webclient = webclient;

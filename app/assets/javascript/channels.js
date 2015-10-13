@@ -9,9 +9,12 @@ function ChannelData(id, name) {
 var channeldata = ChannelData.prototype;
 
 channeldata.setPlayers = function(ids) {
+    
+    this.loadingPlayers = true;
     for (x in ids) {
         this.newPlayer(ids[x]);
     }
+    this.loadingPlayers = false;
 
     this.trigger("setplayers", ids)
 };
