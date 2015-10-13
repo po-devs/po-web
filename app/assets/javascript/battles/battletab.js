@@ -331,6 +331,8 @@ BattleTab.prototype.onControlsChooseSwitch = function(slot) {
 };
 
 BattleTab.prototype.onControlsChooseTeamPreview = function(neworder) {
+    this.updateTeamPokes(this.myself);
+
     var choice = {"type":"rearrange", "slot":this.myself, "neworder": neworder};
     this.choose(choice);
 };
