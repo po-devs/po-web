@@ -29,14 +29,31 @@ var  queryField = function (key, default_,query) {
 
 var battleId = queryField("battle");
 var battle = window.top.webclient.battles.battle(battleId);
+var pokeinfo = window.top.pokeinfo;
 
 /* Code after the page is loaded, to show that we can access data from the javascript variable of the parent window! */
-window.onload = function() {
-  document.getElementById("battle-conf").innerHTML = JSON.stringify(battle.conf);
+/*window.onload = function() {
+  document.getElementById("battle-conf").innerHTML = JSON.stringify(battle.conf);*/
 }
 </script>
-
+<div align="center" id="embed-html"></div>
+<script type="text/javascript" src="public/battle/html/html.nocache.js"></script>
 <p id="battle-conf"></p>
 
 </body>
+
+<script>
+    function handleMouseDown(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        evt.target.style.cursor = 'default';
+    }
+    function handleMouseUp(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        evt.target.style.cursor = '';
+    }
+    document.getElementById('embed-html').addEventListener('mousedown', handleMouseDown, false);
+    document.getElementById('embed-html').addEventListener('mouseup', handleMouseUp, false);
+</script>
 </html>
