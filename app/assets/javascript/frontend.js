@@ -107,8 +107,8 @@ var webclientUI = {
                     var params = {"team": 0, "mode": 0};
                     params.clauses = [];
 
-                    for (var i = 0; i < BattleTab.length; i = i+1) {
-                        params.clauses.push($("input:eq(" + i + ")").prop("checked") ? 1 : 0);
+                    for (var i in BattleTab.clauses) {
+                        params.clauses.push(clauses.find("input:eq(" + i + ")").prop("checked") ? 1 : 0);
                     }
                     params.tier = info.find("#opp-team").val();
 
