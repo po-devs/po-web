@@ -78,10 +78,90 @@
 }
 
 /* Allow to still see which button was selected even when disabled */
-.battle-poke.active[disabled]{
+.battle-poke.active[disabled], .battle-move.active[disabled]{
     background-color: #D4D4D4 !important;
 }
 
-.team-preview-row {
+.team-preview-row, .battle-attackrow {
 	border-spacing: 15px;
+}
+
+.battle-attackrow, .battle-switchrow {
+    width: 600px;
+}
+
+.battle-move.type-bug {
+    background: linear-gradient(to bottom, #a8b820, #748016);
+}
+
+.battle-move.type-curse {
+    background: linear-gradient(to bottom, #68a090, #4B7367);
+}
+
+.battle-move.type-dark {
+    background: linear-gradient(to bottom, #705848, #332821);
+}
+
+.battle-move.type-dragon {
+    background: linear-gradient(to bottom, #7038F8, #452399);
+}
+
+.battle-move.type-electric {
+    background: linear-gradient(to bottom, #f8d030, #B39623);
+}
+
+.battle-move.type-fairy {
+    background: linear-gradient(to bottom, #f088f6, #ec47f6);
+}
+
+.battle-move.type-fighting {
+    background: linear-gradient(to bottom, #c03028, #80201B);
+}
+
+.battle-move.type-fire {
+    background: linear-gradient(to bottom, #f08030, #B35F24);
+}
+
+.battle-move.type-flying {
+    background: linear-gradient(to bottom, #a890f0, #7D6BB3);
+}
+
+.battle-move.type-ghost {
+    background: linear-gradient(to bottom, #705898, #4B3B66);
+}
+
+.battle-move.type-grass {
+    background: linear-gradient(to bottom, #78c850, #4D8033);
+}
+
+.battle-move.type-ground {
+    background: linear-gradient(to bottom, #e0c068, #B39953);
+}
+
+.battle-move.type-ice {
+    background: linear-gradient(to bottom, #98d8d8, #6C9999);
+}
+
+.battle-move.type-normal {
+    background: linear-gradient(to bottom, #a8a878, #80805B);
+}
+
+.battle-move.type-poison {
+    background: linear-gradient(to bottom, #a040a0, #662966);
+}
+
+.battle-move.type-psychic {
+    background: linear-gradient(to bottom, #f85888, #CC4870);
+}
+
+.battle-move.type-rock {
+    background: linear-gradient(to bottom, #b8a038, #99852F);
+}
+
+.battle-move.type-steel {
+    background: linear-gradient(to bottom, #b8b8d0, #9393A6);
+}
+
+.battle-move.type-water {
+    background: linear-gradient(to bottom, #6890f0, #4D6BB3);
 }

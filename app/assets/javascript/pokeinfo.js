@@ -600,6 +600,13 @@ typeinfo.name = function(type) {
     return pokedex.types.types[type];
 };
 
+typeinfo.css = function(type) {
+    if (type == 18) {
+        return "curse";
+    }
+    return pokedex.types.types[type].toLowerCase();
+};
+
 typeinfo.categoryList = function() {
     return pokedex.types.category;
 };

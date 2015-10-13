@@ -80,7 +80,10 @@ battledata.dealWithTeampreview = function(params) {
 };
 
 battledata.dealWithPpchange = function(params) {
-    this.teams[Math.floor(params.spot/2)].moves[params.move].pp = params.pp;
+    console.log(params);
+    this.teams[this.player(params.spot)][this.slot(params.spot)].moves[params.move].pp = params.pp;
+
+    this.trigger("ppchange", params);
 };
 
 battledata.dealWithOfferchoice = function(params) {

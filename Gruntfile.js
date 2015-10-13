@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   var poke_base_db = [
     './db/moves/moves.js',
     './db/moves/move_message.js',
+    './db/moves/type.js',
     './db/pokes/pokemons.js',
     './db/generations.js',
     './db/generations.options.js',

@@ -61,8 +61,24 @@ function BattleTab(id) {
                 self.onControlsChooseSwitch(+$(this).attr("slot"));
             });
         }
-        layout.find(".battle-view").append(pokeRow);
         this.switchRow = pokeRow;
+
+        var moveRow = $("<div>").addClass("battle-attackrow btn-group-justified").attr("data-toggle", "buttons");
+        for (var i in this.battle.teams[this.myself][0].moves) {
+            var item = $("<span>").addClass("btn btn-default battle-move").append($("<input type='radio'>")).append($("<span>").addClass("battle-move-text")).attr("slot", i);
+            moveRow.append(item);
+
+            item.on("click", function(event) {
+                if (!self.battle.choicesAvailable) {
+                    return false;
+                }
+
+                self.onControlsChooseMove(+$(this).attr("slot"));
+            });
+        }
+        this.attackRow = moveRow;
+
+        layout.find(".battle-view").append(moveRow).append(pokeRow);
     }
 
     this.updateTeamPokes(this.myself);
@@ -99,10 +115,14 @@ utils.inherits(BattleTab, BaseTab);
 
 BattleTab.prototype.disableChoices = function() {
     this.switchRow.find(".battle-poke").attr("disabled", "disabled");
+    this.attackRow.find(".battle-move").attr("disabled", "disabled");
 };
 
 BattleTab.prototype.enableChoices = function() {
     this.switchRow.find(".battle-poke").removeAttr("disabled");
+    this.attackRow.find(".battle-move").removeAttr("disabled");
+
+    this.updateMoveChoices();
 };
 
 BattleTab.prototype.showTeamPreview = function(team1, team2) {
@@ -129,6 +149,12 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
             var sel = row.find("span.team-preview-poke[slot=" + selected + "]");
             var s1 = $(this).clone();
             var s2 = sel.clone();
+
+            var team = self.battle.teams[self.myself];
+            var p1 = team[clicked];
+            var p2 = team[selected];
+            team[clicked] = p2;
+            team[selected] = p1;
 
             $(this).replaceWith(s2);
             sel.replaceWith(s1);
@@ -261,8 +287,27 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
                 $ct.find("img").attr("src", pokeinfo.icon(tpok));
                 var text = tpok.name + "<br/>" + tpok.life + "/" + tpok.totalLife;
                 $ct.find(".battle-poke-text").html(text);
+
+                if (pokes[i] == 0) {
+                    this.updateMoveChoices();
+                }
             }
         }
+    }
+};
+
+BattleTab.prototype.updateMoveChoices = function() {
+    var moves = this.battle.teams[this.myself][0].moves;
+    for (var i in moves) {
+        /* Also move.pp, move.totalpp */
+        var move = moves[i];
+        var $move = this.attackRow.find(".battle-move:eq("+i+")");
+        $move.find(".battle-move-text").text(moveinfo.name(move.move));
+        $move.removeClass($move.attr("typeclass") || "");
+
+        var cl = "type-" + typeinfo.css(moveinfo.type(move.move)).toLowerCase()
+        $move.attr("typeclass", cl);
+        $move.addClass(cl);
     }
 };
 
@@ -270,9 +315,8 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
  * Called when a chooseMove button is clicked
  * @param $obj The button jquery object
  */
-BattleTab.prototype.onControlsChooseMove = function($obj) {
-    console.log ("move " + $obj.attr("slot") + " ( " + $obj.attr("value") + ") called");
-    var choice = {"type":"attack", "slot":this.myself, "attackSlot": + $obj.attr("slot")};
+BattleTab.prototype.onControlsChooseMove = function(slot) {
+    var choice = {"type":"attack", "slot":this.myself, "attackSlot": slot};
     this.choose(choice);
 };
 
