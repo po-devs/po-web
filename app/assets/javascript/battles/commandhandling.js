@@ -7,6 +7,10 @@ battledata.dealWithTurn = function(params) {
 
 battledata.dealWithBlank = function(params) {
     this.print("");
+
+    var self = this;
+    this.pause();
+    setTimeout(function(){self.unpause();}, 600);
 };
 
 battledata.dealWithSend = function(params) {
