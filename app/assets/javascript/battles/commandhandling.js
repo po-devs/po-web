@@ -119,6 +119,8 @@ battledata.dealWithHpchange = function(params) {
     this.damageCause = {};
     */
     //this.animator.on("hpchange", params.spot, current, this.pokes[params.spot].percent);
+    var change = current - this.pokes[params.spot].percent;
+    /* Woudln't something with old & new HP be more prudent, like the commented line above? */
     this.trigger("hpchange", this.player(params.spot), change);
 };
 
@@ -407,7 +409,7 @@ battledata.dealWithChoiceselection = function(params) {
 
 /* When we send a wrong choice */
 battledata.dealWithChoicecancellation = function(params) {
-    if (params.player == this.myself) {
+    if (this.isBattle() && params.player == this.myself) {
         this.choicesAvailable = true;
         console.log("Choices availabled");
         this.trigger("choicesavailable");

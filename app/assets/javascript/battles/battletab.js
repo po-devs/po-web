@@ -84,7 +84,7 @@ function BattleTab(id) {
     this.print("<strong>Battle between " + this.battle.name(0) + " and " + this.battle.name(1) + " just started!</strong><br />");
     this.print("<strong>Mode:</strong> " + BattleTab.modes[conf.mode]);
 
-    if (!this.battle.choicesAvailable) {
+    if (this.isBattle() && !this.battle.choicesAvailable) {
         this.disableChoices();
     }
     //layout.find('[data-toggle="tooltip"]').tooltip();
