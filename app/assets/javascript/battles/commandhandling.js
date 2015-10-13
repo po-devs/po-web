@@ -189,6 +189,7 @@ battledata.dealWithStatus = function(params) {
 
     this.print(messages[params.status].replace("%1", this.nick(params.spot)));
 
+        this.trigger("statuschange", this.player(params.spot), params.status);
     //this.damageCause = {};
 };
 
@@ -229,7 +230,6 @@ battledata.dealWithStatusdamage = function(params) {
             this.print(this.nick(params.spot) + " was hurt by poison!");
         }
     }
-    this.trigger("statuschange", this.player(params.spot), params.status);
     //this.damageCause.from = BattleTab.statuses[params.status];
 };
 
