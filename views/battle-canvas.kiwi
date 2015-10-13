@@ -31,10 +31,6 @@ var battleId = queryField("battle");
 var battle = window.top.webclient.battles.battle(battleId);
 var pokeinfo = window.top.pokeinfo;
 
-/* Code after the page is loaded, to show that we can access data from the javascript variable of the parent window! */
-/*window.onload = function() {
-  document.getElementById("battle-conf").innerHTML = JSON.stringify(battle.conf);*/
-}
 </script>
 <div align="center" id="embed-html"></div>
 <script type="text/javascript" src="public/battle/html/html.nocache.js"></script>
