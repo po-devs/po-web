@@ -33,6 +33,8 @@ battledata.dealWithSend = function(params) {
 
     this.updateFieldPoke(params.spot);
     this.updateTeamPokes(pl, [this.slot(params.spot), params.slot]);
+    
+    this.trigger("sendout", pl);
 
     if (pokeinfo.name(poke) == poke.name) {
         this.print(this.name(pl) + " sent out " + poke.name + "!");
@@ -50,6 +52,8 @@ battledata.dealWithSendback = function(params) {
     if (!params.silent) {
         this.print(this.name(pl) + " called " + poke.name + " back!");
     }
+    
+    this.trigger("sendback", pl);
 };
 
 battledata.dealWithTeampreview = function(params) {
@@ -83,6 +87,8 @@ battledata.dealWithKo = function(params) {
     this.print("<strong>" + this.nick(params.spot) + " fainted!</strong>");
 
     this.pokes[params.spot].status = 31; //ko
+    
+    this.trigger("ko", this.player(params.spot));
 };
 
 battledata.dealWithMove = function(params) {
@@ -113,6 +119,7 @@ battledata.dealWithHpchange = function(params) {
     this.damageCause = {};
     */
     //this.animator.on("hpchange", params.spot, current, this.pokes[params.spot].percent);
+    this.trigger("hpchange", this.player(params.spot), change);
 };
 
 battledata.dealWithHitcount = function(params) {
@@ -220,6 +227,7 @@ battledata.dealWithStatusdamage = function(params) {
             this.print(this.nick(params.spot) + " was hurt by poison!");
         }
     }
+    this.trigger("statuschange", this.player(params.spot), params.status);
     //this.damageCause.from = BattleTab.statuses[params.status];
 };
 

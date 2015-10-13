@@ -15,6 +15,7 @@ battledata.print = function(msg, args) {
 };
 
 battledata.start = function(data) {
+    this.pause();
     this.addData(data);
 
     var conf = this.conf;
