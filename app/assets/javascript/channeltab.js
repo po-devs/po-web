@@ -83,7 +83,7 @@ channeltab.setPlayers = function (players) {
 channeltab.newPlayer = function (player) {
     //this.players[player] = true;
 
-    if (webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
+    if (player != webclient.ownId && webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
         this.printHtml('<span class="player-join">' + utils.escapeHtml(webclient.players.name(player)) + ' joined the channel.');
     }
 
