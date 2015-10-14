@@ -20,7 +20,7 @@ function createNetwork(WebSocket) {
         },
         // ?
         teamchange: function (payload) {
-            return 'teamChange|' + JSON.stringify(payload);
+            return 'teamchange|' + JSON.stringify(payload);
         },
         // battle: number
         watch: function (payload) {

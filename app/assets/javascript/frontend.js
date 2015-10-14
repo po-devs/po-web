@@ -256,6 +256,47 @@ var webclientUI = {
             }
         });
         return element;
+    }, 
+
+    showSettings : function() {
+        var content = $("<div>");
+        BootstrapDialog.show({
+            "title": "Settings for " + webclient.ownName(),
+            "message": content.load("settings.html", function(response, status) {
+                if (status == "error") {
+                    //todo, error details can be gotten from arguments[2]
+                    return;
+                }
+                content.find("#username").val(poStorage.get("user") || "");
+                content.find("#usercolor").val(poStorage.get("player.color") || "");
+                content.find("#userinfo").val(poStorage.get("player.info") || "");
+            }),
+            "buttons": [ {
+                    label: "Update",
+                    action: function(dialogItself) {
+                        var userName = content.find("#username").val();
+                        var userColor = content.find("#usercolor").val();
+                        var userInfo = content.find("#userinfo").val()
+                        poStorage.set("user", userName);
+                        poStorage.set("player.color", userColor);
+                        poStorage.set("player.info", userInfo);
+
+                        var update = {};
+
+                        if (userName != webclient.ownName()) {
+                            update.name = userName;
+                        }
+                        if (userColor != webclient.players.color(webclient.ownId()) && userColor) {
+                            update.color = userColor;
+                        }
+                        if (userInfo != webclient.ownPlayer().info && userInfo) {
+                            update.info = userInfo;
+                        }
+                        network.command("teamchange", update);
+                    }
+                }
+            ]
+        });
     }
 };
 
@@ -330,6 +371,8 @@ $(function() {
                 webclientUI.displayPlayerWindow(+payload);
             } else if (cmd == "chanevents") {
                 webclientUI.channels.toggleChanEvents(payload);
+            } else if (cmd == "settings") {
+                webclientUI.showSettings();
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {
