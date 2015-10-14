@@ -78,7 +78,18 @@ function BattleTab(id) {
         }
         this.attackRow = moveRow;
 
-        layout.find(".battle-view").append(moveRow).append(pokeRow);
+        var tabs = '\
+            <div class="btn-group" data-toggle="buttons">\
+                <a href="#moves-' + id + '" class="btn btn-default active" data-toggle="tab">\
+                    <input type="radio">Attack</a>\
+                <a href="#switch-' + id + '" class="btn btn-default" data-toggle="tab">\
+                    <input type="radio">Switch</a>\
+            </div>';
+
+        moveRow.addClass("tab-pane active").attr("id", "moves-" + id);
+        pokeRow.addClass("tab-pane").attr("id", "switch-" + id);
+
+        layout.find(".battle-view").append(tabs).append($("<div>").addClass("tab-content").append(moveRow).append(pokeRow));
     }
 
     this.updateTeamPokes(this.myself);
@@ -119,8 +130,8 @@ BattleTab.prototype.disableChoices = function() {
 };
 
 BattleTab.prototype.enableChoices = function() {
-    this.switchRow.find(".battle-poke").removeAttr("disabled");
-    this.attackRow.find(".battle-move").removeAttr("disabled");
+    this.switchRow.find(".battle-poke").removeAttr("disabled").removeClass("active");
+    this.attackRow.find(".battle-move").removeAttr("disabled").removeClass("active");
 
     this.updateMoveChoices();
 };

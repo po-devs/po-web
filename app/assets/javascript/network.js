@@ -362,7 +362,7 @@ function createNetwork(WebSocket) {
         optionschange: function (payload) {
             webclient.players.optionsChange(JSON.parse(payload));
         },
-        teamtiers: function(object) {
+        teamtiers: function(payload) {
             webclient.ownTiers = JSON.parse(payload);
         }
     };

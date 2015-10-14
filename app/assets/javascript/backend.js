@@ -42,7 +42,7 @@ var webclient = {
         }
 
         loginInfo.color = poStorage.get('player.color') || "";
-        loginInfo.info = poStorage.get('player.info') || "";
+        loginInfo.info = {"avatar": 167, "info": poStorage.get('player.info')};
         
         if (loginInfo.name) {
             network.command('login', loginInfo);
