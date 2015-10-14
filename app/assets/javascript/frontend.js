@@ -290,7 +290,7 @@ var webclientUI = {
                             update.color = userColor;
                         }
                         if (userInfo != webclient.ownPlayer().info && userInfo) {
-                            update.info = userInfo;
+                            update.info = {"avatar": 0, "info": userInfo};
                         }
                         network.command("teamchange", update);
                     }
