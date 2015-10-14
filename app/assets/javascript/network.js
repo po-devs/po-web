@@ -357,10 +357,13 @@ function createNetwork(WebSocket) {
             $("#rankings").html(html);
         },
         tiers: function (payload) {
-            window.tiersList = JSON.parse(payload);
+            webclient.tiersList = JSON.parse(payload);
         },
         optionschange: function (payload) {
             webclient.players.optionsChange(JSON.parse(payload));
+        },
+        teamtiers: function(object) {
+            webclient.ownTiers = JSON.parse(payload);
         }
     };
 
@@ -393,7 +396,9 @@ function createNetwork(WebSocket) {
         channelbattle: parsers.channelbattle,
         channelbattlelist: parsers.channelbattlelist,
         optionschange: parsers.optionschange,
-        unregistered: parsers.unregistered
+        unregistered: parsers.unregistered,
+        tiers: parsers.tiers,
+        teamtiers: parsers.teamtiers
     };
 
     function Network() {

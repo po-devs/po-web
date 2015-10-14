@@ -56,10 +56,20 @@ var webclientUI = {
         info = $("<div class='flex-column'>").append(firstRow).append(info);
 
         var ownTeams = info.find("#your-team");
-        var ownPl = webclient.ownPlayer();
-        for (tier in ownPl.ratings) {
-            ownTeams.append($("<option>").text(tier));
+        if (!webclient.ownTiers) {
+            /* Todo: remove this code, obsolete in the future */
+            var ownPl = webclient.ownPlayer();
+            for (tier in ownPl.ratings) {
+                ownTeams.append($("<option>").text(tier).attr("value", 0));
+            }
+        } else {
+            for (var i in webclient.ownTiers) {
+                if (webclient.ownTiers[i].toLowerCase() == params.tier.toLowerCase()) {
+                    ownTeams.append($("<option>").text("Team " + (i+1) + ": " + webclient.ownTiers[i]).attr("value", i));
+                }
+            }
         }
+        
 
         if (params.hasOwnProperty("opptier")) {
             var oppTeams = info.find("#opp-team");
@@ -112,6 +122,7 @@ var webclientUI = {
                         params.clauses.push(clauses.find("input:eq(" + i + ")").prop("checked") ? 1 : 0);
                     }
                     params.tier = info.find("#opp-team").val();
+                    params.team = info.find("#your-team").val();
 
                     webclient.challenge(id, params);
                     dialogItself.close();
@@ -128,6 +139,7 @@ var webclientUI = {
             }, {
                 label: 'Accept',
                 action: function(dialogItself){
+                    params.team = info.find("#your-team").val();
                     webclient.acceptChallenge(params);
                     dialogItself.setData("accepted", true);
                     dialogItself.close();
@@ -136,7 +148,7 @@ var webclientUI = {
         }
 
         var dialogInstance = new BootstrapDialog({
-            title: utils.escapeHtml(webclient.players.name(id)) + (params.desc? " challenged you!" : ""),
+            title: utils.escapeHtml(webclient.players.name(id)) + (params.desc? " challenged you in " + params.tier + "!" : ""),
             message: fullInfo,
             "buttons": buttons ,
             onhidden: function(dialogItself) {
