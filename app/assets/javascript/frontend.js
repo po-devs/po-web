@@ -64,8 +64,8 @@ var webclientUI = {
             }
         } else {
             for (var i in webclient.ownTiers) {
-                if (webclient.ownTiers[i].toLowerCase() == params.tier.toLowerCase()) {
-                    ownTeams.append($("<option>").text("Team " + (i+1) + ": " + webclient.ownTiers[i]).attr("value", i));
+                if (!params.desc || webclient.ownTiers[i].toLowerCase() == params.tier.toLowerCase()) {
+                    ownTeams.append($("<option>").text("Team " + ((+i)+1) + ": " + webclient.ownTiers[i]).attr("value", i));
                 }
             }
         }
@@ -262,18 +262,26 @@ var webclientUI = {
         var content = $("<div>");
         BootstrapDialog.show({
             "title": "Settings for " + webclient.ownName(),
-            "message": content.load("settings.html", function(response, status) {
-                if (status == "error") {
-                    //todo, error details can be gotten from arguments[2]
-                    return;
-                }
-                content.find("#username").val(poStorage.get("user") || "");
-                content.find("#usercolor").val(poStorage.get("player.color") || "");
-                content.find("#userinfo").val(poStorage.get("player.info") || "");
-            }),
+            "message": function(dialogItself) {
+                content.load("settings.html", function(response, status) {
+                    if (status == "error") {
+                        dialogItself.setData("error", true);
+                        //todo, error details can be gotten from arguments[2]
+                        return;
+                    }
+                    content.find("#username").val(poStorage.get("user") || "");
+                    content.find("#usercolor").val(poStorage.get("player.color") || "");
+                    content.find("#userinfo").val(poStorage.get("player.info") || "");
+                });
+                return content;
+            },
             "buttons": [ {
                     label: "Update",
                     action: function(dialogItself) {
+                        if (dialogItself.getData("error")) {
+                            dialogItself.close();
+                            return;
+                        }
                         var userName = content.find("#username").val();
                         var userColor = content.find("#usercolor").val();
                         var userInfo = content.find("#userinfo").val()
@@ -286,13 +294,15 @@ var webclientUI = {
                         if (userName != webclient.ownName()) {
                             update.name = userName;
                         }
-                        if (userColor != webclient.players.color(webclient.ownId()) && userColor) {
+                        if (userColor != webclient.players.color(webclient.ownId) && userColor) {
                             update.color = userColor;
                         }
                         if (userInfo != webclient.ownPlayer().info && userInfo) {
-                            update.info = {"avatar": 0, "info": userInfo};
+                            update.info = {"avatar": 167, "info": userInfo};
                         }
                         network.command("teamchange", update);
+
+                        dialogItself.close();
                     }
                 }
             ]
