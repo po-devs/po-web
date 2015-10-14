@@ -40,6 +40,7 @@ module.exports = function(grunt) {
     './bower_components/bootstrap/dist/js/bootstrap.min.js',
     './bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
     './bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js',
+    './bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
     './app/assets/javascript/libs/vex.combined.min.js',
     './app/assets/javascript/utils.js',
     './app/assets/javascript/basetab.js',
@@ -94,14 +95,19 @@ module.exports = function(grunt) {
       simple_copy_settings: {
         src: ['./views/settings.kiwi'],
         dest: './settings.html'
+      },
+      simple_copy_colors: {
+        src: ['./bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'],
+        dest: './app/assets/stylesheets/bootstrap-colorpicker.less'
       }
     },
     copy: {
-      fonts: {
+      files: {
         files: [
           {expand: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true},
           {expand: true, cwd: 'animated-battle-window/html/build/dist/html/', src: ['**'], dest: './public/battle/html/'},
-          {expand: true, cwd: 'animated-battle-window/assets/', src: ['**'], dest: './public/battle/'}
+          {expand: true, cwd: 'animated-battle-window/assets/', src: ['**'], dest: './public/battle/'},
+          {expand: true, cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img/', src: ['**'], dest: './public/assets/img/'}
         ]
       }
     },

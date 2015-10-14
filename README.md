@@ -32,8 +32,8 @@ git submodule init
 git submodule update
 npm install
 bower install
-grunt less
 grunt concat
+grunt less
 grunt copy
 ```
 

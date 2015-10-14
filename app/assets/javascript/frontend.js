@@ -270,7 +270,7 @@ var webclientUI = {
                         return;
                     }
                     content.find("#username").val(poStorage.get("user") || "");
-                    content.find("#usercolor").val(poStorage.get("player.color") || "");
+                    content.find("#usercolor").val(poStorage.get("player.color") || "").colorpicker({"format":"hex"});
                     content.find("#userinfo").val(poStorage.get("player.info") || "");
                 });
                 return content;

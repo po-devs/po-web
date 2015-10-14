@@ -3,6 +3,7 @@
   "dependencies": {
     "bootstrap": "~3.3.4",
     "bootstrap-contextmenu": "~0.3.3",
-    "bootstrap3-dialog": "~1.34.6"
+    "bootstrap3-dialog": "~1.34.6",
+    "mjolnic-bootstrap-colorpicker": "~2.3.0"
   }
 }
