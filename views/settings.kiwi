@@ -1,0 +1,15 @@
+<form role="form" class="">
+  <div class="form-group">
+    <label for="#username">Username: </label>
+    <input type="text" class="form-control" id="username">
+  </div>
+  <div class="form-group">
+    <label for="usercolor">Color:</label>
+    <input type="text" class="form-control" id="usercolor">
+  </div>
+  <div class="form-group">
+    <label for="userinfo">Trainer info:</label>
+    <textarea rows="4" id="userinfo" class="form-control">
+    </textarea> 
+  </div>
+</form>

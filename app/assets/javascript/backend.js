@@ -41,7 +41,8 @@ var webclient = {
             loginInfo.idle = true;
         }
 
-        // data.color = poStorage.get('player.color');
+        loginInfo.color = poStorage.get('player.color') || "";
+        loginInfo.info = poStorage.get('player.info') || "";
         
         if (loginInfo.name) {
             network.command('login', loginInfo);

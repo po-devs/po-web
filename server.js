@@ -26,4 +26,8 @@ app.get("/battle-canvas.html", function(req, res) {
   res.render("battle-canvas.kiwi");
 });
 
+app.get("/settings.html", function(req, res) {
+  res.render("settings.kiwi");
+});
+
 app.listen(config.web.port);
