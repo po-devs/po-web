@@ -41,6 +41,7 @@ function BattleTab(id) {
     rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
     layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas").append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")).append(rows[this.myself]));
     layout.append(this.chat.element);
+    this.layout = layout;
     this.addTab(layout);
 
     this.teampokes = rows;
@@ -89,10 +90,31 @@ function BattleTab(id) {
                     <input type="radio">Switch</a>\
             </div>';
 
+        var megacancel = '\
+            <div class="btn-group pull-right" data-toggle="buttons">\
+                <span class="btn btn-default battle-mega">\
+                    <input type="checkbox">Mega</span>\
+                <span class="btn btn-default battle-struggle" disabled>\
+                    <input type="checkbox">Struggle</span>\
+                <span class="btn btn-default battle-cancel">\
+                    Cancel</span>\
+            </div>';
+
         moveRow.addClass("tab-pane active").attr("id", "moves-" + id);
         pokeRow.addClass("tab-pane").attr("id", "switch-" + id);
 
-        layout.find(".battle-view").append(tabs).append($("<div>").addClass("tab-content").append(moveRow).append(pokeRow));
+        layout.find(".battle-view").append(tabs).append(megacancel).append($("<div>").addClass("tab-content").append(moveRow).append(pokeRow));
+
+        this.megaButton = layout.find(".battle-mega");
+        this.cancelButton = layout.find(".battle-cancel");
+
+        this.cancelButton.on("click", function(event) {
+            if ($(this).attr("disabled")) {
+                return false;
+            }
+
+            self.choose({"type": "cancel", "slot": self.myself});
+        });
     }
 
     this.updateTeamPokes(this.myself);
@@ -168,11 +190,15 @@ BattleTab.prototype.addPopover = function(item, options) {
 BattleTab.prototype.disableChoices = function() {
     this.switchRow.find(".battle-poke").attr("disabled", "disabled");
     this.attackRow.find(".battle-move").attr("disabled", "disabled");
+    this.megaButton.attr("disabled", "disabled");
+    this.cancelButton.removeAttr("disabled").removeClass("active");
 };
 
 BattleTab.prototype.enableChoices = function() {
     this.switchRow.find(".battle-poke").removeAttr("disabled").removeClass("active");
     this.attackRow.find(".battle-move").removeAttr("disabled").removeClass("active");
+    this.layout.find(".battle-mega").removeAttr("disabled").removeClass("active");
+    this.layout.find(".battle-cancel").attr("disabled", "disabled").removeClass("active");
 
     this.updateMoveChoices();
 };
@@ -400,6 +426,9 @@ BattleTab.prototype.updateMoveChoices = function() {
  */
 BattleTab.prototype.onControlsChooseMove = function(slot) {
     var choice = {"type":"attack", "slot":this.myself, "attackSlot": slot};
+    if (this.megaButton.hasClass("active")) {
+        choice.mega = true;
+    }
     this.choose(choice);
 };
 
