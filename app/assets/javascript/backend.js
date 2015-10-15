@@ -31,10 +31,10 @@ var webclient = {
         // data.default = utils.queryField("channel");
         loginInfo.autojoin = poStorage("auto-join-"+webclient.serverIP, "array");
 
-        // data.ladder = poStorage.get('player.ladder', 'boolean');
-        // if (data.ladder == null) {
-        //     data.ladder = true;
-        // }
+        loginInfo.ladder = poStorage.get('player.ladder', 'boolean');
+        if (loginInfo.ladder == null) {
+            loginInfo.ladder = true;
+        }
 
         loginInfo.idle = poStorage.get('player.idle', 'boolean');
         if (loginInfo.idle == null) {
