@@ -44,6 +44,10 @@ var webclientUI = {
         var info = "Loading player info...";
         var pl = webclient.players.player(id);
 
+        if (! ("clauses" in params) ) {
+            params.clauses = poStorage.get("challenge.clauses", "array") || [];
+        }
+
         if (pl.hasOwnProperty("info")) {
             info = $('<iframe class="player-info" sandbox></iframe>').attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(pl.info)).html());
         } else {
@@ -123,6 +127,8 @@ var webclientUI = {
                     }
                     params.tier = info.find("#opp-team").val();
                     params.team = info.find("#your-team").val();
+
+                    poStorage.set("challenge.clauses", params.clauses);
 
                     webclient.challenge(id, params);
                     dialogItself.close();
