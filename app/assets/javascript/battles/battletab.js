@@ -338,6 +338,7 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
 };
 
 BattleTab.prototype.print = function(msg, args) {
+    msg = msg || "";
     var linebreak = true;
 
     /* Do not print empty message twice in a row */
