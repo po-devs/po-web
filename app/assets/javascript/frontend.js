@@ -135,6 +135,8 @@ var webclientUI = {
                     webclient.declineChallenge(params);
                     dialogItself.setData("declined", true);
                     dialogItself.close();
+
+                    webclientUI.printHtml("<span class='challenge-refused'>You refused " + webclient.players.name(params.id) + "'s challenge.</span>");
                 }
             }, {
                 label: 'Accept',
