@@ -34,8 +34,8 @@ BaseTab.prototype.setCurrentTab = function() {
     }
 
     $("#" + this.shortHand + "-" + this.id).removeClass("tab-active tab-flash");
-    $("#po-tabs-list li").removeClass("po-tab-current");
-    $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current");
+    $("#po-tabs-list a").removeClass("po-tab-current active");
+    $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current active").blur();
 
     webclient.currentTab = this;
 

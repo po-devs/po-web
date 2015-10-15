@@ -394,6 +394,8 @@ $(function() {
             } else if (cmd == "findbattle") {
                 //rated: bool, sameTier: bool, range: int
                 network.command("findbattle", {rated: false, sameTier: true});
+            } else if (cmd == "tab") {
+                webclientUI.switchToTab(payload);
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {

@@ -9,9 +9,8 @@ channellist.createChannelItem = function (id) {
     var name = webclient.channels.name(id),
         ret;
 
-    ret = "<li class='list-group-item channel-list-item' ";
-    ret += "onclick='webclientUI.switchToTab(this.id)' "
-    ret += "id='channel-"+id+"'><span class='channel-name'>#" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="webclient.leaveChannel(' + id + '); event.stopPropagation();"><span aria-hidden="true">&times;</span></button></li>';
+    ret = "<a class='list-group-item channel-list-item' href='po:tab/channel-" + id + "' ";
+    ret += "id='channel-"+id+"'><span class='channel-name'>#" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault();webclient.leaveChannel(' + id + ');;"><span aria-hidden="true">&times;</span></button></a>';
     return ret;
 };
 

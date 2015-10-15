@@ -53,7 +53,7 @@ playerlist.createPlayerItem = function (id) {
         ret += ' player-battling';
     }
 
-    ret += "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</li>";
+    ret += "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</a>";
     return ret;
 };
 

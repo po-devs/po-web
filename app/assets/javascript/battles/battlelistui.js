@@ -10,9 +10,9 @@ battlelist.createBattleItem = function (id) {
     var ret;
     name = battle.tier || ""; //better temporary name!
 
-    ret = "<li class='list-group-item battle-list-item' ";
-    ret += "onclick='webclientUI.switchToTab(this.id)' "
-    ret += "id='battle-"+id+"'><span class='glyphicon glyphicon-fire'></span>&nbsp;<span class='battle-name'>" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="webclientUI.battles.quit(' + id + '); event.stopPropagation();"><span aria-hidden="true">&times;</span></button></li>';
+    ret = "<a class='list-group-item battle-list-item' ";
+    ret += "href='tab/battle-" + id + "' "
+    ret += "id='battle-"+id+"'><span class='glyphicon glyphicon-fire'></span>&nbsp;<span class='battle-name'>" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault(); webclientUI.battles.quit(' + id + ');"><span aria-hidden="true">&times;</span></button></a>';
     return ret;
 };
 

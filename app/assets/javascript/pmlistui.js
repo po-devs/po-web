@@ -8,9 +8,9 @@ pmlist.createPMItem = function (id) {
     var name = webclient.pms.pm(id).name(),
         ret;
 
-    ret = "<li class='list-group-item pm-list-item' ";
-    ret += "onclick='webclientUI.switchToTab(this.id)' "
-    ret += "id='pm-"+id+"'><span class='glyphicon glyphicon-envelope'></span>&nbsp;" + utils.escapeHtml(name) + '<button type="button" class="close" aria-label="Close" onclick="webclientUI.pms.removePM(' + id + '); event.stopPropagation();"><span aria-hidden="true">&times;</span></button></li>';
+    ret = "<a class='list-group-item pm-list-item' ";
+    ret += "href='po:tab/pm-" + id + "' "
+    ret += "id='pm-"+id+"'><span class='glyphicon glyphicon-envelope'></span>&nbsp;" + utils.escapeHtml(name) + '<button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault(); webclientUI.pms.removePM(' + id + ');"><span aria-hidden="true">&times;</span></button></a>';
     return ret;
 };
 
@@ -33,6 +33,7 @@ pmlist.addPM = function(id) {
 };
 
 pmlist.removePM = function(id) {
+    console.log("removing pm " + id);
     if (this.hasPM(id)) {
         this.element.find("#pm-" + id).remove();
         this.pm(id).close();
