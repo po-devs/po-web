@@ -61,32 +61,7 @@ function BattleTab(id) {
                 self.onControlsChooseSwitch(+$(this).attr("slot"));
             });
 
-            item.popover({
-                trigger: "hover",
-                html: true,
-                content: function() {
-                    var slot = $(this).attr("slot");
-
-                    var poke = self.battle.teams[self.myself][slot];
-                    var html = "Item: " + iteminfo.name(poke.item) + "<br>";
-                    if (poke.ability) html += "Ability: " + abilityinfo.name(poke.ability) + "<br>";
-                    html += "<br>Moves:<br>";
-                    for (var i in poke.moves) {
-                        var move = poke.moves[i];
-                        html += "-- " + moveinfo.name(move.move) + " - " + move.pp + "/" + move.totalpp + " PP<br>";
-                    }
-
-                    return html;
-                },
-                title: function() {
-                    var slot = $(this).attr("slot");
-
-                    var poke = self.battle.teams[self.myself][slot];
-                    return pokeinfo.name(poke) + " lv. " + poke.level;
-                },
-                placement: "top",
-                container: "body"
-            });
+            this.addPopover(item);
         }
         this.switchRow = pokeRow;
 
@@ -152,6 +127,40 @@ function BattleTab(id) {
 
 utils.inherits(BattleTab, BaseTab);
 
+BattleTab.prototype.addPopover = function(item, options) {
+    options = options || {};
+
+    var self = this;
+    options = $.extend({
+        trigger: "hover",
+        html: true,
+        content: function() {
+            var slot = $(this).attr("slot");
+
+            var poke = self.battle.teams[self.myself][slot];
+            var html = "Item: " + iteminfo.name(poke.item) + "<br>";
+            if (poke.ability) html += "Ability: " + abilityinfo.name(poke.ability) + "<br>";
+            html += "<br>Moves:<br>";
+            for (var i in poke.moves) {
+                var move = poke.moves[i];
+                html += "-- " + moveinfo.name(move.move) + " - " + move.pp + "/" + move.totalpp + " PP<br>";
+            }
+
+            return html;
+        },
+        title: function() {
+            var slot = $(this).attr("slot");
+
+            var poke = self.battle.teams[self.myself][slot];
+            return pokeinfo.name(poke) + " lv. " + poke.level;
+        },
+        "placement": "top",
+        container: "body"
+    }, options);
+
+    item.popover(options);
+};
+
 BattleTab.prototype.disableChoices = function() {
     this.switchRow.find(".battle-poke").attr("disabled", "disabled");
     this.attackRow.find(".battle-move").attr("disabled", "disabled");
@@ -165,6 +174,15 @@ BattleTab.prototype.enableChoices = function() {
 };
 
 BattleTab.prototype.showTeamPreview = function(team1, team2) {
+    //Check if we've already changed the order, in which case, we restore it
+    if (this.teampreviewOrder) {
+        var team = [];
+        for (var i in this.battle.teams[this.myself]) {
+            team.push(this.battle.teams[this.myself][this.teampreviewOrder.indexOf(i)]);
+        }
+        this.battle.teams[this.myself] = team;
+    }
+
     var self = this;
 
     var selected = -1;
@@ -173,10 +191,13 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
         var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", pokeinfo.icon(team1[i]))).attr("slot", i);
         poke.append("<br/>").append($("<smaller>").text("Lv. " + team1[i].level));
         row.append(poke);
+
+        this.addPopover(poke, {"placement": "bottom"});
     }
 
     row.on("click", "span.team-preview-poke", function(event) {
         var clicked = $(this).attr("slot");
+        var cur = $(this);
 
         if (clicked == selected) {
             selected = -1;
@@ -186,17 +207,24 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
             row.find("span.team-preview-poke").removeClass("active");
 
             var sel = row.find("span.team-preview-poke[slot=" + selected + "]");
-            var s1 = $(this).clone();
-            var s2 = sel.clone();
+
+            cur.popover('hide');
+            //sel.popover('destroy');
+
+            var s1 = cur.html();
+            var s2 = sel.html();
 
             var team = self.battle.teams[self.myself];
-            var p1 = team[clicked];
-            var p2 = team[selected];
-            team[clicked] = p2;
-            team[selected] = p1;
 
-            $(this).replaceWith(s2);
-            sel.replaceWith(s1);
+            cur.html(s2);
+            cur.attr("slot", selected);
+            sel.html(s1);
+            sel.attr("slot", clicked);
+
+            /*setTimeout(function() {
+                self.addPopover(sel, {"placement": "bottom"});
+                self.addPopover(cur, {"placement": "bottom"});
+            });*/
 
             selected = -1;
 
@@ -370,6 +398,14 @@ BattleTab.prototype.onControlsChooseSwitch = function(slot) {
 };
 
 BattleTab.prototype.onControlsChooseTeamPreview = function(neworder) {
+    this.teampreviewOrder = neworder;
+
+    var team = [];
+    for (var i in this.battle.teams[this.myself]) {
+        team.push(this.battle.teams[this.myself][neworder[i]]);
+    }
+    this.battle.teams[this.myself] = team;
+
     this.updateTeamPokes(this.myself);
 
     var choice = {"type":"rearrange", "slot":this.myself, "neworder": neworder};
