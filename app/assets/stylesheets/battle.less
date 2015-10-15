@@ -94,6 +94,20 @@
     margin-top: 15px;
 }
 
+.battle-switchrow.active {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.battle-switchrow.active .btn.battle-poke {
+    width: 33.3333%;
+    display: flex;
+    border-radius: 0;
+    margin-left: 0;
+    border: 1px solid transparent;
+    box-shadow: inset 1px 1px 0 #CCC, inset -1px -1px 0 #CCC;
+}
+
 .battle-move {
   border: 0;
   color: #FFF;
@@ -102,6 +116,10 @@
   box-shadow: inset 0 1px 0 rgba(0, 0, 0, .1);
   padding-top: 12px;
   padding-bottom: 3px;
+}
+
+.battle-move:hover {
+    text-shadow: 0 -1px 0 rgba(255, 255, 255, .1);
 }
 
 .battle-move:hover[disabled]:not(.active) {
