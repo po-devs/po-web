@@ -94,18 +94,31 @@
     margin-top: 15px;
 }
 
-.battle-switchrow.active {
+/* Layout of poke buttons is different depending on screen height */
+@media screen and (min-height: 670px) {
+  .battle-switchrow.active {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  .battle-switchrow.active .btn.battle-poke {
+      width: 33.3333%;
+      display: flex;
+  }
 }
 
 .battle-switchrow.active .btn.battle-poke {
-    width: 33.3333%;
-    display: flex;
-    border-radius: 0;
-    margin-left: 0;
-    border: 1px solid transparent;
-    box-shadow: inset 1px 1px 0 #CCC, inset -1px -1px 0 #CCC;
+  border-radius: 0;
+  margin-left: 0;
+  border: 1px solid transparent;
+  box-shadow: inset 1px 1px 0 #CCC, inset -1px -1px 0 #CCC;
+}
+
+@media screen and (max-height: 669px) {
+  .battle-switchrow.active .btn.battle-poke {
+      padding: 3px;
+      font-size: 0.8em;
+  }
 }
 
 .battle-move {
