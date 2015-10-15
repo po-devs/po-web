@@ -385,6 +385,9 @@ $(function() {
                 webclientUI.channels.toggleChanEvents(payload);
             } else if (cmd == "settings") {
                 webclientUI.showSettings();
+            } else if (cmd == "findbattle") {
+                //rated: bool, sameTier: bool, range: int
+                network.command("findbattle", {rated: false, sameTier: true});
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {

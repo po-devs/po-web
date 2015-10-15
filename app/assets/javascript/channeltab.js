@@ -35,7 +35,7 @@ function ChannelTab(id, name) {
     //     this.chat.appendTo($("#channel-" + id));
     //     $chan.data('initialized', true);
     // }
-    this.chat = new Chat();
+    this.chat = new Chat({"findbattle": true});
     this.addTab(this.chat.element);
 
     this.chat.on("chat", function(msg) {
