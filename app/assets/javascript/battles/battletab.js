@@ -55,7 +55,7 @@ function BattleTab(id) {
             pokeRow.append(item);
 
             item.on("click", function(event) {
-                if (!self.battle.choicesAvailable) {
+                if (!self.battle.choicesAvailable || $(this).attr("disabled")) {
                     return false;
                 }
 
@@ -73,7 +73,7 @@ function BattleTab(id) {
             moveRow.append(item);
 
             item.on("click", function(event) {
-                if (!self.battle.choicesAvailable) {
+                if (!self.battle.choicesAvailable || $(this).attr("disabled")) {
                     return false;
                 }
 
@@ -107,6 +107,7 @@ function BattleTab(id) {
 
         this.megaButton = layout.find(".battle-mega");
         this.cancelButton = layout.find(".battle-cancel");
+        this.struggleButton = layout.find(".battle-struggle");
 
         this.cancelButton.on("click", function(event) {
             if ($(this).attr("disabled")) {
@@ -191,14 +192,56 @@ BattleTab.prototype.disableChoices = function() {
     this.switchRow.find(".battle-poke").attr("disabled", "disabled");
     this.attackRow.find(".battle-move").attr("disabled", "disabled");
     this.megaButton.attr("disabled", "disabled");
+    this.struggleButton.attr("disabled", "disabled");
     this.cancelButton.removeAttr("disabled").removeClass("active");
 };
+
+BattleTab.prototype.myTeam = function() {
+    return this.battle.teams[this.myself];
+}
 
 BattleTab.prototype.enableChoices = function() {
     this.switchRow.find(".battle-poke").removeAttr("disabled").removeClass("active");
     this.attackRow.find(".battle-move").removeAttr("disabled").removeClass("active");
-    this.layout.find(".battle-mega").removeAttr("disabled").removeClass("active");
-    this.layout.find(".battle-cancel").attr("disabled", "disabled").removeClass("active");
+    this.megaButton.removeAttr("disabled").removeClass("active");
+    this.struggleButton.attr("disabled", "disabled").removeClass("active");
+    this.cancelButton.attr("disabled", "disabled").removeClass("active");
+
+    var available = this.battle.choices[0];
+    if (available) {
+        if (!available.attack) {
+            this.attackRow.find(".battle-move").attr("disabled", "disabled");
+            this.megaButton.attr("disabled", "disabled");
+            //below doesn't work, find out how to set tab
+            //this.switchRow.tab("show");
+        } else {
+            //below doesn't work, find out how to set tab
+            //this.switchRow.tab("show");
+            var allowed = false;
+            for (var i in available.attacks) {
+                if (available.attacks[i]) {
+                    allowed = true;
+                } else {
+                    this.attackRow.find(".battle-move:eq(" + i + ")").attr("disabled", "disabled");
+                }
+            }
+            if (!allowed) {
+                this.struggleButton.removeAttr("disabled");
+            }
+            if (!available.mega) {
+                this.megaButton.attr("disabled", "disabled");
+            }
+        }
+        if (!available.switch) {
+            this.switchRow.find(".battle-poke").attr("disabled", "disabled");
+        } else {
+            for (var i in this.myTeam()) {
+                if (this.myTeam()[i].life == 0) {
+                    this.switchRow.find(".battle-poke:eq("+i+")").attr("disabled", "disabled");
+                }
+            } 
+        }
+    }
 
     this.updateMoveChoices();
 };
