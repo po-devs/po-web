@@ -43,7 +43,7 @@ playerlist.createPlayerItem = function (id) {
         return "";
     }
 
-    ret = "<li class='list-group-item player-list-item player-auth-" + webclient.players.auth(id);
+    ret = "<a href='po:info/" + id + "' class='list-group-item player-list-item player-auth-" + webclient.players.auth(id);
 
     if (webclient.players.away(id)) {
         ret += ' player-away';
@@ -123,11 +123,11 @@ $(function() {
         }
     });
     /* Open window on player click */
-    webclientUI.players.element.on("click", "li", function (event) {
-        var pid = $(this).attr("pid");
+    // webclientUI.players.element.on("click", "li", function (event) {
+    //     var pid = $(this).attr("pid");
 
-        webclientUI.displayPlayerWindow(pid);
-    });
+    //     webclientUI.displayPlayerWindow(pid);
+    // });
     /* Show context menu when clicked */
     webclientUI.players.element.contextmenu({
         target: "#player-context-menu",
