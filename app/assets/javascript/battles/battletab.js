@@ -143,7 +143,11 @@ BattleTab.prototype.addPopover = function(item, options) {
             html += "<br>Moves:<br>";
             for (var i in poke.moves) {
                 var move = poke.moves[i];
-                html += "-- " + moveinfo.name(move.move) + " - " + move.pp + "/" + move.totalpp + " PP<br>";
+                var name = moveinfo.name(move.move);
+                if (name.toLowerCase() == "hidden power") {
+                    name = name + " [" + typeinfo.name(self.getMoveType(poke, i)) + "]";
+                }
+                html += "-- " + name + " - " + move.pp + "/" + move.totalpp + " PP<br>";
             }
 
             return html;
@@ -363,16 +367,28 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
     }
 };
 
+BattleTab.prototype.getMoveType = function(poke, i) {
+    var move = poke.moves[i];
+    var type = moveinfo.type(move.move);
+    if (moveinfo.name(move.move).toLowerCase() == "hidden power") {
+        var ivs = poke.ivs;
+        type = moveinfo.getHiddenPowerType(this.battle.conf.gen, ivs[0], ivs[1], ivs[2], ivs[3], ivs[4], ivs[5]);
+    }
+    return type;
+}
+
 BattleTab.prototype.updateMoveChoices = function() {
-    var moves = this.battle.teams[this.myself][0].moves;
+    var poke = this.battle.teams[this.myself][0];
+    var moves = poke.moves;
     for (var i in moves) {
         var move = moves[i];
+        var movename = moveinfo.name(move.move);
         var $move = this.attackRow.find(".battle-move:eq("+i+")");
-        $move.find(".battle-move-text").text(moveinfo.name(move.move));
+        $move.find(".battle-move-text").text(movename);
         $move.find(".battle-move-pp").text(move.pp + "/" + move.totalpp + " PP");
         $move.removeClass($move.attr("typeclass") || "");
 
-        var cl = "type-" + typeinfo.css(moveinfo.type(move.move)).toLowerCase()
+        var cl = "type-" + typeinfo.css(this.getMoveType(poke, i)).toLowerCase();
         $move.attr("typeclass", cl);
         $move.addClass(cl);
     }
