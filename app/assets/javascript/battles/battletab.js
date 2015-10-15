@@ -84,9 +84,9 @@ function BattleTab(id) {
 
         var tabs = '\
             <div class="btn-group" data-toggle="buttons">\
-                <a href="#moves-' + id + '" class="btn btn-default active" data-toggle="tab">\
+                <a href="#moves-' + id + '" class="btn btn-default active battle-attack" data-toggle="tab">\
                     <input type="radio">Attack</a>\
-                <a href="#switch-' + id + '" class="btn btn-default" data-toggle="tab">\
+                <a href="#switch-' + id + '" class="btn btn-default battle-switch" data-toggle="tab">\
                     <input type="radio">Switch</a>\
             </div>';
 
@@ -105,6 +105,8 @@ function BattleTab(id) {
 
         layout.find(".battle-view").append(tabs).append(megacancel).append($("<div>").addClass("tab-content").append(moveRow).append(pokeRow));
 
+        this.attackButton = layout.find(".battle-attack");
+        this.switchButton = layout.find(".battle-switch");
         this.megaButton = layout.find(".battle-mega");
         this.cancelButton = layout.find(".battle-cancel");
         this.struggleButton = layout.find(".battle-struggle");
@@ -212,11 +214,11 @@ BattleTab.prototype.enableChoices = function() {
         if (!available.attack) {
             this.attackRow.find(".battle-move").attr("disabled", "disabled");
             this.megaButton.attr("disabled", "disabled");
-            //below doesn't work, find out how to set tab
-            //this.switchRow.tab("show");
+
+            this.switchButton.trigger("click");
         } else {
             //below doesn't work, find out how to set tab
-            //this.switchRow.tab("show");
+            this.attackButton.trigger("click");
             var allowed = false;
             for (var i in available.attacks) {
                 if (available.attacks[i]) {
