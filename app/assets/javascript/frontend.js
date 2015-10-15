@@ -111,7 +111,7 @@ var webclientUI = {
 
         if (!params.desc) {
             buttons = [{
-                label: 'PM',
+                label: 'Private Message',
                 action: function(dialogItself){
                     webclient.pms.pm(id);
                     dialogItself.close();

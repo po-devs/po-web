@@ -66,7 +66,7 @@
 <div id="player-context-menu">
   <ul class="dropdown-menu" role="menu">
     <li><a tabindex="-1" href="po:info/">Player Info</a></li>
-    <li><a tabindex="-1" href="po:pm/">PM</a></li>
+    <li><a tabindex="-1" href="po:pm/">Private Message</a></li>
     <li id="player-ignore-menu"><a tabindex="-1" href="po:ignore/">Ignore</a></li>
     <li id="player-watch-menu"><a tabindex="-1" href="po:watch-player/">Watch Battle</a></li>
     <li class="divider"></li>
