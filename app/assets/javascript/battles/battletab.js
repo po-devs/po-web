@@ -60,12 +60,40 @@ function BattleTab(id) {
 
                 self.onControlsChooseSwitch(+$(this).attr("slot"));
             });
+
+            item.popover({
+                trigger: "hover",
+                html: true,
+                content: function() {
+                    var slot = $(this).attr("slot");
+
+                    var poke = self.battle.teams[self.myself][slot];
+                    var html = "Item: " + iteminfo.name(poke.item) + "<br>";
+                    if (poke.ability) html += "Ability: " + abilityinfo.name(poke.ability) + "<br>";
+                    html += "<br>Moves:<br>";
+                    for (var i in poke.moves) {
+                        var move = poke.moves[i];
+                        html += "-- " + moveinfo.name(move.move) + " - " + move.pp + "/" + move.totalpp + " PP<br>";
+                    }
+
+                    return html;
+                },
+                title: function() {
+                    var slot = $(this).attr("slot");
+
+                    var poke = self.battle.teams[self.myself][slot];
+                    return pokeinfo.name(poke) + " lv. " + poke.level;
+                },
+                placement: "top",
+                container: "body"
+            });
         }
         this.switchRow = pokeRow;
 
         var moveRow = $("<div>").addClass("battle-attackrow btn-group-justified").attr("data-toggle", "buttons");
         for (var i in this.battle.teams[this.myself][0].moves) {
             var item = $("<span>").addClass("btn btn-default battle-move").append($("<input type='radio'>")).append($("<span>").addClass("battle-move-text")).attr("slot", i);
+            item.append($("<span class='battle-move-pp'>"));
             moveRow.append(item);
 
             item.on("click", function(event) {
@@ -310,10 +338,10 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
 BattleTab.prototype.updateMoveChoices = function() {
     var moves = this.battle.teams[this.myself][0].moves;
     for (var i in moves) {
-        /* Also move.pp, move.totalpp */
         var move = moves[i];
         var $move = this.attackRow.find(".battle-move:eq("+i+")");
         $move.find(".battle-move-text").text(moveinfo.name(move.move));
+        $move.find(".battle-move-pp").text(move.pp + "/" + move.totalpp + " PP");
         $move.removeClass($move.attr("typeclass") || "");
 
         var cl = "type-" + typeinfo.css(moveinfo.type(move.move)).toLowerCase()

@@ -110,7 +110,9 @@ battledata.dealWithKo = function(params) {
 };
 
 battledata.dealWithMove = function(params) {
-    this.print(this.nick(params.spot) + " used <strong>" + moveinfo.name(params.move) + "</strong>!");
+    if (!params.silent) {
+        this.print(this.nick(params.spot) + " used <strong>" + moveinfo.name(params.move) + "</strong>!");
+    }
 
     //this.animator.on("attack", params.spot, params.move);
 };
