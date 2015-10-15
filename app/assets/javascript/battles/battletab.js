@@ -50,7 +50,7 @@ function BattleTab(id) {
         var pokeRow = $("<div>").addClass("battle-switchrow btn-group btn-group-justified").attr("data-toggle", "buttons");
         for (var i in this.battle.teams[this.myself]) {
             var poke = this.battle.teams[this.myself][i];
-            var item = $("<span>").addClass("btn btn-default btn-xs battle-poke").append($("<input type='radio'>")).append($("<img>")).append($("<span>").addClass("battle-poke-text")).attr("slot", i);
+            var item = $("<span>").addClass("btn btn-default battle-poke").append($("<input type='radio'>")).append($("<img>")).append($("<span>").addClass("battle-poke-text")).attr("slot", i);
             pokeRow.append(item);
 
             item.on("click", function(event) {
