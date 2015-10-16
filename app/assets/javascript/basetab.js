@@ -33,6 +33,10 @@ BaseTab.prototype.setCurrentTab = function() {
         return;
     }
 
+    //Make tab last so we keep the order of the tabs in memory when closing a tab
+    webclientUI.tabs.splice(webclientUI.tabs.indexOf(this), 1);
+    webclientUI.tabs.push(this);
+
     $("#" + this.shortHand + "-" + this.id).removeClass("tab-active tab-flash");
     $("#po-tabs-list a").removeClass("po-tab-current active");
     $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current active").blur();
@@ -69,7 +73,7 @@ BaseTab.prototype.removeTab = function() {
     webclientUI.tabs.splice(webclientUI.tabs.indexOf(this), 1);
 
     if (webclientUI.tabs.length > 0) {
-        webclientUI.tabs[0].setCurrentTab();
+        webclientUI.tabs[webclientUI.tabs.length-1].setCurrentTab();
     }
 };
 
