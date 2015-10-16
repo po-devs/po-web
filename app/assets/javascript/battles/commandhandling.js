@@ -272,6 +272,10 @@ battledata.dealWithFail = function(params) {
     }
 };
 
+battledata.dealWithClauseactivated = function(params) {
+    this.print(BattleTab.clauseTexts[params.clause]);
+};
+
 battledata.dealWithPlayerchat = function(params) {
     this.print(params.message, {"player": params.spot});
 };

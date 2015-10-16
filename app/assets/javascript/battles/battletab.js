@@ -209,7 +209,7 @@ BattleTab.prototype.enableChoices = function() {
     this.struggleButton.attr("disabled", "disabled").removeClass("active");
     this.cancelButton.attr("disabled", "disabled").removeClass("active");
 
-    var available = this.battle.choices[0];
+    var available = this.battle.choices[this.myself];
     if (available) {
         if (!available.attack) {
             this.attackRow.find(".battle-move").attr("disabled", "disabled");
@@ -600,6 +600,19 @@ BattleTab.clauseDescs = {
     8:"The one who causes a tie (Recoil, Explosion, Destinybond, ...) loses the battle.",
     9:"All Type Effectivenesses are inverted (Ex: Water is weak to Fire)"
 };
+
+BattleTab.clauseTexts = [
+    "Sleep Clause prevented the sleep inducing effect of the move from working.",
+    "Freeze Clause prevented the freezing effect of the move from working.",
+    "",
+    "",
+    "",
+    "The battle ended by timeout.",
+    "",
+    "",
+    "The Self-KO Clause acted as a tiebreaker.",
+    ""
+];
 
 BattleTab.modes = {
     0: "Singles",
