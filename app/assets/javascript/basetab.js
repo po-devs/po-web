@@ -62,7 +62,7 @@ BaseTab.prototype.addTab = function(element) {
     if (this.isCurrent()) {
         $(".tab").removeClass("current");
         tab.addClass("current");
-        $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current");
+        $("#" + this.shortHand + "-" + this.id).addClass("po-tab-current active");
     }
 };
 
