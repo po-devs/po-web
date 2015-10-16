@@ -55,6 +55,10 @@ module.exports = function(grunt) {
     './app/assets/javascript/frontend.js'
   ];
 
+  var js_teambuilder = [
+    './app/assets/javascript/teambuilder.js'
+  ];
+
   //Initializing the configuration object
     grunt.initConfig({
 
@@ -83,6 +87,10 @@ module.exports = function(grunt) {
       js_backend: {
         src: js_backend.concat(poke_base_db),
         dest: './public/assets/javascript/backend.js',
+      },
+      js_teambuilder: {
+        src: js_teambuilder,
+        dest: './public/assets/javascript/teambuilder.js',
       },
       simple_copy: {
         src: ['./views/index.kiwi'],

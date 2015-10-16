@@ -30,4 +30,8 @@ app.get("/settings.html", function(req, res) {
   res.render("settings.kiwi");
 });
 
+app.get("/teambuilder.html", function(req, res) {
+	res.render("teambuilder.kiwi", {load:  JSON.stringify(req.query.load)});
+});
+
 app.listen(config.web.port);

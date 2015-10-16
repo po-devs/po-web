@@ -1,0 +1,26 @@
+{{if load}}
+  <script src="public/assets/javascript/teambuilder.js"></script>
+{{/if}}
+<div class="panel-group" id="tb-accordion" role="tablist" aria-multiselectable="true">
+  {{each [0,1,2,3,4,5]}}
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="tb-heading-${$value}">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#tb-accordion" href="#tb-poke-${$value}" aria-expanded="{{if $each.first}}true{{else}}false{{/if}}" aria-controls="tb-poke-${$value}">
+          Pokemon #${$each.counter}
+        </a>
+      </h4>
+    </div>
+    <div id="tb-poke-${$value}" class="panel-collapse collapse {{if $each.first}}in{{/if}}" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        Body.
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
+<script type="text/javascript">
+  $(function() {
+    new Teambuilder($("#tb-accordion"));
+  })
+</script>

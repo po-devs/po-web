@@ -396,6 +396,23 @@ $(function() {
                 network.command("findbattle", {rated: false, sameTier: true});
             } else if (cmd == "tab") {
                 webclientUI.switchToTab(payload);
+            } else if (cmd == "teambuilder") {
+                webclientUI.teambuilderOpen = true;
+                BootstrapDialog.show({
+                    title: "Teambuilder",
+                    message : function() {
+                        var content = $("<div>").load("teambuilder.html?load=" + (webclient.teambuilderLoaded ? false : true), function(response, status) {
+                            if (status == "error") {
+                                return;
+                            }
+                        });
+
+                        return content;
+                    },
+                    onhidden: function() {
+                        webclientUI.teambuilderOpen = false;
+                    }
+                });
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {

@@ -77,6 +77,8 @@ var webclient = {
         if (params.desc == "sent") {
             if (webclient.players.isIgnored(params.id) || params.mode != 0) {
                 webclient.declineChallenge(params);
+            } else if (webclientUI.teambuilderOpen) {
+                webclient.declineChallenge(params, "busy");
             } else {
                 webclientUI.showChallenge(params);
             }
@@ -101,9 +103,9 @@ var webclient = {
         }
     },
 
-    declineChallenge: function(params) {
+    declineChallenge: function(params, reason) {
         console.log("declining " + JSON.stringify(params));
-        network.send("challengeplayer", $.extend({}, params, {"desc": "refused"}));
+        network.send("challengeplayer", $.extend({}, params, {"desc": reason || "refused"}));
     },
 
     acceptChallenge: function(params) {
