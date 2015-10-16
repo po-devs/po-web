@@ -11,7 +11,7 @@ battlelist.createBattleItem = function (id) {
     name = battle.tier || ""; //better temporary name!
 
     ret = "<a class='list-group-item battle-list-item' ";
-    ret += "href='tab/battle-" + id + "' "
+    ret += "href='po:tab/battle-" + id + "' "
     ret += "id='battle-"+id+"'><span class='glyphicon glyphicon-fire'></span>&nbsp;<span class='battle-name'>" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault(); webclientUI.battles.quit(' + id + ');"><span aria-hidden="true">&times;</span></button></a>';
     return ret;
 };
