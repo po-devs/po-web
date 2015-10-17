@@ -355,6 +355,7 @@ $(function() {
                     } else {
                         webclient.players.removeIgnore(pid);
                     }
+                    webclientUI.players.updatePlayer(+pid);
                 }
             } else if (cmd === "watch") {
                 network.command('watch', {battle: +payload});
