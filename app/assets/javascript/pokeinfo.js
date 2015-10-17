@@ -176,7 +176,7 @@ pokeinfo.heldItemSprite = function () {
 };
 
 pokeinfo.genderSprite = function(num) {
-    return 'http://pkmn.olympe.in/genders/ingame_gender' + num + '.png';
+    return 'http://pokemon-online.eu/images/genders/ingame_gender' + num + '.png';
 };
 
 pokeinfo.sprite = function(poke, params) {
