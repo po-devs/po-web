@@ -32,6 +32,7 @@ module.exports = function(grunt) {
     './app/assets/javascript/battles/battles.js',    
     './app/assets/javascript/battles/commandhandling.js', 
     './app/assets/javascript/pokeinfo.js',
+    './app/assets/javascript/poke.js',
     './app/assets/javascript/backend.js'
   ];
 
@@ -57,6 +58,14 @@ module.exports = function(grunt) {
 
   var js_teambuilder = [
     './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
+    './bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
+    './db/pokes/all_moves.js',
+    './db/pokes/stats.js',
+    './db/pokes/type1.js',
+    './db/pokes/type2.js',
+    './db/pokes/ability1.js',
+    './db/pokes/ability2.js',
+    './db/pokes/ability3.js',
     './app/assets/javascript/teambuilder.js'
   ];
 
