@@ -418,6 +418,7 @@ $(function() {
                             label: "Update",
                             action: function(dialog) {
                                 dialog.close();
+                                webclient.saveTeam();
                                 webclient.sendTeam();
                             }
                         }

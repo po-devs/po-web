@@ -35,17 +35,26 @@ for (var num in pokedex.pokes.pokemons) {
 pokenames.sort(function(a, b) {return a.value > b.value;});
 
 Poke.prototype.load = function(poke) {
+    var alreadySet = false;
+
+    if (this.num && pokeinfo.toNum(this) == pokeinfo.toNum(poke)) {
+        alreadySet = true;
+    }
     poke = pokeinfo.toObject(poke);
     this.num = poke.num;
     this.forme = poke.forme;
 
-    this.moves = [0,0,0,0];
     this.data = {};
     this.data.allMoves = pokeinfo.allMoves(this);
     this.data.moveNames = [];
     this.data.types = pokeinfo.types(this);
     this.data.abilities = pokeinfo.abilities(this);
-    this.ability = this.data.abilities[0];
+
+    if (!alreadySet) {
+        this.moves = [0,0,0,0];    
+        this.nick = this.num == 0 ? "" : pokeinfo.name(this);
+        this.ability = this.data.abilities[0];
+    }
 };
 
 Poke.prototype.evSurplus = function() {
@@ -53,7 +62,7 @@ Poke.prototype.evSurplus = function() {
     for (var i = 0; i < 6; i++) {
         sum = sum + this.evs[i];
     }
-    return sum-512;
+    return sum-510;
 };
 
 Poke.prototype.setElement = function(element) {
@@ -96,6 +105,7 @@ Poke.prototype.setElement = function(element) {
         });
     }
     this.ui.moves = element.find(".tb-move-selection");
+    this.ui.poke = element.find(".tb-poke-selection");
 };
 
 Poke.prototype.loadGui = function()
@@ -104,7 +114,7 @@ Poke.prototype.loadGui = function()
         return;
     }
     if (!this.data) {
-        this.load();
+        this.load(this);
     }
 
     this.updateGui();
@@ -122,11 +132,16 @@ Poke.prototype.updateGui = function()
         this.data.moveNames.sort(function(a,b) {return a.value > b.value});
     }
 
+    for (var i = 0; i < 6; i++) {
+        self.ui.evs[i].slider("setValue", self.evs[i]);
+        self.ui.evVals[i].val(self.evs[i]);
+    }
+
     this.ui.sprite.attr("src", pokeinfo.sprite(this));
     this.ui.type1.attr("src", typeinfo.sprite(this.data.types[0]));
 
     for (var i = 0; i < 4; i++) {
-        //this.$moves.eq(i).val(this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
+        this.ui.moves.eq(i).val(this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
     }
 
     if (1 in this.data.types) {
@@ -135,6 +150,8 @@ Poke.prototype.updateGui = function()
     } else {
         this.ui.type2.hide();
     }
+
+    this.ui.poke.val(this.nick);
 
     this.ui.moves.typeahead("destroy").typeahead({
          hint: true,
@@ -153,11 +170,11 @@ Poke.prototype.updateGui = function()
 function Teambuilder (content) {
     console.log("Teambuilder constructor");
 
-
     var self = this;
 
     this.content = content;
     var team = this.team = webclient.team;
+    console.log(team);
     for (var poke in team.pokes) {
         team.pokes[poke].setElement(content.find("#tb-poke-" + poke));
     }
