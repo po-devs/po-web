@@ -175,6 +175,10 @@ pokeinfo.heldItemSprite = function () {
     return 'http://pokemon-online.eu/images/items/helditem.png';
 };
 
+pokeinfo.genderSprite = function(num) {
+    return 'http://pkmn.olympe.in/genders/ingame_gender' + num + '.png';
+};
+
 pokeinfo.sprite = function(poke, params) {
     params = params || {};
     poke = pokeinfo.toObject(poke);
