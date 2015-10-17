@@ -2,18 +2,18 @@
 {{if load}}
   <script src="public/assets/javascript/teambuilder.js"></script>
 {{/if}}
-<div class="panel-group teambuilder" id="tb-accordion" role="tablist" aria-multiselectable="true">
+<div class="teambuilder">
+  <!-- Centered Pills -->
+  <ul class="nav nav-pills nav-justified" role="tablist">
+    <li><a href="#" id="header-home">Home</a></li>
+    {{each [0,1,2,3,4,5]}}
+    <li class="tb-poke-pill {{if $each.first}}active{{/if}}"><a href="#tb-poke-${$value}" class="tb-poke-link" id="link-poke-${$value}">Poke&nbsp;#${$value|incr}</a></li>
+    {{/each}}
+  </ul>
   {{each [0,1,2,3,4,5]}}
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="tb-heading-${$value}">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#tb-accordion" href="#tb-poke-${$value}" aria-expanded="{{if $each.first}}true{{else}}false{{/if}}" aria-controls="tb-poke-${$value}">
-          Pokemon #${$each.counter}
-        </a>
-      </h4>
-    </div>
-    <div id="tb-poke-${$value}" class="tb-poke panel-collapse collapse {{if $each.first}}in{{/if}}" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
+  <div class="panel panel-default tab {{if $each.first}}current{{/if}} tb-poke" id="tb-poke-${$value}" role="tabpanel">
+    <div class="panel-body">
+      <div class="row">
         <div class="col-md-3">
           <div class="tb-sprite-block img-rounded"><img src="http://pokemon-online.eu/images/pokemon/x-y/animated/000.gif" class="tb-sprite" /></div>
           <div class="flex-row-basic">
@@ -33,12 +33,19 @@
           </div>
         </div>
       </div>
+      <div class="row tb-move-row">
+        <div class="flex-row-basic">
+          {{each(name,i) [0,1,2,3]}}
+          <input type="text" class="form-control typeahead tb-move-selection" placeholder="Move..." slot="${i}" pokeSlot="${$value}">
+          {{/each}}
+        </div>
+      </div>
     </div>
   </div>
   {{/each}}
 </div>
 <script type="text/javascript">
   $(function() {
-    new Teambuilder($("#tb-accordion"));
-  })
+    new Teambuilder($(".teambuilder"));
+  });
 </script>

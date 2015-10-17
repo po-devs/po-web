@@ -144,6 +144,10 @@ var webclient = {
         // }
     },
 
+    sendTeam: function() {
+
+    },
+
     sendPM: function (message, id) {
         var lines = message.trim().split('\n'),
             line, len, i;

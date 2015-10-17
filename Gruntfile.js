@@ -57,6 +57,7 @@ module.exports = function(grunt) {
   ];
 
   var js_teambuilder = [
+    './bower_components/handlebars/handlebars.min.js',
     './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
     './bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
     './db/pokes/all_moves.js',

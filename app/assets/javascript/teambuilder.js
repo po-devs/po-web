@@ -13,7 +13,7 @@ var substringMatcher = function(strs) {
     // iterate through the pool of strings and for any string that
     // contains the substring `q`, add it to the `matches` array
     $.each(strs, function(i, str) {
-      if (substrRegex.test(str)) {
+      if (substrRegex.test(str.value)) {
         matches.push(str);
       }
     });
@@ -26,21 +26,25 @@ var pokesByName = {
 
 };
 
+var pokenames = [];
+
 for (var num in pokedex.pokes.pokemons) {
-    pokesByName[pokedex.pokes.pokemons[num]] = num;
+    pokenames.push({"value": pokedex.pokes.pokemons[num], "num": pokeinfo.species(num), "forme": pokeinfo.forme(num)});
 }
 
-var pokenames = Object.keys(pokesByName).sort();
+pokenames.sort(function(a, b) {return a.value > b.value;});
 
-Poke.prototype.load = function(num) {
-    this.num = pokeinfo.species(num);
-    this.forme = pokeinfo.forme(num);
+Poke.prototype.load = function(poke) {
+    poke = pokeinfo.toObject(poke);
+    this.num = poke.num;
+    this.forme = poke.forme;
 
     this.types = pokeinfo.types(this);
     this.abilities = pokeinfo.abilities(this);
     this.ability = this.abilities[0];
     this.moves = [0,0,0,0];
     this.allMoves = pokeinfo.allMoves(this);
+    this.moveNames = [];
 };
 
 Poke.prototype.evSurplus = function() {
@@ -89,12 +93,26 @@ Poke.prototype.setElement = function(element) {
             self.$evs[i].slider("setValue", self.evs[i]);
         });
     }
+    this.$moves = element.find(".tb-move-selection");
 };
 
 Poke.prototype.updateGui = function() 
 {
+    var self = this;
+
+    if (this.moveNames.length == 0) {
+        for (var i in this.allMoves) {
+            this.moveNames.push({value: moveinfo.name(i), id: i});
+        }
+        this.moveNames.sort(function(a,b) {return a.value > b.value});
+    }
+
     this.$sprite.attr("src", pokeinfo.sprite(this));
     this.$type1.attr("src", typeinfo.sprite(this.types[0]));
+
+    for (var i = 0; i < 4; i++) {
+        //this.$moves.eq(i).val(this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
+    }
 
     if (1 in this.types) {
         this.$type2.attr("src", typeinfo.sprite(this.types[1]));
@@ -102,6 +120,18 @@ Poke.prototype.updateGui = function()
     } else {
         this.$type2.hide();
     }
+
+    this.$moves.typeahead({
+         hint: true,
+         highlight: false
+    },
+    {
+        name: "moves",
+        display: "value",
+        source: substringMatcher(this.moveNames)
+    }).on("typeahead:select", function(event, sugg) {
+        self.moves[$(this).attr("slot")] = sugg.id;
+    });
 };
 
 function Teambuilder (content) {
@@ -114,16 +144,34 @@ function Teambuilder (content) {
 
     content.find(".tb-poke-selection").typeahead({
       hint: true,
-      highlight: true,
+      highlight: false,
     },
     {
       name: 'pokes',
-      source: substringMatcher(pokenames)
+      source: substringMatcher(pokenames),
+      display: 'value',
+      limit: 30,
+      templates: {
+        suggestion: Handlebars.compile('<div><strong>#{{num}}</strong> - {{value}}</div>')
+      }
     }).on("typeahead:select", function(event, sugg) {
         var poke = team[$(this).attr("slot")];
-        poke.load(pokesByName[sugg]);
+        poke.load(sugg);
         poke.updateGui();
+        $(this).typeahead('close');
     });
+
+    content.find(".tb-poke-link").on("click", function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        content.find(".tab").removeClass("current");
+        content.find($(this).attr("href")).addClass("current");
+        content.find(".tb-poke-pill").removeClass("active");
+        $(this).closest(".tb-poke-pill").addClass("active");
+    });
+
+    content.find(".tb-move-selection").typeahead();
 }
 
 console.log("loading teambuilder js file");

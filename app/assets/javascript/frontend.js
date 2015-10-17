@@ -412,7 +412,14 @@ $(function() {
                     },
                     onhidden: function() {
                         webclientUI.teambuilderOpen = false;
-                    }
+                    },
+                    buttons: [
+                        label: "Update",
+                        action: function(dialog) {
+                            dialog.close();
+                            webclient.sendTeam();
+                        }
+                    ]
                 });
             }
         } else {

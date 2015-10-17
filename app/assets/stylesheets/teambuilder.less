@@ -21,6 +21,20 @@
 	display: table-row;
 }
 
+.tb-move-row {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.tb-move-selection {
+  flex-grow: 1;
+  margin: 7px 2px;
+}
+
+.tb-poke {
+  margin-top: 8px;
+}
+
 .tb-poke .slider-selection {
 	background: #BABABA;
 }
@@ -33,7 +47,9 @@
 }
 
 .tb-sprite-block {
-	height: 96px;
+	height: 100px;
+  width: 100px;
+  margin: auto;
 	display: flex;
 	background: #EAEAEC
 }
@@ -87,6 +103,8 @@
   background-color: #fff;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  max-height: 170px;
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
