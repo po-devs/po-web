@@ -63,6 +63,9 @@ battledata.start = function(data) {
 
         //ugly way to clone, better way at http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
         this.teams[this.myself] = JSON.parse(JSON.stringify(team));
+        while (this.teams[this.myself].length < 6) {
+            this.teams[this.myself].push({moves:{}});
+        }
         console.log("own team");
         console.log(this.teams[this.myself]);
         //this.updateTeamPokes(this.myself);

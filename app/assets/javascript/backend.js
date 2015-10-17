@@ -3,7 +3,7 @@ var webclient = {
     channels : new ChannelHolder(),
     pms: new PMHolder(),
     battles: new Battles(),
-    team: {"tier": "", "gen": lastgen, "pokes":[new Poke(),new Poke(),new Poke(),new Poke(),new Poke(),new Poke()]},
+    team: {"tier": "", "pokes":[new Poke(),new Poke(),new Poke(),new Poke(),new Poke(),new Poke()]},
 
     ownName: function() {
         return webclient.players.name(webclient.ownId);

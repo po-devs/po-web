@@ -45,7 +45,7 @@ Poke.prototype.load = function(poke) {
     this.data.moveNames = [];
     this.data.types = pokeinfo.types(this);
     this.data.abilities = pokeinfo.abilities(this);
-    this.ability = this.abilities[0];
+    this.ability = this.data.abilities[0];
 };
 
 Poke.prototype.evSurplus = function() {

@@ -15,7 +15,7 @@ lastgen = null;
 
 $(function () {
     var i;
-    for (i in pokedex.generations.generations) {
+    for (var i in pokedex.generations.generations) {
         lastgen = {num: +i};
     }
 });
