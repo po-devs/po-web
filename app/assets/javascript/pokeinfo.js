@@ -626,6 +626,10 @@ typeinfo.category = function(type) {
     return pokedex.types.category[type];
 };
 
+typeinfo.sprite = function(type) {
+    return 'http://pokemon-online.eu/images/types/' + type + '.png';
+};
+
 abilityinfo.list = function() {
     return pokedex.abilities.abilities;
 };
