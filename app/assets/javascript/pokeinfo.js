@@ -161,6 +161,10 @@ pokeinfo.trainerSprite = function (num) {
     return 'http://pokemon-online.eu/images/trainers/' + num + '.png';
 };
 
+pokeinfo.heldItemSprite = function () {
+    return 'http://pokemon-online.eu/images/items/helditem.png';
+};
+
 pokeinfo.sprite = function(poke, params) {
     params = params || {};
     var gen = getGen(params.gen || poke.gen);
