@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="public/assets/stylesheets/teambuilder.css">
-{{if load}}
-  <script src="public/assets/javascript/teambuilder.js"></script>
-{{/if}}
 <div class="teambuilder">
   <!-- Centered Pills -->
   <ul class="nav nav-pills nav-justified" role="tablist">

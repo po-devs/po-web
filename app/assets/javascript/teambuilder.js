@@ -151,6 +151,9 @@ Poke.prototype.updateGui = function()
 };
 
 function Teambuilder (content) {
+    console.log("Teambuilder constructor");
+
+
     var self = this;
 
     this.content = content;
@@ -158,28 +161,30 @@ function Teambuilder (content) {
     for (var poke in team.pokes) {
         team.pokes[poke].setElement(content.find("#tb-poke-" + poke));
     }
+
     setTimeout(function(){team.pokes[0].loadGui()});
 
-    console.log("Teambuilder constructor");
-
-    content.find(".tb-poke-selection").typeahead({
-      hint: true,
-      highlight: false,
-    },
-    {
-      name: 'pokes',
-      source: substringMatcher(pokenames),
-      display: 'value',
-      limit: 30,
-      templates: {
-        suggestion: Handlebars.compile('<div><strong>#{{num}}</strong> - {{value}}</div>')
-      }
-    }).on("typeahead:select", function(event, sugg) {
-        var poke = team.pokes[$(this).attr("slot")];
-        poke.load(sugg);
-        poke.updateGui();
-        $(this).typeahead('close');
+    setTimeout(function() {
+        content.find(".tb-poke-selection").typeahead({
+          hint: true,
+          highlight: false,
+        },
+        {
+          name: 'pokes',
+          source: substringMatcher(pokenames),
+          display: 'value',
+          limit: 30,
+          templates: {
+            suggestion: Handlebars.compile('<div><strong>#{{num}}</strong> - {{value}}</div>')
+          }
+        }).on("typeahead:select", function(event, sugg) {
+            var poke = team.pokes[$(this).attr("slot")];
+            poke.load(sugg);
+            poke.updateGui();
+            $(this).typeahead('close');
+        });
     });
+    
 
     content.find(".tb-poke-link").on("click", function(event) {
         event.stopPropagation();
@@ -192,8 +197,6 @@ function Teambuilder (content) {
 
         self.team.pokes[$(this).attr("slot")].loadGui();
     });
-
-    content.find(".tb-move-selection").typeahead();
 }
 
 console.log("loading teambuilder js file");
