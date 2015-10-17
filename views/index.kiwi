@@ -31,7 +31,7 @@
         <ul class="nav navbar-nav">
             <!-- can use class="active" on li elems if planning to make tabs in the future-->
             <li><a href="http://pokemon-online.eu/threads/webclient-the-third-time-is-the-right-one.32175/">Help</a></li>
-            <li><a href="po:teambuilder/">Teambuilder</a></li>
+            <li><a href="po:teambuilder/" id="teambuilder-link">Teambuilder</a></li>
             <li><a href="http://servers.pokemon-online.eu">Servers</a></li>
         </ul>
         <div class="btn-group nav navbar-nav navbar-right">

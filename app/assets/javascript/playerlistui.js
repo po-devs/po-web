@@ -52,6 +52,10 @@ playerlist.createPlayerItem = function (id) {
     if (webclient.battles.isBattling(id)) {
         ret += ' player-battling';
     }
+    
+    if (webclient.players.isIgnored(id)) {
+        ret += ' player-ignored';
+    }
 
     ret += "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</a>";
     return ret;

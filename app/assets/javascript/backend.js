@@ -3,6 +3,7 @@ var webclient = {
     channels : new ChannelHolder(),
     pms: new PMHolder(),
     battles: new Battles(),
+    team: {"tier": "", "pokes":[new Poke(),new Poke(),new Poke(),new Poke(),new Poke(),new Poke()]},
 
     ownName: function() {
         return webclient.players.name(webclient.ownId);
@@ -43,6 +44,10 @@ var webclient = {
 
         loginInfo.color = poStorage.get('player.color') || "";
         loginInfo.info = {"avatar": 167, "info": poStorage.get('player.info')};
+
+        if (webclient.team) {
+            loginInfo.teams = [webclient.team];
+        }
         
         if (loginInfo.name) {
             network.command('login', loginInfo);
@@ -77,6 +82,8 @@ var webclient = {
         if (params.desc == "sent") {
             if (webclient.players.isIgnored(params.id) || params.mode != 0) {
                 webclient.declineChallenge(params);
+            } else if (webclientUI.teambuilderOpen) {
+                webclient.declineChallenge(params, "busy");
             } else {
                 webclientUI.showChallenge(params);
             }
@@ -101,9 +108,9 @@ var webclient = {
         }
     },
 
-    declineChallenge: function(params) {
+    declineChallenge: function(params, reason) {
         console.log("declining " + JSON.stringify(params));
-        network.send("challengeplayer", $.extend({}, params, {"desc": "refused"}));
+        network.send("challengeplayer", $.extend({}, params, {"desc": reason || "refused"}));
     },
 
     acceptChallenge: function(params) {
@@ -127,18 +134,41 @@ var webclient = {
 
     sendMessage: function (message, id) {
         network.command('chat', {channel: id, message: message});
-        // if (!network.isOpen()) {
-        //     webclient.printRaw("ERROR: Connect to the relay station before sending a message.");
-        //     return;
-        // }
+    },
 
-        // if (/^send-channel-/.test(id)) {
-        //     webclient.channels.channel(+id.replace('send-channel-', '')).sendMessage(message);
-        // } else if (/^send-pm-/.test(id)) {
-        //     webclient.pms.pm(+id.replace('send-pm-', '')).sendMessage(message);
-        // } else if(/^send-battle-/.test(id)) {
-        //     battles.battles[(+id.replace('send-battle-', ''))].sendMessage(message);
-        // }
+    getTeamData: function() {
+        var team = {};
+        team.tier = this.team.tier;
+        team.gen = this.team.gen;
+        team.pokes = [{},{},{},{},{},{}];
+        for (var i in this.team.pokes) {
+            $.extend(team.pokes[i], this.team.pokes[i]);
+            delete team.pokes[i]["ui"];
+            delete team.pokes[i]["data"];
+        }
+
+        return team;
+    },
+
+    sendTeam: function() {
+        network.command("teamchange", {"team":webclient.getTeamData()});
+    },
+
+    saveTeam: function() {
+        poStorage.set("team", webclient.getTeamData());
+    },
+
+    loadTeam: function() {
+        var team = poStorage.get("team", "object");
+        console.log(team);
+
+        if (team) {
+            webclient.team = team;
+            for (var i in team.pokes) {
+                webclient.team.pokes[i] = $.extend(new Poke(), team.pokes[i]);
+            }
+        }
+        console.log(webclient.team);
     },
 
     sendPM: function (message, id) {
@@ -163,6 +193,8 @@ var webclient = {
 };
 
 $(function() {
+    webclient.loadTeam();
+
     var userGiven = utils.queryField('user');
     var relayGiven = utils.queryField('relay');
     var portGiven = utils.queryField('port');

@@ -1,0 +1,141 @@
+@import "../../../bower_components/seiyria-bootstrap-slider/less/bootstrap-slider.less";
+
+.slider.slider-horizontal {
+	width: 100%;
+	display: table-cell;
+}
+
+.tb-ev-name, .tb-ev-value {
+	display: table-cell;
+}
+
+.tb-ev-group {
+	display: table;
+	border-spacing: 20px 0px;
+	/* Remove margins left & right introduced by border spacing */
+	margin-left: -20px;
+	margin-right: -20px;
+}
+
+.tb-ev-row {
+	display: table-row;
+}
+
+.tb-move-row {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.tb-move-selection {
+  flex-grow: 1;
+  margin: 7px 2px;
+  min-width: 1%;
+}
+
+.tb-poke {
+  margin-top: 8px;
+}
+
+.tb-poke .slider-selection {
+	background: #BABABA;
+}
+
+.tb-sprite {
+	display: block;
+	max-width: 96px;
+	max-height: 96px;
+	margin: auto;
+}
+
+.tb-sprite-block {
+	height: 100px;
+  width: 100px;
+  margin: auto;
+	display: flex;
+	background: #EAEAEC
+}
+
+.tb-type {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+/* typeahead stuff  */
+
+.typeahead,
+.tt-query,.tt-input,
+.tt-hint {
+  /*width: 396px;*/
+  height: 30px;
+  padding: 2px 6px;
+  /*font-size: 24px;*/
+  line-height: 30px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+
+.tt-query,.tt-input {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu,.tt-dropdown-menu {
+  width: 422px;
+  margin: 12px 0;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  max-height: 170px;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor,.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.gist {
+  font-size: 14px;
+}

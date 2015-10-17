@@ -32,6 +32,7 @@ module.exports = function(grunt) {
     './app/assets/javascript/battles/battles.js',    
     './app/assets/javascript/battles/commandhandling.js', 
     './app/assets/javascript/pokeinfo.js',
+    './app/assets/javascript/poke.js',
     './app/assets/javascript/backend.js'
   ];
 
@@ -55,6 +56,20 @@ module.exports = function(grunt) {
     './app/assets/javascript/frontend.js'
   ];
 
+  var js_teambuilder = [
+    './bower_components/handlebars/handlebars.min.js',
+    './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
+    './bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
+    './db/pokes/all_moves.js',
+    './db/pokes/stats.js',
+    './db/pokes/type1.js',
+    './db/pokes/type2.js',
+    './db/pokes/ability1.js',
+    './db/pokes/ability2.js',
+    './db/pokes/ability3.js',
+    './app/assets/javascript/teambuilder.js'
+  ];
+
   //Initializing the configuration object
     grunt.initConfig({
 
@@ -68,7 +83,8 @@ module.exports = function(grunt) {
               //compiling frontend.less into frontend.css
               "./public/assets/stylesheets/frontend.css":"./app/assets/stylesheets/frontend.less",
               //compiling backend.less into backend.css
-              "./public/assets/stylesheets/backend.css":"./app/assets/stylesheets/backend.less"
+              "./public/assets/stylesheets/backend.css":"./app/assets/stylesheets/backend.less",
+              "./public/assets/stylesheets/teambuilder.css":"./app/assets/stylesheets/teambuilder.less"
             }
         }
     },
@@ -83,6 +99,10 @@ module.exports = function(grunt) {
       js_backend: {
         src: js_backend.concat(poke_base_db),
         dest: './public/assets/javascript/backend.js',
+      },
+      js_teambuilder: {
+        src: js_teambuilder,
+        dest: './public/assets/javascript/teambuilder.js',
       },
       simple_copy: {
         src: ['./views/index.kiwi'],

@@ -355,6 +355,7 @@ $(function() {
                     } else {
                         webclient.players.removeIgnore(pid);
                     }
+                    webclientUI.players.updatePlayer(+pid);
                 }
             } else if (cmd === "watch") {
                 network.command('watch', {battle: +payload});
@@ -396,6 +397,33 @@ $(function() {
                 network.command("findbattle", {rated: false, sameTier: true});
             } else if (cmd == "tab") {
                 webclientUI.switchToTab(payload);
+            } else if (cmd == "teambuilder") {
+                webclientUI.teambuilderOpen = true;
+                BootstrapDialog.show({
+                    title: "Teambuilder",
+                    message : function() {
+                        var content = $("<div>").load("teambuilder.html?load=" + (webclient.teambuilderLoaded ? false : true), function(response, status) {
+                            if (status == "error") {
+                                return;
+                            }
+                        });
+
+                        return content;
+                    },
+                    onhidden: function() {
+                        webclientUI.teambuilderOpen = false;
+                    },
+                    buttons: [
+                        {
+                            label: "Update",
+                            action: function(dialog) {
+                                dialog.close();
+                                webclient.saveTeam();
+                                webclient.sendTeam();
+                            }
+                        }
+                    ]
+                });
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {
@@ -445,3 +473,12 @@ window.onbeforeunload = function(e) {
 };
 
 window.webclientUI = webclientUI;
+
+$(function() {
+    /* Load heavy libraries after */
+    $("body").append([
+        '<link rel="stylesheet" href="public/assets/stylesheets/teambuilder.css">',
+        '<script src="public/assets/javascript/teambuilder.js"></script>'
+        ].join("\n")
+    );
+});

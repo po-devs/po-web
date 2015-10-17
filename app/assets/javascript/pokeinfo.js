@@ -15,7 +15,7 @@ lastgen = null;
 
 $(function () {
     var i;
-    for (i in pokedex.generations.generations) {
+    for (var i in pokedex.generations.generations) {
         lastgen = {num: +i};
     }
 });
@@ -78,6 +78,16 @@ pokeinfo.toNum = function (poke) {
     }
 
     return poke;
+};
+
+pokeinfo.toObject = function(poke) {
+    if (typeof poke == "object") {
+        return poke;
+    }
+
+    poke = +poke;
+
+    return {num: pokeinfo.species(poke), forme: pokeinfo.forme(poke), gen: lastgen};
 };
 
 pokeinfo.toArray = function (num) {
@@ -167,6 +177,7 @@ pokeinfo.heldItemSprite = function () {
 
 pokeinfo.sprite = function(poke, params) {
     params = params || {};
+    poke = pokeinfo.toObject(poke);
     var gen = getGen(params.gen || poke.gen);
     var back = params.back || false;
 
@@ -617,6 +628,10 @@ typeinfo.categoryList = function() {
 
 typeinfo.category = function(type) {
     return pokedex.types.category[type];
+};
+
+typeinfo.sprite = function(type) {
+    return 'http://pokemon-online.eu/images/types/' + type + '.png';
 };
 
 abilityinfo.list = function() {
