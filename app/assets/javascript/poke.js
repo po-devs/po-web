@@ -7,4 +7,6 @@ function Poke()
 	this.ability = 0;
 	this.moves = [{},{},{},{}];
 	this.types = [];
+	this.evs = [0,0,0,0,0,0];
+	this.ivs = [31,31,31,31,31];
 }

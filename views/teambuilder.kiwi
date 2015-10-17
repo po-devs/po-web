@@ -14,12 +14,23 @@
     </div>
     <div id="tb-poke-${$value}" class="tb-poke panel-collapse collapse {{if $each.first}}in{{/if}}" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
-        <div class="col-sm-3">
-          <div class="tb-sprite-block"><img src="http://pokemon-online.eu/images/pokemon/x-y/animated/00${$each.counter}.gif" class="tb-sprite" /></div>
-          <div class="btn-group-justified">
-            <img src="http://pokemon-online.eu/images/types/0.png" class="tb-type"/><img src="http://pokemon-online.eu/images/types/2.png" class="tb-type pull-right"/>
+        <div class="col-md-3">
+          <div class="tb-sprite-block img-rounded"><img src="http://pokemon-online.eu/images/pokemon/x-y/animated/000.gif" class="tb-sprite" /></div>
+          <div class="flex-row-basic">
+            <img src="http://pokemon-online.eu/images/types/0.png" class="tb-type tb-type1"/><img src="" class="tb-type tb-type2" style="display: none"/>
           </div>
-          <input type="text" class="form-control typeahead tb-poke-selection" placeholder="Pokémon...">
+          <input type="text" class="form-control typeahead tb-poke-selection" placeholder="Pokémon..." slot="${$value}">
+        </div>
+        <div class="col-md-9">
+          <div class="tb-ev-group">
+          {{each(name, i) ["HP","Atk","Def","S. Atk", "S. Def", "Speed"]}}
+            <div class="tb-ev-row tb-ev-row-${i}">
+              <span class="tb-ev-name">${name}</span> 
+              <input class="tb-ev-slider" data-slider-id='ev${$value}-${i}-slider' type="text" data-slider-min="0" data-slider-max="252" data-slider-step="4" data-slider-tooltip="hide" data-slider-value="0">
+              <input type="text" class="tb-ev-value" value="0" min="0" max="252" step="4" maxlength="3" size="2">
+            </div>
+          {{/each}}
+          </div>
         </div>
       </div>
     </div>
