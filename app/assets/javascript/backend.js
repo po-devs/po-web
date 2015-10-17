@@ -3,7 +3,7 @@ var webclient = {
     channels : new ChannelHolder(),
     pms: new PMHolder(),
     battles: new Battles(),
-    team: [new Poke(),new Poke(),new Poke(),new Poke(),new Poke(),new Poke()],
+    team: {"tier": "", "gen": lastgen, "pokes":[new Poke(),new Poke(),new Poke(),new Poke(),new Poke(),new Poke()]},
 
     ownName: function() {
         return webclient.players.name(webclient.ownId);
@@ -145,7 +145,17 @@ var webclient = {
     },
 
     sendTeam: function() {
+        var team = {};
+        team.tier = this.team.tier;
+        team.gen = this.team.gen;
+        team.pokes = [{},{},{},{},{},{}];
+        for (var i in this.team.pokes) {
+            $.extend(team.pokes[i], this.team.pokes[i]);
+            delete team.pokes[i]["ui"];
+            delete team.pokes[i]["data"];
+        }
 
+        network.command("teamchange", {"team":team});
     },
 
     sendPM: function (message, id) {

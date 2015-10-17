@@ -7,7 +7,7 @@
   <ul class="nav nav-pills nav-justified" role="tablist">
     <li><a href="#" id="header-home">Home</a></li>
     {{each [0,1,2,3,4,5]}}
-    <li class="tb-poke-pill {{if $each.first}}active{{/if}}"><a href="#tb-poke-${$value}" class="tb-poke-link" id="link-poke-${$value}">Poke&nbsp;#${$value|incr}</a></li>
+    <li class="tb-poke-pill {{if $each.first}}active{{/if}}"><a href="#tb-poke-${$value}" class="tb-poke-link" slot="${$value}" id="link-poke-${$value}">Poke&nbsp;#${$value|incr}</a></li>
     {{/each}}
   </ul>
   {{each [0,1,2,3,4,5]}}
