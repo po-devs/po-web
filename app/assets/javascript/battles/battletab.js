@@ -264,6 +264,12 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
     var row = $("<div>").attr("data-toggle", "buttons").addClass("btn-group-justified team-preview-row");
     for (var i  = 0; i < 6; i++) {
         var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", pokeinfo.icon(team1[i]))).attr("slot", i);
+        if (team1[i].item != 0) {
+            poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", pokeinfo.heldItemSprite()));
+        }
+        if(team1[i].gender) {  
+            poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", pokeinfo.genderSprite(team1[i].gender)));
+        }
         poke.append("<br/>").append($("<smaller>").text("Lv. " + team1[i].level));
         row.append(poke);
 
@@ -310,6 +316,12 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
     var row2 = $("<div>").addClass("btn-group-justified team-preview-row");
     for (var i  = 0; i < 6; i++) {
         var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").attr("disabled", "disabled").append($("<img>").attr("src", pokeinfo.icon(team2[i])));
+        if (team2[i].heldItem) {
+            poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", pokeinfo.heldItemSprite()));
+        }
+        if(team2[i].gender) {   
+            poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", pokeinfo.genderSprite(team2[i].gender)));
+        }
         poke.append("<br/>").append($("<smaller>").text("Lv. " + team2[i].level));
         row2.append(poke);
     }
