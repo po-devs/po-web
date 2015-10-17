@@ -1,7 +1,8 @@
+<link rel="stylesheet" href="public/assets/stylesheets/teambuilder.css">
 {{if load}}
   <script src="public/assets/javascript/teambuilder.js"></script>
 {{/if}}
-<div class="panel-group" id="tb-accordion" role="tablist" aria-multiselectable="true">
+<div class="panel-group teambuilder" id="tb-accordion" role="tablist" aria-multiselectable="true">
   {{each [0,1,2,3,4,5]}}
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="tb-heading-${$value}">
@@ -11,9 +12,15 @@
         </a>
       </h4>
     </div>
-    <div id="tb-poke-${$value}" class="panel-collapse collapse {{if $each.first}}in{{/if}}" role="tabpanel" aria-labelledby="headingOne">
+    <div id="tb-poke-${$value}" class="tb-poke panel-collapse collapse {{if $each.first}}in{{/if}}" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
-        Body.
+        <div class="col-sm-3">
+          <div class="tb-sprite-block"><img src="http://pokemon-online.eu/images/pokemon/x-y/animated/00${$each.counter}.gif" class="tb-sprite" /></div>
+          <div class="btn-group-justified">
+            <img src="http://pokemon-online.eu/images/types/0.png" class="tb-type"/><img src="http://pokemon-online.eu/images/types/2.png" class="tb-type pull-right"/>
+          </div>
+          <input type="text" class="form-control typeahead tb-poke-selection" placeholder="Pokémon...">
+        </div>
       </div>
     </div>
   </div>

@@ -80,6 +80,16 @@ pokeinfo.toNum = function (poke) {
     return poke;
 };
 
+pokeinfo.toObject = function(poke) {
+    if (typeof poke == "object") {
+        return poke;
+    }
+
+    poke = +poke;
+
+    return {num: pokeinfo.species(poke), forme: pokeinfo.forme(poke), gen: lastgen};
+};
+
 pokeinfo.toArray = function (num) {
     var pokenum = 0,
         formenum = 0,
@@ -163,6 +173,7 @@ pokeinfo.trainerSprite = function (num) {
 
 pokeinfo.sprite = function(poke, params) {
     params = params || {};
+    poke = pokeinfo.toObject(poke);
     var gen = getGen(params.gen || poke.gen);
     var back = params.back || false;
 

@@ -56,6 +56,7 @@ module.exports = function(grunt) {
   ];
 
   var js_teambuilder = [
+    './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
     './app/assets/javascript/teambuilder.js'
   ];
 
@@ -72,7 +73,8 @@ module.exports = function(grunt) {
               //compiling frontend.less into frontend.css
               "./public/assets/stylesheets/frontend.css":"./app/assets/stylesheets/frontend.less",
               //compiling backend.less into backend.css
-              "./public/assets/stylesheets/backend.css":"./app/assets/stylesheets/backend.less"
+              "./public/assets/stylesheets/backend.css":"./app/assets/stylesheets/backend.less",
+              "./public/assets/stylesheets/teambuilder.css":"./app/assets/stylesheets/teambuilder.less"
             }
         }
     },
