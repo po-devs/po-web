@@ -10,14 +10,14 @@
   <div class="panel panel-default tab {{if $each.first}}current{{/if}} tb-poke" id="tb-poke-${$value}" role="tabpanel">
     <div class="panel-body">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-sm-3">
           <div class="tb-sprite-block img-rounded"><img src="http://pokemon-online.eu/images/pokemon/x-y/animated/000.gif" class="tb-sprite" /></div>
           <div class="flex-row-basic">
             <img src="http://pokemon-online.eu/images/types/0.png" class="tb-type tb-type1"/><img src="" class="tb-type tb-type2" style="display: none"/>
           </div>
           <input type="text" class="form-control typeahead tb-poke-selection" placeholder="Pokémon..." slot="${$value}">
         </div>
-        <div class="col-md-9">
+        <div class="col-sm-9">
           <div class="tb-ev-group">
           {{each(name, i) ["HP","Atk","Def","S. Atk", "S. Def", "Speed"]}}
             <div class="tb-ev-row tb-ev-row-${i}">
