@@ -280,6 +280,8 @@ function createNetwork(WebSocket) {
 
             var params = JSON.parse(payload);
             webclient.players.login(params.id, params.info);
+            
+            document.title = webclient.players.name(webclient.ownId) + " - Pok\u00E9mon Online";
 
             this.command('getrankings', {id: params.id});
         },

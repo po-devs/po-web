@@ -301,6 +301,7 @@ var webclientUI = {
 
                         if (userName != webclient.ownName()) {
                             update.name = userName;
+                            document.title = userName + " - Pok\u00E9mon Online";
                         }
                         if (userColor != webclient.players.color(webclient.ownId) && userColor) {
                             update.color = userColor;
