@@ -88,6 +88,9 @@ battledata.name = function(player) {
 };
 
 battledata.rnick = function(spot) {
+    if (! (spot in this.pokes)) {
+        return this.teams[this.player(spot)][this.slot(spot)].name || "???";
+    }
     return this.pokes[spot].name;
 };
 
