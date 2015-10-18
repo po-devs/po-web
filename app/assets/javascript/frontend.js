@@ -301,7 +301,6 @@ var webclientUI = {
 
                         if (userName != webclient.ownName()) {
                             update.name = userName;
-                            document.title = userName + " - Pok\u00E9mon Online";
                         }
                         if (userColor != webclient.players.color(webclient.ownId) && userColor) {
                             update.color = userColor;
@@ -448,6 +447,8 @@ $(function() {
     }).on("ownplayerupdated", function(id) {
         var player = webclient.players.player(id);
         $("#checkbox-idle-dd").prop("checked", player.away);
+
+        document.title = webclient.ownName() + " - Pok\u00E9mon Online";
     });
 
 
