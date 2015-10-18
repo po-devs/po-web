@@ -16,34 +16,37 @@ battledata.dealWithBlank = function(params) {
 battledata.dealWithSend = function(params) {
     var poke = params.pokemon;
     var sl = this.slot(params.spot);
+    var player = this.player(params.spot);
 
     console.log("send");
     console.log(params);
 
+    poke = $.extend({}, this.teams[player][params.slot], poke);
     if (this.isBattle() && this.player(params.spot) == this.myself) {
-        console.log(this.teams[this.myself][params.slot]);
-        poke = $.extend({}, this.teams[this.myself][params.slot], poke);
-        console.log(this.teams[this.myself][params.slot]);
+        /* Don't update team poke with info from poke - could be fooled by
+          zoroark etc. */
+    } else {
+        $.extend(this.teams[player][params.slot], poke);
     }
     /* Stores the pokemon in field memory */
     this.pokes[params.spot] = poke;
 
     /* switch in memory */
-    var pl = this.player(params.spot);
-    this.teams[pl][params.slot] = this.teams[pl][sl];
-    this.teams[pl][sl] = poke;
+    var tmp = this.teams[player][params.slot];
+    this.teams[player][params.slot] = this.teams[player][sl];
+    this.teams[player][sl] = tmp;
 
     //this.animator.on("send", params.spot);
 
     this.updateFieldPoke(params.spot);
-    this.updateTeamPokes(pl, [this.slot(params.spot), params.slot]);
+    this.updateTeamPokes(player, [this.slot(params.spot), params.slot]);
     
-    this.trigger("sendout", pl);
+    this.trigger("sendout", params.spot);
 
     if (pokeinfo.name(poke) == poke.name) {
-        this.print(this.name(pl) + " sent out " + poke.name + "!");
+        this.print(this.name(player) + " sent out " + poke.name + "!");
     } else {
-        this.print(this.name(pl) + " sent out " + poke.name + "! (" + pokeinfo.name(poke) + ")");
+        this.print(this.name(player) + " sent out " + poke.name + "! (" + pokeinfo.name(poke) + ")");
     }
 };
 
@@ -57,7 +60,31 @@ battledata.dealWithSendback = function(params) {
         this.print(this.name(pl) + " called " + poke.name + " back!");
     }
     
-    this.trigger("sendback", pl);
+    this.trigger("sendback", params.spot);
+};
+
+/* Transform I guess, only affects poke on the field */
+battledata.dealWithSpritechange = function(params) {
+    this.pokes[params.spot].sprite = params.sprite;
+    
+    this.trigger("spritechange", params.spot);
+};
+
+/* Cosmetic forme change, only affects poke on the field */
+battledata.dealWithSubformechange = function(params) {
+    var newNum = this.pokes[params.spot].num + (1 << params.subforme);
+    this.pokes[params.spot].sprite = newNum;
+    
+    this.trigger("spritechange", params.spot);
+};
+
+/* Definite change of the poke even in the team */
+battledata.dealWithFormeChange = function(params) {
+    var pokeObject = pokeinfo.toObject(params.newforme);
+    $.extend(this.teams[params.player][params.slot], pokeObject);
+    $.extend(this.pokes[this.spot(params.player,params.slot)], pokeObject);
+
+    this.trigger("spritechange", params.spot);
 };
 
 battledata.dealWithTeampreview = function(params) {
@@ -69,8 +96,12 @@ battledata.dealWithTeampreview = function(params) {
     var yourTeam = [];
     var oppTeam = [];
     for (var i = 0; i< 6; i++) {
-        yourTeam.push(pokeinfo.name(this.tpoke(this.myself, i)));
-        oppTeam.push(pokeinfo.name(team[i]));
+        if (this.teams[this.myself].num) {
+            yourTeam.push(pokeinfo.name(this.tpoke(this.myself, i)));
+        }
+        if (team[i] && team[i].num) {
+            oppTeam.push(pokeinfo.name(team[i]));
+        }
     }
 
     this.print("<strong>Your team: </strong>" + yourTeam.join(" / "));
@@ -106,7 +137,7 @@ battledata.dealWithKo = function(params) {
 
     this.pokes[params.spot].status = 31; //ko
     
-    this.trigger("ko", this.player(params.spot));
+    this.trigger("ko", params.spot);
 };
 
 battledata.dealWithMove = function(params) {
@@ -126,6 +157,7 @@ battledata.dealWithHpchange = function(params) {
         this.tpoke(params.spot).life = params.newHP;
         this.tpoke(params.spot).percent = Math.floor(params.newHP/this.pokes[params.spot].totalLife*100);
     } else {
+        this.tpoke(params.spot).percent = params.newHP;
         this.pokes[params.spot].percent = params.newHP;
     }
 
@@ -141,7 +173,7 @@ battledata.dealWithHpchange = function(params) {
     //this.animator.on("hpchange", params.spot, current, this.pokes[params.spot].percent);
     var change = current - this.pokes[params.spot].percent;
     /* Woudln't something with old & new HP be more prudent, like the commented line above? */
-    this.trigger("hpchange", this.player(params.spot), change);
+    this.trigger("hpchange", params.spot, change);
 };
 
 battledata.dealWithHitcount = function(params) {
@@ -209,7 +241,7 @@ battledata.dealWithStatus = function(params) {
 
     this.print(messages[params.status].replace("%1", this.nick(params.spot)));
 
-        this.trigger("statuschange", this.player(params.spot), params.status);
+    this.trigger("statuschange", params.spot, params.status);
     //this.damageCause = {};
 };
 

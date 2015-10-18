@@ -163,8 +163,8 @@ BattleTab.prototype.addPopover = function(item, options) {
             var slot = $(this).attr("slot");
 
             var poke = self.battle.teams[self.myself][slot];
-            var html = "Item: " + iteminfo.name(poke.item) + "<br>";
-            if (poke.ability) html += "Ability: " + abilityinfo.name(poke.ability) + "<br>";
+            var html = "Item: " + iteminfo.name(poke.item||0) + "<br>";
+            if (poke.ability) html += "Ability: " + abilityinfo.name(poke.ability||0) + "<br>";
             html += "<br>Moves:<br>";
             for (var i in poke.moves) {
                 var move = poke.moves[i];
@@ -181,7 +181,7 @@ BattleTab.prototype.addPopover = function(item, options) {
             var slot = $(this).attr("slot");
 
             var poke = self.battle.teams[self.myself][slot];
-            return pokeinfo.name(poke) + " lv. " + poke.level;
+            return pokeinfo.name(poke) + " lv. " + (poke.level ||0);
         },
         "placement": "top",
         container: "body"
@@ -249,6 +249,10 @@ BattleTab.prototype.enableChoices = function() {
 };
 
 BattleTab.prototype.showTeamPreview = function(team1, team2) {
+    while (team2.length < 6) {
+        team2.push({"num":0, "level":0});
+    }
+
     //Check if we've already changed the order, in which case, we restore it
     if (this.teampreviewOrder) {
         var team = [];
@@ -264,7 +268,7 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
     var row = $("<div>").attr("data-toggle", "buttons").addClass("btn-group-justified team-preview-row");
     for (var i  = 0; i < 6; i++) {
         var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", pokeinfo.icon(team1[i]))).attr("slot", i);
-        if (team1[i].item != 0) {
+        if (team1[i].item) {
             poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", pokeinfo.heldItemSprite()));
         }
         if(team1[i].gender) {  
@@ -440,7 +444,7 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
             if (this.isBattle() && player == this.myself) {
                 var $ct = this.switchRow.find(".battle-poke:eq("+pokes[i]+")");
                 $ct.find("img").attr("src", pokeinfo.icon(tpok));
-                var text = tpok.name + "<br/>" + tpok.life + "/" + tpok.totalLife;
+                var text = (tpok.name||"") + "<br/>" + (tpok.life||0) + "/" + (tpok.totalLife||0);
                 $ct.find(".battle-poke-text").html(text);
 
                 if (pokes[i] == 0) {

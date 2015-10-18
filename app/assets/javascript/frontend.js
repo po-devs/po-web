@@ -184,7 +184,7 @@ var webclientUI = {
         for (var i in webclientUI.challenges) {
             var chall = webclientUI.challenges[i];
 
-            if (chall.params.id == params.id && chall.params.tier == params.tier) {
+            if (chall.id == params.id && chall.tier == params.tier) {
                 chall.setData("cancelled", true);
                 chall.close();
             } else {
