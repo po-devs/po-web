@@ -96,7 +96,7 @@ battledata.dealWithTeampreview = function(params) {
     var yourTeam = [];
     var oppTeam = [];
     for (var i = 0; i< 6; i++) {
-        if (this.teams[this.myself].num) {
+        if (this.teams[this.myself][i].num) {
             yourTeam.push(pokeinfo.name(this.tpoke(this.myself, i)));
         }
         if (team[i] && team[i].num) {

@@ -21,8 +21,6 @@ battledata.start = function(data) {
     var conf = this.conf;
     var team = this.team;
 
-    this.paused = false;
-
     this.queue = [];//Queues of message not yet processed
 
     /* Pokemon on the field */
