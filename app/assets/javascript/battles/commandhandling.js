@@ -63,6 +63,18 @@ battledata.dealWithSendback = function(params) {
     this.trigger("sendback", params.spot);
 };
 
+battledata.deealWithVanish = function(params) {
+    this.pokes[params.spot].hidden = true;
+    
+    this.trigger("vanish", params.spot);
+}
+
+battledata.deealWithReappear = function(params) {
+    this.pokes[params.spot].hidden = false;
+    
+    this.trigger("reappear", params.spot);
+}
+
 /* Transform I guess, only affects poke on the field */
 battledata.dealWithSpritechange = function(params) {
     this.pokes[params.spot].sprite = params.sprite;
