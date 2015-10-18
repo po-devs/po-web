@@ -57,7 +57,7 @@ playerlist.createPlayerItem = function (id) {
         ret += ' player-ignored';
     }
 
-    ret += "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</a>";
+    ret += "' style='color:" + webclient.players.color(id) + "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</a>";
     return ret;
 };
 
