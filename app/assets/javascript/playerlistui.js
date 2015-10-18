@@ -2,9 +2,14 @@
 function PlayerList() {
     this.ids = [];
     this.filter = '';
+    this.showColors = false;
 }
 
 var playerlist = PlayerList.prototype;
+
+playerlist.updatePlayers = function() {
+    this.setPlayers(this.ids);
+}
 
 playerlist.setPlayers = function (playerIds) {
     var html = "",
@@ -57,7 +62,13 @@ playerlist.createPlayerItem = function (id) {
         ret += ' player-ignored';
     }
 
-    ret += "' style='color:" + webclient.players.color(id) + "' id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</a>";
+    ret += "' ";
+
+    if (this.showColors) {
+        ret += "style='color:" + webclient.players.color(id) + "' ";
+    }
+
+    ret += "id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</a>";
     return ret;
 };
 

@@ -384,6 +384,11 @@ $(function() {
                 webclientUI.timestamps = !webclientUI.timestamps;
                 setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps)});
                 poStorage.set("chat.timestamps", webclientUI.timestamps);
+            } else if (cmd === "rainbow") {
+                webclientUI.players.showColors = !webclientUI.players.showColors;
+                setTimeout(function(){$("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors)});
+                poStorage.set("players.rainbow", webclientUI.players.showColors);
+                webclientUI.players.updatePlayers();
             } else if (cmd === "register") {
                 network.command("register");
             } else if (cmd === "info") {
@@ -456,8 +461,10 @@ $(function() {
     //    //return false;
     // });
     webclientUI.timestamps = poStorage.get("chat.timestamps", "boolean");
+    webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean");
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
+    $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);
     $("#checkbox-idle-dd").prop("checked", poStorage.get("player.idle", 'boolean') === null ? true: poStorage.get("player.idle", 'boolean'));
 
     webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object");
