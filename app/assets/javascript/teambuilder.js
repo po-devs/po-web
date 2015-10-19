@@ -39,6 +39,8 @@ Poke.prototype.load = function(poke) {
 
     if (this.num && pokeinfo.toNum(this) == pokeinfo.toNum(poke)) {
         alreadySet = true;
+    } else {
+        this.reset();
     }
     poke = pokeinfo.toObject(poke);
     this.num = poke.num;
@@ -51,7 +53,6 @@ Poke.prototype.load = function(poke) {
     this.data.abilities = pokeinfo.abilities(this);
 
     if (!alreadySet) {
-        this.moves = [0,0,0,0];    
         this.nick = this.num == 0 ? "" : pokeinfo.name(this);
         this.ability = this.data.abilities[0];
     }
@@ -74,9 +75,11 @@ Poke.prototype.setElement = function(element) {
     this.ui.type2  = element.find(".tb-type2");
     this.ui.evs = [];
     this.ui.evVals = [];
+    this.ui.stats = [];
     for (var i = 0; i < 6; i++) {
         this.ui.evs[i] = element.find(".tb-ev-row-" + i + " .tb-ev-slider");
         this.ui.evVals[i] = element.find(".tb-ev-row-" + i + " .tb-ev-value");
+        this.ui.stats[i] = element.find(".tb-ev-row-" + i + " .tb-stat");
         this.ui.evs[i].slider({
             // formatter: function(value) {
             //     return 'Current EV: ' + value;
@@ -91,6 +94,7 @@ Poke.prototype.setElement = function(element) {
                 $(this).slider("setValue", self.evs[i]);
             }
             self.ui.evVals[i].val(self.evs[i]);
+            self.updateStatGui(i);
         });
         this.ui.evVals[i].data("slot", i).on("change", function() {
             var i = $(this).data("slot");
@@ -102,10 +106,16 @@ Poke.prototype.setElement = function(element) {
                 $(this).val(self.evs[i]);
             }
             self.ui.evs[i].slider("setValue", self.evs[i]);
+            self.updateStatGui(i);
         });
     }
     this.ui.moves = element.find(".tb-move-selection");
     this.ui.poke = element.find(".tb-poke-selection");
+};
+
+Poke.prototype.updateStatGui = function(stat) {
+    var calced = pokeinfo.calculateStat(this, stat);
+    this.ui.stats[stat].text(calced);
 };
 
 Poke.prototype.loadGui = function()
@@ -135,6 +145,7 @@ Poke.prototype.updateGui = function()
     for (var i = 0; i < 6; i++) {
         self.ui.evs[i].slider("setValue", self.evs[i]);
         self.ui.evVals[i].val(self.evs[i]);
+        this.updateStatGui(i);
     }
 
     this.ui.sprite.attr("src", pokeinfo.sprite(this));

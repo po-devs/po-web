@@ -323,18 +323,21 @@ pokeinfo.released = function(poke, gen) {
     return pokedex.pokes.released[getGen(gen).num].hasOwnProperty(this.toNum(poke));
 };
 
-pokeinfo.calculateStat = function(infos) {
-    if (infos.stat_id === 0) { // HP
-        if (infos.generation > 2) {
-            return Math.floor(Math.floor((infos.stat_ivs + (2 * infos.base_stat) + Math.floor(infos.stat_evs/4) + 100) * infos.level)/100) + 10;
+pokeinfo.calculateStat = function(poke, stat, gen) {
+    var gen = gen || lastgen;
+    var base_stat = pokeinfo.stat(poke, stat, gen);
+    if (stat === 0) { // HP
+        if (gen.num > 2) {
+            return Math.floor(Math.floor((poke.ivs[stat] + (2 * base_stat) + Math.floor(poke.evs[stat]/4) + 100) * poke.level)/100) + 10;
         } else {
-            return Math.floor(((infos.stat_ivs + infos.base_stat + Math.sqrt(65535)/8 + 50) * infos.level)/50 + 10);
+            return Math.floor(((poke.ivs[stat] + base_stat + Math.sqrt(65535)/8 + 50) * poke.level)/50 + 10);
         }
     } else {
-        if (infos.generation > 2) {
-            return Math.floor(Math.floor(((infos.stat_ivs + (2 * infos.base_stat) + Math.floor(infos.stat_evs/4)) * infos.level)/100 + 5)*infos.nature);
+        if (gen.num > 2) {
+            var natureBoost = natureinfo.getNatureEffect(poke.nature, stat);
+            return Math.floor(Math.floor(((poke.ivs[stat] + (2 * base_stat) + Math.floor(poke.evs[stat]/4)) * poke.level)/100 + 5)*natureBoost);
         } else {
-            return Math.floor(Math.floor((infos.stat_ivs + infos.base_stat + Math.sqrt(65535)/8) * infos.level)/50 + 5);
+            return Math.floor(Math.floor((poke.ivs[stat] + base_stat + Math.sqrt(65535)/8) * poke.level)/50 + 5);
         }
     }
 };
