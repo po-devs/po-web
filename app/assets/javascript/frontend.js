@@ -403,6 +403,10 @@ $(function() {
                 setTimeout(function(){$("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors)});
                 poStorage.set("players.rainbow", webclientUI.players.showColors);
                 webclientUI.players.updatePlayers();
+            } else if (cmd === "exitwarning") {
+                webclientUI.exitWarning = !webclientUI.exitWarning;
+                setTimeout(function(){$("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning)});
+                poStorage.set("exitwarning", webclientUI.exitWarning);
             } else if (cmd === "register") {
                 network.command("register");
             } else if (cmd === "info") {
@@ -478,20 +482,29 @@ $(function() {
     // });
     webclientUI.timestamps = poStorage.get("chat.timestamps", "boolean");
     webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean");
+    webclientUI.exitWarning = poStorage.get("exitwarning", "boolean")
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);
     $("#checkbox-idle-dd").prop("checked", poStorage.get("player.idle", 'boolean') === null ? true: poStorage.get("player.idle", 'boolean'));
+    $("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning);
 
     webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object");
     if (webclientUI.channels.chanevents == null) {
         webclientUI.channels.chanevents = {};
     }
+    
+    webclientUI.exitWarning = poStorage.get("exitwarning", "boolean");
+    if (webclientUI.exitWarning == null) {
+        webclientUI.exitWarning = true;
+    }
 });
 
 window.onbeforeunload = function(e) {
-    if (webclient.connectedToServer) {
-        return 'Are you sure you want to disconnect from the server?';
+    if (webclientUI.exitWarning) {
+        if (webclient.connectedToServer) {
+            return 'Are you sure you want to disconnect from the server?';
+        }
     }
 };
 
