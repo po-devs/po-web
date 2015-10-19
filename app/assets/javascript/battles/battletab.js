@@ -32,10 +32,7 @@ function BattleTab(id) {
 
     //new BattleAnimator(this);
 
-    /* ui data */
-    this.data = {
-        sprites: {}
-    };
+    this.battle.data.background = Math.floor(37 * Math.random());
 
     this.shortHand = "battle";
 
@@ -49,7 +46,9 @@ function BattleTab(id) {
     rows[this.opponent].find('[data-toggle="tooltip"]').attr("data-placement", "top");
     rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
     rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
-    layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas").append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")).append(rows[this.myself]));
+    layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas")
+        .append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")
+        .append("<img src='public/battle/background/" + this.battle.data.background  + ".png'>")).append(rows[this.myself]));
     layout.append(this.chat.element);
     this.layout = layout;
     this.addTab(layout);
@@ -430,32 +429,6 @@ BattleTab.prototype.print = function(msg, args) {
 
 BattleTab.prototype.onSetCurrent = function() {
     this.chat.scrollDown();
-};
-
-BattleTab.prototype.playercss = function(spot) {
-    return "p" + ((spot % 2)+1);
-};
-
-BattleTab.prototype.updateFieldPoke = function(spot) {
-    var poke = this.pokes[spot];
-    var $poke = this.$poke(spot);
-    $poke.find(".pokemon_name").text(poke.name);
-    $poke.find(".sprite").attr("src", "");
-    $poke.find(".sprite").attr("src", pokeinfo.battlesprite(poke, {"gen": this.conf.gen, "back": this.player(spot) == 0}));
-    $poke.find(".battle-stat-value").text(poke.percent + "%");
-
-    var $prog = $poke.find(".battle-stat-progress");
-    $prog.removeClass("battle-stat-progress-1x battle-stat-progress-2x battle-stat-progress-3x battle-stat-progress-4x");
-    $prog.addClass("battle-stat-progress-" + (Math.floor(poke.percent*4/100.1)+1) + "x");
-    $prog.css("width", poke.percent + "%");
-};
-
-BattleTab.prototype.$poke = function(spot) {
-    return this.$content.find(".p" + (this.player(spot)+1) + "_pokemon" + (this.slot(spot)+1));
-};
-
-BattleTab.prototype.$sprite = function(spot) {
-    return this.data.sprites[spot] || (this.data.sprites[spot] = this.$poke(spot).find(".sprite"));
 };
 
 BattleTab.prototype.updateTeamPokes = function(player, pokes) {

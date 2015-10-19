@@ -18,6 +18,8 @@ battledata.start = function(data) {
     this.pause();
     this.addData(data);
 
+    this.data = {};
+
     var conf = this.conf;
     var team = this.team;
 

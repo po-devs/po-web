@@ -4,11 +4,29 @@
 }
 
 .battle-canvas {
-    width: 600px;
-    height: 360px;
-    border: 1px solid #000;
-    background: url("../images/battlefields/36.png");
-    background-size: 100%;
+  width: 600px;
+  height: 360px;
+  border: 1px solid #000;
+  position: relative;
+
+  iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 0;
+    z-index: 10;
+    background: transparent;
+  }
+
+  & > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 0;
+    z-index: 9;
+  }
 }
 
 .battle-view {
@@ -103,13 +121,6 @@
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-}
-
-.battle-canvas iframe {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	border: 0;
 }
 
 .battle-poke-text {
