@@ -277,7 +277,7 @@ BattleTab.prototype.enableChoices = function() {
             this.switchRow.find(".battle-poke").attr("disabled", "disabled");
         } else {
             for (var i in this.myTeam()) {
-                if (this.myTeam()[i].life == 0) {
+                if (this.myTeam()[i].life == 0 || this.myTeam()[i].status == 31) {
                     this.switchRow.find(".battle-poke:eq("+i+")").attr("disabled", "disabled");
                 }
             } 
