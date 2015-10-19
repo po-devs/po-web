@@ -15,7 +15,8 @@ module.exports = function(grunt) {
     './db/items/berry_messages.js',
     './db/status/stats.js',
     './db/status/status.js',
-    './db/types/types.js'
+    './db/types/types.js',
+    './db/categories/categories.js'
   ];
 
   var js_backend = [
@@ -67,6 +68,10 @@ module.exports = function(grunt) {
     './db/pokes/ability1.js',
     './db/pokes/ability2.js',
     './db/pokes/ability3.js',
+    './db/moves/effect.js',
+    './db/moves/power.js',
+    './db/moves/accuracy.js',
+    './db/moves/damage_class.js',
     './app/assets/javascript/teambuilder.js'
   ];
 

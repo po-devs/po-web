@@ -79,6 +79,8 @@ function BattleTab(id) {
 
                 self.onControlsChooseMove(+$(this).attr("slot"));
             });
+
+            this.addMovePopover(item);
         }
         this.attackRow = moveRow;
 
@@ -188,6 +190,33 @@ BattleTab.prototype.addPopover = function(item, options) {
     }, options);
 
     item.popover(options);
+};
+
+BattleTab.prototype.addMovePopover = function(item) {
+    var battle = this.battle;
+    item.popover({
+        html: true,
+        trigger: "hover",
+        content: function() {
+            var move = battle.teams[battle.myself][0].moves[item.attr("slot")].move;
+            var cat = moveinfo.category(move);
+            var str = "";
+            if (cat) {
+                str += "<strong>Power: </strong>" + (moveinfo.power(move) == 1 ? "???" : moveinfo.power(move)) + "<br/> ";
+            }
+            var acc = moveinfo.accuracy(move);
+            if (acc == 0 || acc == 101) {
+                acc = "---";
+            }
+            str += "<strong>Accuracy: </strong>" + acc + "<br/> ";
+            str += "<strong>Category: </strong>" + categoryinfo.name(cat);
+
+            str += "<br/><strong>Effect: </strong>" + moveinfo.effect(move);
+            return str;
+        },
+        "placement": "top",
+        "container": "body"
+    });
 };
 
 BattleTab.prototype.disableChoices = function() {

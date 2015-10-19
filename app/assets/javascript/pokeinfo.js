@@ -393,6 +393,10 @@ moveinfo.findId = function (move) {
 moveinfo.find = function(id, what, gen) {
     gen = getGen(gen);
 
+    if (! (what in pokedex.moves)) {
+        return "";
+    }
+
     var gennum = gen.num;
     var array = pokedex.moves[what][gennum];
 
@@ -413,11 +417,11 @@ moveinfo.find = function(id, what, gen) {
 };
 
 moveinfo.accuracy = function(move, gen) {
-    return this.find(move, "accuracy", gen);
+    return this.find(move, "accuracy", gen) || 0;
 };
 
-moveinfo.damageClass = function(move, gen) {
-    return this.find(move, "damage_class", gen);
+moveinfo.category = function(move, gen) {
+    return this.find(move, "damage_class", gen) || 0;
 };
 
 moveinfo.effect = function(move, gen) {
@@ -425,7 +429,7 @@ moveinfo.effect = function(move, gen) {
 };
 
 moveinfo.power = function(move, gen) {
-    return this.find(move, "power", gen);
+    return this.find(move, "power", gen) || 0;
 };
 
 moveinfo.pp = function(move, gen) {
