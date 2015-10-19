@@ -44,6 +44,7 @@
             <li><a href="po:idle/" class="checkbox-dd"><input type="checkbox" id="checkbox-idle-dd"/>&nbsp;Idle</a></li>
             <li><a href="po:timestamps/" class="checkbox-dd"><input type="checkbox" id="checkbox-timestamps-dd"/>&nbsp;Timestamps</a></li>
             <li><a href="po:rainbow/" class="checkbox-dd"><input type="checkbox" id="checkbox-rainbow-dd"/>&nbsp;Rainbow</a></li>
+            <li role="separator" class="divider"></li>
             <li><a href="po:exitwarning/" class="checkbox-dd"><input type="checkbox" id="checkbox-exitwarning-dd"/>&nbsp;Show Exit Warning</a></li>
             <li role="separator" class="divider"></li>
             <li id="register-dd" class="disabled"><a href="po:register/">Register</a></li>
