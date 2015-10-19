@@ -487,7 +487,7 @@ $(function() {
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);
     $("#checkbox-idle-dd").prop("checked", poStorage.get("player.idle", 'boolean') === null ? true: poStorage.get("player.idle", 'boolean'));
-    $("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning);
+    $("#checkbox-exitwarning-dd").prop("checked", poStorage.get("exitwarning", 'boolean') === null ? true: poStorage.get("exitwarning", 'boolean'));
 
     webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object");
     if (webclientUI.channels.chanevents == null) {
