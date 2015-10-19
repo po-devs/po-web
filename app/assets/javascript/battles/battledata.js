@@ -116,22 +116,33 @@ battledata.updateInfo = function(id, player) {
     }
 };
 
+battledata.close = function() {
+    this.timers[0].ticking = this.timers[1].ticking = false;
+};
+
 battledata.updateClock = function(player, time, ticking) {
     this.timers[player] = {"time": time, "ticking": ticking, "lastupdate": new Date().getTime()};
     this.updateTimers();
 };
 
 battledata.updateTimers = function() {
+    var self = this;
     for (var i = 0; i < 2; i++) {
         var time = this.timers[i].time;
+        if (time === undefined) {
+            time = 300;
+        }
         if (this.timers[i].ticking) {
             time -= (((new Date().getTime())-this.timers[i].lastupdate) /1000);
             if (time < 0) {
                 time = 0;
             }
         }
-        //Full bar is 5 minutes, aka 300 seconds, so time/3 gives the percentage. (time is in seconds)
-        //this.$content.find("." + this.playercss(i) + "_name .battler_bg").css("width", time/3 + "%");
+        
+        this.trigger("timerupdated", i, time);
+    }
+    if (this.timers[0].ticking || this.timers[1].ticking) {
+        setTimeout(function(){self.updateTimers();}, 1000);
     }
 };
 

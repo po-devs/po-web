@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'LCD'; /*a name to be used later*/
+    src: url('../fonts/digital-7.mono.ttf'); /*URL to font*/
+}
 
 .battle-canvas {
     width: 600px;
@@ -13,6 +17,15 @@
 
 .status-row {
     display: flex;
+}
+
+.timer-text {
+  font-family: 'LCD';
+  font-size: 1.7em;
+
+  &.time-critical {
+    color: red;
+  }
 }
 
 .status {

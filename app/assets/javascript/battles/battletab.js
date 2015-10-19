@@ -20,6 +20,15 @@ function BattleTab(id) {
         //console.log("battle tab changing name");
         self.trigger("changename", id, tier);
     });
+    this.battle.on("timerupdated", function(i, time) {
+        time = Math.floor(time);
+        self.timers[i].text(Math.floor(time/60) + ":" + ("0" + (time%60)).substr(-2));
+        if (time <= 30) {
+            self.timers[i].addClass("time-critical");
+        } else {
+            self.timers[i].removeClass("time-critical");
+        }
+    });
 
     //new BattleAnimator(this);
 
@@ -35,14 +44,16 @@ function BattleTab(id) {
     layout.addClass("flex-row battle-tab-layout");
 
     var rows = [0,0];
-    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[this.opponent]) + "</span><span class='stretchX'></span>"+pokeballrowHtml);
+    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[this.opponent]) + 
+        "</span><span class='stretchX'></span><span class='timer-text'>5:00</span>"+pokeballrowHtml);
     rows[this.opponent].find('[data-toggle="tooltip"]').attr("data-placement", "top");
-    rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
+    rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
     rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
     layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas").append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")).append(rows[this.myself]));
     layout.append(this.chat.element);
     this.layout = layout;
     this.addTab(layout);
+    this.timers=[rows[0].find(".timer-text"), rows[1].find(".timer-text")];
 
     this.teampokes = rows;
 
@@ -580,6 +591,7 @@ BattleTab.prototype.isBattle = function() {
 };
 
 BattleTab.prototype.close = function() {
+    this.battle.close();
     delete webclient.battles.battles[this.id];
     clearInterval(this.timer);
 
