@@ -430,7 +430,13 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
         var tpok = this.battle.teams[player][pokes[i]]; 
         if (tpok) {
             $img.removeClass();
+            $img.html("");
             $img.addClass("status status"+(tpok.status || 0));
+            if (!tpok.num) {
+                $img.addClass("status-hidden")
+            } else {
+                $img.append('<img src="' + pokeinfo.icon(tpok) + '">');
+            }
 
             var tooltip = "";
             if (tpok.num) tooltip += pokeinfo.name(tpok);

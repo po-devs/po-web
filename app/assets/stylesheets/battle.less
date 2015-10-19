@@ -16,37 +16,68 @@
 }
 
 .status {
-    width: 40px;
-    height: 40px;
-    display: inline-block;
-}
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  position: relative;
 
-.status0 {
-    background: url("../images/battlestatus/status0.png");
-}
+  &.status-hidden {
+    &.status0 {
+        background: url("../images/battlestatus/status0.png");
+    }
 
-.status1 {
-    background: url("../images/battlestatus/status1.png");
-}
+    &.status1 {
+        background: url("../images/battlestatus/status1.png");
+    }
 
-.status2 {
-    background: url("../images/battlestatus/status2.png");
-}
+    &.status2 {
+        background: url("../images/battlestatus/status2.png");
+    }
 
-.status3 {
-    background: url("../images/battlestatus/status3.png");
-}
+    &.status3 {
+        background: url("../images/battlestatus/status3.png");
+    }
 
-.status4 {
-    background: url("../images/battlestatus/status4.png");
-}
+    &.status4 {
+        background: url("../images/battlestatus/status4.png");
+    }
 
-.status5 {
-    background: url("../images/battlestatus/status5.png");
-}
+    &.status5 {
+        background: url("../images/battlestatus/status5.png");
+    }
 
-.status31 {
-    background: url("../images/battlestatus/status31.png");
+    &.status31 {
+        background: url("../images/battlestatus/status31.png");
+    }
+  };
+
+  &:not(.status-hidden):after {
+    position: absolute;
+    z-index: 20;
+    top: 0px;
+    right: 0px;
+    width: 23px;
+    content: "";
+    height: 23px;
+    .status1& {
+      background: url("../images/battlestatus/battle_status1.png");
+    }
+    .status2& {
+      background: url("../images/battlestatus/battle_status2.png");
+    }
+    .status3& {
+      background: url("../images/battlestatus/battle_status3.png");
+    }
+    .status4& {
+      background: url("../images/battlestatus/battle_status4.png");
+    }
+    .status5& {
+      background: url("../images/battlestatus/battle_status5.png");
+    }
+    .status31& {
+      background: url("../images/battlestatus/battle_status31.png");
+    }
+  };
 }
 
 .trainer-name {
