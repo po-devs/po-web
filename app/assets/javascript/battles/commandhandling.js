@@ -63,13 +63,13 @@ battledata.dealWithSendback = function(params) {
     this.trigger("sendback", params.spot);
 };
 
-battledata.deealWithVanish = function(params) {
+battledata.dealWithVanish = function(params) {
     this.pokes[params.spot].hidden = true;
     
     this.trigger("vanish", params.spot);
 }
 
-battledata.deealWithReappear = function(params) {
+battledata.dealWithReappear = function(params) {
     this.pokes[params.spot].hidden = false;
     
     this.trigger("reappear", params.spot);
