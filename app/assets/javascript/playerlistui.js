@@ -1,17 +1,29 @@
 /* The list of players */
 function PlayerList() {
     this.ids = [];
+    this.shown = {};
     this.filter = '';
     this.showColors = false;
 }
 
 var playerlist = PlayerList.prototype;
 
+playerlist.setFilter = function(filter) {
+    if (filter.toLowerCase() == this.filter) {
+        return;
+    }
+
+    this.filter = filter.toLowerCase();
+    this.updatePlayers();
+};
+
 playerlist.updatePlayers = function() {
     this.setPlayers(this.ids);
-}
+};
 
 playerlist.setPlayers = function (playerIds) {
+    this.shown = {};
+
     var html = "",
         len, i;
 
@@ -47,6 +59,8 @@ playerlist.createPlayerItem = function (id) {
     if (this.filter && name.toLowerCase().indexOf(this.filter) === -1) {
         return "";
     }
+
+    this.shown[id] = true;
 
     ret = "<a href='po:info/" + id + "' class='list-group-item player-list-item player-auth-" + webclient.players.auth(id);
 
@@ -88,11 +102,18 @@ playerlist.addPlayer = function (id) {
 
     /* Add the graphical element */
     var item = this.createPlayerItem(id);
-    if (pos === this.ids.length) {
+
+    var added = false;
+    for (var x = pos; x < this.ids.lentgh; x++) {
+        if (this.shown[this.ids[x]]) {
+            /* Inserts the item before the player at pos */
+            $(".player-list-item#player-" + this.ids[x]).before(item);
+            added = true;
+            break;
+        }
+    }
+    if (!added) {
         this.element.append(item);
-    } else {
-        /* Inserts the item before the player at pos */
-        $(".player-list-item#player-" + this.ids[pos]).before(item);
     }
 
     // Add the id after the position
@@ -101,6 +122,8 @@ playerlist.addPlayer = function (id) {
 };
 
 playerlist.removePlayer = function (id) {
+    delete this.shown[id];
+
     var pos = this.ids.indexOf(+id);
     if (pos !== -1) {
         this.ids.splice(pos, 1);
@@ -121,6 +144,10 @@ playerlist.updatePlayer = function (id) {
 $(function() {
     webclientUI.players.element = $("#playerlist");
     webclientUI.players.count = $("#playercount");
+
+    $("#player-filter").on("input", function() {
+        webclientUI.players.setFilter($(this).val());
+    });
 
     webclient.players.on("playeradd", function(id, obj) {
         webclientUI.players.updatePlayer(+id);

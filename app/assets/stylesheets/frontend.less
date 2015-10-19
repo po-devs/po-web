@@ -101,9 +101,9 @@ body {
   width: 100%;
 
   /* Shifts main chat and centers it, adding whitespace to sides. */
-  // max-width: 1200px;
-  // margin-left: auto;
-  // margin-right: auto;
+  /* max-width: 1200px;
+   margin-left: auto;
+   margin-right: auto;*/
 }
 
 #tabs .tab.current {
@@ -123,6 +123,12 @@ body {
 
 #playerlist, #pmlist, #channellist, #battlelist {
     margin-bottom: 0px;
+}
+
+@media screen and (max-height: 760px) {
+  #player-filter {
+    display: none;
+  }
 }
 
 /*#playerlist li:hover {
