@@ -104,7 +104,7 @@ playerlist.addPlayer = function (id) {
     var item = this.createPlayerItem(id);
 
     var added = false;
-    for (var x = pos; x < this.ids.lentgh; x++) {
+    for (var x = pos; x < this.ids.length; x++) {
         if (this.shown[this.ids[x]]) {
             /* Inserts the item before the player at pos */
             $(".player-list-item#player-" + this.ids[x]).before(item);
