@@ -3,6 +3,7 @@ var webclient = {
     channels : new ChannelHolder(),
     pms: new PMHolder(),
     battles: new Battles(),
+    ownTiers: [],
     team: {"tier": "", "pokes":[new Poke(),new Poke(),new Poke(),new Poke(),new Poke(),new Poke()]},
 
     ownName: function() {

@@ -87,8 +87,15 @@ var webclientUI = {
             webclient.requestInfo(id);
         } else if (!params.desc) {
             var oppTeams = info.find("#opp-team");
+            var selected = false;
             for (tier in pl.ratings) {
-                oppTeams.append($("<option>").text(tier).attr("value", tier));
+                /* If the opponent shares a tier with us, challenge them in that tier */
+                if (!selected && webclient.ownTiers.indexOf(tier) != -1) {
+                    selected = true;
+                    oppTeams.append($("<option selected>").text(tier).attr("value", tier));
+                } else {
+                    oppTeams.append($("<option>").text(tier).attr("value", tier));
+                }
             }
         }
 
@@ -204,8 +211,15 @@ var webclientUI = {
 
             if (plInfo.updateRatings) {
                 var oppTeams = plInfo.find("#opp-team");
+                var selected = false;
                 for (tier in oppPl.ratings) {
-                    oppTeams.append($("<option>").text(tier).attr("value", tier));
+                    /* If the opponent shares a tier with us, challenge them in that tier */
+                    if (!selected && webclient.ownTiers.indexOf(tier) != -1) {
+                        selected = true;
+                        oppTeams.append($("<option selected>").text(tier).attr("value", tier));
+                    } else {
+                        oppTeams.append($("<option>").text(tier).attr("value", tier));
+                    }
                 }
             }
             delete webclientUI.waitingInfos[id];

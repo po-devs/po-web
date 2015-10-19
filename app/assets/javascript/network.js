@@ -279,6 +279,7 @@ function createNetwork(WebSocket) {
             webclient.connectedToServer = true;
 
             var params = JSON.parse(payload);
+            webclient.ownTiers = params.tiers;
             webclient.players.login(params.id, params.info);
 
             this.command('getrankings', {id: params.id});
