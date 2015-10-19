@@ -139,6 +139,10 @@ battledata.slot = function(spot) {
     return spot >> 1;
 };
 
+battledata.spot = function(player, slot) {
+    return player + (slot << 1);
+};
+
 battledata.tpoke = function(spot) {
     if (arguments.length == 1) {
         return this.teams[this.player(spot)][this.slot(spot)];

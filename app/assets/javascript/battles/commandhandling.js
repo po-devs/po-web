@@ -91,12 +91,14 @@ battledata.dealWithSubformechange = function(params) {
 };
 
 /* Definite change of the poke even in the team */
-battledata.dealWithFormeChange = function(params) {
+battledata.dealWithFormechange = function(params) {
     var pokeObject = pokeinfo.toObject(params.newforme);
     $.extend(this.teams[params.player][params.slot], pokeObject);
     $.extend(this.pokes[this.spot(params.player,params.slot)], pokeObject);
 
-    this.trigger("spritechange", params.spot);
+    this.updateTeamPokes(params.player, [params.slot]);
+
+    this.trigger("spritechange", this.spot(params.player, params.spot));
 };
 
 battledata.dealWithTeampreview = function(params) {
