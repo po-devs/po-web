@@ -232,6 +232,10 @@ battledata.dealWithStatus = function(params) {
         this.print("%1 became confused!".replace("%1", this.nick(params.spot)));
         return;
     }
+    if (params.status == 0) {
+        this.trigger("statuschange", params.spot, params.status);
+        return;
+    }
     var status = BattleTab.statuses[params.status];
     if (!status || status == "fnt") {
         return;
