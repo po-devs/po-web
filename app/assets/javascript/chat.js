@@ -24,7 +24,9 @@ function Chat(options) {
 
     var self = this;
     this.chatSend.keydown(utils.onEnterPressed(function () {
-        self.trigger("chat", $(this).val());
+        if ($(this).val().length > 0) {
+            self.trigger("chat", $(this).val());
+        }
         //$(this).val('');
     }));
 };
