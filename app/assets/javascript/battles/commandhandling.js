@@ -505,6 +505,8 @@ battledata.dealWithBattleend = function(params) {
         this.print("<strong>" + this.name(params.winner) + " won the battle!</strong>");
     } else if (params.result == 2) {
         this.print("<strong>Tie between " + this.name(0) + " and " + this.name(1) + "!</strong>");
+    } else if (params.result == 3) {
+        this.print("<strong>One of the players left the battle.</strong>");
     }
 };
 

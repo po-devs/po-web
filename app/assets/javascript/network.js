@@ -339,6 +339,9 @@ function createNetwork(WebSocket) {
 
             webclient.battles.battleEnded(battleid, result);
         },
+        stopwatching: function(payload) {
+            webclient.battles.serverStopWatching(+payload);
+        },
         rankings: function (payload) {
             var parts = payload.split("|"),
                 id = parts[0],
@@ -400,7 +403,8 @@ function createNetwork(WebSocket) {
         optionschange: parsers.optionschange,
         unregistered: parsers.unregistered,
         tiers: parsers.tiers,
-        teamtiers: parsers.teamtiers
+        teamtiers: parsers.teamtiers,
+        stopwatching: parsers.stopwatching
     };
 
     function Network() {
@@ -512,6 +516,7 @@ function createNetwork(WebSocket) {
             if (pipe === -1) {
                 console.error("Received raw message, should be changed in the relay station:", data);
             } else {
+                //console.log(data);
                 cmd = data.substr(0, pipe);
                 payload = data.slice(pipe + 1);
                 if (parsers.hasOwnProperty(cmd)) {

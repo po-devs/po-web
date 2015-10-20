@@ -79,6 +79,10 @@ Battles.prototype.battleEnded = function(battleid, result) {
     webclientUI.players.updatePlayer(ids[1]);
 };
 
+Battles.prototype.serverStopWatching = function(battleid) {
+    this.leaveBattle(battleid, "close");
+};
+
 /* Maybe instead of a direct call from players it should be bound by some kind of event listener and
     called that way. */
 Battles.prototype.removePlayer = function(pid) {

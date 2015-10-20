@@ -17,7 +17,7 @@ battledata.print = function(msg, args) {
 battledata.finished = function(result) {
     console.log("battle finished with result " + result);
     if (result == "close") {
-        this.print("<strong>One of the players left the battle.</strong>");
+        this.dealWithCommand({"command": "battleend", "result": 3});
     }
     if (result == "close" || result == "forfeit") {
         this.trigger("disable");
