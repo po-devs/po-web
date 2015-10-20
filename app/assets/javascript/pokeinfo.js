@@ -424,7 +424,7 @@ moveinfo.category = function(move, gen) {
 };
 
 moveinfo.effect = function(move, gen) {
-    return this.find(move, "effect", gen);
+    return this.find(move, "effect", gen) || "";
 };
 
 moveinfo.power = function(move, gen) {

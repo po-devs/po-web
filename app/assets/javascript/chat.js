@@ -29,6 +29,10 @@ function Chat(options) {
     }));
 };
 
+Chat.prototype.disable = function() {
+    this.chatSend.prop("disabled", true);
+}
+
 Chat.prototype.insertMessage = function (msg, opts) {
     var chatTextArea = this.chatTextArea;
     var cta = chatTextArea[0];

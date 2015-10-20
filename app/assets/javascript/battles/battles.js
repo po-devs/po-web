@@ -42,14 +42,37 @@ Battles.prototype.addBattle = function (battles) {
     }
 };
 
+Battles.prototype.dealWithCommand = function(battleid, command) {
+    if (battleid in this.battles) {
+        this.battles[battleid].dealWithCommand(command);
+    } else {
+        console.log("battle command for battle " + battleid + " not found");
+        console.log(command);
+    }
+};
+
+Battles.results = [
+    "forfeit",
+    "win",
+    "tie",
+    "close"
+];
+
 Battles.prototype.battleEnded = function(battleid, result) {
+    if (battleid in this.battles) {
+        console.log(arguments);
+    }
+    
+    result = Battles.results[result.result];
+
     //console.log("battle ended");
     if (!this.battleList.hasOwnProperty(battleid)) {
+        this.leaveBattle(battleid, result);
         return;
     }
 
     var ids = this.battleList[battleid].ids;
-    this.removeBattle(battleid);
+    this.removeBattle(battleid,result);
 
     /* We do nothing with result yet... no printing channel events?! */
     webclientUI.players.updatePlayer(ids[0]);
@@ -64,12 +87,12 @@ Battles.prototype.removePlayer = function(pid) {
         var battle = this.battlesByPlayer[pid][battleid];
         var ids = battle.ids;
         if (!webclient.players.hasPlayer(ids[0] == pid ? ids[1] : ids[0])) {
-            this.removeBattle(battleid);
+            this.removeBattle(battleid, "forfeit");
         }
     }
 };
 
-Battles.prototype.removeBattle = function(battleid) {
+Battles.prototype.removeBattle = function(battleid,result) {
     var ids = this.battleList[battleid].ids;
     delete this.battlesByPlayer[ids[0]][battleid];
     delete this.battlesByPlayer[ids[1]][battleid];
@@ -81,7 +104,8 @@ Battles.prototype.removeBattle = function(battleid) {
     if (!Object.keys(this.battlesByPlayer[ids[1]]).length) {
         delete this.battlesByPlayer[ids[1]];
     }
-    this.leaveBattle(battleid);
+    
+    this.leaveBattle(battleid, result);
 };
 
 Battles.prototype.battle = function(pid) {
@@ -109,9 +133,13 @@ Battles.prototype.startBattle = function(battle) {
     this.trigger("activebattle", battle.id);
 };
 
-Battles.prototype.leaveBattle = function(id) {
+Battles.prototype.leaveBattle = function(id, result) {
     if (id in this.battles) {
-        delete this.battles[id];
+        console.log("leaving battle " + id + " with result " + result);
+        if (result == "close" || result == "forfeit") {
+            this.battles[id].finished(result);
+            delete this.battles[id];
+        }
     }
 };
 

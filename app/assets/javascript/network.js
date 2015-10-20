@@ -303,7 +303,7 @@ function createNetwork(WebSocket) {
         battlecommand: function (payload) {
             var battleid = payload.split("|")[0];
             if (battleid in webclient.battles.battles) {
-                webclient.battles.battle(battleid).dealWithCommand(JSON.parse(payload.slice(battleid.length + 1)));
+                webclient.battles.dealWithCommand(battleid, JSON.parse(payload.slice(battleid.length + 1)));
             }
         },
         battlestarted: function (payload) {

@@ -14,6 +14,16 @@ battledata.print = function(msg, args) {
     this.trigger("print", msg, args);
 };
 
+battledata.finished = function(result) {
+    console.log("battle finished with result " + result);
+    if (result == "close") {
+        this.print("<strong>One of the players left the battle.</strong>");
+    }
+    if (result == "close" || result == "forfeit") {
+        this.trigger("disable");
+    }
+};
+
 battledata.start = function(data) {
     this.pause();
     this.addData(data);

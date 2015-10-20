@@ -29,6 +29,9 @@ function BattleTab(id) {
             self.timers[i].removeClass("time-critical");
         }
     });
+    this.battle.on("disable", function() {
+        self.chat.disable();
+    });
 
     //new BattleAnimator(this);
 
