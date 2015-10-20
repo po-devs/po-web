@@ -94,6 +94,9 @@ $(function () {
                 elem.value = elem.hist[++elem.histIndex] || "";
             }
         } else if (event.which == 13) { // Return
+            if (elem.value.length == 0) {
+                return;
+            }
             elem.hist.push(elem.value);
             if (elem.hist.length > maxHistSize) {
                 elem.hist.shift();
