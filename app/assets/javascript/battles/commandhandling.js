@@ -230,6 +230,17 @@ battledata.dealWithBoost = function(params) {
     //this.damageCause = {};
 };
 
+battledata.dealWithDynamicinfo = function(params) {
+    console.log(params);
+    this.pokes[params.spot].boosts = params.boosts;
+    this.pokes[params.spot].fieldState = params.fieldflags;
+}
+
+battledata.dealWithStats = function(params) {
+    console.log(params);
+    this.pokes[params.spot].stats = params.stats;
+}
+
 battledata.dealWithStatus = function(params) {
     if (params.status == 6) {
         this.print("%1 became confused!".replace("%1", this.nick(params.spot)));

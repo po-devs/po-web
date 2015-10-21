@@ -36,7 +36,7 @@ battledata.start = function(data) {
     this.queue = [];//Queues of message not yet processed
 
     /* Pokemon on the field */
-    this.pokes = {};
+    this.pokes = {"0": {}, "1": {}};
     /* teams */
     this.teams = [[{},{},{},{},{},{}], [{},{},{},{},{},{}]];
     this.choices = {};

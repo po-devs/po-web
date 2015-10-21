@@ -322,24 +322,47 @@ pokeinfo.released = function(poke, gen) {
     return pokedex.pokes.released[getGen(gen).num].hasOwnProperty(this.toNum(poke));
 };
 
-pokeinfo.calculateStat = function(poke, stat, gen) {
+pokeinfo.calculateStatInfo = function(info, stat, gen) {
     var gen = gen || lastgen;
-    var base_stat = pokeinfo.stat(poke, stat, gen);
+    var base_stat = pokeinfo.stat(info, stat, gen);
+    
     if (stat === 0) { // HP
         if (gen.num > 2) {
-            return Math.floor(Math.floor((poke.ivs[stat] + (2 * base_stat) + Math.floor(poke.evs[stat]/4) + 100) * poke.level)/100) + 10;
+            return Math.floor(Math.floor((info.iv + (2 * base_stat) + Math.floor(info.ev/4) + 100) * info.level)/100) + 10;
         } else {
-            return Math.floor(((poke.ivs[stat] + base_stat + Math.sqrt(65535)/8 + 50) * poke.level)/50 + 10);
+            return Math.floor(((info.iv + base_stat + Math.sqrt(65535)/8 + 50) * info.level)/50 + 10);
         }
     } else {
         if (gen.num > 2) {
-            var natureBoost = natureinfo.getNatureEffect(poke.nature, stat);
-            return Math.floor(Math.floor(((poke.ivs[stat] + (2 * base_stat) + Math.floor(poke.evs[stat]/4)) * poke.level)/100 + 5)*natureBoost);
+            var natureBoost = info.natureBoost;
+            return Math.floor(Math.floor(((info.iv + (2 * base_stat) + Math.floor(info.ev/4)) * info.level)/100 + 5)*natureBoost);
         } else {
-            return Math.floor(Math.floor((poke.ivs[stat] + base_stat + Math.sqrt(65535)/8) * poke.level)/50 + 5);
+            return Math.floor(Math.floor((info.iv + base_stat + Math.sqrt(65535)/8) * info.level)/50 + 5);
         }
     }
+}
+
+pokeinfo.calculateStat = function(poke, stat, gen) {
+    var gen = gen || lastgen;
+    return pokeinfo.calculateStatInfo({"num": poke.num, "forme": poke.forme || 0, "iv": poke.ivs[stat], "ev": poke.evs[stat],
+            "level": poke.level, "natureBoost": natureinfo.getNatureEffect(poke.nature, stat)}, stat, gen);
 };
+
+pokeinfo.minStat = function(poke, stat, gen) {
+    var gen = gen || lastgen;
+    var ret = pokeinfo.calculateStatInfo({"num": poke.num, "forme": poke.forme || 0, "iv": 31, "ev": 0,
+            "level": poke.level, "natureBoost": 1}, stat, gen);
+    var boost = poke.boost || 0;
+    return Math.floor(ret * Math.max(2, 2+boost) / Math.max(2, 2-boost));
+}
+
+pokeinfo.maxStat = function(poke, stat, gen) {
+    var gen = gen || lastgen;
+    var ret = pokeinfo.calculateStatInfo({"num": poke.num, "forme": poke.forme || 0, "iv": 31, "ev": 252,
+            "level": poke.level, "natureBoost": 1.1}, stat, gen);
+    var boost = poke.boost || 0;
+    return Math.floor(ret * Math.max(2, 2+boost) / Math.max(2, 2-boost));
+}
 
 genderinfo.name = function(gender) {
     return {1: 'male', 2: 'female', 3: 'neutral'}[gender];

@@ -135,8 +135,16 @@ function BattleTab(id) {
         });
     }
 
+    this.pokes = [this.teampokes[0].find(".status:eq(0)"), this.teampokes[1].find(".status:eq(0)")];
+
+    this.addFieldPopover(this.pokes[0], 0);
+    this.addFieldPopover(this.pokes[1], 1);
+
     this.updateTeamPokes(this.myself);
     this.updateTeamPokes(this.opponent);
+
+    self.fieldPopover = -1;
+
     this.battle.on("updateteampokes", function(player, pokes) {
         self.updateTeamPokes(player, pokes);
     }).on("playernameupdated", function(spot, name) {
@@ -145,6 +153,30 @@ function BattleTab(id) {
         self.enableChoices();
     }).on("teampreview", function(team1, team2) {
         self.showTeamPreview(team1, team2);
+    }).on("battle-hover", function(spot) {
+        if (spot == self.fieldPopover) {
+            return;
+        }
+        if (spot == -1) {
+            self.pokes[0].popover("hide");
+            self.pokes[1].popover("hide");
+        } else {
+            self.pokes[1-spot].popover("hide");
+            self.pokes[spot].popover("show");
+        }
+        self.fieldPopover = spot;
+    });
+
+    this.canvas = layout.find(".battle-canvas");
+    this.tab.on("mousemove", function(event) {
+        var pos = {"top": event.pageY, "left": event.pageX};
+        var cpos = self.canvas.offset();
+        cpos.width = self.canvas.width();
+        cpos.height = self.canvas.height();
+
+        if (pos.top < cpos.top || pos.left < cpos.left || pos.top > cpos.top + cpos.height || pos.left > cpos.left + cpos.width) {
+            self.battle.trigger("battle-hover", -1);
+        }
     });
 
     this.chat.on("chat", function(msg) {
@@ -233,6 +265,52 @@ BattleTab.prototype.addMovePopover = function(item) {
         "container": "body"
     });
 };
+
+BattleTab.prototype.addFieldPopover = function(item, spot) {
+    var battle = this.battle;
+    item.popover({
+        "html": true,
+        content: function() {
+            var poke = battle.pokes[spot];
+            var types = pokeinfo.types(poke);
+            for (var i in types) {
+                types[i] = typeinfo.name(types[i]);
+            }
+
+            var ret = [types.join(" / ")];
+            ret.push("");
+
+            var table = "<table class='table table-condensed table-bordered'>";
+            for (var i = 0; i < 6; i++) {
+                var stat = "<tr><td>"+statinfo.name(i) + "</td><td>";
+                if (poke.stats) {
+                    if (i == 0) {
+                        stat += poke.totalLife;
+                    } else {
+                        stat += poke.stats[i];
+                    }
+                } else {
+                    var boost = poke.boosts && i > 0 && poke.boosts[i] ? poke.boosts[i] : 0;
+
+                    stat += pokeinfo.minStat($.extend({}, poke, {"boost": boost}), i) + " - " + 
+                        pokeinfo.maxStat($.extend({}, poke, {"boost": boost}), i);
+                }
+                stat += "</td><td>";
+                if (i > 0 && poke.boosts && poke.boosts[i]) {
+                    stat += " " + (poke.boosts[i] > 0 ? "+" + poke.boosts[i] : poke.boosts[i]);
+                } else if (i > 0) {
+                    stat += " +0";
+                }
+                stat += "</td></tr>";
+                table += stat;
+            }
+            ret.push(table + "</table>");
+
+            return ret.join("<br/>");
+        },
+        placement: this.battle.player(spot) == this.myself ? "top": "bottom"
+    });
+}
 
 BattleTab.prototype.disableChoices = function() {
     this.switchRow.find(".battle-poke").attr("disabled", "disabled");
