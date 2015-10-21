@@ -224,7 +224,9 @@ BattleTab.prototype.addMovePopover = function(item) {
             str += "<strong>Accuracy: </strong>" + acc + "<br/> ";
             str += "<strong>Category: </strong>" + categoryinfo.name(cat);
 
-            str += "<br/><strong>Effect: </strong>" + moveinfo.effect(move);
+            if (moveinfo.effect(move)) {
+                str += "<br/><strong>Effect: </strong>" + moveinfo.effect(move);
+            }
             return str;
         },
         "placement": "top",

@@ -217,6 +217,9 @@ battledata.dealWithAvoid = function(params) {
 };
 
 battledata.dealWithBoost = function(params) {
+    if (params.silent) {
+        return;
+    }
     if (params.boost > 6) {
         this.print(this.nick(params.spot) +"'s " + statinfo.name(params.stat) + " drastically rose!");
     } else if (params.boost > 0) {
