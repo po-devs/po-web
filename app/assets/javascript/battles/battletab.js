@@ -79,19 +79,21 @@ function BattleTab(id) {
         }
         this.switchRow = pokeRow;
 
+        var onMoveClicked = function(event) {
+            if (!self.battle.choicesAvailable || $(this).attr("disabled")) {
+                return false;
+            }
+
+            self.onControlsChooseMove(+$(this).attr("slot"));
+        };
+
         var moveRow = $("<div>").addClass("battle-attackrow btn-group-justified").attr("data-toggle", "buttons");
         for (var i in this.battle.teams[this.myself][0].moves) {
             var item = $("<span>").addClass("btn btn-default battle-move").append($("<input type='radio'>")).append($("<span>").addClass("battle-move-text")).attr("slot", i);
             item.append($("<span class='battle-move-pp'>"));
             moveRow.append(item);
 
-            item.on("click", function(event) {
-                if (!self.battle.choicesAvailable || $(this).attr("disabled")) {
-                    return false;
-                }
-
-                self.onControlsChooseMove(+$(this).attr("slot"));
-            });
+            item.on("click", onMoveClicked);
 
             this.addMovePopover(item);
         }
@@ -109,7 +111,7 @@ function BattleTab(id) {
             <div class="btn-group pull-right" data-toggle="buttons">\
                 <span class="btn btn-default battle-mega">\
                     <input type="checkbox">Mega</span>\
-                <span class="btn btn-default battle-struggle" disabled>\
+                <span class="btn btn-default battle-struggle" slot="-1" disabled>\
                     <input type="checkbox">Struggle</span>\
                 <span class="btn btn-default battle-cancel">\
                     Cancel</span>\
@@ -125,6 +127,7 @@ function BattleTab(id) {
         this.megaButton = layout.find(".battle-mega");
         this.cancelButton = layout.find(".battle-cancel");
         this.struggleButton = layout.find(".battle-struggle");
+        this.struggleButton.on("click", onMoveClicked);
 
         this.cancelButton.on("click", function(event) {
             if ($(this).attr("disabled")) {
