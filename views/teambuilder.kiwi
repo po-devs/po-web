@@ -1,13 +1,21 @@
 <div class="teambuilder">
   <!-- Centered Pills -->
   <ul class="nav nav-pills nav-justified" role="tablist">
-    <li><a href="#" id="header-home">Home</a></li>
+    <li class="tb-poke-pill active" slot="-1"><a href="#tb-home" class="tb-poke-link" id="header-home">Home</a></li>
     {{each [0,1,2,3,4,5]}}
-    <li class="tb-poke-pill {{if $each.first}}active{{/if}}"><a href="#tb-poke-${$value}" class="tb-poke-link" slot="${$value}" id="link-poke-${$value}">Poke&nbsp;#${$value|incr}</a></li>
+    <li class="tb-poke-pill"><a href="#tb-poke-${$value}" class="tb-poke-link" slot="${$value}" id="link-poke-${$value}">Poke&nbsp;#${$value|incr}</a></li>
     {{/each}}
   </ul>
+  <div class="panel panel-default tab current tb-home" id="tb-home" role="tabpanel">
+    <div class="panel-body">
+        <div class="form-group">
+          <label for="tb-tier" class="control-label">Team Tier</label>
+          <input type="text" class="form-control typeahead" id="tb-tier" value="" placeholder="Team tier...">
+        </div>
+    </div>
+  </div>
   {{each [0,1,2,3,4,5]}}
-  <div class="panel panel-default tab {{if $each.first}}current{{/if}} tb-poke" id="tb-poke-${$value}" role="tabpanel">
+  <div class="panel panel-default tab tb-poke" id="tb-poke-${$value}" role="tabpanel">
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-3">

@@ -12,12 +12,16 @@ var substringMatcher = function(strs) {
 
     // iterate through the pool of strings and for any string that
     // contains the substring `q`, add it to the `matches` array
-    $.each(strs, function(i, str) {
-      if (substrRegex.test(str.value)) {
-        matches.push(str);
-      }
-    });
-
+    if (!q || q.length == 0) {
+        matches = strs;
+    } else {
+        $.each(strs, function(i, str) {
+            if (substrRegex.test(str.value)) {
+                matches.push(str);
+             }
+        });    
+    }
+    
     cb(matches);
   };
 };
@@ -190,7 +194,7 @@ function Teambuilder (content) {
         team.pokes[poke].setElement(content.find("#tb-poke-" + poke));
     }
 
-    setTimeout(function(){team.pokes[0].loadGui()});
+    //setTimeout(function(){team.pokes[0].loadGui()});
 
     setTimeout(function() {
         content.find(".tb-poke-selection").typeahead({
@@ -223,8 +227,49 @@ function Teambuilder (content) {
         content.find(".tb-poke-pill").removeClass("active");
         $(this).closest(".tb-poke-pill").addClass("active");
 
-        self.team.pokes[$(this).attr("slot")].loadGui();
+        var slot = $(this).attr("slot");
+        if (slot >= 0) {
+            self.team.pokes[$(this).attr("slot")].loadGui();
+        }
     });
+
+    var tiers = webclient.tiersList;
+    
+    //console.log(tiers);
+
+    var addTiersToList = function(parent, tiers) {
+        var retS = [];
+        var retC = [];
+        for (var x in tiers) {
+            if (typeof (tiers[x]) == "string") {
+                retS.push({"value": tiers[x], "category": parent});
+            } else {
+                var tmp = addTiersToList(tiers[x].name, tiers[x].tiers);
+                retC = tmp.concat(retC);
+            }
+        }
+        return retS.concat(retC);
+    };
+    var list = addTiersToList("All", tiers);
+    //console.log(list);
+
+    content.find("#tb-tier").typeahead({
+        hint: true,
+        minLength: 0,
+        highlight: false
+    }, {
+        name: 'tiers',
+        source: substringMatcher(list),
+        display: 'value',
+        limit: 30,
+        templates: {
+          suggestion: Handlebars.compile('<div>{{value}} - <span class="tb-tier-category">{{category}}</span></div>')
+        }
+    }).on("typeahead:select", function(event, sugg) {
+        sugg = sugg.value;
+        team.tier = sugg;
+        $(this).typeahead('close');
+    }).val(team.tier || "");
 }
 
 console.log("loading teambuilder js file");

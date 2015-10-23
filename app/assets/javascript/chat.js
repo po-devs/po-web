@@ -1,5 +1,5 @@
 var chatHtml = 
-'    <div class="chat" tabindex=3>\
+'    <div class="chat">\
      \
     </div>\
 \

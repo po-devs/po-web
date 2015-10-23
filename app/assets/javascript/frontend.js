@@ -81,12 +81,9 @@ var webclientUI = {
             oppTeams.prop('disabled', 'disabled');
         }
 
-        if (!pl.hasOwnProperty("info") || !pl.hasOwnProperty("ratings")) {
-            webclientUI.waitingInfos[id] = info;
-            info.updateRatings = params.desc ? false: true;
-            webclient.requestInfo(id);
-        } else if (!params.desc) {
+        if (!params.desc && params.ratings) {
             var oppTeams = info.find("#opp-team");
+            oppTeams.prop("disabled", true);
             var selected = false;
             for (tier in pl.ratings) {
                 /* If the opponent shares a tier with us, challenge them in that tier */
@@ -98,6 +95,10 @@ var webclientUI = {
                 }
             }
         }
+
+        webclientUI.waitingInfos[id] = info;
+        info.updateRatings = params.desc ? false: true;
+        webclient.requestInfo(id);
 
         var fullInfo = $("<div>").addClass("flex-row").append(info);
         var clauses = $("<div>").addClass("input-group checkbox battle-clauses");
@@ -211,6 +212,8 @@ var webclientUI = {
 
             if (plInfo.updateRatings) {
                 var oppTeams = plInfo.find("#opp-team");
+                oppTeams.prop("disabled", false);
+                oppTeams.html("");
                 var selected = false;
                 for (tier in oppPl.ratings) {
                     /* If the opponent shares a tier with us, challenge them in that tier */

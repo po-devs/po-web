@@ -223,6 +223,7 @@ battledata.readQueue = function() {
    Calls the appropriate function from battle/commandshandling.js to handle it.
  */
 battledata.dealWithCommand = function(params) {
+    //console.log(params);
     var isImmediate = (params.command in BattleData.immediateCommands) && !params.end;
     if ((this.paused || !this.canStart) && !isImmediate) {
         this.queue.push(params);

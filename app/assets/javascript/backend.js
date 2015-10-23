@@ -47,7 +47,7 @@ var webclient = {
         loginInfo.info = {"avatar": 167, "info": poStorage.get('player.info')};
 
         if (webclient.team) {
-            loginInfo.teams = [webclient.team];
+            loginInfo.teams = [webclient.getTeamData(webclient.team)];
         }
         
         if (loginInfo.name) {
@@ -147,6 +147,8 @@ var webclient = {
             delete team.pokes[i]["ui"];
             delete team.pokes[i]["data"];
         }
+
+        console.log(team);
 
         return team;
     },
