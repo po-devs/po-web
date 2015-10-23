@@ -110,7 +110,7 @@ battledata.nick = function(spot) {
     if (this.isBattle() && this.player(spot) == this.myself) {
         return this.rnick(spot);
     } else {
-        return this.name(this.player(spot)) + "'s " + this.pokes[spot].name;
+        return this.name(this.player(spot)) + "'s " + this.rnick(spot);
     }
 };
 
