@@ -154,7 +154,7 @@ var webclient = {
     },
 
     sendTeam: function() {
-        network.command("teamchange", {"team":webclient.getTeamData()});
+        network.command("teamchange", {"teams":[webclient.getTeamData()]});
     },
 
     saveTeam: function() {
