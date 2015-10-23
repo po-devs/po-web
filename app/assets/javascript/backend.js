@@ -47,6 +47,7 @@ var webclient = {
         loginInfo.info = {"avatar": 167, "info": poStorage.get('player.info')};
 
         if (webclient.team) {
+            webclient.cacheTeam();
             loginInfo.teams = [webclient.getTeamData(webclient.team)];
         }
         
@@ -153,8 +154,20 @@ var webclient = {
         return team;
     },
 
+    cacheTeam: function() {
+        var newTeam = JSON.stringify($.extend({}, this.getTeamData(), {"tier":""}));
+        var oldCache = this.cachedTeam;
+        this.cachedTeam = newTeam;
+
+        return !oldCache || newTeam != oldCache;
+    },
+
     sendTeam: function() {
-        network.command("teamchange", {"teams":[webclient.getTeamData()]});
+        if (!webclient.team.tier || webclient.cacheTeam()) {
+            network.command("teamchange", {"teams":[webclient.getTeamData()]});
+        } else {
+            network.command("changetier", {"0":webclient.team.tier});
+        }
     },
 
     saveTeam: function() {

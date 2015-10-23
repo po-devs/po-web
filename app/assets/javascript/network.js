@@ -23,6 +23,9 @@ function createNetwork(WebSocket) {
             console.log(payload);
             return 'teamchange|' + JSON.stringify(payload);
         },
+        changetier: function(payload) {
+            return 'changetier|' + JSON.stringify(payload);
+        },
         // battle: number
         watch: function (payload) {
             return 'watch|' + payload.battle;
@@ -448,6 +451,7 @@ function createNetwork(WebSocket) {
     };
 
     proto.command = proto.send = function (command, payload) {
+        console.log(payload);
         this.sendRaw(transformers[command].call(this, payload));
         return this;
     };
