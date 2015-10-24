@@ -49,9 +49,8 @@
         <span class="col-sm-3">
           <input class="typeahead tb-item-selection form-control" slot="${$value}" placeholder="Item..." type="text">
         </span>
-        <span class="col-sm-3">
-          <select class="tb-ability-selection form-control">
-            <option>Ability</option>
+        <span class="col-sm-3 tb-ability-container">
+          <select class="tb-ability-selection form-control" slot="${$value}">
           </select>
         </span>
         <span class='col-sm-3'><label for="tb-level-${$value}">Level</label><input type="number" id="tb-level-${$value}" class="tb-level-value" value="100" min="1" max="100" step="1" maxlength="3" size="2"></span>

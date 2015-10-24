@@ -62,6 +62,13 @@ Poke.prototype.load = function(poke) {
     this.data.types = pokeinfo.types(this);
     this.data.abilities = pokeinfo.abilities(this);
 
+    if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
+        this.data.abilities.splice(2, 1);
+    }
+    if (!this.data.abilities[1] || this.data.abilities[1] == this.data.abilities[0]) {
+        this.data.abilities.splice(1, 1);
+    }
+
     if (!alreadySet) {
         this.nick = this.num == 0 ? "" : pokeinfo.name(this);
         this.ability = this.data.abilities[0];
@@ -122,6 +129,7 @@ Poke.prototype.setElement = function(element) {
     this.ui.moves = element.find(".tb-move-selection");
     this.ui.poke = element.find(".tb-poke-selection");
     this.ui.item = element.find(".tb-item-selection");
+    this.ui.ability = element.find(".tb-ability-selection");
 };
 
 Poke.prototype.updateStatGui = function(stat) {
@@ -176,6 +184,16 @@ Poke.prototype.updateGui = function()
     }
 
     this.ui.poke.val(this.nick);
+
+    this.ui.ability.html("");
+    for (var x in this.data.abilities) {
+        var ab = this.data.abilities[x];
+        this.ui.ability.append("<option value='" + ab + "'>" + abilityinfo.name(ab) + "</option>");
+    }
+    this.ui.ability.val(this.ability);
+    this.ui.ability.on("change", function() {
+        self.ability = $(this).val();
+    });
 
     this.ui.moves.typeahead("destroy").typeahead({
          hint: true,
