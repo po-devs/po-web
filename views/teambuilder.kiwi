@@ -42,9 +42,13 @@
         <!--<select class="col-sm-3 tb-item-selection">
           <option>Item</option>
         </select>-->
-        <span class='col-sm-3'>
-          <span class='btn btn-default'><span class='glyphicon glyphicon-fire'></span></span>
-          <span class='btn btn-default'><span class='glyphicon glyphicon-flash'></span></span>
+        <span class='col-sm-3 flex-row-basic'>
+          <span class="stretchX"></span>
+          <div class="flex-row-basic btn-group">
+            <span class='btn btn-default btn-sm tb-gender'><i class="fa fa-mars"></i></span>
+            <span class='btn btn-default btn-sm tb-gender'><i class="fa fa-venus"></i></span>
+          </div>
+          <span class="stretchX"></span>
         </span>
         <span class="col-sm-3">
           <input class="typeahead tb-item-selection form-control" slot="${$value}" placeholder="Item..." type="text">
