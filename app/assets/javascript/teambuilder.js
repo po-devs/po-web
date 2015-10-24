@@ -38,6 +38,12 @@ for (var num in pokedex.pokes.pokemons) {
 
 pokenames.sort(function(a, b) {return a.value > b.value;});
 
+var itemnames = [];
+
+for (var num in Object.keys(iteminfo.usefulList())) {
+    itemnames.push({"value": iteminfo.name(num), "num": num});
+}
+
 Poke.prototype.load = function(poke) {
     var alreadySet = false;
 
@@ -115,6 +121,7 @@ Poke.prototype.setElement = function(element) {
     }
     this.ui.moves = element.find(".tb-move-selection");
     this.ui.poke = element.find(".tb-poke-selection");
+    this.ui.item = element.find(".tb-item-selection");
 };
 
 Poke.prototype.updateStatGui = function(stat) {
@@ -158,6 +165,8 @@ Poke.prototype.updateGui = function()
     for (var i = 0; i < 4; i++) {
         this.ui.moves.eq(i).val(this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
     }
+
+    this.ui.item.val(this.item ? iteminfo.name(this.item) : "");
 
     if (1 in this.data.types) {
         this.ui.type2.attr("src", typeinfo.sprite(this.data.types[1]));
@@ -213,6 +222,21 @@ function Teambuilder (content) {
             var poke = team.pokes[$(this).attr("slot")];
             poke.load(sugg);
             poke.updateGui();
+            $(this).typeahead('close');
+        });
+
+        content.find(".tb-item-selection").typeahead({
+          hint: true,
+          highlight: false,
+        },
+        {
+          name: 'items',
+          source: substringMatcher(itemnames),
+          display: 'value',
+          limit: 30
+        }).on("typeahead:select", function(event, sugg) {
+            var poke = team.pokes[$(this).attr("slot")];
+            poke.item = sugg.num;
             $(this).typeahead('close');
         });
     });
