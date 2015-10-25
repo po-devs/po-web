@@ -40,8 +40,9 @@ pokenames.sort(function(a, b) {return a.value > b.value;});
 
 var itemnames = [];
 
-for (var num in Object.keys(iteminfo.usefulList())) {
-    itemnames.push({"value": iteminfo.name(num), "num": num});
+var keys = Object.keys(iteminfo.usefulList());
+for (var num in keys) {
+    itemnames.push({"value": iteminfo.name(keys[num]), "num": keys[num]});
 }
 
 Poke.prototype.load = function(poke) {
@@ -221,12 +222,13 @@ Poke.prototype.updateGui = function()
 
     this.ui.moves.typeahead("destroy").typeahead({
          hint: true,
-         highlight: false
+         highlight: false,
+         minLength: 0
     },
     {
         name: "moves",
         display: "value",
-        limit: 15,
+        limit: 150,
         source: substringMatcher(this.data.moveNames)
     }).on("typeahead:select", function(event, sugg) {
         self.moves[$(this).attr("slot")] = sugg.id;
@@ -270,12 +272,13 @@ function Teambuilder (content) {
         content.find(".tb-item-selection").typeahead({
           hint: true,
           highlight: false,
+          minLength: 0
         },
         {
           name: 'items',
           source: substringMatcher(itemnames),
           display: 'value',
-          limit: 30
+          limit: 400
         }).on("typeahead:select", function(event, sugg) {
             var poke = team.pokes[$(this).attr("slot")];
             poke.item = sugg.num;
