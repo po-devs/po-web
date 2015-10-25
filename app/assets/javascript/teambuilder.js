@@ -61,6 +61,7 @@ Poke.prototype.load = function(poke) {
     this.data.moveNames = [];
     this.data.types = pokeinfo.types(this);
     this.data.abilities = pokeinfo.abilities(this);
+    this.data.gender = pokeinfo.gender(this);
 
     if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
         this.data.abilities.splice(2, 1);
@@ -72,6 +73,7 @@ Poke.prototype.load = function(poke) {
     if (!alreadySet) {
         this.nick = this.num == 0 ? "" : pokeinfo.name(this);
         this.ability = this.data.abilities[0];
+        this.gender = this.data.gender == 3 ? (1 + Math.floor(2*Math.random())) : this.data.gender;
     }
 };
 
@@ -130,6 +132,17 @@ Poke.prototype.setElement = function(element) {
     this.ui.poke = element.find(".tb-poke-selection");
     this.ui.item = element.find(".tb-item-selection");
     this.ui.ability = element.find(".tb-ability-selection");
+    this.ui.genders = element.find(".tb-genders");
+
+    this.ui.genders.on("click", ".tb-gender", function() {
+        if ($(this).hasClass("tb-gender-1")) {
+            self.gender = 1;
+        } else if ($(this).hasClass("tb-gender-2")) {
+            self.gender = 2;
+        } else {
+            self.gender = 0;
+        }
+    });
 };
 
 Poke.prototype.updateStatGui = function(stat) {
@@ -194,6 +207,17 @@ Poke.prototype.updateGui = function()
     this.ui.ability.on("change", function() {
         self.ability = $(this).val();
     });
+
+    var genderButtons = ['<span class="btn btn-default btn-sm tb-gender tb-gender-0"><input type="radio"><i class="fa fa-mercury"></i></span>',
+            '<span class="btn btn-default btn-sm tb-gender tb-gender-1"><input type="radio"><i class="fa fa-mars"></i></span>',
+            '<span class="btn btn-default btn-sm tb-gender tb-gender-2"><input type="radio"><i class="fa fa-venus"></i></span>'];
+    if (this.data.gender <= 2) {
+        this.ui.genders.html(genderButtons[this.data.gender]);
+    } else {
+        this.ui.genders.html(genderButtons[1]+genderButtons[2]);
+    }
+
+    this.ui.genders.find(".tb-gender-"+this.gender).addClass("active");
 
     this.ui.moves.typeahead("destroy").typeahead({
          hint: true,

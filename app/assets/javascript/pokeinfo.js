@@ -230,24 +230,27 @@ pokeinfo.name = function(poke) {
 };
 
 pokeinfo.gender = function(poke) {
-    if (!pokedex.pokes.gender[this.toNum(poke)]) {
-        poke %= 65536;
+    var pokeNum = this.toNum(poke);
+    if (! (pokeNum in pokedex.pokes.gender)) {
+        pokeNum %= 65536;
     }
-    return pokedex.pokes.gender[this.toNum(poke)];
+    return pokedex.pokes.gender[pokeNum];
 };
 
 pokeinfo.height = function(poke) {
-    if (!pokedex.pokes.height[this.toNum(poke)]) {
-        poke %= 65536;
+    var pokeNum = this.toNum(poke);
+    if (! (pokeNum in pokedex.pokes.height)) {
+        pokeNum %= 65536;
     }
-    return pokedex.pokes.height[this.toNum(poke)];
+    return pokedex.pokes.height[pokeNum];
 };
 
 pokeinfo.weight = function(poke) {
-    if (!pokedex.pokes.weight[this.toNum(poke)]) {
-        poke %= 65536;
+    var pokeNum = this.toNum(poke);
+    if (! (pokeNum in pokedex.pokes.weight)) {
+        pokeNum %= 65536;
     }
-    return pokedex.pokes.weight[this.toNum(poke)];
+    return pokedex.pokes.weight[pokeNum];
 };
 
 pokeinfo.heldItem = function (poke) {

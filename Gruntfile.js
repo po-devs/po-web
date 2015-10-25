@@ -73,6 +73,7 @@ module.exports = function(grunt) {
     './db/moves/power.js',
     './db/moves/accuracy.js',
     './db/moves/damage_class.js',
+    './db/pokes/gender.js',
     './app/assets/javascript/teambuilder.js'
   ];
 
