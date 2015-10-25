@@ -1,13 +1,21 @@
 @import "../../../bower_components/seiyria-bootstrap-slider/less/bootstrap-slider.less";
 @import "../../../bower_components/font-awesome/less/font-awesome.less";
 
+@media screen and (min-width: 768px) {
+  .modal-dialog {
+    width: 680px;
+  }
+}
+
 .slider.slider-horizontal {
 	width: 100%;
 	display: table-cell;
+  vertical-align: middle;
 }
 
-.tb-ev-name, .tb-ev-value, .tb-stat {
+.tb-ev-name, .tb-stat /*,.tb-ev-value, .tb-iv-value*/ {
 	display: table-cell;
+  vertical-align: middle;
 }
 
 .tb-ability-container {
@@ -18,6 +26,18 @@
 .tb-level-value {
   max-width: 50px;
   margin-left: 8px;
+}
+
+.tb-poke-top {
+  margin-bottom: 5px;
+}
+
+.tb-iv-value {
+  max-width: 40px;
+}
+
+.tb-level-container {
+  margin-top: 4px;
 }
 
 .tb-stat {
@@ -34,6 +54,7 @@
 
 .tb-ev-row {
 	display: table-row;
+  vertical-align: middle;
 }
 
 .tb-move-row {

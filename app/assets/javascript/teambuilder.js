@@ -45,6 +45,15 @@ for (var num in keys) {
     itemnames.push({"value": iteminfo.name(keys[num]), "num": keys[num]});
 }
 
+for (var i in pokedex.items.berries) {
+    i = +i;
+    if (i == 0 ) {
+        continue;
+    }
+    //console.log("Adding berry " + i + ": " + iteminfo.name(i+8000));
+    itemnames.push({"value": iteminfo.name(i+8000), "num": i+8000});
+}
+
 Poke.prototype.load = function(poke) {
     var alreadySet = false;
 

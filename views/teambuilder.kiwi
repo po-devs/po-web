@@ -17,7 +17,7 @@
   {{each [0,1,2,3,4,5]}}
   <div class="panel panel-default tab tb-poke" id="tb-poke-${$value}" role="tabpanel">
     <div class="panel-body">
-      <div class="row">
+      <div class="row tb-poke-top">
         <div class="col-sm-3">
           <div class="tb-sprite-block img-rounded"><img src="http://pokemon-online.eu/images/pokemon/x-y/animated/000.gif" class="tb-sprite" /></div>
           <div class="flex-row-basic">
@@ -32,7 +32,10 @@
               <span class="tb-ev-name">${name}</span> 
               <span class="tb-stat">0</span>
               <input class="tb-ev-slider" data-slider-id='ev${$value}-${i}-slider' type="text" data-slider-min="0" data-slider-max="252" data-slider-step="4" data-slider-tooltip="hide" data-slider-value="0">
-              <input type="text" class="tb-ev-value" value="0" min="0" max="252" step="4" maxlength="3" size="2">
+              <div class="flex-row-basic">
+                <input type="text" class="tb-ev-value" value="0" min="0" max="252" step="4" maxlength="3" size="2">
+                <input type="number" class="tb-iv-value" value="31" min="0" max="31" step="1" maxlength="2" size="2">
+              </div>
             </div>
           {{/each}}
           </div>
@@ -42,12 +45,17 @@
         <!--<select class="col-sm-3 tb-item-selection">
           <option>Item</option>
         </select>-->
-        <span class='col-sm-3 flex-row-basic'>
+        <span class='col-sm-2 flex-row-basic'>
           <span class="stretchX"></span>
           <div class="flex-row-basic btn-group tb-genders" data-toggle="buttons">
             <span class='btn btn-default btn-sm tb-gender tb-gender-0'><i class="fa fa-mercury"></i></span>
           </div>
           <span class="stretchX"></span>
+        </span>
+        <span class='col-sm-2 no-padding'>
+          <select class="form-control tb-nature-selection">
+            <option>Nature</option>
+          </select>
         </span>
         <span class="col-sm-3">
           <input class="typeahead tb-item-selection form-control" slot="${$value}" placeholder="Item..." type="text">
@@ -56,7 +64,7 @@
           <select class="tb-ability-selection form-control" slot="${$value}">
           </select>
         </span>
-        <span class='col-sm-3'><label for="tb-level-${$value}">Level</label><input type="number" id="tb-level-${$value}" class="tb-level-value" value="100" min="1" max="100" step="1" maxlength="3" size="2"></span>
+        <span class='col-sm-2 no-padding tb-level-container'><label for="tb-level-${$value}">Level</label><input type="number" id="tb-level-${$value}" class="tb-level-value" value="100" min="1" max="100" step="1" maxlength="3" size="2"></span>
       </div>
       <div class="row tb-move-row">
         <div class="flex-row-basic">
