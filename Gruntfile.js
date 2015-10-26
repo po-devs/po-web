@@ -74,6 +74,7 @@ module.exports = function(grunt) {
     './db/moves/accuracy.js',
     './db/moves/damage_class.js',
     './db/pokes/gender.js',
+    './db/natures/nature.js',
     './app/assets/javascript/teambuilder.js'
   ];
 

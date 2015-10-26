@@ -380,7 +380,7 @@ natureinfo.list = function() {
 };
 
 natureinfo.name = function(nature) {
-    return pokedex.natured.nature[nature];
+    return pokedex.natures.nature[nature];
 };
 
 natureinfo.getNatureEffect = function(nature_id, stat_id) {

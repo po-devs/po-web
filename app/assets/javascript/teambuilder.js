@@ -143,6 +143,22 @@ Poke.prototype.setElement = function(element) {
     this.ui.item = element.find(".tb-item-selection");
     this.ui.ability = element.find(".tb-ability-selection");
     this.ui.genders = element.find(".tb-genders");
+    this.ui.nature = element.find(".tb-nature-selection");
+    this.ui.level = element.find(".tb-level-value");
+
+    this.ui.ability.on("change", function() {
+        self.ability = $(this).val();
+    });
+
+    this.ui.nature.on("change", function() {
+        self.nature = $(this).val();
+        self.updateStatsGui();
+    });
+
+    this.ui.level.on("change", function() {
+        self.level = +$(this).val();
+        self.updateStatsGui();
+    });
 
     this.ui.genders.on("click", ".tb-gender", function() {
         if ($(this).hasClass("tb-gender-1")) {
@@ -170,6 +186,12 @@ Poke.prototype.loadGui = function()
     }
 
     this.updateGui();
+};
+
+Poke.prototype.updateStatsGui = function() {
+    for (var i = 0; i < 6; i++) {
+        this.updateStatGui(i);
+    }
 };
 
 Poke.prototype.updateGui = function() 
@@ -214,9 +236,8 @@ Poke.prototype.updateGui = function()
         this.ui.ability.append("<option value='" + ab + "'>" + abilityinfo.name(ab) + "</option>");
     }
     this.ui.ability.val(this.ability);
-    this.ui.ability.on("change", function() {
-        self.ability = $(this).val();
-    });
+    this.ui.nature.val(this.nature);
+    this.ui.level.val(this.level);
 
     var genderButtons = ['<span class="btn btn-default btn-sm tb-gender tb-gender-0"><input type="radio"><i class="fa fa-mercury"></i></span>',
             '<span class="btn btn-default btn-sm tb-gender tb-gender-1"><input type="radio"><i class="fa fa-mars"></i></span>',
@@ -295,6 +316,11 @@ function Teambuilder (content) {
         });
     });
     
+    var natures = "";
+    for (var i in natureinfo.list()) {
+        natures += "<option value='" + i  + "'>" + natureinfo.name(i) + "</option>";
+    }
+    content.find(".tb-nature-selection").html(natures);
 
     content.find(".tb-poke-link").on("click", function(event) {
         event.stopPropagation();
