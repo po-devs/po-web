@@ -104,10 +104,12 @@ Poke.prototype.setElement = function(element) {
     this.ui.type2  = element.find(".tb-type2");
     this.ui.evs = [];
     this.ui.evVals = [];
+    this.ui.ivVals = [];
     this.ui.stats = [];
     for (var i = 0; i < 6; i++) {
         this.ui.evs[i] = element.find(".tb-ev-row-" + i + " .tb-ev-slider");
         this.ui.evVals[i] = element.find(".tb-ev-row-" + i + " .tb-ev-value");
+        this.ui.ivVals[i] = element.find(".tb-ev-row-" + i + " .tb-iv-value");
         this.ui.stats[i] = element.find(".tb-ev-row-" + i + " .tb-stat");
         this.ui.evs[i].slider({
             // formatter: function(value) {
@@ -135,6 +137,11 @@ Poke.prototype.setElement = function(element) {
                 $(this).val(self.evs[i]);
             }
             self.ui.evs[i].slider("setValue", self.evs[i]);
+            self.updateStatGui(i);
+        });
+        this.ui.ivVals[i].data("slot", i).on("change", function() {
+            var i = $(this).data("slot");
+            self.ivs[i] = +$(this).val();
             self.updateStatGui(i);
         });
     }
@@ -209,6 +216,7 @@ Poke.prototype.updateGui = function()
     for (var i = 0; i < 6; i++) {
         self.ui.evs[i].slider("setValue", self.evs[i]);
         self.ui.evVals[i].val(self.evs[i]);
+        self.ui.ivVals[i].val(self.ivs[i]);
         this.updateStatGui(i);
     }
 
