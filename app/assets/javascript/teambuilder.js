@@ -198,6 +198,13 @@ Poke.prototype.loadGui = function()
 Poke.prototype.updateStatsGui = function() {
     for (var i = 0; i < 6; i++) {
         this.updateStatGui(i);
+        this.ui.stats[i].removeClass("tb-stat-minus tb-stat-plus");
+        var effect = natureinfo.getNatureEffect(this.nature, i);
+        if (effect > 1) {
+            this.ui.stats[i].addClass("tb-stat-plus");
+        } else if (effect < 1) {
+            this.ui.stats[i].addClass("tb-stat-minus");
+        }
     }
 };
 
@@ -217,8 +224,8 @@ Poke.prototype.updateGui = function()
         self.ui.evs[i].slider("setValue", self.evs[i]);
         self.ui.evVals[i].val(self.evs[i]);
         self.ui.ivVals[i].val(self.ivs[i]);
-        this.updateStatGui(i);
     }
+    this.updateStatsGui();
 
     this.ui.sprite.attr("src", pokeinfo.sprite(this));
     this.ui.type1.attr("src", typeinfo.sprite(this.data.types[0]));
