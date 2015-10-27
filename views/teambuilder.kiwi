@@ -8,10 +8,25 @@
   </ul>
   <div class="panel panel-default tab current tb-home" id="tb-home" role="tabpanel">
     <div class="panel-body">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="tb-team-name" class="control-label">Current team</label>
+          <input type="text" class="form-control" id="tb-team-name" value="" placeholder="Team name..." disabled>
+        </div>
+        <div class="form-group">
+          <label for="tb-saved-teams" class="control-label">Stored teams</label>
+          <textarea id="tb-saved-teams" class="form-control" disabled></textarea>
+        </div>
+      </div>
+      <div class="col-sm-6 flex-column flex-stretch divider-left">
         <div class="form-group">
           <label for="tb-tier" class="control-label">Team Tier</label>
           <input type="text" class="form-control typeahead" id="tb-tier" value="" placeholder="Team tier...">
         </div>
+        {{each [1,2,3,4,5,6]}}
+        <span class="btn btn-default tb-poke-preview tb-poke-preview-${$value|decr}" slot="${$value|decr}">Poke ${$value}</span>
+        {{/each}}
+      </div>
     </div>
   </div>
   {{each [0,1,2,3,4,5]}}
@@ -66,6 +81,7 @@
         </span>
         <span class='col-sm-2 no-padding tb-level-container'><label for="tb-level-${$value}">Level</label><input type="number" id="tb-level-${$value}" class="tb-level-value" value="100" min="1" max="100" step="1" maxlength="3" size="2"></span>
       </div>
+      <div class="well tb-description"></div>
       <div class="row tb-move-row">
         <div class="flex-row-basic">
           {{each(name,i) [0,1,2,3]}}

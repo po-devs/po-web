@@ -230,11 +230,7 @@ Poke.prototype.updateGui = function()
     this.ui.sprite.attr("src", pokeinfo.sprite(this));
     this.ui.type1.attr("src", typeinfo.sprite(this.data.types[0]));
 
-    for (var i = 0; i < 4; i++) {
-        this.ui.moves.eq(i).val(this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
-    }
-
-    this.ui.item.val(this.item ? iteminfo.name(this.item) : "");
+    this.ui.item.typeahead("val", this.item ? iteminfo.name(this.item) : "");
 
     if (1 in this.data.types) {
         this.ui.type2.attr("src", typeinfo.sprite(this.data.types[1]));
@@ -243,7 +239,7 @@ Poke.prototype.updateGui = function()
         this.ui.type2.hide();
     }
 
-    this.ui.poke.val(this.nick);
+    this.ui.poke.typeahead("val", this.nick);
 
     this.ui.ability.html("");
     for (var x in this.data.abilities) {
@@ -284,6 +280,16 @@ Poke.prototype.updateGui = function()
             self.happiness = 255;
         }
     });
+
+    for (var i = 0; i < 4; i++) {
+        this.ui.moves.eq(i).typeahead("val", this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
+    }
+
+    this.updatePreview();
+};
+
+Poke.prototype.updatePreview = function() {
+    this.ui.preview.html("<img src='" + pokeinfo.icon(this) + "' />&nbsp;" + (this.nick || pokeinfo.name(this)));
 };
 
 function Teambuilder (content) {
@@ -292,10 +298,16 @@ function Teambuilder (content) {
     var self = this;
 
     this.content = content;
+    this.prevs = [];
+
     var team = this.team = webclient.team;
     console.log(team);
     for (var poke in team.pokes) {
         team.pokes[poke].setElement(content.find("#tb-poke-" + poke));
+        var pokeprev = content.find(".tb-poke-preview-"+poke);
+        team.pokes[poke].ui.preview = pokeprev;
+        this.prevs[poke] = pokeprev;
+        team.pokes[poke].updatePreview();
     }
 
     //setTimeout(function(){team.pokes[0].loadGui()});
@@ -358,6 +370,10 @@ function Teambuilder (content) {
         }
     });
 
+    content.find(".tb-poke-preview").on("click", function() {
+        $("#link-poke-" + $(this).attr("slot")).trigger("click");
+    });
+
     var tiers = webclient.tiersList;
     
     //console.log(tiers);
@@ -394,7 +410,7 @@ function Teambuilder (content) {
         sugg = sugg.value;
         team.tier = sugg;
         $(this).typeahead('close');
-    }).val(team.tier || "");
+    }).typeahead("val", team.tier || "");
 }
 
 console.log("loading teambuilder js file");
