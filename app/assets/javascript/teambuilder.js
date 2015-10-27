@@ -316,8 +316,7 @@ Poke.prototype.updateGui = function()
 };
 
 Poke.prototype.updatePreview = function() {
-    this.ui.preview.html("<img src='" + pokeinfo.icon(this) + "' class='pokeicon-" + pokeinfo.name(this) + "' />&nbsp;" + (this.nick || pokeinfo.name(this)));
-
+    this.ui.preview.html("<img src='" + pokeinfo.icon(this) + "' />&nbsp;" + (this.nick || pokeinfo.name(this)));
 };
 
 function Teambuilder (content) {
