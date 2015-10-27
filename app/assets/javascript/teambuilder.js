@@ -201,6 +201,9 @@ Poke.prototype.updateDescription = function(what) {
         ].join("<br/>");
         this.ui.desc.html(links);
     } else if (what.type == "move") {
+        if (what.move == 0) {
+            return;
+        }
         var desc = "<strong>Type:</strong> <img src='"+typeinfo.sprite(moveinfo.type(what.move))+"'/> - <strong>Category:</strong> " + categoryinfo.name(moveinfo.category(what.move));
         var acc = +moveinfo.accuracy(what.move);
         var pow = moveinfo.power(what.move);
