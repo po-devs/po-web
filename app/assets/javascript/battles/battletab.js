@@ -564,8 +564,7 @@ BattleTab.prototype.getMoveType = function(poke, i) {
     var move = poke.moves[i];
     var type = moveinfo.type(move.move);
     if (moveinfo.name(move.move).toLowerCase() == "hidden power") {
-        var ivs = poke.ivs;
-        type = moveinfo.getHiddenPowerType(this.battle.conf.gen, ivs[0], ivs[1], ivs[2], ivs[3], ivs[4], ivs[5]);
+        type = moveinfo.getHiddenPowerType(this.battle.conf.gen, poke.ivs);
     }
     return type;
 }

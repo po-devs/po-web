@@ -1,7 +1,7 @@
 <div class="teambuilder">
   <!-- Centered Pills -->
   <ul class="nav nav-pills nav-justified" role="tablist">
-    <li class="tb-poke-pill active" slot="-1"><a href="#tb-home" class="tb-poke-link" id="header-home">Home</a></li>
+    <li class="tb-poke-pill active" slot="-1"><a href="#tb-home" class="tb-poke-link" id="header-home" slot="-1">Home</a></li>
     {{each [0,1,2,3,4,5]}}
     <li class="tb-poke-pill"><a href="#tb-poke-${$value}" class="tb-poke-link" slot="${$value}" id="link-poke-${$value}">Poke&nbsp;#${$value|incr}</a></li>
     {{/each}}

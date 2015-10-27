@@ -391,6 +391,30 @@ natureinfo.getNatureEffect = function(nature_id, stat_id) {
     return (10+(-(nature_id%5 == arr[stat_id]-1) + (Math.floor(nature_id/5) == arr[stat_id]-1)))/10;
 };
 
+natureinfo.boostedStat = function(nature_id) {
+    var arr = {0:0, 1:1, 2:2, 3:4, 4:5, 5:3};
+    var boost = arr[Math.floor(nature_id/5)+1];
+    var minus = arr[(nature_id%5) + 1];
+
+    if (boost == minus) {
+        return -1;
+    }
+
+    return boost;
+};
+
+natureinfo.reducedStat = function(nature_id) {
+    var arr = {0:0, 1:1, 2:2, 3:4, 4:5, 5:3};
+    var boost = arr[Math.floor(nature_id/5)+1];
+    var minus = arr[(nature_id%5) + 1];
+
+    if (boost == minus) {
+        return -1;
+    }
+
+    return minus;
+};
+
 moveinfo.list = function() {
     return pokedex.moves.moves;
 };
@@ -489,7 +513,7 @@ moveinfo.getHiddenPowerIVs = function (type, generation) {
         gt;
 
     for (var i = 63; i >= 0; i--) {
-        gt = moveinfo.getHiddenPowerType(generation, i & 1, (i & 2) !== 0, (i & 4) !== 0, (i & 8) !== 0, (i & 16) !== 0, (i & 32) !== 0);
+        gt = moveinfo.getHiddenPowerType(generation, [i & 1, (i & 2) !== 0, (i & 4) !== 0, (i & 8) !== 0, (i & 16) !== 0, (i & 32) !== 0]);
         if (gt == type) {
             ret.push([(((i & 1) !== 0) + 30), (((i & 2) !== 0) + 30), (((i & 4) !== 0) + 30), (((i & 8) !== 0) + 30), (((i & 16) !== 0) + 30), (((i & 32) !== 0) + 30)]);
         }
@@ -498,9 +522,14 @@ moveinfo.getHiddenPowerIVs = function (type, generation) {
     return ret;
 };
 
-moveinfo.getHiddenPowerType = function (generation, hp_ivs, atk_ivs, def_ivs, satk_ivs, sdef_ivs, spe_ivs) {
+moveinfo.getHiddenPowerType = function (generation, ivs) {
     generation = getGen(generation).num;
     var type;
+    var hp_ivs, atk_ivs, def_ivs, satk_ivs, sdef_ivs, spe_ivs;
+    hp_ivs = ivs[0];
+    atk_ivs = ivs[1]; def_ivs = ivs[2];
+    satk_ivs = ivs[3]; sdef_ivs = ivs[4];
+    spe_ivs = ivs[5];
 
     if (generation >= 3) {
         type = ((((hp_ivs % 2) + (2 * (atk_ivs % 2)) + (4 * (def_ivs % 2)) + (8 * (spe_ivs % 2)) + (16 * (satk_ivs % 2)) + (32 * (sdef_ivs % 2))) * 15) / 63) + 1;

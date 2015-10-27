@@ -192,7 +192,7 @@ Poke.prototype.setElement = function(element) {
 Poke.prototype.updateDescription = function(what) {
     if (what.type == "iv") {
         this.ui.desc.text("Hidden power: " + 
-            typeinfo.name(moveinfo.getHiddenPowerType(this.gen, this.ivs[0], this.ivs[1], this.ivs[2], this.ivs[3], this.ivs[4], this.ivs[5]))
+            typeinfo.name(moveinfo.getHiddenPowerType(this.gen, this.ivs))
             );
     } else if (what.type == "pokemon") {
         var links = [
@@ -476,9 +476,24 @@ Teambuilder.prototype.onImportable = function() {
     if (!this.content.find(".importable").hasClass("current")) {
         this.content.find(".tab").removeClass("current");
         this.content.find(".importable").addClass("current");
+
+        var current = this.currentTab();
+        if (current == -1) {
+            var exports = [];
+            for (var i in this.team.pokes) {
+                exports.push(this.team.pokes[i].export());
+            }
+            this.content.find("#tb-importable-edit").text(exports.join("\n\n"));
+        } else {
+            this.content.find("#tb-importable-edit").text(this.team.pokes[current].export());
+        }
     } else {
         this.content.find(".tb-poke-pill.active .tb-poke-link").trigger("click");
     }
+};
+
+Teambuilder.prototype.currentTab = function() {
+    return this.content.find(".tb-poke-pill.active .tb-poke-link").attr("slot");
 };
 
 console.log("loading teambuilder js file");
