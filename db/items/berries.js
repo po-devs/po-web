@@ -1,6 +1,6 @@
 if(!pokedex.items)pokedex.items={};
 pokedex.items.berries = {
-0:"(No Berry)",
+﻿0:"(No Berry)",
 1:"Cheri Berry",
 2:"Chesto Berry",
 3:"Pecha Berry",

@@ -160,8 +160,8 @@ Poke.prototype.setElement = function(element) {
         self.updateDescription({"type": "ability"});
     });
 
-    this.ui.item.on("change focusin", function() {
-        self.updateDescription({"type": "item"});
+    this.ui.item.on("focusin", function() {
+        self.updateDescription({"type": "item", "item" : self.item});
     });
 
     this.ui.nature.on("change", function() {
@@ -193,10 +193,21 @@ Poke.prototype.updateDescription = function(what) {
     } else if (what.type == "pokemon") {
 
     } else if (what.type == "move") {
-
+        var desc = "<strong>Type:</strong> <img src='"+typeinfo.sprite(moveinfo.type(what.move))+"'/> - <strong>Category:</strong> " + categoryinfo.name(moveinfo.category(what.move));
+        var acc = +moveinfo.accuracy(what.move);
+        if (acc > 0 && acc <= 100) {
+            desc += " - <strong>Accuracy:</strong> " + acc;
+        }
+        var pow = moveinfo.power(what.move);
+        if (pow > 0) {
+            desc += " - <strong>Power:</strong> " + (pow == 1 ? "???" : pow);
+        }
+        if (moveinfo.effect(what.move)) {
+            desc += "<br/><strong>Effect:</strong> " + (moveinfo.effect(what.move)||"");
+        }
+        this.ui.desc.html(desc);
     } else if (what.type == "item") {
-        //this.ui.desc.text(iteminfo.desc(this.item));
-        this.ui.desc.text("No item description.");//Todo: add item descriptions to PO!
+        this.ui.desc.text(iteminfo.desc(what.item));//Todo: add item descriptions to PO!
     } else if (what.type == "ability") {
         this.ui.desc.text(abilityinfo.desc(this.ability));
     }
@@ -303,6 +314,10 @@ Poke.prototype.updateGui = function()
         } else if (sugg.value == "Return") {
             self.happiness = 255;
         }
+    }).on("typeahead:autocomplete typeahead:select typeahead:cursorchange", function(event, sugg) {
+        self.updateDescription({"type":"move", "move":sugg.id});
+    }).on("focusin", function() {
+        self.updateDescription({"type":"move", "move":self.moves[$(this).attr("slot")]});
     });
 
     for (var i = 0; i < 4; i++) {
@@ -370,6 +385,9 @@ function Teambuilder (content) {
             var poke = team.pokes[$(this).attr("slot")];
             poke.item = sugg.num;
             $(this).typeahead('close');
+        }).on("typeahead:select typeahead:autocomplete typeahead:cursorchange", function(event, sugg) {
+            var poke = team.pokes[$(this).attr("slot")];
+            poke.updateDescription({"type": "item", "item": sugg.num});
         });
     });
     

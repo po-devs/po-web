@@ -1,6 +1,6 @@
 if(!pokedex.moves)pokedex.moves={};
 pokedex.moves.move_message = {
-0:true,
+﻿0:true,
 1:"%f had its energy drained!|%s devoured %f's dreams!|%s sucked up the Liquid Ooze!",
 2:"%s surrounded itself with a veil of water!|Aqua ring restored %s's HP!",
 3:"A soothing aroma wafted through the area!|A bell chimed!|%s was cured of its status!",

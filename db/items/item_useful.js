@@ -1,6 +1,6 @@
 if(!pokedex.items)pokedex.items={};
 pokedex.items.item_useful = {
-0:1,
+﻿0:1,
 1:1,
 3:1,
 4:1,

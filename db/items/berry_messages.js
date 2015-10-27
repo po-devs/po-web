@@ -1,6 +1,6 @@
 if(!pokedex.items)pokedex.items={};
 pokedex.items.berry_messages = {
-0:"%s ate its %i!",
+﻿0:"%s ate its %i!",
 1:"%s snapped out of its confusion!|%s's status cleared!|%s is not paralyzed anymore!|%s woke up!|%s thawed out!|%s healed from its burn!|%s is cured from its poison!",
 2:"%s's %m's PPs are restored!|%s's PPs are restored!",
 3:"%s restored some HP!",

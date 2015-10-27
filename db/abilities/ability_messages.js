@@ -1,6 +1,6 @@
 if(!pokedex.abilities)pokedex.abilities={};
 pokedex.abilities.ability_messages = {
-0:true,
+﻿0:true,
 2:"%s's Aftermath damages %f!|%f is unaffected by Aftermath.",
 3:"%s maxed its Attack!",
 4:"%s's Anticipation makes it shiver!",

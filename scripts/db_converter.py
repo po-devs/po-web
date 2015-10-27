@@ -112,7 +112,7 @@ def main(argv):
         },
         'items': {
             'unique_files': ['released_items', 'released_berries'],
-            'base_files': ['items', 'berries', 'item_useful', 'item_messages', 'berry_messages']
+            'base_files': ['items', 'berries', 'item_useful', 'item_messages', 'berry_messages', 'items_description', 'berries_description']
         },
         'types': {
             'base_files': ["types", "category"]

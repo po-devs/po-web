@@ -1,6 +1,6 @@
 if(!pokedex.abilities)pokedex.abilities={};
 pokedex.abilities.abilities = {
-0:"(No Ability)",
+﻿0:"(No Ability)",
 1:"Stench",
 2:"Drizzle",
 3:"Speed Boost",

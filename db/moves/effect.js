@@ -1,7 +1,7 @@
 if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.effect)pokedex.moves.effect=[];
 pokedex.moves.effect[6] = {
-0:"No Effect",
+﻿0:"No Effect",
 1:"Deals normal damage.",
 2:"The critical hit chance for this move is raised by 1 stage.",
 3:"Multi-hit attack, attacks two to five times in a turn. 37.5% chance for 2 or 3 hits; 12.5% chance for 4 or 5 hits.",
@@ -327,7 +327,7 @@ pokedex.moves.effect[6] = {
 343:"If the target is holding an item and the user is not, steals the target's item, unless the target is holding an item that changes its forme or the user's.",
 344:"Has a 10% chance to paralyze the target. The user takes recoil damage equal to 1/3 of HP lost by the target from this attack.",
 345:"Cannot be evaded.",
-346:"For five turns, the power of all Fire moves is reduced by 2/3.",
+346:"For five turns, the power of all Electric moves is reduced by 2/3.",
 347:"Raises the user's Special Attack and Special Defense by 1 stage.",
 348:"The critical hit chance for this move is raised by 1 stage.",
 349:"Raises the user's Attack and Speed by 1 stage.",
@@ -1097,7 +1097,7 @@ pokedex.moves.effect[5] = {
 558:"This attack's power is doubled if another Pokémon has used Fusion Bolt in the same turn. If user is frozen and it chose this move for use, it becomes defrosted before this attack is used.",
 };
 pokedex.moves.effect[4] = {
-0:"No effect",
+﻿0:"No effect",
 1:"Inflicts regular damage with no additional effect.",
 2:"Has an increased chance for a critical hit. (12.5%)",
 3:"Hits 2-5 times in one turn.",

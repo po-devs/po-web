@@ -625,6 +625,7 @@ pokedex.moves.accuracy[6] = {
 621:101,
 };
 pokedex.moves.accuracy[5] = {
+﻿0:0,
 18:100,
 42:85,
 46:100,
@@ -638,7 +639,7 @@ pokedex.moves.accuracy[5] = {
 441:70,
 };
 pokedex.moves.accuracy[4] = {
-0:101,
+﻿0:101,
 20:75,
 33:95,
 35:85,

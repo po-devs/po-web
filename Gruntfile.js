@@ -69,6 +69,8 @@ module.exports = function(grunt) {
     './db/pokes/ability2.js',
     './db/pokes/ability3.js',
     './db/items/item_useful.js',
+    './db/items/items_description.js',
+    './db/items/berries_description.js',
     './db/moves/effect.js',
     './db/moves/power.js',
     './db/moves/accuracy.js',

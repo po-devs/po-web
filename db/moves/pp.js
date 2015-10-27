@@ -1,7 +1,7 @@
 if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.pp)pokedex.moves.pp=[];
 pokedex.moves.pp[6] = {
-0:0,
+﻿0:0,
 1:35,
 2:25,
 3:10,
