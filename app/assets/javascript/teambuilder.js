@@ -164,6 +164,10 @@ Poke.prototype.setElement = function(element) {
         self.updateDescription({"type": "item", "item" : self.item});
     });
 
+    this.ui.poke.on("focusin", function() {
+        self.updateDescription({"type": "pokemon", "poke": self});
+    });
+
     this.ui.nature.on("change", function() {
         self.nature = $(this).val();
         self.updateStatsGui();
@@ -191,7 +195,11 @@ Poke.prototype.updateDescription = function(what) {
             typeinfo.name(moveinfo.getHiddenPowerType(this.gen, this.ivs[0], this.ivs[1], this.ivs[2], this.ivs[3], this.ivs[4], this.ivs[5]))
             );
     } else if (what.type == "pokemon") {
-
+        var links = [
+            " - <a href='http://wiki.pokemon-online.eu/page/" + pokeinfo.name(what.poke.num).toLowerCase() + "'>Wiki</a>",
+            " - <a href='http://veekun.com/dex/pokemon/" + pokeinfo.name(what.poke.num).toLowerCase() + "'>Veekun</a>"
+        ].join("<br/>");
+        this.ui.desc.html(links);
     } else if (what.type == "move") {
         var desc = "<strong>Type:</strong> <img src='"+typeinfo.sprite(moveinfo.type(what.move))+"'/> - <strong>Category:</strong> " + categoryinfo.name(moveinfo.category(what.move));
         var acc = +moveinfo.accuracy(what.move);
@@ -207,7 +215,7 @@ Poke.prototype.updateDescription = function(what) {
         }
         this.ui.desc.html(desc);
     } else if (what.type == "item") {
-        this.ui.desc.text(iteminfo.desc(what.item));//Todo: add item descriptions to PO!
+        this.ui.desc.html("<img src='"+iteminfo.itemSprite(what.item)+"'/> - " + iteminfo.desc(what.item));//Todo: add item descriptions to PO!
     } else if (what.type == "ability") {
         this.ui.desc.text(abilityinfo.desc(this.ability));
     }
@@ -324,6 +332,7 @@ Poke.prototype.updateGui = function()
         this.ui.moves.eq(i).typeahead("val", this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
     }
 
+    this.updateDescription({"type": "pokemon", "poke": this});
     this.updatePreview();
 };
 
@@ -369,6 +378,9 @@ function Teambuilder (content) {
             poke.load(sugg);
             poke.updateGui();
             $(this).typeahead('close');
+        }).on("typeahead:select typeahead:autocomplete typeahead:cursorchange", function(event, sugg) {
+            var poke = team.pokes[$(this).attr("slot")];
+            poke.updateDescription({"type": "pokemon", "poke": sugg});
         });
 
         content.find(".tb-item-selection").typeahead({
