@@ -172,13 +172,12 @@ Poke.prototype.setElement = function(element) {
 
 Poke.prototype.updateDescription = function(what) {
     var self = this;
-    if (what.type == "iv") {
-        var html = $("<div class='form-group'><label class='control-label'>Hidden Power</label><select class='form-control tb-hidden-power'></select></div>");
-        var hp = html.find(".tb-hidden-power");
+    var addHpStuff = function(elem) {
+        var hp = elem.find(".tb-hidden-power");
         for (var i = 1; i < 17; i++) {
             hp.append("<option value='"+i+"'>" + typeinfo.name(i) + "</option>");
         }
-        hp.val(moveinfo.getHiddenPowerType(this.gen, this.ivs));
+        hp.val(moveinfo.getHiddenPowerType(self.gen, self.ivs));
         hp.on("change", function() {
             var config = moveinfo.getHiddenPowerIVs($(this).val(), self.gen)[0];
             self.ivs = config;
@@ -187,19 +186,34 @@ Poke.prototype.updateDescription = function(what) {
                 self.ui.ivVals[i].val(self.ivs[i]);
             }
         });
+    };
+    if (what.type == "iv") {
+        var html = $("<div class='form-group'><label class='control-label'>Hidden Power</label><select class='form-control tb-hidden-power'></select></div>");
         this.ui.desc.html('');
         this.ui.desc.append(html);
+        addHpStuff(this.ui.desc);
     } else if (what.type == "pokemon") {
         var links = [
             " - <a href='http://wiki.pokemon-online.eu/page/" + pokeinfo.name(what.poke.num).toLowerCase() + "'>Wiki</a>",
             " - <a href='http://veekun.com/dex/pokemon/" + pokeinfo.name(what.poke.num).toLowerCase() + "'>Veekun</a>"
         ].join("<br/>");
-        this.ui.desc.html(links);
+        this.ui.desc.html('');
+        this.ui.desc.append($("<div class='col-sm-6'>").html(links));
+        this.ui.desc.append($("<div class='col-sm-6'>").html('<div class="checkbox tb-shiny-container"><label><input type="checkbox" class="shiny-input"> Shiny</label></div>'));
+        this.ui.desc.find(".shiny-input").prop("checked", this.shiny).on("change", function() {
+            self.shiny = this.checked;
+            self.ui.sprite.attr("src", pokeinfo.sprite(self));
+        });
     } else if (what.type == "move") {
         if (what.move == 0) {
             return;
         }
-        var desc = "<strong>Type:</strong> <img src='"+typeinfo.sprite(moveinfo.type(what.move))+"'/> - <strong>Category:</strong> " + categoryinfo.name(moveinfo.category(what.move));
+        var hiddenPower = moveinfo.name(what.move) == "Hidden Power";
+        var begin = "<strong>Type:</strong> <img src='"+typeinfo.sprite(moveinfo.type(what.move))+"'/> - ";
+        if (hiddenPower) {
+            begin = "";
+        }
+        var desc = begin + "<strong>Category:</strong> " + categoryinfo.name(moveinfo.category(what.move));
         var acc = +moveinfo.accuracy(what.move);
         var pow = moveinfo.power(what.move);
         if (pow > 0) {
@@ -208,10 +222,15 @@ Poke.prototype.updateDescription = function(what) {
         if (acc > 0 && acc <= 100) {
             desc += " - <strong>Accuracy:</strong> " + acc;
         }
-        if (moveinfo.effect(what.move)) {
+        if (moveinfo.effect(what.move) && !hiddenPower) {
             desc += "<br/><strong>Effect:</strong> " + (moveinfo.effect(what.move)||"");
+        } else if (hiddenPower) {
+            desc += "<select class='form-control tb-hidden-power'></select>";
         }
         this.ui.desc.html(desc);
+        if (hiddenPower) {
+            addHpStuff(this.ui.desc);
+        }
     } else if (what.type == "item") {
         this.ui.desc.html("<img src='"+iteminfo.itemSprite(what.item)+"'/> - " + iteminfo.desc(what.item));//Todo: add item descriptions to PO!
     } else if (what.type == "ability") {
