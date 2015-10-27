@@ -86,6 +86,7 @@ Poke.prototype.setElement = function(element) {
             var surplus = self.evSurplus();
             if (surplus > 0) {
                 self.evs[i] -= surplus;
+                self.evs[i] = self.evs[i] - (self.evs[i]%4);
                 $(this).slider("setValue", self.evs[i]);
             }
             self.ui.evVals[i].val(self.evs[i]);
