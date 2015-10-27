@@ -197,7 +197,11 @@ Poke.prototype.import = function(str) {
 			if (moveIndex >= 4) {
 				continue;
 			}
-			var move = moveinfo.num(line.substr(line.indexOf("-")+1).trim());
+			var end = line.substr(line.indexOf("-")+1).trim();
+			if (end.indexOf("[") != -1) {
+				end = end.substr(0, end.indexOf("[")).trim();
+			}
+			var move = moveinfo.num(end);
 			this.moves[moveIndex++] = move;
 		} else if (lline.contains("nature")) {
 			line = line.trim();
