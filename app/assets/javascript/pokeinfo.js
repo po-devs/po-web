@@ -347,6 +347,9 @@ pokeinfo.calculateStatInfo = function(info, stat, gen) {
 
 pokeinfo.calculateStat = function(poke, stat, gen) {
     var gen = gen || lastgen;
+    if (poke.num == 292 && stat == 0) {
+        return 1;
+    }
     return pokeinfo.calculateStatInfo({"num": poke.num, "forme": poke.forme || 0, "iv": poke.ivs[stat], "ev": poke.evs[stat],
             "level": poke.level, "natureBoost": natureinfo.getNatureEffect(poke.nature, stat)}, stat, gen);
 };
@@ -679,7 +682,7 @@ abilityinfo.name = function(ability) {
 };
 
 abilityinfo.desc = function(ability) {
-    return pokedex.abilities.ability_desc[ability];
+    return pokedex.abilities.ability_desc[ability] || "";
 };
 
 abilityinfo.message = function(ability, part) {

@@ -143,7 +143,7 @@ Poke.prototype.setElement = function(element) {
             var i = $(this).data("slot");
             self.ivs[i] = +$(this).val();
             self.updateStatGui(i);
-        });
+        }).on("focusin change", function(){self.updateDescription({"type": "iv"})});
     }
     this.ui.moves = element.find(".tb-move-selection");
     this.ui.poke = element.find(".tb-poke-selection");
@@ -152,9 +152,16 @@ Poke.prototype.setElement = function(element) {
     this.ui.genders = element.find(".tb-genders");
     this.ui.nature = element.find(".tb-nature-selection");
     this.ui.level = element.find(".tb-level-value");
+    this.ui.desc = element.find(".tb-description");
 
     this.ui.ability.on("change", function() {
         self.ability = $(this).val();
+    }).on("focusin change", function() {
+        self.updateDescription({"type": "ability"});
+    });
+
+    this.ui.item.on("change focusin", function() {
+        self.updateDescription({"type": "item"});
     });
 
     this.ui.nature.on("change", function() {
@@ -177,6 +184,23 @@ Poke.prototype.setElement = function(element) {
         }
     });
 };
+
+Poke.prototype.updateDescription = function(what) {
+    if (what.type == "iv") {
+        this.ui.desc.text("Hidden power: " + 
+            typeinfo.name(moveinfo.getHiddenPowerType(this.gen, this.ivs[0], this.ivs[1], this.ivs[2], this.ivs[3], this.ivs[4], this.ivs[5]))
+            );
+    } else if (what.type == "pokemon") {
+
+    } else if (what.type == "move") {
+
+    } else if (what.type == "item") {
+        //this.ui.desc.text(iteminfo.desc(this.item));
+        this.ui.desc.text("No item description.");//Todo: add item descriptions to PO!
+    } else if (what.type == "ability") {
+        this.ui.desc.text(abilityinfo.desc(this.ability));
+    }
+}
 
 Poke.prototype.updateStatGui = function(stat) {
     var calced = pokeinfo.calculateStat(this, stat);
