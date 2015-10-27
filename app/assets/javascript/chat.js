@@ -19,7 +19,7 @@ function Chat(options) {
     this.chatCount = 0;
 
     if (options && options.findbattle) {
-        this.element.find(".chatInputContainer").addClass("input-group").prepend("<span class='input-group-btn'><a href='po:findbattle/' class='btn btn-default'><span class='glyphicon glyphicon-fire'></span><span class='hidden-xs hidden-sm'> Find Battle</span></a></span>");
+        this.element.find(".chatInputContainer").addClass("input-group").prepend("<span class='input-group-btn' title='Find battle'><a href='po:findbattle/' class='btn btn-default'><span class='glyphicon glyphicon-fire'></span><span class='hidden-xs hidden-sm'> Find Battle</span></a></span>");
     }
 
     var self = this;

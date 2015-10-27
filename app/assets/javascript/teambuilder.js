@@ -322,9 +322,9 @@ Poke.prototype.updateGui = function()
     this.ui.nature.val(this.nature);
     this.ui.level.val(this.level);
 
-    var genderButtons = ['<span class="btn btn-default btn-sm tb-gender tb-gender-0"><input type="radio"><i class="fa fa-mercury"></i></span>',
-            '<span class="btn btn-default btn-sm tb-gender tb-gender-1"><input type="radio"><i class="fa fa-mars"></i></span>',
-            '<span class="btn btn-default btn-sm tb-gender tb-gender-2"><input type="radio"><i class="fa fa-venus"></i></span>'];
+    var genderButtons = ['<span class="btn btn-default btn-sm tb-gender tb-gender-0" title="Genderless"><input type="radio"><i class="fa fa-dot-circle-o"></i></span>',
+            '<span class="btn btn-default btn-sm tb-gender tb-gender-1"><input type="radio" title="Male"><i class="fa fa-mars"></i></span>',
+            '<span class="btn btn-default btn-sm tb-gender tb-gender-2"><input type="radio" title="Female"><i class="fa fa-venus"></i></span>'];
     if (this.data.gender <= 2) {
         this.ui.genders.html(genderButtons[this.data.gender]);
     } else {
@@ -366,7 +366,7 @@ Poke.prototype.updateGui = function()
 };
 
 Poke.prototype.updatePreview = function() {
-    this.ui.preview.html("<img src='" + pokeinfo.icon(this) + "' />&nbsp;" + (this.nick || pokeinfo.name(this)));
+    this.ui.preview.html("<input type='radio'><img src='" + pokeinfo.icon(this) + "' />&nbsp;" + (this.nick || pokeinfo.name(this)));
 };
 
 function Teambuilder (content) {
@@ -454,7 +454,9 @@ function Teambuilder (content) {
     });
 
     content.find(".tb-poke-preview").on("click", function() {
-        $("#link-poke-" + $(this).attr("slot")).trigger("click");
+        if ($(this).hasClass("active")) {
+            $("#link-poke-" + $(this).attr("slot")).trigger("click");
+        }
     });
 
     var tiers = webclient.tiersList;
@@ -536,15 +538,49 @@ function Teambuilder (content) {
     });
 
     content.find(".tb-team-import-btn").on("click", function() {
-        if ($(this).prop("disabled")) {
+        if ($(this).attr("disabled")) {
             return;
         }
-        $(this).prop("disabled", true);
+        $(this).attr("disabled", true);
         var exports = [];
         for (var i in self.team.pokes) {
             exports.push(self.team.pokes[i].export());
         }
         self.content.find("#tb-importable-edit").text(exports.join("\n\n"));
+    });
+
+    var switchPokes = function(poke1, poke2) {
+        var pokes = [poke1, poke2];
+        var exports = [pokes[0].export(), pokes[1].export()];
+        pokes[0].import(exports[1]);
+        pokes[1].import(exports[0]);
+        pokes[0].unloadGui();pokes[1].unloadGui();
+        pokes[0].updatePreview();pokes[1].updatePreview();
+    }
+
+    content.find(".tb-up-btn").on("click", function() {
+        var current = self.content.find(".tb-poke-preview.active");
+        var slot = +current.attr("slot");
+        if (slot <= 0) {
+            return;
+        }
+        current.removeClass("active");
+        var other = self.content.find(".tb-poke-preview:eq(" + (slot-1) + ")");
+        //Have fun making a loop
+        switchPokes(self.team.pokes[slot-1], self.team.pokes[slot]);
+        other.addClass("active");
+    });
+    content.find(".tb-down-btn").on("click", function() {
+        var current = self.content.find(".tb-poke-preview.active");
+        var slot = +current.attr("slot");
+        if (slot >= 5) {
+            return;
+        }
+        current.removeClass("active");
+        var other = self.content.find(".tb-poke-preview:eq(" + (slot+1) + ")");
+        //Have fun making a loop
+        switchPokes(self.team.pokes[slot+1], self.team.pokes[slot]);
+        other.addClass("active");
     });
 
     webclientUI.teambuilder = this;
@@ -562,10 +598,11 @@ Teambuilder.prototype.onImportable = function() {
                 exports.push(this.team.pokes[i].export());
             }
             this.content.find("#tb-importable-edit").text(exports.join("\n\n"));
+            this.content.find(".tb-team-import-btn").attr("disabled", "true");
         } else {
             this.content.find("#tb-importable-edit").text(this.team.pokes[current].export());
+            this.content.find(".tb-team-import-btn").removeAttr("disabled");
         }
-        this.content.find(".tb-team-import-btn").prop("disabled", current == -1);
     } else {
         this.content.find(".tb-poke-pill.active .tb-poke-link").trigger("click");
     }
