@@ -171,10 +171,24 @@ Poke.prototype.setElement = function(element) {
 };
 
 Poke.prototype.updateDescription = function(what) {
+    var self = this;
     if (what.type == "iv") {
-        this.ui.desc.text("Hidden power: " + 
-            typeinfo.name(moveinfo.getHiddenPowerType(this.gen, this.ivs))
-            );
+        var html = $("<div class='form-group'><label class='control-label'>Hidden Power</label><select class='form-control tb-hidden-power'></select></div>");
+        var hp = html.find(".tb-hidden-power");
+        for (var i = 1; i < 17; i++) {
+            hp.append("<option value='"+i+"'>" + typeinfo.name(i) + "</option>");
+        }
+        hp.val(moveinfo.getHiddenPowerType(this.gen, this.ivs));
+        hp.on("change", function() {
+            var config = moveinfo.getHiddenPowerIVs($(this).val(), self.gen)[0];
+            self.ivs = config;
+            self.updateStatsGui();
+            for (var i in self.ivs) {
+                self.ui.ivVals[i].val(self.ivs[i]);
+            }
+        });
+        this.ui.desc.html('');
+        this.ui.desc.append(html);
     } else if (what.type == "pokemon") {
         var links = [
             " - <a href='http://wiki.pokemon-online.eu/page/" + pokeinfo.name(what.poke.num).toLowerCase() + "'>Wiki</a>",
