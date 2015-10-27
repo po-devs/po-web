@@ -468,6 +468,17 @@ function Teambuilder (content) {
         team.tier = sugg;
         $(this).typeahead('close');
     }).typeahead("val", team.tier || "");
+
+    webclientUI.teambuilder = this;
 }
+
+Teambuilder.prototype.onImportable = function() {
+    if (!this.content.find(".importable").hasClass("current")) {
+        this.content.find(".tab").removeClass("current");
+        this.content.find(".importable").addClass("current");
+    } else {
+        this.content.find(".tb-poke-pill.active .tb-poke-link").trigger("click");
+    }
+};
 
 console.log("loading teambuilder js file");

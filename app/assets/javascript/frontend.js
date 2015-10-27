@@ -441,6 +441,12 @@ $(function() {
                     },
                     buttons: [
                         {
+                            label: "Importable",
+                            action: function(dialog) {
+                                webclientUI.teambuilder.onImportable();
+                            }
+                        },
+                        {
                             label: "Update",
                             action: function(dialog) {
                                 dialog.close();

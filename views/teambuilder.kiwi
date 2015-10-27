@@ -29,6 +29,21 @@
       </div>
     </div>
   </div>
+  <div class="panel panel-default tab importable" id="tb-importable" role="tabpanel">
+    <div class="panel-body">
+      <div class="col-sm-8">
+        <div class="form-group">
+          <label for="tb-saved-teams" class="control-label">Importable</label>
+          <textarea id="tb-importable-edit" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="col-sm-4 flex-column tb-import-btns">
+        <span class="btn btn-default tb-import-btn">Import</span>
+        <span class="btn btn-default tb-copy-btn">Copy to clipboard</span>
+        <span class="btn btn-default tb-team-import-btn" disabled>Whole team</span>
+      </div>
+    </div>
+  </div>
   {{each [0,1,2,3,4,5]}}
   <div class="panel panel-default tab tb-poke" id="tb-poke-${$value}" role="tabpanel">
     <div class="panel-body">
