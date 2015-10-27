@@ -94,6 +94,10 @@ Poke.prototype.setElement = function(element) {
         this.ui.evVals[i].data("slot", i).on("change", function() {
             var i = $(this).data("slot");
             self.evs[i] = +$(this).val();
+            if (self.evs[i] > 252) {
+                self.evs[i] = 252;
+                $(this).val(self.evs[i]);
+            }
             var surplus = self.evSurplus();
             
             if (surplus > 0) {
@@ -106,6 +110,10 @@ Poke.prototype.setElement = function(element) {
         this.ui.ivVals[i].data("slot", i).on("change", function() {
             var i = $(this).data("slot");
             self.ivs[i] = +$(this).val();
+            if (self.ivs[i] > 31) {
+                self.ivs[i] = 31;
+                $(this).val(self.ivs[i]);
+            }
             self.updateStatGui(i);
         }).on("focusin change", function(){self.updateDescription({"type": "iv"})});
     }
@@ -139,6 +147,14 @@ Poke.prototype.setElement = function(element) {
 
     this.ui.level.on("change", function() {
         self.level = +$(this).val();
+        if (self.level < 1) {
+            self.level = 1;
+        } else if (self.level > 100) {
+            self.level = 100;
+        }
+        if (self.level != $(this).val()) {
+            $(this).val(self.level);
+        }
         self.updateStatsGui();
     });
 

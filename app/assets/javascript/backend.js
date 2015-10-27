@@ -80,6 +80,10 @@ var webclient = {
         network.send("challengeplayer", $.extend({"id": id}, params));
     },
 
+    cancelFindBattle: function() {
+        network.send("challengeplayer", {"id": 0});
+    },
+
     dealWithChallenge: function(params) {
         if (params.desc == "sent") {
             if (webclient.players.isIgnored(params.id) || params.mode != 0) {

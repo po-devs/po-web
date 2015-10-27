@@ -63,7 +63,7 @@
               <span class="tb-stat">0</span>
               <input class="tb-ev-slider" data-slider-id='ev${$value}-${i}-slider' type="text" data-slider-min="0" data-slider-max="252" data-slider-step="4" data-slider-tooltip="hide" data-slider-value="0">
               <div class="flex-row-basic">
-                <input type="text" class="tb-ev-value" value="0" min="0" max="252" step="4" maxlength="3" size="2">
+                <input type="number" class="tb-ev-value" value="0" min="0" max="252" step="4" maxlength="3" size="2">
                 <input type="number" class="tb-iv-value" value="31" min="0" max="31" step="1" maxlength="2" size="2">
               </div>
             </div>
