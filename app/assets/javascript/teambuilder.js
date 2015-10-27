@@ -277,6 +277,12 @@ Poke.prototype.updateGui = function()
         source: substringMatcher(this.data.moveNames)
     }).on("typeahead:select", function(event, sugg) {
         self.moves[$(this).attr("slot")] = sugg.id;
+
+        if (sugg.value == "Frustration") {
+            self.happiness = 0;
+        } else if (sugg.value == "Return") {
+            self.happiness = 255;
+        }
     });
 };
 
