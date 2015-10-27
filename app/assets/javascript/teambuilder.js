@@ -195,12 +195,12 @@ Poke.prototype.updateDescription = function(what) {
     } else if (what.type == "move") {
         var desc = "<strong>Type:</strong> <img src='"+typeinfo.sprite(moveinfo.type(what.move))+"'/> - <strong>Category:</strong> " + categoryinfo.name(moveinfo.category(what.move));
         var acc = +moveinfo.accuracy(what.move);
-        if (acc > 0 && acc <= 100) {
-            desc += " - <strong>Accuracy:</strong> " + acc;
-        }
         var pow = moveinfo.power(what.move);
         if (pow > 0) {
             desc += " - <strong>Power:</strong> " + (pow == 1 ? "???" : pow);
+        }
+        if (acc > 0 && acc <= 100) {
+            desc += " - <strong>Accuracy:</strong> " + acc;
         }
         if (moveinfo.effect(what.move)) {
             desc += "<br/><strong>Effect:</strong> " + (moveinfo.effect(what.move)||"");
