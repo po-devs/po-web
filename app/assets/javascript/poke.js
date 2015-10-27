@@ -19,6 +19,48 @@ Poke.prototype.reset = function() {
 	this.shiny = false;
 };
 
+Poke.prototype.load = function(poke) {
+    var alreadySet = false;
+
+    if (this.num && pokeinfo.toNum(this) == pokeinfo.toNum(poke)) {
+        alreadySet = true;
+    } else {
+        this.reset();
+    }
+    poke = pokeinfo.toObject(poke);
+    this.num = poke.num;
+    this.forme = poke.forme;
+
+    this.data = {};
+    this.data.allMoves = pokeinfo.allMoves(this);
+    this.data.moveNames = [];
+    this.data.types = pokeinfo.types(this);
+    this.data.abilities = pokeinfo.abilities(this);
+    this.data.gender = pokeinfo.gender(this);
+
+    if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
+        this.data.abilities.splice(2, 1);
+    }
+    if (!this.data.abilities[1] || this.data.abilities[1] == this.data.abilities[0]) {
+        this.data.abilities.splice(1, 1);
+    }
+
+    if (!alreadySet) {
+        this.nick = this.num == 0 ? "" : pokeinfo.name(this);
+        this.ability = this.data.abilities[0];
+        this.gender = this.data.gender == 3 ? (1 + Math.floor(2*Math.random())) : this.data.gender;
+    }
+};
+
+Poke.prototype.evSurplus = function() {
+    var sum = 0;
+    for (var i = 0; i < 6; i++) {
+        sum = sum + this.evs[i];
+    }
+    return sum-510;
+};
+
+
 Poke.prototype.export = function() {
 	if (!this.num) {
 		return "";
@@ -51,7 +93,7 @@ Poke.prototype.export = function() {
 	lines.push("Trait: " + abilityinfo.name(this.ability));
 
 	var evs = [];
-	var evNames = ["HP", "Atk", "SAtk", "Def", "SDef", "Spd"];
+	var evNames = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
 
 	for (var i in evNames) {
 		if (this.evs[i]) {
@@ -91,4 +133,75 @@ Poke.prototype.export = function() {
 	}
 
 	return lines.join("\n");
+};
+
+Poke.prototype.import = function(str) {
+	var lines = str.split("\n");
+	var nameLine = lines.splice(0, 1)[0];
+	var nameItem = nameLine.split("@");
+
+	var nick = nameItem[0].replace("(M)", "").replace("*", "").replace("(F)", "").trim();
+	if (nick.indexOf("(") != 0 && nick.indexOf(")") > nick.indexOf("(")) {
+		var left = nick.indexOf("(")+1;
+		var right = nick.indexOf(")");
+		this.load(pokeinfo.num(nick.substr(left, right - left)));
+		this.nick = nick.substr(0, left-1).trim();
+	} else {
+		this.load(pokeinfo.num(nick));
+	}
+
+	if (nameItem[0].indexOf("*") != -1) {
+		this.shiny = true;
+	}
+
+	if (nameItem[0].indexOf("(F)")) {
+		this.gender = 2;
+	} else if (this.data.gender == 3) {
+		//If both are possible and female was not specified, default to male
+		this.gender = 1;
+	}
+
+	if (nameItem.length > 1) {
+		this.item = iteminfo.num(nameItem[1].trim());
+	} else {
+		this.item = 0;
+	}
+
+	var statNames = ["HP", "Atk", "Def", "SAtk", "SDef", "Spd", "HP", "Atk", "Def", "SpA", "SpD", "Spe"];
+	var moveIndex = 0;
+
+	while (lines.length > 0) {
+		var line = lines.splice(0, 1)[0];
+		var lline = line.toLowerCase();
+		if (lline.startsWith("level:")) {
+			this.level = +line.substr(line.indexOf(":")+1).trim();
+		} else if (lline.startsWith("shiny:")) {
+			this.shiny = lline.substr(line.indexOf(":")+1).trim() == "yes";
+		} else if (lline.startsWith("evs:") || lline.startsWith("ivs:")) {
+			var evs = line.substr(4).split("/");
+			for (var i in evs) {
+				var ev = evs[i].trim().split(" ");
+				if (ev.length < 2) {
+					continue;
+				}
+				var num = +ev[0];
+				var stat = statNames.indexOf(ev[1].trim());
+				if (stat == -1) {
+					continue;
+				}
+				(lline.startsWith("evs:") ? this.evs : this.ivs)[stat % 6] = num;
+			}
+		} else if (lline.startsWith("trait:") || lline.startsWith("ability:")) {
+			this.ability = abilityinfo.num(lline.split(":")[1].trim());
+		} else if (line.trim().startsWith("-")) {
+			if (moveIndex >= 4) {
+				continue;
+			}
+			var move = moveinfo.num(line.substr(line.indexOf("-")+1).trim());
+			this.moves[moveIndex++] = move;
+		} else if (lline.contains("nature")) {
+			line = line.trim();
+			this.nature = natureinfo.num(line.substr(0, line.indexOf(" ")));
+		}
+	}
 };

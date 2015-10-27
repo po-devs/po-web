@@ -229,6 +229,10 @@ pokeinfo.name = function(poke) {
     return pokedex.pokes.pokemons[this.toNum(poke)];
 };
 
+pokeinfo.num = function(name) {
+    return pokedex.pokes.nums[name.toLowerCase()];
+};
+
 pokeinfo.gender = function(poke) {
     var pokeNum = this.toNum(poke);
     if (! (pokeNum in pokedex.pokes.gender)) {
@@ -386,33 +390,37 @@ natureinfo.name = function(nature) {
     return pokedex.natures.nature[nature];
 };
 
+natureinfo.num = function(nature) {
+    if (!pokedex.natures.nums) {
+        pokedex.natures.nums = {};
+        for (var i = 0; i < 25; i++) {
+            pokedex.natures.nums[natureinfo.name(i).toLowerCase()] = i;
+        }
+    }
+    return pokedex.natures.nums[nature.toLowerCase()];
+};
+
 natureinfo.getNatureEffect = function(nature_id, stat_id) {
     var arr = {0:0, 1:1, 2:2, 3:4, 4:5, 5:3};
     return (10+(-(nature_id%5 == arr[stat_id]-1) + (Math.floor(nature_id/5) == arr[stat_id]-1)))/10;
 };
 
 natureinfo.boostedStat = function(nature_id) {
-    var arr = {0:0, 1:1, 2:2, 3:4, 4:5, 5:3};
-    var boost = arr[Math.floor(nature_id/5)+1];
-    var minus = arr[(nature_id%5) + 1];
-
-    if (boost == minus) {
-        return -1;
+    for (var i = 0; i < 6; i++) {
+        if (natureinfo.getNatureEffect(nature_id, i) > 1) {
+            return i;
+        }
     }
-
-    return boost;
+    return -1;
 };
 
 natureinfo.reducedStat = function(nature_id) {
-    var arr = {0:0, 1:1, 2:2, 3:4, 4:5, 5:3};
-    var boost = arr[Math.floor(nature_id/5)+1];
-    var minus = arr[(nature_id%5) + 1];
-
-    if (boost == minus) {
-        return -1;
+    for (var i = 0; i < 6; i++) {
+        if (natureinfo.getNatureEffect(nature_id, i) < 1) {
+            return i;
+        }
     }
-
-    return minus;
+    return -1;
 };
 
 moveinfo.list = function() {
@@ -425,6 +433,16 @@ moveinfo.hasMove = function (move) {
 
 moveinfo.name = function(move) {
     return pokedex.moves.moves[move];
+};
+
+moveinfo.num = function(move) {
+    if (!pokedex.moves.nums) {
+        pokedex.moves.nums = {};
+        for (var num in moveinfo.list()) {
+            pokedex.moves.nums[moveinfo.name(num).toLowerCase()] = num;
+        }
+    }
+    return pokedex.moves.nums[move.toLowerCase()];
 };
 
 moveinfo.findId = function (move) {
@@ -590,6 +608,10 @@ iteminfo.name = function(item) {
     }
 };
 
+iteminfo.num = function(name) {
+    return pokedex.items.nums[name.toLowerCase()];
+};
+
 iteminfo.berryName = function (item) {
     return pokedex.items.berries[item];
 };
@@ -716,6 +738,16 @@ abilityinfo.list = function() {
 
 abilityinfo.name = function(ability) {
     return pokedex.abilities.abilities[ability];
+};
+
+abilityinfo.num = function(ability) {
+    if (!pokedex.abilities.nums) {
+        pokedex.abilities.nums = {};
+        for (var num in pokedex.abilities.abilities) {
+            pokedex.abilities.nums[pokedex.abilities.abilities[num].toLowerCase()] = num;
+        }
+    }
+    return pokedex.abilities.nums[ability.toLowerCase()];
 };
 
 abilityinfo.desc = function(ability) {

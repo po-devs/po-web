@@ -1,7 +1,7 @@
 <div class="teambuilder">
   <!-- Centered Pills -->
   <ul class="nav nav-pills nav-justified" role="tablist">
-    <li class="tb-poke-pill active" slot="-1"><a href="#tb-home" class="tb-poke-link" id="header-home" slot="-1">Home</a></li>
+    <li class="tb-poke-pill active" slot="-1"><a href="#tb-home" class="tb-poke-link" id="tb-link-home" slot="-1">Home</a></li>
     {{each [0,1,2,3,4,5]}}
     <li class="tb-poke-pill"><a href="#tb-poke-${$value}" class="tb-poke-link" slot="${$value}" id="link-poke-${$value}">Poke&nbsp;#${$value|incr}</a></li>
     {{/each}}
@@ -39,7 +39,7 @@
       </div>
       <div class="col-sm-4 flex-column tb-import-btns">
         <span class="btn btn-default tb-import-btn">Import</span>
-        <span class="btn btn-default tb-copy-btn">Copy to clipboard</span>
+        <span class="btn btn-default tb-select-all">Select all</span>
         <span class="btn btn-default tb-team-import-btn" disabled>Whole team</span>
       </div>
     </div>

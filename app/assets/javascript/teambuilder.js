@@ -31,18 +31,22 @@ var pokesByName = {
 };
 
 var pokenames = [];
+pokedex.pokes.nums = {};
 
 for (var num in pokedex.pokes.pokemons) {
     pokenames.push({"value": pokedex.pokes.pokemons[num], "num": pokeinfo.species(num), "forme": pokeinfo.forme(num)});
+    pokedex.pokes.nums[pokedex.pokes.pokemons[num].toLowerCase()] = num;
 }
 
 pokenames.sort(function(a, b) {return a.value > b.value;});
 
 var itemnames = [];
+pokedex.items.nums = {};
 
 var keys = Object.keys(iteminfo.usefulList());
 for (var num in keys) {
     itemnames.push({"value": iteminfo.name(keys[num]), "num": keys[num]});
+    pokedex.items.nums[iteminfo.name(keys[num]).toLowerCase()] = keys[num];
 }
 
 for (var i in pokedex.items.berries) {
@@ -52,48 +56,8 @@ for (var i in pokedex.items.berries) {
     }
     //console.log("Adding berry " + i + ": " + iteminfo.name(i+8000));
     itemnames.push({"value": iteminfo.name(i+8000), "num": i+8000});
+    pokedex.items.nums[iteminfo.name(i+8000).toLowerCase()] = i+8000;
 }
-
-Poke.prototype.load = function(poke) {
-    var alreadySet = false;
-
-    if (this.num && pokeinfo.toNum(this) == pokeinfo.toNum(poke)) {
-        alreadySet = true;
-    } else {
-        this.reset();
-    }
-    poke = pokeinfo.toObject(poke);
-    this.num = poke.num;
-    this.forme = poke.forme;
-
-    this.data = {};
-    this.data.allMoves = pokeinfo.allMoves(this);
-    this.data.moveNames = [];
-    this.data.types = pokeinfo.types(this);
-    this.data.abilities = pokeinfo.abilities(this);
-    this.data.gender = pokeinfo.gender(this);
-
-    if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
-        this.data.abilities.splice(2, 1);
-    }
-    if (!this.data.abilities[1] || this.data.abilities[1] == this.data.abilities[0]) {
-        this.data.abilities.splice(1, 1);
-    }
-
-    if (!alreadySet) {
-        this.nick = this.num == 0 ? "" : pokeinfo.name(this);
-        this.ability = this.data.abilities[0];
-        this.gender = this.data.gender == 3 ? (1 + Math.floor(2*Math.random())) : this.data.gender;
-    }
-};
-
-Poke.prototype.evSurplus = function() {
-    var sum = 0;
-    for (var i = 0; i < 6; i++) {
-        sum = sum + this.evs[i];
-    }
-    return sum-510;
-};
 
 Poke.prototype.setElement = function(element) {
     var self = this;
@@ -239,6 +203,18 @@ Poke.prototype.loadGui = function()
     }
 
     this.updateGui();
+};
+
+Poke.prototype.unloadGui = function() {
+    this.ui.guiLoaded = false;
+};
+
+Poke.prototype.updateGuiIfLoaded = function() {
+    if (this.ui.guiLoaded) {
+        this.updateGui();
+    } else {
+        this.updatePreview();
+    }
 };
 
 Poke.prototype.updateStatsGui = function() {
@@ -470,6 +446,58 @@ function Teambuilder (content) {
         $(this).typeahead('close');
     }).typeahead("val", team.tier || "");
 
+    content.find(".tb-select-all").on("click", function() {
+        content.find("#tb-importable-edit").focus().select();
+    });
+
+    content.find(".tb-import-btn").on("click", function() {
+        var _pokes = self.content.find("#tb-importable-edit").val().replace(/^\s*[\r\n]/gm, '\n').replace(/\r/g, '\n').split("\n\n");
+        for (var i in _pokes) {
+            _pokes[i] = _pokes[i].trim();
+        }
+        var pokes = [];
+        for (var i in _pokes) {
+            if (_pokes[i]) {
+                pokes.push(_pokes[i]);
+            }
+        }
+        if (pokes.length == 0) {
+            //no poke
+            return;
+        } else if (pokes.length == 1) {
+            /* Import only one poke */
+            var tab = self.currentTab();
+            if (tab == -1) {
+                tab = 0;
+            }
+            self.team.pokes[tab].import(pokes[0]);
+            self.team.pokes[tab].updateGuiIfLoaded();
+
+            self.onImportable();//hack to switch back
+        } else {
+            //Update all pokes and go back to home tab
+            for (var i in pokes) {
+                self.team.pokes[i].import(pokes[i]);
+                self.team.pokes[i].updatePreview();
+                self.team.pokes[i].unloadGui();
+            }
+
+            self.content.find("#tb-link-home").trigger("click");
+        }
+    });
+
+    content.find(".tb-team-import-btn").on("click", function() {
+        if ($(this).prop("disabled")) {
+            return;
+        }
+        $(this).prop("disabled", true);
+        var exports = [];
+        for (var i in self.team.pokes) {
+            exports.push(self.team.pokes[i].export());
+        }
+        self.content.find("#tb-importable-edit").text(exports.join("\n\n"));
+    });
+
     webclientUI.teambuilder = this;
 }
 
@@ -488,6 +516,7 @@ Teambuilder.prototype.onImportable = function() {
         } else {
             this.content.find("#tb-importable-edit").text(this.team.pokes[current].export());
         }
+        this.content.find(".tb-team-import-btn").prop("disabled", current == -1);
     } else {
         this.content.find(".tb-poke-pill.active .tb-poke-link").trigger("click");
     }
