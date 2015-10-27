@@ -147,6 +147,7 @@ var webclient = {
         team.tier = this.team.tier;
         team.gen = this.team.gen;
         team.pokes = [{},{},{},{},{},{}];
+        team.illegal = this.team.illegal || false;
         for (var i in this.team.pokes) {
             $.extend(team.pokes[i], this.team.pokes[i]);
             delete team.pokes[i]["ui"];

@@ -84,8 +84,11 @@ Poke.prototype.setElement = function(element) {
             //console.log(arguments);
             self.evs[i] = event.value.newValue;
             var surplus = self.evSurplus();
-            if (surplus > 0) {
+            if (surplus > 0 && !self.illegal) {
                 self.evs[i] -= surplus;
+                if (self.evs[i] < 0) {
+                    self.evs[i] = 0;
+                }
                 self.evs[i] = self.evs[i] - (self.evs[i]%4);
                 $(this).slider("setValue", self.evs[i]);
             }
@@ -101,8 +104,11 @@ Poke.prototype.setElement = function(element) {
             }
             var surplus = self.evSurplus();
             
-            if (surplus > 0) {
+            if (surplus > 0 &&!self.illegal) {
                 self.evs[i] -= surplus;
+                if (self.evs[i] < 0) {
+                    self.evs[i] = 0;
+                }
                 $(this).val(self.evs[i]);
             }
             self.ui.evs[i].slider("setValue", self.evs[i]);
@@ -385,6 +391,7 @@ function Teambuilder (content) {
         team.pokes[poke].ui.preview = pokeprev;
         this.prevs[poke] = pokeprev;
         team.pokes[poke].updatePreview();
+        team.pokes[poke].illegal = team.illegal;
     }
 
     //setTimeout(function(){team.pokes[0].loadGui()});
@@ -556,6 +563,19 @@ function Teambuilder (content) {
         pokes[1].import(exports[0]);
         pokes[0].unloadGui();pokes[1].unloadGui();
         pokes[0].updatePreview();pokes[1].updatePreview();
+    }
+
+    content.find(".tb-hackmons-btn").on("click", function() {
+        self.team.illegal = !$(this).hasClass("active");
+        for (var i = 0; i < 6; i++) {
+            self.team.pokes[i].illegal = self.team.illegal;
+            self.team.pokes[i].unloadGui();
+        }
+    });
+    if (this.team.illegal) {
+        content.find(".tb-hackmons-btn").addClass("active");
+    } else {
+        content.find(".tb-hackmons-btn").removeClass("active");
     }
 
     content.find(".tb-up-btn").on("click", function() {
