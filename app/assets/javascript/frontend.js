@@ -459,6 +459,22 @@ $(function() {
             } else if (cmd == "download") {
                 $("#download-hidden").val(JSON.stringify(localStorage));
                 $("#download-form").submit();
+            } else if (cmd == "upload") {
+                $("#upload-hidden").click().on("change", function() {
+                    var file = this.files.item(0);
+
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(e) {
+                        var res = e.target.result;
+                        if (!res) {
+                            return;
+                        }
+                        $.extend(localStorage, JSON.parse(res));
+
+                        BootstrapDialog.alert("Your data was replaced! Reload the page to see immediate effects.");
+                    }
+                    fileReader.readAsText(file, "utf-8");
+                });
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {

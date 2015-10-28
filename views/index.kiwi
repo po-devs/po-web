@@ -49,7 +49,9 @@
             <li><a href="po:download/"><span class="glyphicon glyphicon-save"></span> Download data</a>
               <form method="POST" action="podata.json" target="_blank" id="download-form"><input type="hidden" name="data" id="download-hidden"></form>
             </li>
-            <li><a href="po:upload/"><span class="glyphicon glyphicon-open"></span> Open data</a></li>
+            <li><a href="po:upload/"><span class="glyphicon glyphicon-open"></span> Load from data</a>
+              <input type="file" class="hidden" id="upload-hidden" accept=".json">
+            </li>
             <li role="separator" class="divider"></li>
             <li id="register-dd" class="disabled"><a href="po:register/">Register</a></li>
           </ul>
