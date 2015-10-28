@@ -142,14 +142,16 @@ var webclient = {
         network.command('chat', {channel: id, message: message});
     },
 
-    getTeamData: function() {
+    getTeamData: function(orTeam) {
+        orTeam = orTeam || this.team;
         var team = {};
-        team.tier = this.team.tier;
-        team.gen = this.team.gen;
+        team.tier = orTeam.tier;
+        team.gen = orTeam.gen;
         team.pokes = [{},{},{},{},{},{}];
-        team.illegal = this.team.illegal || false;
-        for (var i in this.team.pokes) {
-            $.extend(team.pokes[i], this.team.pokes[i]);
+        team.illegal = orTeam.illegal || false;
+        team.name = orTeam.name || "";
+        for (var i in orTeam.pokes) {
+            $.extend(team.pokes[i], orTeam.pokes[i]);
             delete team.pokes[i]["ui"];
             delete team.pokes[i]["data"];
         }

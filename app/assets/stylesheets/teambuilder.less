@@ -1,5 +1,6 @@
 @import "../../../bower_components/seiyria-bootstrap-slider/less/bootstrap-slider.less";
 @import "../../../bower_components/font-awesome/less/font-awesome.less";
+@import "../../../bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.less";
 
 @media screen and (min-width: 768px) {
   .modal-dialog {
@@ -10,6 +11,21 @@
 @media screen and (min-width: 850px) {
   .modal-dialog.modal-teambuilder {
     width: 800px;
+  }
+}
+
+.bootstrap-tagsinput {
+  line-height: 1.75;
+  width: 100%;
+  padding-top: 0px;
+  padding-bottom: 26px;
+
+  /* Doesn't allow user to type in team name */
+  input {
+    display: none;
+  }
+  .tag {
+    cursor: pointer;
   }
 }
 

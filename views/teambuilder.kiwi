@@ -9,13 +9,20 @@
   <div class="panel panel-default tab current tb-home" id="tb-home" role="tabpanel">
     <div class="panel-body">
       <div class="col-sm-6">
-        <div class="form-group">
-          <label for="tb-team-name" class="control-label">Current team</label>
-          <input type="text" class="form-control" id="tb-team-name" value="" placeholder="Team name..." disabled>
-        </div>
-        <div class="form-group">
+        <form id="tb-save-form">
+          <div class="form-group">
+            <label for="tb-team-name" class="control-label">Current team</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="tb-team-name" value="" placeholder="Team name..." required>
+              <span class="input-group-btn" title="Save team">
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-floppy-save"></span></button>
+              </span>
+            </div>
+          </div>
+        </form>
+        <div class="form-group saved-teams-group">
           <label for="tb-saved-teams" class="control-label">Stored teams</label>
-          <textarea id="tb-saved-teams" class="form-control" disabled></textarea>
+          <input id="tb-saved-teams" data-role="tagsinput" class="hello" value="Team1,Team2,Team3,Team4">
         </div>
       </div>
       <div class="col-sm-6 divider-left">

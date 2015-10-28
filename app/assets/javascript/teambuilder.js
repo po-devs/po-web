@@ -265,6 +265,11 @@ Poke.prototype.unloadGui = function() {
     this.ui.guiLoaded = false;
 };
 
+Poke.prototype.unloadAll = function() {
+    this.unloadGui();
+    delete this["data"];
+}
+
 Poke.prototype.updateGuiIfLoaded = function() {
     if (this.ui.guiLoaded) {
         this.updateGui();
@@ -569,8 +574,7 @@ function Teambuilder (content) {
         self.team.illegal = !$(this).hasClass("active");
         for (var i = 0; i < 6; i++) {
             self.team.pokes[i].illegal = self.team.illegal;
-            self.team.pokes[i].unloadGui();
-            delete self.team.pokes[i]["data"];//reload moves/abilities
+            self.team.pokes[i].unloadAll();
         }
     });
     if (this.team.illegal) {
@@ -604,9 +608,64 @@ function Teambuilder (content) {
         other.addClass("active");
     });
 
+    self.savedTeams = poStorage.get("saved-teams", "object") || {};
+    var storedTeams = $("#tb-saved-teams");
+    content.find("#tb-save-form").on("submit", function(event) {
+        event.preventDefault();
+
+        //save team
+        var name = self.content.find("#tb-team-name").val().replace(/,/g, "");
+        self.team.name = name;
+        self.savedTeams[name] = webclient.getTeamData(self.team);
+        poStorage.set("saved-teams", self.savedTeams);
+
+        storedTeams.tagsinput("add", name);
+    });
+
     content.closest(".modal-dialog").addClass("modal-teambuilder");
 
+    storedTeams.tagsinput({"freeInput": false, "tagClass": "label label-primary"});
+    storedTeams.tagsinput("removeAll");
+    for (var i in self.savedTeams) {
+        storedTeams.tagsinput("add", i);
+    }
+
+    storedTeams.on("itemRemoved", function(event) {
+        delete self.savedTeams[event.item];
+        poStorage.set("saved-teams", self.savedTeams);
+    });
+
+    self.content.find("#tb-team-name").val(self.team.name || "");
+
+    self.content.find(".saved-teams-group").on("click", ".tag", function(event) {
+        /* If the cross was clicked to remove the item */
+        if (event.target != this) {
+            return;
+        }
+        var name = $(this).text();
+        var team = self.savedTeams[name];
+
+        self.team.name = name;
+        self.team.illegal = team.illegal;
+        self.team.gen = team.gen;
+        self.team.tier = team.tier;
+        for (var i in team.pokes) {
+            $.extend(self.team.pokes[i], team.pokes[i]);
+            self.team.pokes[i].unloadAll();
+        }
+
+        self.updateGui();
+    });
+
     webclientUI.teambuilder = this;
+}
+
+Teambuilder.prototype.updateGui = function() {
+    this.content.find("#tb-team-name").val(this.team.name || "");
+    this.content.find("#tb-tier").typeahead("val", this.team.tier || "");
+    for (var i in this.team.pokes) {
+        this.team.pokes[i].updateGuiIfLoaded();
+    }
 }
 
 Teambuilder.prototype.onImportable = function() {

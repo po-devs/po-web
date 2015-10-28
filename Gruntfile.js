@@ -61,6 +61,7 @@ module.exports = function(grunt) {
     './bower_components/handlebars/handlebars.min.js',
     './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
     './bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
+    './bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js',
     './db/pokes/all_moves.js',
     './db/pokes/stats.js',
     './db/pokes/type1.js',
