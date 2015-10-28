@@ -1,6 +1,7 @@
 webclient.teambuilderLoaded = true;
 
-var substringMatcher = function(strs) {
+var substringMatcher = function(strs, partialMatch) {
+  partialMatch = partialMatch || false;
   return function findMatches(q, cb) {
     var matches, substringRegex;
 
@@ -8,7 +9,7 @@ var substringMatcher = function(strs) {
     matches = [];
 
     // regex used to determine if a string contains the substring `q`
-    substrRegex = new RegExp("^"+q, 'i');
+    substrRegex = new RegExp((partialMatch ? "":"^")+q, 'i');
 
     // iterate through the pool of strings and for any string that
     // contains the substring `q`, add it to the `matches` array
@@ -58,6 +59,8 @@ for (var i in pokedex.items.berries) {
     itemnames.push({"value": iteminfo.name(i+8000), "num": i+8000});
     pokedex.items.nums[iteminfo.name(i+8000).toLowerCase()] = i+8000;
 }
+
+itemnames.sort(function(a, b) {return a.value > b.value;});
 
 Poke.prototype.setElement = function(element) {
     var self = this;
@@ -426,12 +429,12 @@ function Teambuilder (content) {
 
         content.find(".tb-item-selection").typeahead({
           hint: true,
-          highlight: false,
+          highlight: true,
           minLength: 0
         },
         {
           name: 'items',
-          source: substringMatcher(itemnames),
+          source: substringMatcher(itemnames, true),
           display: 'value',
           limit: 400
         }).on("typeahead:select", function(event, sugg) {
