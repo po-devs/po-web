@@ -169,7 +169,7 @@ Poke.prototype.import = function(str) {
 		this.shiny = true;
 	}
 
-	if (nameItem[0].indexOf("(F)")) {
+	if (nameItem[0].indexOf("(F)") != -1) {
 		this.gender = 2;
 	} else if (this.data.gender == 3) {
 		//If both are possible and female was not specified, default to male
