@@ -31,6 +31,15 @@ Poke.prototype.load = function(poke) {
     this.num = poke.num;
     this.forme = poke.forme;
 
+    if (!alreadySet && !this.illegal) {
+    	/* Change mega forme to base + item, and so on */
+    	var item = pokeinfo.itemForForme(this);
+    	if (item) {
+    		this.forme = 0;
+    		this.item = item;
+    	}
+    }
+
     this.data = {};
     this.data.moveNames = [];
     this.data.types = pokeinfo.types(this);

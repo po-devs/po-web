@@ -374,6 +374,11 @@ pokeinfo.maxStat = function(poke, stat, gen) {
     return Math.floor(ret * Math.max(2, 2+boost) / Math.max(2, 2-boost));
 }
 
+pokeinfo.itemForForme = function(poke) {
+    var num = pokeinfo.toNum(poke);
+    return pokedex.pokes.item_for_forme[num] || 0;
+}
+
 genderinfo.name = function(gender) {
     return {1: 'male', 2: 'female', 3: 'neutral'}[gender];
 };

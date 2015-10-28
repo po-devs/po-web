@@ -43,11 +43,12 @@ def convert_line(line, duplicates):
 
 def deal_with_file(path, do_gens=False, file="", duplicates=False):
     print ("file: " + file)
+    basefile = os.path.basename(file)
     gens = ['6', '5', '4', '3', '2', '1']
     full_moves = ''
 
     typepath = "pokedex.pokes"
-    filepath = typepath+"."+file
+    filepath = typepath+"."+basefile
 
     if do_gens:
         for gen in gens:
@@ -75,7 +76,7 @@ def deal_with_file(path, do_gens=False, file="", duplicates=False):
         all_moves = [convert_line(x, duplicates) for x in all_moves]
         full_moves += filepath + " = {\n" + ''.join(all_moves) + '};'
 
-    output_name = "db/pokes/"+ file + ".js"
+    output_name = "db/pokes/"+ basefile + ".js"
     ensure_dir(output_name)
 
     print ("writing into " + output_name)
@@ -100,7 +101,7 @@ def main(argv):
 
     # gens = ['6', '5', '4', '3', '2', '1']
     files = ['all_moves', 'type1', 'type2', 'ability1', 'ability2', 'ability3', 'min_levels', 'stats']
-    base_files = ['gender', 'height', 'weight', 'pokemons']
+    base_files = ['gender', 'height', 'weight', 'pokemons', '../items/item_for_forme']
     unique_files = ['released']
     duplicates = {}
 
