@@ -32,17 +32,23 @@ Poke.prototype.load = function(poke) {
     this.forme = poke.forme;
 
     this.data = {};
-    this.data.allMoves = pokeinfo.allMoves(this);
     this.data.moveNames = [];
     this.data.types = pokeinfo.types(this);
-    this.data.abilities = pokeinfo.abilities(this);
+    
     this.data.gender = pokeinfo.gender(this);
 
-    if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
-        this.data.abilities.splice(2, 1);
-    }
-    if (!this.data.abilities[1] || this.data.abilities[1] == this.data.abilities[0]) {
-        this.data.abilities.splice(1, 1);
+    if (this.illegal) {
+    	this.data.allMoves = Object.keys(moveinfo.list());
+    	this.data.abilities = Object.keys(abilityinfo.list());
+    } else {
+    	this.data.allMoves = pokeinfo.allMoves(this);
+    	this.data.abilities = pokeinfo.abilities(this);
+    	if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
+        	this.data.abilities.splice(2, 1);
+	    }
+	    if (!this.data.abilities[1] || this.data.abilities[1] == this.data.abilities[0]) {
+	        this.data.abilities.splice(1, 1);
+	    }
     }
 
     if (!alreadySet) {

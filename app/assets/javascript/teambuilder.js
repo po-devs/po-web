@@ -570,6 +570,7 @@ function Teambuilder (content) {
         for (var i = 0; i < 6; i++) {
             self.team.pokes[i].illegal = self.team.illegal;
             self.team.pokes[i].unloadGui();
+            delete self.team.pokes[i]["data"];//reload moves/abilities
         }
     });
     if (this.team.illegal) {
