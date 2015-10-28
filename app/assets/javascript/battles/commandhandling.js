@@ -447,11 +447,9 @@ battledata.dealWithWeatherhurt = function(params) {
 };
 
 battledata.dealWithSubstitute = function(params) {
-    if (params.substitue) {
+    this.pokes[params.spot].substitute = params.substitute;
 
-    } else {
-
-    }
+    this.trigger("substitute", spot, params.substitute);
 };
 
 battledata.dealWithDamage = function(params)
