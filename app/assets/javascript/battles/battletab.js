@@ -308,6 +308,17 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
                 table += stat;
             }
             ret.push(table + "</table>");
+            var state = poke.fieldState || 0;
+            var states = ["Spikes", "Spikes (2)", "Spikes (3)", "Stealth Rock", "Toxic Spikes", "Toxic Spikes (2)", "Sticky Web"];
+            var actStates = [];
+            for (var i in states) {
+                if (state & (1 << i)) {
+                    actStates.push(states[i]);
+                }
+            }
+            if (actStates.length > 0) {
+                ret.push(actStates.join(", "));
+            }
 
             return ret.join("<br/>");
         },
