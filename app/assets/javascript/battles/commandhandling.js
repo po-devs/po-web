@@ -409,6 +409,7 @@ battledata.dealWithWeatherstart = function(params) {
     } else {
         this.print(weatherRegularMessage[params.weather-1]);
     }
+    this.trigger("weather", params.weather);
 };
 
 battledata.dealWithFeelweather = function(params) {
@@ -420,6 +421,7 @@ battledata.dealWithFeelweather = function(params) {
     ];
 
     this.print(messages[params.weather -1]);
+    this.trigger("weather", params.weather);
 };
 
 battledata.dealWithWeatherend = function(params) {
