@@ -609,7 +609,9 @@ function Teambuilder (content) {
     });
 
     self.savedTeams = poStorage.get("saved-teams", "object") || {};
-    var storedTeams = $("#tb-saved-teams");
+    self.deletedTeams = poStorage.get("deleted-teams", "object") || {};
+    var storedTeams = content.find("#tb-saved-teams");
+    var deletedTeams = content.find("#tb-deleted-teams");
     content.find("#tb-save-form").on("submit", function(event) {
         event.preventDefault();
 
@@ -624,15 +626,29 @@ function Teambuilder (content) {
 
     content.closest(".modal-dialog").addClass("modal-teambuilder");
 
+
+    deletedTeams.tagsinput({"freeInput": false, "tagClass": "label label-default"});
+    deletedTeams.tagsinput("removeAll");
     storedTeams.tagsinput({"freeInput": false, "tagClass": "label label-primary"});
     storedTeams.tagsinput("removeAll");
     for (var i in self.savedTeams) {
         storedTeams.tagsinput("add", i);
     }
+    for (var i in self.deletedTeams) {
+        deletedTeams.tagsinput("add", i);
+    }
 
     storedTeams.on("itemRemoved", function(event) {
+        self.deletedTeams[event.item] = self.savedTeams[event.item];
         delete self.savedTeams[event.item];
         poStorage.set("saved-teams", self.savedTeams);
+        poStorage.set("deleted-teams", self.deletedTeams);
+        deletedTeams.tagsinput("add", event.item);
+    });
+
+    deletedTeams.on("itemRemoved", function(event) {
+        delete self.deletedTeams[event.item];
+        poStorage.set("deleted-teams", self.deletedTeams);
     });
 
     self.content.find("#tb-team-name").val(self.team.name || "");
@@ -655,6 +671,26 @@ function Teambuilder (content) {
         }
 
         self.updateGui();
+    });
+
+    self.content.find(".deleted-teams-group").on("click", ".tag", function(event) {
+        /* If the cross was clicked to remove the item */
+        if (event.target != this) {
+            return;
+        }
+        var item = $(this).text();
+        self.savedTeams[item] = self.deletedTeams[item];
+        delete self.deletedTeams[item];
+        storedTeams.tagsinput("add", item);
+        deletedTeams.tagsinput("remove", item);
+        poStorage.set("saved-teams", self.savedTeams);
+        poStorage.set("deleted-teams", self.deletedTeams);
+    });
+
+    self.content.find("#delete-teams-btn").on("click", function(event) {
+        self.deletedTeams = {};
+        poStorage.set("deleted-teams", self.deletedTeams);
+        deletedTeams.tagsinput("removeAll");
     });
 
     webclientUI.teambuilder = this;
