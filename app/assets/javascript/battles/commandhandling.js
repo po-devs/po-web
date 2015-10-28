@@ -451,7 +451,7 @@ battledata.dealWithWeatherhurt = function(params) {
 battledata.dealWithSubstitute = function(params) {
     this.pokes[params.spot].substitute = params.substitute;
 
-    this.trigger("substitute", spot, params.substitute);
+    this.trigger("substitute", params.spot, params.substitute);
 };
 
 battledata.dealWithDamage = function(params)

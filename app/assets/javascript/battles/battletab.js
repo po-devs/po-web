@@ -511,6 +511,13 @@ BattleTab.prototype.print = function(msg, args) {
 
     this.chat.insertMessage(msg, {linebreak: linebreak});
     this.activateTab();
+
+    if(!window.isActive) {
+        if ("Notification" in window) {
+            //console.log("spawning notification");
+            var notification = new window.Notification(this.battle.bame(0) + ' vs ' + this.battle.name(1), {body: utils.stripHtml(msg)});
+        }
+    }
 };
 
 BattleTab.prototype.onSetCurrent = function() {
