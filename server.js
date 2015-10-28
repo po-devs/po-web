@@ -22,6 +22,11 @@ app.post("/", function(req, res) {
   res.render("index.kiwi", {postData: JSON.stringify(req.body)});
 });
 
+app.post("/podata.json", function(req, res) {
+  res.set('Content-Type', 'text/podata');
+  res.send(req.body.data);
+});
+
 app.get("/battle-canvas.html", function(req, res) {
   res.render("battle-canvas.kiwi");
 });

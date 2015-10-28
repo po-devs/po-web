@@ -456,6 +456,9 @@ $(function() {
                         }
                     ]
                 });
+            } else if (cmd == "download") {
+                $("#download-hidden").val(JSON.stringify(localStorage));
+                $("#download-form").submit();
             }
         } else {
             if (webclient.connectedToServer && !$(this).attr("target")) {
