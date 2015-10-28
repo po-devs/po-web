@@ -604,6 +604,8 @@ function Teambuilder (content) {
         other.addClass("active");
     });
 
+    content.closest(".modal-dialog").addClass("modal-teambuilder");
+
     webclientUI.teambuilder = this;
 }
 
