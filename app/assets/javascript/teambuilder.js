@@ -666,6 +666,11 @@ Teambuilder.prototype.updateGui = function() {
     for (var i in this.team.pokes) {
         this.team.pokes[i].updateGuiIfLoaded();
     }
+    if (this.team.illegal) {
+        this.content.find(".tb-hackmons-btn").addClass("active");
+    } else {
+        this.content.find(".tb-hackmons-btn").removeClass("active");
+    }
 }
 
 Teambuilder.prototype.onImportable = function() {
