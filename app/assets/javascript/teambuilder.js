@@ -448,8 +448,16 @@ function Teambuilder (content) {
     });
     
     var natures = "";
+    var shortStats = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
     for (var i in natureinfo.list()) {
-        natures += "<option value='" + i  + "'>" + natureinfo.name(i) + "</option>";
+        var name = natureinfo.name(i);
+        // Doesn't look good
+        // var boost = natureinfo.boostedStat(i);
+        // var hinder = natureinfo.reducedStat(i);
+        // if (boost != -1) {
+        //     name += " (+" + shortStats[boost] + ", -" + shortStats[hinder] + ")";
+        // }
+        natures += "<option value='" + i  + "'>" + name + "</option>";
     }
     content.find(".tb-nature-selection").html(natures);
 

@@ -21,15 +21,38 @@ playerlist.updatePlayers = function() {
     this.setPlayers(this.ids);
 };
 
+playerlist.getCompareFunction = function() {
+    if (!this.filter) {
+        return function(a, b) {
+            return a.localeCompare(b);
+        };
+    }
+    var filter = this.filter;
+    return function(a, b) {
+        var lowera = a;
+        var lowerb = b;
+        var hasa = lowera.indexOf(filter) != -1;
+        var hasb = lowerb.indexOf(filter) != -1;
+        if (hasa && !hasb) {
+            return -1;
+        } else if (hasb && !hasa) {
+            return 1;
+        } else {
+            return lowera.localeCompare(lowerb);
+        }
+    };
+};
+
 playerlist.setPlayers = function (playerIds) {
     this.shown = {};
 
     var html = "",
         len, i;
 
+    var compareFunc = this.getCompareFunction();
     /* Could be optimized, but later */
     playerIds.sort(function(a, b) {
-        return webclient.players.name(a).toLowerCase().localeCompare(webclient.players.name(b).toLowerCase());
+        return compareFunc(webclient.players.name(a).toLowerCase(),webclient.players.name(b).toLowerCase());
     });
 
     for (i = 0, len = playerIds.length; i < len; i += 1) {
@@ -55,11 +78,6 @@ playerlist.createPlayerItem = function (id) {
     var name = webclient.players.name(id),
         ret;
 
-    /* If there's a filter and it's no match, hide the player name */
-    if (this.filter && name.toLowerCase().indexOf(this.filter) === -1) {
-        return "";
-    }
-
     this.shown[id] = true;
 
     ret = "<a href='po:info/" + id + "' class='list-group-item player-list-item player-auth-" + webclient.players.auth(id);
@@ -82,7 +100,12 @@ playerlist.createPlayerItem = function (id) {
         ret += "style='color:" + webclient.players.color(id) + "' ";
     }
 
-    ret += "id='player-"+id+"' pid='" + id + "'>" + utils.escapeHtml(name) + "</a>";
+    var fullName = utils.escapeHtml(name);
+    if (this.filter) {
+        fullName = fullName.replace(new RegExp("("+this.filter+")", "i"), "<b>$1</b>");
+    }
+
+    ret += "id='player-"+id+"' pid='" + id + "'>" + fullName + "</a>";
     return ret;
 };
 
@@ -90,8 +113,9 @@ playerlist.findPos = function(id) {
     var name = webclient.players.name(id),
         lname = name.toLowerCase();
 
+    var compareFunc = this.getCompareFunction();
     return this.ids.dichotomy(function (pid) {
-        return lname.localeCompare(webclient.players.name(pid).toLowerCase());
+        return compareFunc(lname, webclient.players.name(pid).toLowerCase());
     });
 };
 
