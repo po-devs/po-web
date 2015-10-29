@@ -8,23 +8,23 @@
 
 /* A body that is full-height, full-width, but not more */
 body {
-  height: 100vh; 
-  display:flex; 
-  flex-direction: column; 
-  overflow: hidden; 
+  height: 100vh;
+  display:flex;
+  flex-direction: column;
+  overflow: hidden;
   top: 0px; bottom: 0px; left: 0px; right: 0px;
   position: absolute;
   box-sizing: border-box;
 }
 
 .flex-row-basic {
-  display:flex; 
-  flex-direction: row; 
+  display:flex;
+  flex-direction: row;
 }
 
 .flex-row-no-shrink {
-  display:flex; 
-  flex-direction: row; 
+  display:flex;
+  flex-direction: row;
   /*overflow-y: auto;*/
   flex-grow: 1;
 }
@@ -35,7 +35,7 @@ body {
 
 .flex-row {
   .flex-row-no-shrink;
-  
+
   /* Tell the row to stretch vertically as possible without overflowing */
   flex-basis: 0px;
 }
@@ -49,8 +49,8 @@ body {
 }
 
 .flex-column {
-  display:flex; 
-  flex-direction: column; 
+  display:flex;
+  flex-direction: column;
   flex-grow: 1;
   max-width: 100%;
 }
@@ -71,10 +71,10 @@ body {
 }
 
 .hiddenScroll {
-  overflow-y: hidden; 
+  overflow-y: hidden;
 
   &:hover, &:focus {
-    overflow-y: auto; 
+    overflow-y: auto;
   }
 }
 
@@ -133,22 +133,18 @@ body {
 .chat, .chatInput {
 }
 
-#playerlist, #pmlist, #channellist, #battlelist {
+#playerlist, #pmlist, #channellist, #battlelist, #po-tabs-list {
     margin-bottom: 0px;
+
+    .list-group-item:last-child {
+      margin-bottom: 10px;
+    }
 }
 
 .encase-filter {
   padding-right: 20px;
   padding-left: 20px;
   padding-top: 5px;
-}
-
-/*#playerlist li:hover {
-  cursor: pointer;
-}*/
-
-#po-tabs-list {
-  margin-bottom: 20px;
 }
 
 .tab-active {
@@ -177,7 +173,7 @@ span.glyphicon {
 
 .rightbar {
   width: 72.5%;
-  min-width: 72.5%; 
+  min-width: 72.5%;
 }
 
 iframe.player-info {
