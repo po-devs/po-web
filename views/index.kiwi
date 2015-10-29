@@ -75,7 +75,7 @@
         <ul id="pmlist" class="list-group" tabindex=3></ul>
       </div>
       <div id="playercount" class="hide"></div>
-      <ul id="playerlist" class="stretchY list-group" tabindex=10></ul>
+      <div class="stretchY-basic no-overflow"><ul id="playerlist" class="hiddenScroll list-group" tabindex=10></ul></div>
     </div>
     <div class="flex-column rightbar" id="tabs">
     </div>

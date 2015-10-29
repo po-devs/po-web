@@ -71,17 +71,24 @@ body {
 }
 
 .hiddenScroll {
-  overflow-y: hidden;
+  overflow: hidden;
 
   &:hover, &:focus {
     overflow-y: auto;
   }
 }
 
-.stretchY {
+.no-overflow {
+  overflow: hidden;
+}
+
+.stretchY-basic {
   flex-grow: 1;
   flex-basis: 0px;
+}
 
+.stretchY {
+  .stretchY-basic;
   .hiddenScroll;
 }
 
@@ -133,12 +140,42 @@ body {
 .chat, .chatInput {
 }
 
-#playerlist, #pmlist, #channellist, #battlelist, #po-tabs-list {
-    margin-bottom: 0px;
+#pmlist, #channellist, #battlelist, #po-tabs-list {
+  margin-bottom: 0px;
 
-    .list-group-item:last-child {
-      margin-bottom: 10px;
-    }
+  .list-group-item:last-child {
+    margin-bottom: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  };
+
+  .list-group-item:first-child {
+    border-top-left-radius: 0;
+  }
+}
+
+#pmlist, #battlelist {
+  .list-group-item:first-child {
+    border-top-right-radius: 0;
+  }
+}
+
+#playerlist {
+  margin-bottom: 0px;
+  max-height: 100%;
+
+  &:not(:empty) {
+    border-top: 1px solid #DDD;
+  }
+
+  .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .list-group-item:first-child {
+    margin-top: -1px;
+  };
 }
 
 .encase-filter {
