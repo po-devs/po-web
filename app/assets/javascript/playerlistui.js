@@ -22,21 +22,30 @@ playerlist.updatePlayers = function() {
 };
 
 playerlist.getCompareFunction = function() {
-    if (!this.filter) {
+    if (!this.filter && !this.authFilter) {
         return function(a, b) {
             return a.localeCompare(b);
         };
     }
     var filter = this.filter;
-    return function(a, b) {
+    var authFilter = this.authFilter;
+    return function(a, b, autha, authb) {
         var lowera = a;
         var lowerb = b;
         var hasa = lowera.indexOf(filter) != -1;
         var hasb = lowerb.indexOf(filter) != -1;
+        var authDiff = 0;
+        if (authFilter) {
+            if (autha > 3) autha = 0;
+            if (authb > 3) authb = 0;
+            authDiff = authb - autha;
+        }
         if (hasa && !hasb) {
             return -1;
         } else if (hasb && !hasa) {
             return 1;
+        } else if (authDiff) {
+            return authDiff;
         } else {
             return lowera.localeCompare(lowerb);
         }
@@ -50,9 +59,10 @@ playerlist.setPlayers = function (playerIds) {
         len, i;
 
     var compareFunc = this.getCompareFunction();
+    var pls = webclient.players;
     /* Could be optimized, but later */
     playerIds.sort(function(a, b) {
-        return compareFunc(webclient.players.name(a).toLowerCase(),webclient.players.name(b).toLowerCase());
+        return compareFunc(pls.name(a).toLowerCase(),pls.name(b).toLowerCase(), pls.auth(a), pls.auth(b));
     });
 
     for (i = 0, len = playerIds.length; i < len; i += 1) {
@@ -111,11 +121,12 @@ playerlist.createPlayerItem = function (id) {
 
 playerlist.findPos = function(id) {
     var name = webclient.players.name(id),
-        lname = name.toLowerCase();
+        lname = name.toLowerCase(),
+        auth = webclient.players.auth(id);
 
     var compareFunc = this.getCompareFunction();
     return this.ids.dichotomy(function (pid) {
-        return compareFunc(lname, webclient.players.name(pid).toLowerCase());
+        return compareFunc(lname, webclient.players.name(pid).toLowerCase(), auth, webclient.players.auth(pid));
     });
 };
 
@@ -171,6 +182,18 @@ $(function() {
 
     $("#player-filter").on("input", function() {
         webclientUI.players.setFilter($(this).val());
+    });
+    webclientUI.players.setFilter($("#player-filter").val());
+    webclientUI.players.authFilter = poStorage.get("sort-by-auth", "boolean") || false;
+    if (webclientUI.players.authFilter) {
+        $("#sort-by-auth").addClass("active");    
+    }
+    $("#sort-by-auth").on("click", function() {
+        $(this).toggleClass("active");
+        webclientUI.players.authFilter = $(this).hasClass("active");
+        webclientUI.players.updatePlayers();
+
+        poStorage.set("sort-by-auth", webclientUI.players.authFilter);
     });
 
     webclient.players.on("playeradd", function(id, obj) {
