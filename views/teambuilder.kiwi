@@ -39,7 +39,17 @@
           <div class="flex-column flex-stretch" data-toggle="buttons">
             <div class="form-group">
               <label for="tb-tier" class="control-label">Team Tier</label>
-              <input type="text" class="form-control typeahead" id="tb-tier" value="" placeholder="Team tier...">
+              <div class="input-group">
+                <input type="text" class="form-control typeahead" id="tb-tier" value="" placeholder="Team tier...">
+                <div class="dropdown input-group-btn">
+                  <button class="btn btn-default dropdown-toggle" type="button" id="tb-gen-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Gen
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="tb-gen-button" id="tb-gen-list">
+                  </ul>
+                </div>
+              </div>
             </div>
             {{each [1,2,3,4,5,6]}}
             <span class="btn btn-default tb-poke-preview tb-poke-preview-${$value|decr}{{if $each.first}} active{{/if}}" slot="${$value|decr}"><input type="radio">Poke ${$value}</span>

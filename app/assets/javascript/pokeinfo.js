@@ -14,10 +14,16 @@ abilityinfo = {};
 lastgen = null;
 
 $(function () {
-    var i;
-    for (var i in pokedex.generations.generations) {
-        lastgen = {num: +i};
+    var maxGen = {num: 0, subnum: 0};
+    for (var i in pokedex.gens.versions) {
+        var num = (+i) & ((1 << 16)-1);
+        var subnum = (+i) >> 16;
+        if (num >= maxGen.num) {
+            maxGen.num = num;
+            maxGen.subnum = subnum;
+        }
     }
+    lastgen = maxGen;
 });
 
 var getGen = function(gen, correct) {
@@ -34,7 +40,7 @@ var getGen = function(gen, correct) {
     }
 
     if (typeof gen !== "object") {
-        gen = {"num": gen};
+        gen = {"num": pokeinfo.species(gen), "subnum": pokeinfo.forme(gen)};
     }
 
     if (shouldCorrect) {
@@ -52,12 +58,36 @@ var getGen = function(gen, correct) {
 
 geninfo.getGen = getGen;
 geninfo.list = function () {
-    return pokedex.generations.generations;
+    var arr = [];
+    for (var i in pokedex.gens.versions) {
+        arr.push(i);
+    }
+    arr.sort(function(a,b) {
+        var genA = getGen(a);
+        var genB = getGen(b);
+        if (genA.num < genB.num) {
+            return -1;
+        } else if (genA.num == genB.num) {
+            return genA.subnum - genB.subnum;
+        } else {
+            return 1;
+        }
+    });
+    return arr;
 };
 
 geninfo.name = function (gen) {
     var num = getGen(gen, false).num;
     return pokedex.generations.generations[num];
+};
+
+geninfo.version = function(gen) {
+    return pokedex.gens.versions[geninfo.toNum(gen)];
+};
+
+geninfo.toNum = function(gen) {
+    var x = getGen(gen);
+    return x.num + (x.subnum << 16);
 };
 
 geninfo.options = function () {
@@ -660,7 +690,7 @@ iteminfo.usefulList = function() {
 };
 
 iteminfo.useful = function(item) {
-    return pokedex.items.item_useful.hasOwnProperty(item);
+    return item > 8000 || pokedex.items.item_useful.hasOwnProperty(item);
 };
 
 iteminfo.message = function(item, part) {

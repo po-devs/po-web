@@ -16,7 +16,8 @@ module.exports = function(grunt) {
     './db/status/stats.js',
     './db/status/status.js',
     './db/types/types.js',
-    './db/categories/categories.js'
+    './db/categories/categories.js',
+    './db/gens/versions.js'
   ];
 
   var js_backend = [
@@ -70,7 +71,10 @@ module.exports = function(grunt) {
     './db/pokes/ability2.js',
     './db/pokes/ability3.js',
     './db/pokes/item_for_forme.js',
+    './db/pokes/released.js',
     './db/items/item_useful.js',
+    './db/items/released_items.js',
+    './db/items/released_berries.js',
     './db/items/items_description.js',
     './db/items/berries_description.js',
     './db/moves/effect.js',

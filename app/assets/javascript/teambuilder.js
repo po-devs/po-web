@@ -31,36 +31,81 @@ var pokesByName = {
 
 };
 
-var pokenames = [];
-pokedex.pokes.nums = {};
+var pokenames = {};
+$(function() {
+    pokenames[lastgen.num] = [];
+    var lastpokenames = pokenames[lastgen.num];
 
-for (var num in pokedex.pokes.pokemons) {
-    pokenames.push({"value": pokedex.pokes.pokemons[num], "num": pokeinfo.species(num), "forme": pokeinfo.forme(num)});
-    pokedex.pokes.nums[pokedex.pokes.pokemons[num].toLowerCase()] = num;
-}
+    pokedex.pokes.nums = {};
 
-pokenames.sort(function(a, b) {return a.value > b.value;});
-
-var itemnames = [];
-pokedex.items.nums = {};
-
-var keys = Object.keys(iteminfo.usefulList());
-for (var num in keys) {
-    itemnames.push({"value": iteminfo.name(keys[num]), "num": keys[num]});
-    pokedex.items.nums[iteminfo.name(keys[num]).toLowerCase()] = keys[num];
-}
-
-for (var i in pokedex.items.berries) {
-    i = +i;
-    if (i == 0 ) {
-        continue;
+    for (var num in pokedex.pokes.pokemons) {
+        lastpokenames.push({"value": pokedex.pokes.pokemons[num], "num": pokeinfo.species(num), "forme": pokeinfo.forme(num)});
+        pokedex.pokes.nums[pokedex.pokes.pokemons[num].toLowerCase()] = num;
     }
-    //console.log("Adding berry " + i + ": " + iteminfo.name(i+8000));
-    itemnames.push({"value": iteminfo.name(i+8000), "num": i+8000});
-    pokedex.items.nums[iteminfo.name(i+8000).toLowerCase()] = i+8000;
-}
 
-itemnames.sort(function(a, b) {return a.value > b.value;});
+    lastpokenames.sort(function(a, b) {return a.value > b.value;});
+});
+
+function getPokeNames(gen) {
+    gen = getGen(gen);
+    var num = gen.num;
+    if (num in pokenames) {
+        return pokenames[num];
+    }
+
+    var list = pokeinfo.releasedList(gen);
+    var arr = [];
+    for (var i in list) {
+        arr.push({"value": list[i], "num": +i});
+    }
+    arr.sort(function(a, b) {return a.value > b.value;});
+    pokenames[num] = arr;
+    return arr;
+};
+
+var itemnames = {};
+$(function() {
+    itemnames[lastgen.num] = [];
+    var lastitemnames = itemnames[lastgen.num];
+    pokedex.items.nums = {};
+
+    var keys = Object.keys(iteminfo.usefulList());
+    for (var num in keys) {
+        lastitemnames.push({"value": iteminfo.name(keys[num]), "num": keys[num]});
+        pokedex.items.nums[iteminfo.name(keys[num]).toLowerCase()] = keys[num];
+    }
+
+    for (var i in pokedex.items.berries) {
+        i = +i;
+        if (i == 0 ) {
+            continue;
+        }
+        //console.log("Adding berry " + i + ": " + iteminfo.name(i+8000));
+        lastitemnames.push({"value": iteminfo.name(i+8000), "num": i+8000});
+        pokedex.items.nums[iteminfo.name(i+8000).toLowerCase()] = i+8000;
+    }
+
+    lastitemnames.sort(function(a, b) {return a.value > b.value;});    
+});
+
+function getItemNames(gen) {
+    gen = getGen(gen);
+    var num = gen.num;
+    if (num in itemnames) {
+        return itemnames[num];
+    }
+
+    var list = iteminfo.releasedList(gen);
+    var arr = [];
+    for (var i in list) {
+        if (iteminfo.useful(i)) {
+            arr.push({"value": list[i], "num": +i});
+        }
+    }
+    arr.sort(function(a, b) {return a.value > b.value;});
+    itemnames[num] = arr;
+    return arr;
+};
 
 Poke.prototype.setElement = function(element) {
     var self = this;
@@ -397,7 +442,8 @@ function Teambuilder (content) {
     this.prevs = [];
 
     var team = this.team = webclient.team;
-    console.log(team);
+    team.gen = getGen(team.gen);
+
     for (var poke in team.pokes) {
         team.pokes[poke].setElement(content.find("#tb-poke-" + poke));
         var pokeprev = content.find(".tb-poke-preview-"+poke);
@@ -410,46 +456,27 @@ function Teambuilder (content) {
     //setTimeout(function(){team.pokes[0].loadGui()});
 
     setTimeout(function() {
-        content.find(".tb-poke-selection").typeahead({
-          hint: true,
-          highlight: false,
-        },
-        {
-          name: 'pokes',
-          source: substringMatcher(pokenames),
-          display: 'value',
-          limit: 30,
-          templates: {
-            suggestion: Handlebars.compile('<div><strong>#{{num}}</strong> - {{value}}</div>')
-          }
-        }).on("typeahead:select", function(event, sugg) {
-            var poke = team.pokes[$(this).attr("slot")];
+        self.updatePokeSelections();
+        self.content.find(".tb-poke-selection").on("typeahead:select", function(event, sugg) {
+            var poke = self.team.pokes[$(this).attr("slot")];
+            console.log(sugg);
             poke.load(sugg);
+            console.log(poke);
             poke.updateGui();
             $(this).typeahead('close');
         }).on("typeahead:select typeahead:autocomplete typeahead:cursorchange", function(event, sugg) {
-            var poke = team.pokes[$(this).attr("slot")];
+            var poke = self.team.pokes[$(this).attr("slot")];
             poke.updateDescription({"type": "pokemon", "poke": sugg});
         });
-
-        content.find(".tb-item-selection").typeahead({
-          hint: true,
-          highlight: true,
-          minLength: 0
-        },
-        {
-          name: 'items',
-          source: substringMatcher(itemnames, true),
-          display: 'value',
-          limit: 400
-        }).on("typeahead:select", function(event, sugg) {
-            var poke = team.pokes[$(this).attr("slot")];
+        self.updateItemSelections();
+        self.content.find(".tb-item-selection").on("typeahead:select", function(event, sugg) {
+            var poke = self.team.pokes[$(this).attr("slot")];
             poke.item = sugg.num;
             $(this).typeahead('close');
         }).on("typeahead:select typeahead:autocomplete typeahead:cursorchange", function(event, sugg) {
-            var poke = team.pokes[$(this).attr("slot")];
+            var poke = self.team.pokes[$(this).attr("slot")];
             poke.updateDescription({"type": "item", "item": sugg.num});
-        });
+        })
     });
 
     var natures = "";
@@ -586,6 +613,13 @@ function Teambuilder (content) {
         pokes[0].updatePreview();pokes[1].updatePreview();
     }
 
+    var genList = content.find("#tb-gen-list");
+    var gList = geninfo.list();
+    for (var num in gList) {
+        var gen = gList[num];
+        genList.append($("<li><a href='po:tb-setgen/" + gen + "'>" + geninfo.version(gen) + "</a></li>"));
+    }
+
     content.find(".tb-hackmons-btn").on("click", function() {
         self.team.illegal = !$(this).hasClass("active");
         for (var i = 0; i < 6; i++) {
@@ -681,6 +715,7 @@ function Teambuilder (content) {
 
         self.team.name = name;
         self.team.illegal = team.illegal;
+        var oldGen = self.team.gen;
         self.team.gen = team.gen;
         self.team.tier = team.tier;
         for (var i in team.pokes) {
@@ -688,6 +723,9 @@ function Teambuilder (content) {
             self.team.pokes[i].unloadAll();
         }
 
+        if (geninfo.toNum(oldGen) != geninfo.toNum(team.gen)) {
+            self.setGen(team.gen);
+        }
         self.updateGui();
     });
 
@@ -711,6 +749,8 @@ function Teambuilder (content) {
         deletedTeams.tagsinput("removeAll");
     });
 
+    self.updateGenGui();
+
     webclientUI.teambuilder = this;
 }
 
@@ -729,6 +769,7 @@ Teambuilder.prototype.updateGui = function() {
     } else {
         this.content.find(".tb-hackmons-btn").removeClass("active");
     }
+    this.updateGenGui();
 }
 
 Teambuilder.prototype.onImportable = function() {
@@ -760,9 +801,72 @@ Teambuilder.prototype.onNewTeam = function() {
     }
     this.team.name = "";
     this.team.tier = "";
+    this.team.gen = geninfo.getGen();
     this.team.illegal = false;
 
     this.updateGui();
+};
+
+//Todo: generate those automatically?
+Teambuilder.genShortHands = {
+    "Red/Blue": "Blue",
+    "Stadium w/ Tradebacks": "Stadium+",
+    "Gold/Silver": "Silver",
+    "Ruby/Sapphire": "Sapphire",
+    "Fire Red/Leaf Green": "FRLG",
+    "Diamond/Pearl": "DP",
+    "Heart Gold/Soul Silver": "HGSS",
+    "Black/White": "BW",
+    "Black/White 2": "BW2",
+    "X/Y": "XY",
+    "Omega Ruby/Alpha Sapphire": "ORAS"
+}
+
+Teambuilder.prototype.setGen = function(genNum) {
+    var gen = getGen(genNum);
+    this.team.gen = gen;
+    this.team.pokes.forEach(function(elem) {elem.unloadAll(); elem.gen = gen});
+    this.updateGenGui();
+    this.updateItemSelections();
+    this.updatePokeSelections();
+};
+
+Teambuilder.prototype.updateItemSelections = function() {
+    this.content.find(".tb-item-selection").typeahead("destroy").typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 0
+    },
+    {
+      name: 'items',
+      source: substringMatcher(getItemNames(this.team.gen), true),
+      display: 'value',
+      limit: 400
+    });
+};
+
+Teambuilder.prototype.updatePokeSelections = function() {
+    this.content.find(".tb-poke-selection").typeahead("destroy").typeahead({
+      hint: true,
+      highlight: false,
+    },
+    {
+      name: 'pokes',
+      source: substringMatcher(getPokeNames(this.team.gen)),
+      display: 'value',
+      limit: 30,
+      templates: {
+        suggestion: Handlebars.compile('<div><strong>#{{num}}</strong> - {{value}}</div>')
+      }
+    });
+};
+
+Teambuilder.prototype.updateGenGui = function() {
+    var genName = geninfo.version(this.team.gen);
+    if (genName in Teambuilder.genShortHands) {
+        genName = Teambuilder.genShortHands[genName];
+    }
+    this.content.find("#tb-gen-button").html(genName + ' <span class="caret"></span>');
 };
 
 Teambuilder.prototype.currentTab = function() {

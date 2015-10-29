@@ -462,7 +462,9 @@ $(function() {
                         }
                     ]
                 });
-            } else if (cmd == "download") {
+            } else if (cmd == "tb-setgen") {
+                webclientUI.teambuilder.setGen(+payload);
+            }else if (cmd == "download") {
                 $("#download-hidden").val(JSON.stringify(localStorage));
                 $("#download-form").submit();
             } else if (cmd == "upload") {

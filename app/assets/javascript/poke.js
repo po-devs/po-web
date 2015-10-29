@@ -11,8 +11,13 @@ Poke.prototype.reset = function() {
 	this.item = 0;
 	this.ability = 0;
 	this.moves = [0,0,0,0];
-	this.evs = [0,0,0,0,0,0];
-	this.ivs = [31,31,31,31,31,31];
+	if (this.gen && this.gen.num <= 2) {
+		this.evs = [252,252,252,252,252,252];
+		this.ivs = [15,15,15,15,15,15];
+	} else {
+		this.evs = [0,0,0,0,0,0];
+		this.ivs = [31,31,31,31,31,31];
+	}
 	this.happiness = 0;
 	this.level = 100;
 	this.gender = 0;
@@ -51,8 +56,8 @@ Poke.prototype.load = function(poke) {
     	this.data.allMoves = Object.keys(moveinfo.list());
     	this.data.abilities = Object.keys(abilityinfo.list());
     } else {
-    	this.data.allMoves = pokeinfo.allMoves(this);
-    	this.data.abilities = pokeinfo.abilities(this);
+    	this.data.allMoves = pokeinfo.allMoves(this, this.gen);
+    	this.data.abilities = pokeinfo.abilities(this, this.gen);
     	if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
         	this.data.abilities.splice(2, 1);
 	    }
@@ -69,6 +74,9 @@ Poke.prototype.load = function(poke) {
 };
 
 Poke.prototype.evSurplus = function() {
+	if (this.gen && this.gen.num <= 2) {
+		return 0;
+	}
     var sum = 0;
     for (var i = 0; i < 6; i++) {
         sum = sum + this.evs[i];
@@ -81,6 +89,7 @@ Poke.prototype.export = function() {
 	if (!this.num) {
 		return "";
 	}
+	var gen = getGen(this.gen);
 
 	var lines = [];
 
@@ -93,7 +102,7 @@ Poke.prototype.export = function() {
 	}
 	name += " ";
 
-	if (this.gender == 2) {
+	if (this.gen.num > 1 && this.gender == 2) {
 		name += "(F) ";
 	}
 
@@ -105,15 +114,22 @@ Poke.prototype.export = function() {
 		lines.push("Level: " + this.level);
 	}
 
-
-	lines.push("Trait: " + abilityinfo.name(this.ability));
+	if (this.gen.num > 2) {
+		lines.push("Trait: " + abilityinfo.name(this.ability));
+	}
 
 	var evs = [];
 	var evNames = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
 
 	for (var i in evNames) {
-		if (this.evs[i]) {
-			evs.push(this.evs[i] + " " + evNames[i]);
+		if (this.gen.num > 2) {
+			if (this.evs[i]) {
+				evs.push(this.evs[i] + " " + evNames[i]);
+			}	
+		} else {
+			if (this.evs[i] < 252) {
+				evs.push(this.evs[i] + " " + evNames[i]);
+			}
 		}
 	}
 
@@ -123,7 +139,7 @@ Poke.prototype.export = function() {
 
 	var ivs = [];
 	for (var i in evNames) {
-		if (this.ivs[i] != 31) {
+		if (this.gen > 2 && this.ivs[i] != 31 || this.gen <= 2 && this.ivs[i] != 15) {
 			ivs.push(this.ivs[i] + " " + evNames[i]);
 		}
 	}
@@ -131,12 +147,14 @@ Poke.prototype.export = function() {
 		lines.push("IVs: " + ivs.join(" / "));
 	}
 
-	var nature = natureinfo.name(this.nature) + " nature";
+	if (this.gen > 2) {
+		var nature = natureinfo.name(this.nature) + " nature";
 
-	if (natureinfo.boostedStat(this.nature) != -1) {
-		nature += " (+" + evNames[natureinfo.boostedStat(this.nature)] + ", -" + evNames[natureinfo.reducedStat(this.nature)] + ")";
+		if (natureinfo.boostedStat(this.nature) != -1) {
+			nature += " (+" + evNames[natureinfo.boostedStat(this.nature)] + ", -" + evNames[natureinfo.reducedStat(this.nature)] + ")";
+		}
+		lines.push(nature);
 	}
-	lines.push(nature);
 
 	for (var i in this.moves) {
 		if (this.moves[i]) {
@@ -152,6 +170,8 @@ Poke.prototype.export = function() {
 };
 
 Poke.prototype.import = function(str) {
+	this.reset();
+
 	var lines = str.split("\n");
 	var nameLine = lines.splice(0, 1)[0];
 	var nameItem = nameLine.split("@");
