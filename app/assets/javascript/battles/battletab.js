@@ -44,7 +44,7 @@ function BattleTab(id) {
     layout.addClass("flex-row battle-tab-layout");
 
     var rows = [0,0];
-    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[this.opponent]) + 
+    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[this.opponent]) +
         "</span><span class='stretchX'></span><span class='timer-text'>5:00</span>"+pokeballrowHtml);
     rows[this.opponent].find('[data-toggle="tooltip"]').attr("data-placement", "top");
     rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
@@ -295,7 +295,7 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
                 } else {
                     var boost = poke.boosts && i > 0 && poke.boosts[i] ? poke.boosts[i] : 0;
 
-                    stat += pokeinfo.minStat($.extend({}, poke, {"boost": boost}), i) + " - " + 
+                    stat += pokeinfo.minStat($.extend({}, poke, {"boost": boost}), i) + " - " +
                         pokeinfo.maxStat($.extend({}, poke, {"boost": boost}), i);
                 }
                 stat += "</td><td>";
@@ -377,7 +377,7 @@ BattleTab.prototype.enableChoices = function() {
                 if (this.myTeam()[i].life == 0 || this.myTeam()[i].status == 31) {
                     this.switchRow.find(".battle-poke:eq("+i+")").attr("disabled", "disabled");
                 }
-            } 
+            }
         }
     }
 
@@ -407,7 +407,7 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
         if (team1[i].item) {
             poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", pokeinfo.heldItemSprite()));
         }
-        if(team1[i].gender) {  
+        if(team1[i].gender) {
             poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", pokeinfo.genderSprite(team1[i].gender)));
         }
         poke.append("<br/>").append($("<smaller>").text("Lv. " + team1[i].level));
@@ -459,7 +459,7 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
         if (team2[i].heldItem) {
             poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", pokeinfo.heldItemSprite()));
         }
-        if(team2[i].gender) {   
+        if(team2[i].gender) {
             poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", pokeinfo.genderSprite(team2[i].gender)));
         }
         poke.append("<br/>").append($("<smaller>").text("Lv. " + team2[i].level));
@@ -523,11 +523,14 @@ BattleTab.prototype.print = function(msg, args) {
     this.chat.insertMessage(msg, {linebreak: linebreak});
     this.activateTab();
 
-    if(!window.isActive) {
+    if(!window.isActive && this.hadFocus) {
+        this.hadFocus = false;
         if ("Notification" in window) {
             //console.log("spawning notification");
             var notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: utils.stripHtml(msg)});
         }
+    } else if (window.isActive) {
+        this.hadFocus = true;
     }
 };
 
@@ -544,7 +547,7 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
     for (var i = 0; i < pokes.length; i++) {
         var $img = $pokes.find(".status:eq("+pokes[i]+")");
         //console.log(this.battle.teams);
-        var tpok = this.battle.teams[player][pokes[i]]; 
+        var tpok = this.battle.teams[player][pokes[i]];
         if (tpok) {
             $img.removeClass();
             $img.html("");
