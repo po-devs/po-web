@@ -615,8 +615,13 @@ function Teambuilder (content) {
 
     var genList = content.find("#tb-gen-list");
     var gList = geninfo.list();
+    var lastNum = 1;
     for (var num in gList) {
         var gen = gList[num];
+        if (getGen(gen).num != lastNum) {
+            lastNum = getGen(gen).num;
+            genList.append($("<li>").addClass("divider"));
+        }
         genList.append($("<li><a href='po:tb-setgen/" + gen + "'>" + geninfo.version(gen) + "</a></li>"));
     }
 
