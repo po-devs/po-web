@@ -7,7 +7,7 @@ var webclientUI = {
     timestamps: false,
     challenges: [],
     waitingInfos: {},
-    
+
     printDisconnectionMessage : function(html) {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
     },
@@ -73,7 +73,7 @@ var webclientUI = {
                 }
             }
         }
-        
+
 
         if (params.hasOwnProperty("opptier")) {
             var oppTeams = info.find("#opp-team");
@@ -281,7 +281,7 @@ var webclientUI = {
             }
         });
         return element;
-    }, 
+    },
 
     showSettings : function() {
         var content = $("<div>");
@@ -441,6 +441,12 @@ $(function() {
                     },
                     buttons: [
                         {
+                            label: "New team",
+                            action: function(dialog) {
+                                webclientUI.teambuilder.onNewTeam();
+                            }
+                        },
+                        {
                             label: "Importable",
                             action: function(dialog) {
                                 webclientUI.teambuilder.onImportable();
@@ -521,7 +527,7 @@ $(function() {
     if (webclientUI.channels.chanevents == null) {
         webclientUI.channels.chanevents = {};
     }
-    
+
     webclientUI.exitWarning = poStorage.get("exitwarning", "boolean");
     if (webclientUI.exitWarning == null) {
         webclientUI.exitWarning = true;

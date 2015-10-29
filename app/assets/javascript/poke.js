@@ -6,7 +6,8 @@ function Poke()
 
 Poke.prototype.reset = function() {
 	this.num = 0;
-	this.subnum = 0;
+	this.forme = 0;
+	this.nick = "";
 	this.item = 0;
 	this.ability = 0;
 	this.moves = [0,0,0,0];
@@ -43,7 +44,7 @@ Poke.prototype.load = function(poke) {
     this.data = {};
     this.data.moveNames = [];
     this.data.types = pokeinfo.types(this);
-    
+
     this.data.gender = pokeinfo.gender(this);
 
     if (this.illegal) {

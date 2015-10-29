@@ -20,9 +20,9 @@ var substringMatcher = function(strs, partialMatch) {
             if (substrRegex.test(str.value)) {
                 matches.push(str);
              }
-        });    
+        });
     }
-    
+
     cb(matches);
   };
 };
@@ -106,7 +106,7 @@ Poke.prototype.setElement = function(element) {
                 $(this).val(self.evs[i]);
             }
             var surplus = self.evSurplus();
-            
+
             if (surplus > 0 &&!self.illegal) {
                 self.evs[i] -= surplus;
                 if (self.evs[i] < 0) {
@@ -273,6 +273,11 @@ Poke.prototype.unloadAll = function() {
     delete this["data"];
 }
 
+Poke.prototype.clear = function() {
+    this.reset();
+    this.unloadAll();
+}
+
 Poke.prototype.updateGuiIfLoaded = function() {
     if (this.ui.guiLoaded) {
         this.updateGui();
@@ -294,7 +299,7 @@ Poke.prototype.updateStatsGui = function() {
     }
 };
 
-Poke.prototype.updateGui = function() 
+Poke.prototype.updateGui = function()
 {
     var self = this;
     this.ui.guiLoaded = true;
@@ -446,7 +451,7 @@ function Teambuilder (content) {
             poke.updateDescription({"type": "item", "item": sugg.num});
         });
     });
-    
+
     var natures = "";
     var shortStats = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
     for (var i in natureinfo.list()) {
@@ -483,7 +488,7 @@ function Teambuilder (content) {
     });
 
     var tiers = webclient.tiersList;
-    
+
     //console.log(tiers);
 
     var addTiersToList = function(parent, tiers) {
@@ -556,7 +561,7 @@ function Teambuilder (content) {
                 self.team.pokes[i].unloadGui();
             }
 
-            self.content.find("#tb-link-home").trigger("click");
+            self.goToHome();
         }
     });
 
@@ -623,11 +628,13 @@ function Teambuilder (content) {
     self.deletedTeams = poStorage.get("deleted-teams", "object") || {};
     var storedTeams = content.find("#tb-saved-teams");
     var deletedTeams = content.find("#tb-deleted-teams");
+
+    this.teamName = this.content.find("#tb-team-name");
     content.find("#tb-save-form").on("submit", function(event) {
         event.preventDefault();
 
         //save team
-        var name = self.content.find("#tb-team-name").val().replace(/,/g, "");
+        var name = self.teamName.val().replace(/,/g, "");
         self.team.name = name;
         self.savedTeams[name] = webclient.getTeamData(self.team);
         poStorage.set("saved-teams", self.savedTeams);
@@ -662,7 +669,7 @@ function Teambuilder (content) {
         poStorage.set("deleted-teams", self.deletedTeams);
     });
 
-    self.content.find("#tb-team-name").val(self.team.name || "");
+    this.teamName.val(self.team.name || "");
 
     self.content.find(".saved-teams-group").on("click", ".tag", function(event) {
         /* If the cross was clicked to remove the item */
@@ -707,8 +714,12 @@ function Teambuilder (content) {
     webclientUI.teambuilder = this;
 }
 
+Teambuilder.prototype.goToHome = function() {
+    this.content.find("#tb-link-home").trigger("click");
+}
+
 Teambuilder.prototype.updateGui = function() {
-    this.content.find("#tb-team-name").val(this.team.name || "");
+    this.teamName.val(this.team.name || "");
     this.content.find("#tb-tier").typeahead("val", this.team.tier || "");
     for (var i in this.team.pokes) {
         this.team.pokes[i].updateGuiIfLoaded();
@@ -740,6 +751,18 @@ Teambuilder.prototype.onImportable = function() {
     } else {
         this.content.find(".tb-poke-pill.active .tb-poke-link").trigger("click");
     }
+};
+
+Teambuilder.prototype.onNewTeam = function() {
+    this.goToHome();
+    for (var poke in this.team.pokes) {
+        this.team.pokes[poke].clear();
+    }
+    this.team.name = "";
+    this.team.tier = "";
+    this.team.illegal = false;
+
+    this.updateGui();
 };
 
 Teambuilder.prototype.currentTab = function() {
