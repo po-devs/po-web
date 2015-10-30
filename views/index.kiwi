@@ -95,7 +95,7 @@
   </ul>
 </div>
 <div id="channel-context-menu">
-  <ul class=dropdown-menu dropdown-menu-form" role="menu">
+  <ul class="dropdown-menu dropdown-menu-form" role="menu">
     <li id="channels-chanevents-menu"><a tabindex="-1" href="po:chanevents/">Enable channel events</a></li>
   </ul>
 </div>
