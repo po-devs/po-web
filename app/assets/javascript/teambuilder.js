@@ -224,6 +224,8 @@ Poke.prototype.setElement = function(element) {
     });
 };
 
+Poke.setCache = {};
+
 Poke.prototype.updateDescription = function(what) {
     var self = this;
     var addHpStuff = function(elem) {
@@ -253,11 +255,24 @@ Poke.prototype.updateDescription = function(what) {
         ].join("<br/>");
         this.ui.desc.html('');
         this.ui.desc.append($("<div class='col-sm-6'>").html(links));
-        this.ui.desc.append($("<div class='col-sm-6'>").html('<div class="checkbox tb-shiny-container"><label><input type="checkbox" class="shiny-input"> Shiny</label></div>'));
+        this.ui.desc.append($("<div class='col-sm-6'>").html('<div class="checkbox tb-shiny-container"><label><input type="checkbox" class="shiny-input"> Shiny</label></div>')
+                                                        .append('<select class="form-control smogon-set-selection"><option value="none">Smogon sets</option></select>'));
         this.ui.desc.find(".shiny-input").prop("checked", this.shiny).on("change", function() {
             self.shiny = this.checked;
             self.ui.sprite.attr("src", pokeinfo.sprite(self));
         });
+
+        var url = this.getUrl();
+        if (! (url in Poke.setCache)) {
+            $.ajax({
+                "url": url
+            }).done(function(data) {
+                Poke.setCache[url] = data;
+                self.updateSets();
+            });
+        } else {
+            this.updateSets();
+        }
     } else if (what.type == "move") {
         if (what.move == 0) {
             return;
@@ -291,6 +306,68 @@ Poke.prototype.updateDescription = function(what) {
         this.ui.desc.text(abilityinfo.desc(this.ability));
     }
 }
+
+Poke.prototype.getUrl = function() {
+    return "sets/" + getGen(this.gen).num + "/" + pokeinfo.name(this);
+}
+
+Poke.prototype.updateSets = function() {
+    var self = this;
+    var sets = Poke.setCache[this.getUrl()];
+
+    if (!sets || sets.error) {
+        return;
+    }
+
+    var elem = this.ui.desc.find(".smogon-set-selection");
+    for (var name in sets) {
+        elem.append($("<option>").attr("value",JSON.stringify(sets[name])).text(name));
+    }
+
+    elem.on("change", function() {
+        var set = $(this).val();
+
+        if (set == "none") {
+            return;
+        }
+        set = JSON.parse(set);
+
+        var res = [];
+        res.push(pokeinfo.name(self) + " @ " + (set.item || "(No Item)"));
+        if (set.level) res.push("Level: " + set.level);
+        if (set.ability) res.push("Trait: " + set.ability);
+        if (set.nature) res.push(set.nature + " nature");
+        var corr = {
+            "hp": "HP", "at": "Atk", "df": "Def", "sa": "SpA", "sd": "SpD", "sp": "Spe"
+        };
+        if (set.evs) {
+            var evs = [];
+            for (var x in set.evs) {
+                evs.push(set.evs[x] + " " + corr[x]);
+            }
+            res.push("EVs: " + evs.join(" / "));
+        }
+        if (set.ivs) {
+            var ivs = [];
+            for (var x in set.ivs) {
+                ivs.push(set.ivs[x] + " " + corr[x]);
+            }
+            res.push("IVs: " + ivs.join(" / "));
+        }
+        set.moves.forEach(function(elem) {
+            if (elem) {
+                if (elem.startsWith("Hidden Power")) {
+                    res.push("- Hidden Power");
+                } else {
+                    res.push("- " + elem);
+                }
+            }
+        });
+
+        self.import(res.join("\n"));
+        self.updateGui();
+    });
+};
 
 Poke.prototype.updateStatGui = function(stat) {
     var calced = pokeinfo.calculateStat(this, stat);
