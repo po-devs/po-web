@@ -77,7 +77,7 @@
         </div>
      </form>
       <div id="playercount" class="hide"></div>
-      <div class="stretchY-basic no-overflow" oncontextmenu="return false"><ul id="playerlist" class="hiddenScroll list-group" tabindex=10></ul></div>
+      <ul id="playerlist" class="hiddenScroll list-group" tabindex=10 oncontextmenu="return false"></ul>
     </div>
     <div class="flex-column rightbar" id="tabs">
     </div>
