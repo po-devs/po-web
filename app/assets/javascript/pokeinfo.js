@@ -669,7 +669,7 @@ iteminfo.releasedList = function(gen) {
     }
 
     for (i in releasedBerries) {
-        list[i + 8000] = pokedex.items.berries[i];
+        list[+i + 8000] = pokedex.items.berries[i];
     }
 
     iteminfo._releasedCache[gnum] = list;
