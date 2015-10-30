@@ -56,7 +56,7 @@ function getPokeNames(gen) {
     var list = pokeinfo.releasedList(gen);
     var arr = [];
     for (var i in list) {
-        arr.push({"value": list[i], "num": +i});
+        arr.push({"value": list[i], "num": pokeinfo.species(+i), "forme": pokeinfo.forme(+i)});
     }
     arr.sort(function(a, b) {return a.value > b.value;});
     pokenames[num] = arr;
