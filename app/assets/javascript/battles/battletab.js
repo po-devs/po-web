@@ -526,8 +526,11 @@ BattleTab.prototype.print = function(msg, args) {
     if(!window.isActive && this.hadFocus) {
         this.hadFocus = false;
         if ("Notification" in window) {
+            if (this.notification) {
+                this.notification.close();
+            }
             //console.log("spawning notification");
-            var notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: utils.stripHtml(msg)});
+            this.notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: utils.stripHtml(msg)});
         }
     } else if (window.isActive) {
         this.hadFocus = true;
