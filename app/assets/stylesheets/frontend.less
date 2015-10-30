@@ -68,12 +68,15 @@ body {
 .navbar {
   border-radius: 0;
   border: 0;
+  margin-bottom: 10px;
 }
 
+@nav-height: 73px;
+
 .navbar-header > a {
-  height: 73px;
-  line-height: 73px;
-  width: 73px;
+  height: @nav-height;
+  line-height: @nav-height;
+  width: @nav-height;
   text-align: center;
   background: @baseColor;
   display: block;
@@ -88,8 +91,8 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   opacity: .5;
-  height: 73px;
-  line-height: 73px;
+  height: @nav-height;
+  line-height: @nav-height;
   padding: 0 30px;
   font-size: 15px;
 }
@@ -142,7 +145,7 @@ body {
 
 .userMenu {
   height: 30px;
-  margin-top: 21.5px;
+  margin-top: ((@nav-height - 30px)/2);
   line-height: 30px;
   margin-right: 20px;
 }
