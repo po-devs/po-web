@@ -1114,3 +1114,5 @@ var SETDEX_ADV = {
 		"OU Mixed Attacker": {"level":100,"evs":{"sa":156,"sp":136,"at":216},"nature":"Mild","item":"Leftovers","moves":["Thunderbolt","Drill Peck","Hidden Power Grass","Substitute"]}
 	}
 };
+
+module.exports = SETDEX_ADV;

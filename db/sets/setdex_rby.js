@@ -252,3 +252,5 @@ var SETDEX_RBY = {
 		"OU Mixed Attacker": {"level":100,"moves":["Thunderbolt","Drill Peck","Thunder Wave","Agility"]}
 	}
 };
+
+module.exports = SETDEX_RBY;

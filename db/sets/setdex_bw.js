@@ -3227,3 +3227,5 @@ var SETDEX_BW = {
 		"UU Physical Attacker": {"level":100,"evs":{"hp":252,"at":252,"sd":4},"nature":"Adamant","item":"Eviolite","moves":["Outrage","Crunch","Fire Fang","Thunder Wave"]}
 	}
 };
+
+module.exports = SETDEX_BW;

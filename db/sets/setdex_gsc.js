@@ -487,3 +487,5 @@ var SETDEX_GSC = {
 		"OU RestTalk": {"level":100,"item":"Leftovers","moves":["Thunder","Hidden Power Ice","Rest","Sleep Talk"]}
 	}
 };
+
+module.exports = SETDEX_GSC;

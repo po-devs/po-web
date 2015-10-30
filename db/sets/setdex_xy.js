@@ -3041,3 +3041,5 @@ var SETDEX_XY = {
 		"[ORAS] Primal Kyogre": {"level":100,"evs":{"hp":4,"sp":252,"sa":252},"nature":"Modest","item":"Blue Orb","moves":["Origin Pulse","Thunder","Ice Beam","Water Spout"]}
 	}
 };
+
+module.exports = SETDEX_XY;

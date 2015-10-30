@@ -2411,3 +2411,5 @@ var SETDEX_DPP = {
 		"LC Lead": {"level":5,"evs":{"hp":36,"sp":196,"at":196},"nature":"Jolly","item":"Focus Sash","moves":["Taunt","Pluck","Hypnosis","U-turn"]}
 	}
 };
+
+module.exports = SETDEX_DPP;
