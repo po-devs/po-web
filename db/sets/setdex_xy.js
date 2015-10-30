@@ -1,4 +1,4 @@
-Nvar SETDEX_XY = {
+var SETDEX_XY = {
 	"Abomasnow": {
 		"All-Out Attacker": {"level":100,"evs":{"sa":252,"hp":8,"sp":84,"at":160,"sd":4},"nature":"Lonely","ability":"Soundproof","item":"Life Orb","moves":["Ice Shard","Wood Hammer","Blizzard","Earthquake"]},
 		"Swords Dance": {"level":100,"evs":{"hp":172,"sp":84,"at":252},"nature":"Adamant","ability":"Soundproof","item":"Leftovers","moves":["Swords Dance","Ice Shard","Wood Hammer","Earthquake"]}
