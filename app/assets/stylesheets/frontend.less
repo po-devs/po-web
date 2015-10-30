@@ -15,6 +15,8 @@ body {
   top: 0px; bottom: 0px; left: 0px; right: 0px;
   position: absolute;
   box-sizing: border-box;
+  font-family: 'Open Sans', Verdana, Helvetica, sans-serif;
+  font-size: 15px;
 }
 
 .flex-row-basic {
@@ -61,6 +63,121 @@ body {
 
 .btn-group.navbar-right {
   padding-right: 20px;
+}
+
+/* Temporary fix to fit player filter */
+
+.playerlistContainer {
+  overflow-y: auto !important;
+}
+
+.navbar {
+  border-radius: 0;
+  border: 0;
+}
+
+.navbar-header > a {
+  height: 73px;
+  line-height: 73px;
+  width: 73px;
+  text-align: center;
+  background: @baseColor;
+  display: block;
+}
+
+.navbar-default {
+  background: #374249;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: #FFF;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: .5;
+  height: 73px;
+  line-height: 73px;
+  padding: 0 30px;
+  font-size: 15px;
+}
+
+.navbar-default .navbar-nav>li:hover>a {
+  color: #FFF;
+  background: transparent;
+  opacity: .7;
+}
+
+.navbar-default .navbar-nav>li.active>a {
+  opacity: 1;
+  color: #FFF;
+  background: transparent;
+  position: relative;
+  display: inline-block;
+}
+
+.navbar-default .navbar-nav>li.active>a::before {
+  content: '';
+  height: 2px;
+  background: @baseColor;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  margin-top: 15px;
+}
+
+.navbar-default .navbar-nav>li.active:hover>a {
+  opacity: 1;
+  color: #FFF;
+  background: transparent;
+}
+
+.navbar-default .navbar-nav>li>a:focus {
+  color: #FFF;
+}
+
+.navbar-default .navbar-nav>li.active>a:focus {
+  background: transparent;
+  color: #FFF;
+}
+
+.displayUsername {
+  font-weight: bold;
+  color: #FFF;
+  margin-right: 5px;
+}
+
+.userMenu {
+  height: 30px;
+  margin-top: 21.5px;
+  line-height: 30px;
+  margin-right: 20px;
+}
+
+.userLink {
+  display: inline-block;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .2);
+  border-radius: 100px;
+  padding: 0;
+  margin: 0;
+  line-height: 26px;
+  outline: 0;
+  color: #FFF;
+  width: 30px;
+  height:30px;
+  text-align:center;
+  margin-left: 7px;
+  opacity: 1;
+  transition: opacity .2s ease;
+}
+
+.userLink:hover {
+  opacity: .8;
+  color: #FFF;
+}
+
+html .userMenu > a:focus {
+  color: #FFF !important;
 }
 
 .leftbar {

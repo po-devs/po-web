@@ -503,6 +503,9 @@ $(function() {
         $("#checkbox-idle-dd").prop("checked", player.away);
 
         document.title = webclient.ownName() + " - Pok\u00E9mon Online";
+        
+        /* Display username in header */
+        $(".displayUsername").html(webclient.ownName());
     });
 
 

@@ -4,6 +4,7 @@
   <title>Play Pok&eacute;mon Online!</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="public/assets/stylesheets/frontend.css">
   <link rel="icon" type="image/png" href="public/favicon.png">
   <script src="public/assets/javascript/frontend.js"></script>
@@ -24,20 +25,22 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-            <a href="http://pokemon-online.eu"><img src="public/logo.png"></a>
+            <a href="http://pokemon-online.eu"><img src="public/logo-small.png"></a>
     </div>
     <!-- Collection of nav links and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
             <!-- can use class="active" on li elems if planning to make tabs in the future-->
+            <li class="active"><a href="#">Main</a></li>
             <li><a href="http://pokemon-online.eu/threads/webclient-the-third-time-is-the-right-one.32175/">Help</a></li>
             <li><a href="po:teambuilder/" id="teambuilder-link">Teambuilder</a></li>
             <li><a href="http://servers.pokemon-online.eu">Servers</a></li>
         </ul>
-        <div class="btn-group nav navbar-nav navbar-right">
-          <a type="button" class="btn btn-default navbar-btn" href="po:settings/">Settings</a>
-          <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
+        <div class="nav navbar-nav navbar-right userMenu">
+          <span class="displayUsername">Guest</span>
+          <a href="po:settings/" class="userLink"><i class="fa fa-pencil"></i></a>
+          <button type="button" class="dropdown-toggle userLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-cog"></i>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
@@ -56,14 +59,6 @@
             <li id="register-dd" class="disabled"><a href="po:register/">Register</a></li>
           </ul>
         </div>
-         <form class="navbar-form navbar-right" role="search">
-          <div class="form-group">
-            <div class="input-group">
-              <span class="input-group-btn" title="Sort by authority"><span class="btn btn-default" id="sort-by-auth"><span class="glyphicon glyphicon-king"></span></span></span>
-              <input type="text" class="form-control" id="player-filter" placeholder="Filter players...">
-            </div>
-          </div>
-        </form>
     </div>
   </nav>
   <div class="flex-row">
@@ -73,8 +68,16 @@
         <ul id="battlelist" class="list-group" tabindex=2></ul>
         <ul id="pmlist" class="list-group" tabindex=3></ul>
       </div>
+      <form class="navbar-form navbar-right" role="search">
+       <div class="form-group">
+         <div class="input-group">
+           <span class="input-group-btn" title="Sort by authority"><span class="btn btn-default" id="sort-by-auth"><span class="glyphicon glyphicon-king"></span></span></span>
+           <input type="text" class="form-control" id="player-filter" placeholder="Filter players...">
+         </div>
+       </div>
+     </form>
       <div id="playercount" class="hide"></div>
-      <div class="stretchY-basic no-overflow"><ul id="playerlist" class="hiddenScroll list-group" tabindex=10></ul></div>
+      <div class="stretchY-basic no-overflow playerlistContainer"><ul id="playerlist" class="hiddenScroll list-group" tabindex=10></ul></div>
     </div>
     <div class="flex-column rightbar" id="tabs">
     </div>
