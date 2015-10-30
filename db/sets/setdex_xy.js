@@ -796,23 +796,39 @@ var SETDEX_XY = {
 		"NU Choice Band": {"level":100,"evs":{"hp":4,"sp":252,"at":252},"nature":"Jolly","ability":"Water Veil","item":"Choice Band","moves":["Waterfall","Ice Punch","Return","Switcheroo"]}
 	},
 	"Florges": {
-		"UU Defensive Support": {"level":100,"evs":{"df":232,"hp":252,"sd":24},"nature":"Calm","item":"Leftovers","moves":["Wish","Protect","Moonblast","Aromatherapy"]},
-		"UU Defensive Calm Mind": {"level":100,"evs":{"df":252,"hp":252,"sa":4},"nature":"Bold","item":"Leftovers","moves":["Calm Mind","Moonblast","Synthesis","Aromatherapy"]}
+		"Defensive Support": {"level":100,"evs":{"df":232,"hp":252,"sd":24},"nature":"Calm","item":"Leftovers","moves":["Wish","Protect","Moonblast","Aromatherapy"]},
+		"Defensive Calm Mind": {"level":100,"evs":{"df":252,"hp":252,"sa":4},"nature":"Bold","item":"Leftovers","moves":["Calm Mind","Moonblast","Synthesis","Aromatherapy"]}
+	},
+	"Florges-White": {
+		"Defensive Support": {"level":100,"evs":{"df":232,"hp":252,"sd":24},"nature":"Calm","item":"Leftovers","moves":["Wish","Protect","Moonblast","Aromatherapy"]},
+		"Defensive Calm Mind": {"level":100,"evs":{"df":252,"hp":252,"sa":4},"nature":"Bold","item":"Leftovers","moves":["Calm Mind","Moonblast","Synthesis","Aromatherapy"]}
+	},
+	"Florges-Orange": {
+		"Defensive Support": {"level":100,"evs":{"df":232,"hp":252,"sd":24},"nature":"Calm","item":"Leftovers","moves":["Wish","Protect","Moonblast","Aromatherapy"]},
+		"Defensive Calm Mind": {"level":100,"evs":{"df":252,"hp":252,"sa":4},"nature":"Bold","item":"Leftovers","moves":["Calm Mind","Moonblast","Synthesis","Aromatherapy"]}
+	},
+	"Florges-Blue": {
+		"Defensive Support": {"level":100,"evs":{"df":232,"hp":252,"sd":24},"nature":"Calm","item":"Leftovers","moves":["Wish","Protect","Moonblast","Aromatherapy"]},
+		"Defensive Calm Mind": {"level":100,"evs":{"df":252,"hp":252,"sa":4},"nature":"Bold","item":"Leftovers","moves":["Calm Mind","Moonblast","Synthesis","Aromatherapy"]}
+	},
+	"Florges-Yellow": {
+		"Defensive Support": {"level":100,"evs":{"df":232,"hp":252,"sd":24},"nature":"Calm","item":"Leftovers","moves":["Wish","Protect","Moonblast","Aromatherapy"]},
+		"Defensive Calm Mind": {"level":100,"evs":{"df":252,"hp":252,"sa":4},"nature":"Bold","item":"Leftovers","moves":["Calm Mind","Moonblast","Synthesis","Aromatherapy"]}
 	},
 	"Flygon": {
-		"UU Choice Scarf": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","item":"Choice Scarf","moves":["Outrage","Earthquake","U-turn","Defog"]}
+		"Choice Scarf": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","item":"Choice Scarf","moves":["Outrage","Earthquake","U-turn","Defog"]}
 	},
 	"Foongus": {
 		"LC Pivot": {"level":5,"evs":{"df":160,"hp":124,"sd":160},"nature":"Bold","ability":"Regenerator","item":"Eviolite","moves":["Spore","Giga Drain","Sludge Bomb","Hidden Power Fighting"]}
 	},
 	"Forretress": {
 		"Uber Support": {"level":100,"evs":{"df":8,"hp":248,"sd":252},"nature":"Calm","ability":"Sturdy","item":"Leftovers","moves":["Rapid Spin","Spikes","Toxic","Volt Switch"]},
-		"UU Defensive Pivot Rapid Spin": {"level":100,"evs":{"df":252,"hp":252,"sd":4},"nature":"Relaxed","ability":"Sturdy","item":"Leftovers","moves":["Rapid Spin","Stealth Rock","Volt Switch","Gyro Ball"]},
-		"UU Custap": {"level":100,"evs":{"sp":252,"at":252},"ivs":{"df":0,"hp":0,"sd":0},"nature":"Hasty","ability":"Sturdy","item":"Custap Berry","moves":["Stealth Rock","Explosion","Spikes","Rapid Spin"]}
+		"Defensive Pivot Rapid Spin": {"level":100,"evs":{"df":252,"hp":252,"sd":4},"nature":"Relaxed","ability":"Sturdy","item":"Leftovers","moves":["Rapid Spin","Stealth Rock","Volt Switch","Gyro Ball"]},
+		"Custap": {"level":100,"evs":{"sp":252,"at":252},"ivs":{"df":0,"hp":0,"sd":0},"nature":"Hasty","ability":"Sturdy","item":"Custap Berry","moves":["Stealth Rock","Explosion","Spikes","Rapid Spin"]}
 	},
 	"Fraxure": {
-		"PU Dragon Dance": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Mold Breaker","item":"Eviolite","moves":["Dragon Dance","Outrage","Low Kick","Iron Tail"]},
-		"PU Choice Band": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Adamant","ability":"Mold Breaker","item":"Choice Band","moves":["Outrage","Low Kick","Iron Tail","Dragon Claw"]}
+		"Dragon Dance": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Mold Breaker","item":"Eviolite","moves":["Dragon Dance","Outrage","Low Kick","Iron Tail"]},
+		"Choice Band": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Adamant","ability":"Mold Breaker","item":"Choice Band","moves":["Outrage","Low Kick","Iron Tail","Dragon Claw"]}
 	},
 	"Frillish": {
 		"LC Defensive": {"level":5,"evs":{"df":116,"hp":236,"sa":76,"sd":76},"nature":"Bold","ability":"Cursed Body","item":"Eviolite","moves":["Scald","Shadow Ball","Recover","Will-O-Wisp"]},
@@ -824,27 +840,53 @@ var SETDEX_XY = {
 		"LC Mixed Attacker": {"level":5,"evs":{"df":28,"sa":104,"hp":28,"sp":188,"at":152},"nature":"Naive","ability":"Protean","item":"Berry Juice","moves":["Acrobatics","Hydro Pump","Substitute","Hidden Power Grass"]}
 	},
 	"Frogadier": {
-		"PU Life Orb": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Protean","item":"Life Orb","moves":["Hydro Pump","Ice Beam","Grass Knot","Toxic Spikes"]},
-		"NU Protean Attacker": {"level":100,"evs":{"sa":252,"sp":252,"at":4},"nature":"Naive","ability":"Protean","item":"Life Orb","moves":["Hydro Pump","Ice Beam","Grass Knot","U-turn"]}
+		"Life Orb Toxic Spikes": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Protean","item":"Life Orb","moves":["Hydro Pump","Ice Beam","Grass Knot","Toxic Spikes"]},
+		"Protean Attacker": {"level":100,"evs":{"sa":252,"sp":252,"at":4},"nature":"Naive","ability":"Protean","item":"Life Orb","moves":["Hydro Pump","Ice Beam","Grass Knot","U-turn"]}
 	},
 	"Froslass": {
-		"OU Suicide Spiker": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Cursed Body","item":"Focus Sash","moves":["Taunt","Spikes","Destiny Bond","Ice Beam"]},
-		"UU Spikes Lead": {"level":100,"evs":{"hp":252,"sp":252,"sd":4},"nature":"Timid","ability":"Cursed Body","item":"Focus Sash","moves":["Taunt","Destiny Bond","Spikes","Icy Wind"]}
+		"Suicide Spiker": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Cursed Body","item":"Focus Sash","moves":["Taunt","Spikes","Destiny Bond","Ice Beam"]}
 	},
 	"Furfrou": {
-		"NU Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+    },
+	"Furfrou-Pharaoh": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-Dandy": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-Kabuki": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-La Reine": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-Matron": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-Diamond": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-Star": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-Debutante": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
+	},
+	"Furfrou-Heart": {
+		"Utility Support": {"level":100,"evs":{"df":4,"hp":252,"sp":252},"nature":"Jolly","ability":"Fur Coat","item":"Leftovers","moves":["Toxic","Thunder Wave","U-turn","Return"]}
 	},
 	"Gabite": {
-		"NU Choice Band": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Rough Skin","item":"Choice Band","moves":["Outrage","Earthquake","Stone Edge","Dual Chop"]}
+		"Choice Band": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Rough Skin","item":"Choice Band","moves":["Outrage","Earthquake","Stone Edge","Dual Chop"]}
 	},
 	"Gallade": {
 		"VGC15 Supporting Attacker": {"level":50,"evs":{"hp":132,"sp":180,"at":196},"nature":"Adamant","ability":"Justified","item":"Focus Sash","moves":["Close Combat","Zen Headbutt","Wide Guard","Icy Wind"]}
 	},
 	"Galvantula": {
-		"UU Suicide Lead": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sticky Web","Thunder","Bug Buzz","Thunder Wave"]}
+		"Suicide Lead": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sticky Web","Thunder","Bug Buzz","Thunder Wave"]}
 	},
 	"Garbodor": {
-		"NU Spikes": {"level":100,"evs":{"df":160,"hp":252,"sp":96},"nature":"Impish","ability":"Aftermath","item":"Rocky Helmet","moves":["Spikes","Gunk Shot","Drain Punch","Toxic Spikes"]}
+		"Spikes": {"level":100,"evs":{"df":160,"hp":252,"sp":96},"nature":"Impish","ability":"Aftermath","item":"Rocky Helmet","moves":["Spikes","Gunk Shot","Drain Punch","Toxic Spikes"]}
 	},
 	"Garchomp": {
 		"OU Tank Chomp": {"level":100,"evs":{"df":164,"hp":252,"sp":16,"sd":76},"nature":"Impish","ability":"Rough Skin","item":"Rocky Helmet","moves":["Stealth Rock","Earthquake","Dragon Tail","Fire Blast"]},
@@ -872,6 +914,13 @@ var SETDEX_XY = {
 		"LC Choice Scarf": {"level":5,"evs":{"sa":200,"sp":200,"sd":80},"nature":"Timid","ability":"Levitate","item":"Choice Scarf","moves":["Shadow Ball","Sludge Bomb","Hidden Power Fighting","Trick"]}
 	},
 	"Gastrodon": {
+		"Uber Special Wall": {"level":100,"evs":{"df":120,"hp":252,"sd":136},"nature":"Calm","ability":"Storm Drain","item":"Leftovers","moves":["Scald","Toxic","Clear Smog","Recover"]},
+		"OU Physically Defensive": {"level":100,"evs":{"df":252,"hp":252,"sd":4},"nature":"Relaxed","ability":"Storm Drain","item":"Leftovers","moves":["Scald","Earthquake","Toxic","Recover"]},
+		"RU Defensive": {"level":100,"evs":{"df":244,"hp":252,"sp":12},"nature":"Bold","ability":"Storm Drain","item":"Leftovers","moves":["Scald","Recover","Toxic","Earth Power"]},
+		"VGC15 Bulky Attacker": {"level":50,"evs":{"df":108,"hp":180,"sp":4,"sa":212,"sd":4},"nature":"Modest","ability":"Storm Drain","item":"Expert Belt","moves":["Earth Power","Scald","Ice Beam","Protect"]},
+		"UU Physically Defensive": {"level":100,"evs":{"df":252,"hp":216,"sd":40},"nature":"Relaxed","ability":"Storm Drain","item":"Leftovers","moves":["Scald","Earthquake","Toxic","Recover"]}
+		},
+	"Gastrodon-East": {
 		"Uber Special Wall": {"level":100,"evs":{"df":120,"hp":252,"sd":136},"nature":"Calm","ability":"Storm Drain","item":"Leftovers","moves":["Scald","Toxic","Clear Smog","Recover"]},
 		"OU Physically Defensive": {"level":100,"evs":{"df":252,"hp":252,"sd":4},"nature":"Relaxed","ability":"Storm Drain","item":"Leftovers","moves":["Scald","Earthquake","Toxic","Recover"]},
 		"RU Defensive": {"level":100,"evs":{"df":244,"hp":252,"sp":12},"nature":"Bold","ability":"Storm Drain","item":"Leftovers","moves":["Scald","Recover","Toxic","Earth Power"]},
@@ -1251,6 +1300,12 @@ var SETDEX_XY = {
 		"NU kek": {"level":100,"evs":{"hp":132,"sp":124,"at":252},"nature":"Adamant","ability":"Protean","item":"Life Orb","moves":["Knock Off","Drain Punch","Sucker Punch","Shadow Sneak"]}
 	},
 	"Keldeo": {
+		"OU Substitute + Calm Mind": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Justified","item":"Leftovers","moves":["Substitute","Calm Mind","Scald","Secret Sword"]},
+		"OU All-Out Attacker": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Justified","item":"Choice Specs","moves":["Scald","Secret Sword","Hydro Pump","Icy Wind"]},
+		"OU Choice Scarf": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Justified","item":"Choice Scarf","moves":["Scald","Secret Sword","Hydro Pump","Icy Wind"]},
+		"Doubles All-Out Attacker": {"level":100,"evs":{"hp":4,"sp":252,"sa":252},"nature":"Timid","ability":"Justified","item":"Life Orb","moves":["Hydro Pump","Secret Sword","Icy Wind","Protect"]}
+	},
+	"Keldeo-R": {
 		"OU Substitute + Calm Mind": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Justified","item":"Leftovers","moves":["Substitute","Calm Mind","Scald","Secret Sword"]},
 		"OU All-Out Attacker": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Justified","item":"Choice Specs","moves":["Scald","Secret Sword","Hydro Pump","Icy Wind"]},
 		"OU Choice Scarf": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Justified","item":"Choice Scarf","moves":["Scald","Secret Sword","Hydro Pump","Icy Wind"]},
@@ -2028,6 +2083,21 @@ var SETDEX_XY = {
 		"PU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Horn Leech","Double-Edge","Baton Pass"]},
 		"PU Choice Scarf": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Sap Sipper","item":"Choice Scarf","moves":["Double-Edge","Horn Leech","Baton Pass","Toxic"]},
 		"NU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Double-Edge","Horn Leech","Jump Kick"]}
+		},
+	"Sawsbuck-Winter": {
+		"PU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Horn Leech","Double-Edge","Baton Pass"]},
+		"PU Choice Scarf": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Sap Sipper","item":"Choice Scarf","moves":["Double-Edge","Horn Leech","Baton Pass","Toxic"]},
+		"NU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Double-Edge","Horn Leech","Jump Kick"]}
+		},
+	"Sawsbuck-Summer": {
+		"PU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Horn Leech","Double-Edge","Baton Pass"]},
+		"PU Choice Scarf": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Sap Sipper","item":"Choice Scarf","moves":["Double-Edge","Horn Leech","Baton Pass","Toxic"]},
+		"NU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Double-Edge","Horn Leech","Jump Kick"]}
+		},
+	"Sawsbuck-Autumn": {
+		"PU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Horn Leech","Double-Edge","Baton Pass"]},
+		"PU Choice Scarf": {"level":100,"evs":{"df":4,"sp":252,"at":252},"nature":"Jolly","ability":"Sap Sipper","item":"Choice Scarf","moves":["Double-Edge","Horn Leech","Baton Pass","Toxic"]},
+		"NU Swords Dance": {"level":100,"evs":{"sp":252,"at":252,"sd":4},"nature":"Jolly","ability":"Sap Sipper","item":"Life Orb","moves":["Swords Dance","Double-Edge","Horn Leech","Jump Kick"]}
 	},
 	"Sceptile": {
 		"OU All-Out Attacker": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Naive","ability":"Overgrow","item":"Sceptilite","moves":["Leaf Storm","Dragon Pulse","Earthquake","Hidden Power Fire"]},
@@ -2563,10 +2633,123 @@ var SETDEX_XY = {
 		"Doubles Physical Attacker": {"level":100,"evs":{"at":252,"sp":252,"hp":4},"nature":"Jolly","ability":"Justified","item":"Life Orb","moves":["Leaf Blade","Close Combat","Stone Edge","Protect"]}
 	},
 	"Vivillon": {
-		"RU Sleep 'n Sweep": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Substitute","Quiver Dance","Hurricane","Sleep Powder"]},
-		"NU Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
-		"NU Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
-		"UU Quiver Dance Wallbreaker": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+		},
+		"Vivillon-Icy Snow": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Tundra": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Archipelago": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Pokeball": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Fancy": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Sun": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-River": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Continental": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Savannah": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Monsoon": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Modern": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-High Plains": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-River": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Jungle": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Marine": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Polar": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Elegant": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Garden": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
+		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
+	},
+	"Vivillon-Ocean": {
+		"Quiver Dance Sweeper": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Leftovers","moves":["Quiver Dance","Sleep Powder","Hurricane","Substitute"]},
+		"Endeavor": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Endeavor","Energy Ball"]},
+		"Life Orb Quiver Dance": {"level":100,"evs":{"sa":252,"sp":252,"sd":4},"nature":"Timid","ability":"Compound Eyes","item":"Life Orb","moves":["Sleep Powder","Quiver Dance","Hurricane","Bug Buzz"]},
 		"Doubles Support": {"level":100,"evs":{"df":4,"sa":252,"sp":252},"nature":"Timid","ability":"Compound Eyes","item":"Focus Sash","moves":["Sleep Powder","Hurricane","Tailwind","Protect"]}
 	},
 	"Volbeat": {
