@@ -62,4 +62,12 @@ setRouter.get("/:gen/:pokemon",function(req,res){
 
 app.use("/sets", setRouter);
 
+var replayRouter = express.Router();
+
+replayRouter.get("/:battleid", function(req, res) {
+  res.render("replay.kiwi");
+});
+
+app.use("/replay", replayRouter);
+
 app.listen(config.web.port);

@@ -99,6 +99,7 @@ module.exports = function(grunt) {
             files: {
               //compiling frontend.less into frontend.css
               "./public/assets/stylesheets/frontend.css":"./app/assets/stylesheets/frontend.less",
+              "./public/assets/stylesheets/replay.css":"./app/assets/stylesheets/replay.less",
               //compiling backend.less into backend.css
               "./public/assets/stylesheets/backend.css":"./app/assets/stylesheets/backend.less",
               "./public/assets/stylesheets/teambuilder.css":"./app/assets/stylesheets/teambuilder.less"
