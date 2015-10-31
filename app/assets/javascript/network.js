@@ -54,6 +54,9 @@ function createNetwork(WebSocket) {
         connect: function (payload) {
             return 'connect|' + payload.ip;
         },
+        replay: function(payload) {
+            return 'replay|' + payload.battle;
+        },
         // channel: string
         joinchannel: function (payload) {
             return 'join|' + payload.channel;

@@ -3,10 +3,11 @@ function serverConnect(params) {
         network.close();
     }
 
-    var relayIP = poStorage.get("relay") || config.relayIP;
-    var port = poStorage.get("port") || config.hostPort;
-
     params = params || {};
+    
+    var relayIP = params.relay || config.relayIP;
+    var port = params.port || config.hostPort;
+
     params.onconnect = params.onconnect || function() {network.command("connect", {ip: "localhost:" + port});}
 
     webclient.serverIP = relayIP;

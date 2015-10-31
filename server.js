@@ -65,7 +65,7 @@ app.use("/sets", setRouter);
 var replayRouter = express.Router();
 
 replayRouter.get("/:battleid", function(req, res) {
-  res.render("replay.kiwi");
+  res.render("replay.kiwi", {"battleid": req.params.battleid});
 });
 
 app.use("/replay", replayRouter);

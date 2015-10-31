@@ -10,8 +10,9 @@
 </head>
 <body>
 
-<!-- use of tabindex to be able to give focus (so that it can be scrolled
-  on mobile) -->
+<script type="text/javascript">
+  var battleToReplay = ${battleid};
+</script>
 
 <div class="flex-column">
   <nav role="navigation" class="navbar navbar-default">

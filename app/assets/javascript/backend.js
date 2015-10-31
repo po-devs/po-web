@@ -234,7 +234,7 @@ $(function() {
 
     webclient.channels.joinChannel(0);
 
-    serverConnect();
+    serverConnect({"relay": poStorage.get("relay"), "port": poStorage.get("port")});
 });
 
 window.webclient = webclient;
