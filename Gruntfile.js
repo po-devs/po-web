@@ -38,6 +38,28 @@ module.exports = function(grunt) {
     './app/assets/javascript/backend.js'
   ];
 
+  var js_replay = [
+    './bower_components/jquery/dist/jquery.js',
+    './bower_components/bootstrap/dist/js/bootstrap.min.js',
+    './bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
+    './app/assets/javascript/libs/vex.combined.min.js',
+    './app/assets/javascript/config.js',
+    './app/assets/javascript/utils.js',
+    './app/assets/javascript/basetab.js',
+    './app/assets/javascript/chat.js',
+    './app/assets/javascript/battles/battletab.js',
+    './app/assets/javascript/libs/riot.js',
+    './app/assets/javascript/postorage.js',
+    './app/assets/javascript/network.js',
+    './app/assets/javascript/serverconnect.js',
+    './app/assets/javascript/battles/battledata.js',
+    './app/assets/javascript/battles/battles.js',    
+    './app/assets/javascript/battles/commandhandling.js', 
+    './app/assets/javascript/pokeinfo.js',
+    './app/assets/javascript/poke.js',
+    './app/assets/javascript/replay.js'
+  ];
+
   var js_frontend = [
     './bower_components/jquery/dist/jquery.js',
     './bower_components/bootstrap/dist/js/bootstrap.min.js',
@@ -117,6 +139,10 @@ module.exports = function(grunt) {
       js_backend: {
         src: js_backend.concat(poke_base_db),
         dest: './public/assets/javascript/backend.js',
+      },
+      js_replay: {
+        src: js_replay.concat(poke_base_db),
+        dest: './public/assets/javascript/replay.js',
       },
       js_teambuilder: {
         src: js_teambuilder,

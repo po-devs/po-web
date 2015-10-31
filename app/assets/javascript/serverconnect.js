@@ -1,10 +1,13 @@
-function serverConnect() {
+function serverConnect(params) {
     if (network.isOpen()) {
         network.close();
     }
 
     var relayIP = poStorage.get("relay") || config.relayIP;
     var port = poStorage.get("port") || config.hostPort;
+
+    params = params || {};
+    params.onconnect = params.onconnect || function() {network.command("connect", {ip: "localhost:" + port});}
 
     webclient.serverIP = relayIP;
 
@@ -27,7 +30,7 @@ function serverConnect() {
         // open
         function () {
             console.log("Connected to relay.");
-            network.command("connect", {ip: "localhost:" + port});
+            params.onconnect();
         },
         // error
         function () {
