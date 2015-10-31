@@ -312,6 +312,10 @@ function createNetwork(WebSocket) {
                 webclient.battles.dealWithCommand(battleid, JSON.parse(payload.slice(battleid.length + 1)));
             }
         },
+        replaycommand: function(payload) {
+            var time = payload.split("|")[0];
+            webclient.battles.dealWithCommand(+time, JSON.parse(payload.slice(time.length + 1)));
+        },
         battlestarted: function (payload) {
             var battleid = payload.split("|")[0],
                 battle = JSON.parse(payload.slice(battleid.length + 1)),
@@ -402,6 +406,7 @@ function createNetwork(WebSocket) {
         watchbattle: parsers.watchbattle,
         battlechallenge: parsers.battlechallenge,
         battlecommand: parsers.battlecommand,
+        replaycommand: parsers.replaycommand,
         battlestarted: parsers.battlestarted,
         battlefinished: parsers.battlefinished,
         channelbattle: parsers.channelbattle,
@@ -516,6 +521,7 @@ function createNetwork(WebSocket) {
     proto.onmessage = function () {
         var net = this;
         return function (evt) {
+            console.log(evt.data);
             var data = evt.data,
                 pipe = data.indexOf('|'),
                 cmd, payload;

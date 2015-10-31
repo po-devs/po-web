@@ -11,7 +11,7 @@
 <body>
 
 <script type="text/javascript">
-  var battleToReplay = ${battleid};
+  var battleToReplay = "${battleid}";
 </script>
 
 <div class="flex-column">
