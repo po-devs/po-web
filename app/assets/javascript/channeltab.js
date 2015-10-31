@@ -167,7 +167,7 @@ channeltab.printHtml = function(html) {
 
 channeltab.printMessage = function(msg, html) {
     var flash = false;
-    if (!msg.startsWith(webclient.ownName()) && msg.indexOf(webclient.ownName()) != -1) {
+    if (!msg.startsWith(webclient.ownName()) && msg.toLowerCase().indexOf(webclient.ownName().toLowerCase()) != -1) {
         this.flashTab();
         flash = true;
 
