@@ -511,8 +511,7 @@ BattleTab.prototype.print = function(msg, args) {
             msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
         } else if ("player" in args) {
             msg = utils.escapeHtml(msg);
-            var pid = this.battle.conf.players[args.player];
-            var pref = "<span class='player-message' style='color: " + webclient.players.color(pid) + "'>" + webclient.players.name(pid) + ":</span>";
+            var pref = "<span class='player-message' style='color: " + (args.player == this.myself ? "darkcyan": "darkgoldenrod")+ "'>" + this.players[args.player] + ":</span>";
             msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
         } else if ("css" in args && args.css == "turn") {
             this.blankMessage = true;
@@ -565,7 +564,13 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
             if (tpok.num) tooltip += pokeinfo.name(tpok);
             if (tpok.gender) tooltip += " " + genderinfo.shorthand(tpok.gender);
             if (tpok.level && tpok.level != 100) tooltip += " lv. " + tpok.level;
-            if (tpok.percent !== undefined) tooltip += " - " + tpok.percent + "%";
+            if (tpok.percent !== undefined) {
+                if (tpok.totalLife != undefined) {
+                    tooltip += " - " + tpok.life + "/" + tpok.totalLife + " HP (" + tpok.percent + "%)";
+                } else {
+                    tooltip += " - " + tpok.percent + "%";
+                }
+            }
             //tooltip+= JSON.stringify(tpok);
             if (!tooltip)  tooltip="No Info";
             $img.attr("title", tooltip).tooltip("fixTitle");

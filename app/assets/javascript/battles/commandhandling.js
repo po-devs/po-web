@@ -465,6 +465,11 @@ battledata.dealWithDamage = function(params)
 };
 
 battledata.dealWithTier = function(params) {
+    if (this.dealtWithTier) {
+        return;
+    }
+    this.dealtWithTier = true;
+
     this.print("<strong>Tier: </strong> " + params.tier);
 
     this.tier = params.tier;
@@ -472,6 +477,11 @@ battledata.dealWithTier = function(params) {
 };
 
 battledata.dealWithRated = function(params) {
+    if (this.dealtWithRated) {
+        return;
+    }
+    this.dealtWithRated = true;
+
     this.print("<strong>Rule: </strong> " + (params.rated ? "Rated" : "Unrated"));
 
     /* Print the clauses, convert flags to actual clause numbers */

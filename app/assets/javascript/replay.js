@@ -33,7 +33,7 @@ function ReplayBattles () {
 		this.time += diff;
 		this.refTime = now;
 
-		if (this.commandStack.length > 0 && this.commandStack[0].time < this.time) {
+		if (this.commandStack.length > 0 && !this._battle.paused/*this.commandStack[0].time < this.time*/) {
 			var command = this.commandStack.splice(0, 1)[0].command;
 			console.log(command);
 			this._battle.dealWithCommand(command);
@@ -43,16 +43,20 @@ function ReplayBattles () {
 
 var webclientUI = {
 	tabs: [],
-	players: {setPlayers: function(){}}
+	players: {setPlayers: function(){}, addPlayer: function(){}}
 };
 
 var webclient = {
 	players: {
 		on: function(){},
-		hasPlayer: function(){return true;}
+		hasPlayer: function(){return true;},
+		color: function(){return "black";}
 	},
 	battles: new ReplayBattles(),
-	print: console.log.bind(console)
+	channels: {
+		channelsByName: function(){return [];}
+	},
+	print: console.log.bind(console),
 };
 
 
