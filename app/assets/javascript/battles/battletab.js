@@ -50,8 +50,8 @@ function BattleTab(id) {
     rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
     rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
     layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas")
-        .append("<iframe src='battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")
-        .append("<img src='public/battle/background/" + this.battle.data.background  + ".png'>")).append(rows[this.myself]));
+        .append("<iframe src='/battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>")
+        .append("<img src='/public/battle/background/" + this.battle.data.background  + ".png'>")).append(rows[this.myself]));
     layout.append(this.chat.element);
     this.layout = layout;
     this.addTab(layout);

@@ -25,6 +25,8 @@ battledata.finished = function(result) {
 };
 
 battledata.start = function(data) {
+    var self = this;
+
     this.pause();
     this.addData(data);
 
@@ -68,22 +70,34 @@ battledata.start = function(data) {
         self.updateTimers()
     }, 1000);
 */
-    if (team) {
-        this.myself = conf.players[1] === webclient.ownId ? 1 : 0;
-
+    var setTeam = function(id, team) {
         //ugly way to clone, better way at http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
-        this.teams[this.myself] = JSON.parse(JSON.stringify(team));
-        while (this.teams[this.myself].length < 6) {
+        console.log("team: ");
+        console.log(team);
+        self.teams[id] = JSON.parse(JSON.stringify(team));
+        while (self.teams[id].length < 6) {
             var moves = [];
             for (var j = 0; j < 4; j++) {
                 moves.push({"move":0,"pp":0,"totalpp":0});
             }
-            this.teams[this.myself].push({"moves": moves, num: 0, level: 0});
+            self.teams[id].push({"moves": moves, num: 0, level: 0});
         }
+    };
+
+
+    if (team) {
+        this.myself = conf.players[1] === webclient.ownId ? 1 : 0;
+        setTeam(this.myself, team);
+
         console.log("own team");
         console.log(this.teams[this.myself]);
         //this.updateTeamPokes(this.myself);
     } else {
+        if (this.conf.teams) {
+            console.log("setting replay teams");
+            setTeam(0, this.conf.teams[0]);
+            setTeam(1, this.conf.teams[1]);
+        }
         this.myself = 0;
     }
 
@@ -91,7 +105,11 @@ battledata.start = function(data) {
 };
 
 battledata.isBattle = function() {
-    return this.team ? true : false;
+    if (arguments.length == 0) {
+        return this.team ? true : false;
+    } else {
+        return (this.team && this.myself == arguments[0]) || "teams" in this.conf;
+    }
 };
 
 

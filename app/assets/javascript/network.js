@@ -102,8 +102,8 @@ function createNetwork(WebSocket) {
                 copy.clauses += mult * payload.clauses[i];
                 mult *= 2;
             }
-            console.log(payload);
-            console.log(copy);
+            //console.log(payload);
+            //console.log(copy);
             return 'challenge|' + JSON.stringify(copy);
         },
         kick : function(payload) {
@@ -521,7 +521,7 @@ function createNetwork(WebSocket) {
     proto.onmessage = function () {
         var net = this;
         return function (evt) {
-            console.log(evt.data);
+            //console.log(evt.data);
             var data = evt.data,
                 pipe = data.indexOf('|'),
                 cmd, payload;

@@ -456,7 +456,7 @@ battledata.dealWithSubstitute = function(params) {
 
 battledata.dealWithDamage = function(params)
 {
-    if (!this.isBattle() || this.player(params.spot) != this.myself) {
+    if (!this.isBattle(this.player(params.spot))) {
         this.print(this.nick(params.spot) + " lost " + params.damage + "% of its health!");
     } else {
         this.print(this.nick(params.spot) + " lost " + params.damage + " HP! (" +
