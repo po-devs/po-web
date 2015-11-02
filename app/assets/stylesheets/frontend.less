@@ -183,7 +183,7 @@ html .userMenu > a:focus {
 
 .playerFilter {
   margin: 0 15px;
-  margin-top: -3px;
+  margin-top: 7px;
 }
 
 .playerFilter .form-group {
@@ -267,19 +267,27 @@ html .userMenu > a:focus {
   margin-bottom: 0px;
 
   .list-group-item:last-child {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   };
 
-  .list-group-item:first-child {
+  .list-group-itemfirst-child {
     border-top-left-radius: 0;
   }
 }
 
 #pmlist, #battlelist {
   .list-group-item:first-child {
+    margin-top: 10px;
     border-top-right-radius: 0;
+  }
+}
+
+#po-tabs-list {
+  &:not(:empty) {
+    /* Firefox does not work well with margin -1 on last element and that as of 15/11/02 */
+    /*border-bottom: 1px solid #DDD;*/
   }
 }
 
