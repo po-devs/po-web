@@ -95,6 +95,7 @@ channelholder.setNames = function (names) {
     var chan, i;
 
     this.names = names;
+    this.byName = {};
     for (i in this.names) {
         this.byName[this.names[i]] = i;
     }
@@ -151,6 +152,7 @@ channelholder.removeChannel = function (id) {
     }
 
     delete this.channels[id];
+    delete this.byName[this.names[id]];
     delete this.names[id];
 
     this.trigger("channeldestroyed", id);

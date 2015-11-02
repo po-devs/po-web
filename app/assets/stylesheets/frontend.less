@@ -383,3 +383,65 @@ iframe.player-info {
     min-width: 250px;
   }
 }
+
+/* typeahead stuff */
+
+.twitter-typeahead {
+  margin-left: 2px;
+  margin-right: 2px;
+  width: 100%;
+}
+
+.playerFilter .twitter-typeahead {
+  margin-left: 0px;
+  margin-right: 0px;
+  vertical-align: middle;
+
+  input {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+  };
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu,.tt-dropdown-menu {
+  width: 422px;
+  margin: 0px 0;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  max-height: 170px;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor,.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}

@@ -85,9 +85,44 @@ channellist.startObserving = function(channels) {
     });
 };
 
+channellist.findMatches = function(query, callback) {
+    if (!query.startsWith("#")) {
+        callback([]);
+        return;
+    }
+
+    query = query.substr(1).toLowerCase();
+    var matches = [];
+
+    var names = Object.keys(webclient.channels.byName);
+    names.sort();
+
+    names.forEach(function(elem) {
+        if (elem.toLowerCase().startsWith(query)) {
+            matches.push({"value": "#"+elem, "id": elem});
+        }
+    });
+    
+    callback(matches);
+};
+
 $(function() {
     webclientUI.channels.startObserving(webclient.channels);
     webclientUI.channels.element = $("#channellist");
+
+    $("#player-filter").typeahead({
+         hint: true,
+         highlight: false,
+         minLength: 1
+    },
+    {
+        name: "channels",
+        display: "value",
+        limit: 50,
+        source: webclientUI.channels.findMatches.bind(webclientUI.channels)
+    }).on("typeahead:select", function(event, sugg) {
+        webclient.joinChannel(sugg.id);
+    });
 
     webclientUI.channels.element.contextmenu({
         target: "#channel-context-menu",

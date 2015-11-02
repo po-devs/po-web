@@ -69,6 +69,7 @@ module.exports = function(grunt) {
     './bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
     './bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js',
     './bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
+    './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
     './app/assets/javascript/libs/vex.combined.min.js',
     './app/assets/javascript/utils.js',
     './app/assets/javascript/basetab.js',
@@ -85,7 +86,6 @@ module.exports = function(grunt) {
 
   var js_teambuilder = [
     './bower_components/handlebars/handlebars.min.js',
-    './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
     './bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
     './bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js',
     './db/pokes/all_moves.js',
