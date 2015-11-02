@@ -1,6 +1,8 @@
 function ReplayBattles () {
+	var self = this;
 	this.commandStack = [];
 	this.time = 0;
+	this.mode = "turns";
 
 	this.watchBattle = function(id, params) {
 		console.log("battle started");
@@ -12,6 +14,24 @@ function ReplayBattles () {
 		this._battle.start({"conf":params});
 		this.battleTab = new BattleTab(0);
 		this.battleTab.setCurrentTab();
+
+		var battleView = this.battleTab.layout.find(".battle-view");
+
+		var tabs = '\
+            <div class="btn-group" data-toggle="buttons">\
+                <span class="btn btn-default active replay-turned" data-toggle="tab">\
+                    <input type="radio">Turn-based</span>\
+                <span class="btn btn-default replay-timed" data-toggle="tab">\
+                    <input type="radio">Time-based</span>\
+            </div>';
+        battleView.append(tabs);
+
+        battleView.find(".replay-turned").on("click", function() {
+        	self.mode = "turns";
+        });
+        battleView.find(".replay-timed").on("click", function() {
+        	self.mode= "timed";
+        });
 	}
 
 	this.battle = function(id) {
@@ -33,10 +53,14 @@ function ReplayBattles () {
 		this.time += diff;
 		this.refTime = now;
 
-		if (this.commandStack.length > 0 && !this._battle.paused/*this.commandStack[0].time < this.time*/) {
-			var command = this.commandStack.splice(0, 1)[0].command;
-			console.log(command);
-			this._battle.dealWithCommand(command);
+		if (this.commandStack.length > 0) {
+			if (this.mode == "turns" && !this._battle.paused || this.mode=="timed" && this.commandStack[0].time < this.time) {
+				var obj = this.commandStack.splice(0, 1)[0];
+				this.time = obj.time;
+				var command = obj.command;
+				console.log(command);
+				this._battle.dealWithCommand(command);
+			}
 		}
 	};
 }
