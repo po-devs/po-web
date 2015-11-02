@@ -522,7 +522,7 @@ BattleTab.prototype.print = function(msg, args) {
     this.chat.insertMessage(msg, {linebreak: linebreak});
     this.activateTab();
 
-    if(!window.isActive && this.hadFocus) {
+    if(!window.isActive && this.hadFocus && webclientUI.battleNotifications) {
         this.hadFocus = false;
         if ("Notification" in window) {
             if (this.notification) {

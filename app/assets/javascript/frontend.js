@@ -7,6 +7,7 @@ var webclientUI = {
     timestamps: false,
     challenges: [],
     waitingInfos: {},
+    battleNotifications: true,
 
     printDisconnectionMessage : function(html) {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
