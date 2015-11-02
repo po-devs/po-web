@@ -118,7 +118,7 @@ $(function() {
     {
         name: "channels",
         display: "value",
-        limit: 50,
+        limit: 200,
         source: webclientUI.channels.findMatches.bind(webclientUI.channels)
     }).on("typeahead:select", function(event, sugg) {
         webclient.joinChannel(sugg.id);
