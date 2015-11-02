@@ -3,6 +3,8 @@ function ReplayBattles () {
 	this.commandStack = [];
 	this.time = 0;
 	this.mode = "turns";
+	this.paused = false;
+	this.forceNext = false;
 
 	this.watchBattle = function(id, params) {
 		console.log("battle started");
@@ -26,11 +28,35 @@ function ReplayBattles () {
             </div>';
         battleView.append(tabs);
 
+        var media= '\
+        	<div class="btn-toolbar btn-group replay-btns" role="toolbar" data-toggle="buttons">\
+                <button class="btn btn-default replay-pause" type="button" aria-label="Pause">\
+                    <span class="glyphicon glyphicon-pause"></span></button>\
+                <button class="btn btn-default replay-next" type="button" aria-label="Next">\
+                    <span class="glyphicon glyphicon-forward"></span></button>\
+            </div>';
+        battleView.append(media);
+
         battleView.find(".replay-turned").on("click", function() {
         	self.mode = "turns";
         });
         battleView.find(".replay-timed").on("click", function() {
         	self.mode= "timed";
+        });
+        battleView.find(".replay-pause").on("click", function() {
+        	if (!self.paused) {
+        		$(this).attr("aria-label", "Play");
+        		$(this).html('<span class="glyphicon glyphicon-play">');
+        	} else {
+        		$(this).attr("aria-label", "Pause");
+        		$(this).html('<span class="glyphicon glyphicon-pause">');
+        	}
+        	self.paused = !self.paused;
+        	$(this).blur();
+        });
+        battleView.find(".replay-next").on("click", function(){
+        	self.forceNext = 2;
+        	$(this).blur();
         });
 	}
 
@@ -48,13 +74,25 @@ function ReplayBattles () {
 	};
 
 	this.unloadCommand = function() {
+		if (this.forceNext == 1 && this.commandStack.length > 0 && 
+			this.commandStack[0].command.command == "turn") {
+			this.forceNext = false;
+		}
+		if (this.forceNext > 1) {
+			this.forceNext -= 1;
+		}
+
+		if (this.paused && !this.forceNext) {
+			return;
+		}
+
 		var now = +(new Date());
 		var diff = now - this.refTime;
 		this.time += diff;
 		this.refTime = now;
 
 		if (this.commandStack.length > 0) {
-			if (this.mode == "turns" && !this._battle.paused || this.mode=="timed" && this.commandStack[0].time < this.time) {
+			if (this.forceNext || this.mode == "turns" && !this._battle.paused || this.mode=="timed" && this.commandStack[0].time < this.time) {
 				var obj = this.commandStack.splice(0, 1)[0];
 				this.time = obj.time;
 				var command = obj.command;
@@ -67,7 +105,7 @@ function ReplayBattles () {
 
 var webclientUI = {
 	tabs: [],
-	players: {setPlayers: function(){}, addPlayer: function(){}}
+	players: {setPlayers: function(){}, addPlayer: function(){}, removePlayer:function(){}}
 };
 
 var webclient = {
