@@ -16,7 +16,7 @@
   on mobile) -->
 
 <div class="flex-column">
-  <nav role="navigation" class="navbar navbar-default">
+  <nav role="navigation" class="navbar navbar-default main-nav">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -72,7 +72,7 @@
         <div class="form-group">
           <div class="input-group">
            <span class="input-group-btn" title="Sort by authority"><span class="btn btn-default" id="sort-by-auth"><span class="glyphicon glyphicon-king"></span></span>  </span>
-            <input type="text" class="form-control" id="player-filter" placeholder="Filter players...">
+            <input type="text" class="form-control" id="player-filter" placeholder="Players, #channels...">
           </div>
         </div>
      </form>
