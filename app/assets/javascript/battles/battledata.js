@@ -27,6 +27,7 @@ battledata.finished = function(result) {
 battledata.start = function(data) {
     var self = this;
 
+    this.speed = 1.0;
     this.pause();
     this.addData(data);
 
@@ -214,6 +215,10 @@ battledata.pause = function() {
 battledata.unpause = function() {
     this.paused = false;
     this.readQueue();
+};
+
+battledata.emptyQueue = function() {
+    return this.queue.length == 0;
 };
 
 battledata.readQueue = function() {

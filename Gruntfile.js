@@ -57,10 +57,10 @@ module.exports = function(grunt) {
     './app/assets/javascript/battles/commandhandling.js', 
     './app/assets/javascript/pokeinfo.js',
     './app/assets/javascript/poke.js',
-    './app/assets/javascript/replay.js',
     './db/pokes/stats.js',
     './db/pokes/type1.js',
     './db/pokes/type2.js',
+    './app/assets/javascript/replay.js',
   ];
 
   var js_frontend = [

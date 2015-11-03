@@ -2,9 +2,17 @@ function ReplayBattles () {
     var self = this;
     this.commandStack = [];
     this.time = 0;
+    this.speed = 1.0;
     this.mode = "turns";
     this.paused = false;
     this.forceNext = false;
+    self.turn = 1;
+
+    this.setSpeed = function(speed) {
+        this.speed = speed;
+        this._battle.speed = speed;
+        this._battle.trigger("duration-multiplier", this.speed);
+    }
 
     this.watchBattle = function(id, params) {
         console.log("battle started");
@@ -32,8 +40,10 @@ function ReplayBattles () {
             <div class="btn-toolbar btn-group replay-btns" role="toolbar" data-toggle="buttons">\
                 <button class="btn btn-default replay-pause" type="button" aria-label="Pause">\
                     <span class="glyphicon glyphicon-pause"></span></button>\
-                <button class="btn btn-default replay-next" type="button" aria-label="Next">\
+                <button class="btn btn-default replay-next" type="button" aria-label="Next action">\
                     <span class="glyphicon glyphicon-forward"></span></button>\
+                <button class="btn btn-default replay-skip" type="button" aria-label="Next turn">\
+                    <span class="glyphicon glyphicon-step-forward"></span></button>\
             </div>';
         battleView.append(media);
 
@@ -64,14 +74,22 @@ function ReplayBattles () {
             $(this).blur();
         });
         battleView.find(".replay-next").on("click", function() {
-            self.forceNext = 2;
+            self.forceNext = {"turn": self.turn + 1};
             $(this).blur();
         });
+        battleView.find(".replay-skip").on("click", function() {
+            if (self.forceNext) {
+                return;
+            }
+            self.forceNext = {"turn": self.turn + 1, "oldSpeed" : self.speed};
+            self.setSpeed(1000);
+           $(this).blur(); 
+        });
         battleView.find(".normal-speed").on("click", function() {
-            self._battle.trigger("duration-multiplier", "1.");
+            self.setSpeed(1.0);
         });
         battleView.find(".fast-speed").on("click", function() {
-            self._battle.trigger("duration-multiplier", "2.");
+            self.setSpeed(2.0);
         });
     }
 
@@ -89,12 +107,20 @@ function ReplayBattles () {
     };
 
     this.unloadCommand = function() {
-        if (this.forceNext == 1 && this.commandStack.length > 0 && 
-            this.commandStack[0].command.command == "turn") {
-            this.forceNext = false;
-        }
-        if (this.forceNext > 1) {
-            this.forceNext -= 1;
+        if (this.forceNext && this.commandStack.length > 0) {
+            var comm = this.commandStack[0].command;
+
+            if (comm.command == "turn" && comm.turn >= this.forceNext.turn) {
+                if (!this.battle().paused && this.battle().emptyQueue()) {
+                    if (this.forceNext.oldSpeed) {
+                        this.setSpeed(this.forceNext.oldSpeed);
+                    }
+                    this.forceNext = false;
+                    this.turn = comm.turn;
+                } else {
+                    return;
+                }
+            }
         }
 
         if (this.paused && !this.forceNext) {
@@ -111,7 +137,10 @@ function ReplayBattles () {
                 var obj = this.commandStack.splice(0, 1)[0];
                 this.time = obj.time;
                 var command = obj.command;
-                console.log(command);
+                //console.log(command);
+                if (command.command == "turn") {
+                    this.turn = command.turn;
+                }
                 this._battle.dealWithCommand(command);
             }
         }

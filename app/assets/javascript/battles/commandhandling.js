@@ -3,14 +3,18 @@
 /* dealWithXxxx functions are all called from dealWithCommand */
 battledata.dealWithTurn = function(params) {
     this.print("<h2>Turn " + params.turn + "</h2>", {"css": "turn"});
+    this.trigger("turn", params.turn);
 };
 
 battledata.dealWithBlank = function(params) {
     this.print("");
 
     var self = this;
-    this.pause();
-    setTimeout(function(){self.unpause();}, 600);
+
+    if (this.speed < 10) {
+        this.pause();
+        setTimeout(function(){self.unpause();}, 600*this.speed);
+    }
 };
 
 battledata.dealWithSend = function(params) {
