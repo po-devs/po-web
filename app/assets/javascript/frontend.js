@@ -409,6 +409,7 @@ $(function() {
                 webclientUI.players.showColors = !webclientUI.players.showColors;
                 setTimeout(function(){$("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors)});
                 poStorage.set("players.rainbow", webclientUI.players.showColors);
+                $(".chat-column").toggleClass("rainbow");
                 webclientUI.players.updatePlayers();
             } else if (cmd === "exitwarning") {
                 webclientUI.exitWarning = !webclientUI.exitWarning;

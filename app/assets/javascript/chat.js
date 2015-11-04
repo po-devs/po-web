@@ -14,6 +14,9 @@ function Chat(options) {
     $.observable(this);
 
     this.element = $("<div class='flex-column chat-column'>").html(chatHtml);
+    if (webclientUI.players.showColors) {
+        this.element.addClass("rainbow");
+    }
     this.chatTextArea = this.element.find(".chat");
     this.chatSend = this.element.find(".chatInput");
     this.chatCount = 0;

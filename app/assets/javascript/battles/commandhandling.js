@@ -160,7 +160,7 @@ battledata.dealWithKo = function(params) {
 
 battledata.dealWithMove = function(params) {
     if (!params.silent) {
-        this.print(this.nick(params.spot) + " used <strong>" + moveinfo.name(params.move) + "</strong>!");
+        this.print(this.nick(params.spot) + " used <strong class='battle-message-" + typeinfo.name(moveinfo.type(params.move)).toLowerCase() + "'>" + moveinfo.name(params.move) + "</strong>!");
     }
 
     //this.animator.on("attack", params.spot, params.move);
@@ -200,16 +200,16 @@ battledata.dealWithHitcount = function(params) {
 
 battledata.dealWithEffectiveness = function(params) {
     if (params.effectiveness > 4) {
-        this.print("It's super effective!");
+        this.print("<span class='battle-message-super'>It's super effective!</span>");
     } else if (params.effectiveness < 4 && params.effectiveness > 0) {
-        this.print("It's not very effective...");
+        this.print("<span class='battle-message-notvery'>It's not very effective...</span>");
     } else if (params.effectiveness == 0) {
         this.print("It had no effect on " + this.nick(params.spot) + "!");
     }
 };
 
 battledata.dealWithCritical = function(params) {
-    this.print("A critical hit!");
+    this.print("<span class='battle-message-crit'>A critical hit!</span>");
 };
 
 battledata.dealWithMiss = function(params) {
@@ -247,7 +247,7 @@ battledata.dealWithStats = function(params) {
 
 battledata.dealWithStatus = function(params) {
     if (params.status == 6) {
-        this.print("%1 became confused!".replace("%1", this.nick(params.spot)));
+        this.print("<span class='battle-message-confusion'>%1 became confused!</span>".replace("%1", this.nick(params.spot)));
         return;
     }
     if (params.status == 0) {
@@ -275,7 +275,7 @@ battledata.dealWithStatus = function(params) {
     this.pokes[params.spot].status = params.status;
     this.tpoke(params.spot).status = params.status;
 
-    this.print(messages[params.status].replace("%1", this.nick(params.spot)));
+    this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + messages[params.status].replace("%1", this.nick(params.spot)) + "</span>");
 
     this.trigger("statuschange", params.spot, params.status);
     //this.damageCause = {};
@@ -288,34 +288,36 @@ battledata.dealWithTeamstatus = function(params) {
 };
 
 battledata.dealWithAlreadystatus = function(params) {
-    this.print(this.nick(params.spot) + " is already " + statusinfo.name(params.status));
+    var status = BattleTab.statuses[params.status];
+    
+    this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + this.nick(params.spot) + " is already " + statusinfo.name(params.status) + ".</span>");
 };
 
 battledata.dealWithFeelstatus = function(params) {
     if (params.status == 6) { //confusion
-        this.print(this.nick(params.spot) + " is confused!");
+        this.print("<span class='battle-message-confusion'>" + this.nick(params.spot) + " is confused!</span>");
     } else {
         var status = BattleTab.statuses[params.status];
         if (status == "par") {
-            this.print(this.nick(params.spot) + " is paralyzed!");
+            this.print("<span class='battle-message-par'>" + this.nick(params.spot) + " is paralyzed!</span>");
         } else if (status == "slp") {
-            this.print(this.nick(params.spot) + " is fast asleep!");
+            this.print("<span class='battle-message-slp'>" + this.nick(params.spot) + " is fast asleep!</span>");
         } else if (status == "frz") {
-            this.print(this.nick(params.spot) + " is frozen solid!");
+            this.print("<span class='battle-message-frz'>" + this.nick(params.spot) + " is frozen solid!</span>");
         }
     }
 };
 
 battledata.dealWithStatusdamage = function(params) {
     if (params.status == 6) {
-        this.print("It hurt itself in its confusion!");
+        this.print("<span class='battle-message-confusion'>It hurt itself in its confusion!</span>");
     } else {
-        var status = BattleTab.statuses[params.status]
+        var status = BattleTab.statuses[params.status];
 
         if (status == "brn") {
-            this.print(this.nick(params.spot) + " was hurt by its burn!");
+            this.print("<span class='battle-message-brn'>" + this.nick(params.spot) + " was hurt by its burn!</span>");
         } else if (status == "psn") {
-            this.print(this.nick(params.spot) + " was hurt by poison!");
+            this.print("<span class='battle-message-psn'>" + this.nick(params.spot) + " was hurt by poison!</span>");
         }
     }
     //this.damageCause.from = BattleTab.statuses[params.status];
@@ -323,13 +325,13 @@ battledata.dealWithStatusdamage = function(params) {
 
 battledata.dealWithFreestatus = function(params) {
     if (params.status == 6) { //confusion
-        this.print(this.nick(params.spot) + " snapped out its confusion.");
+        this.print("<span class='battle-message-statusover'>" + this.nick(params.spot) + " snapped out its confusion.</span>");
     } else {
         var status = BattleTab.statuses[params.status];
         if (status == "slp") {
-            this.print(this.nick(params.spot) + " woke up!");
+            this.print("<span class='battle-message-statusover'>" + this.nick(params.spot) + " woke up!</span>");
         } else if (status == "frz") {
-            this.print(this.nick(params.spot) + " thawed out!");
+            this.print("<span class='battle-message-statusover'>" + this.nick(params.spot) + " thawed out!</span>");
         }
     }
 };
@@ -389,7 +391,7 @@ battledata.dealWithDrain = function(params) {
 };
 
 battledata.dealWithWeatherstart = function(params) {
-    //QColor c = theme()->typeColor(TypeInfo::TypeForWeather(weather));
+    var weather = BattleTab.weathers[params.weather];
 
     var weatherAbilityMessage = [
         "%1's Snow Warning whipped up a hailstorm!",
@@ -409,9 +411,9 @@ battledata.dealWithWeatherstart = function(params) {
     ];
 
     if (params.permanent) {
-        this.print(weatherAbilityMessage[params.weather-1].replace("%1", this.nick(params.spot)));
+        this.print("<span class='battle-message-" + weather + "'>" + weatherAbilityMessage[params.weather-1].replace("%1", this.nick(params.spot)) + "</span>");
     } else {
-        this.print(weatherRegularMessage[params.weather-1]);
+        this.print("<span class='battle-message-" + weather + "'>" + weatherRegularMessage[params.weather-1] + "</span>");
     }
 
     /* Hack to remove new weathers since it makes battle window crash */
@@ -426,38 +428,54 @@ battledata.dealWithWeatherstart = function(params) {
 };
 
 battledata.dealWithFeelweather = function(params) {
+    var weather = BattleTab.weathers[params.weather];
+    
     var messages = [
         "The hail crashes down.",
         "Rain continues to fall.",
         "The sandstorm rages.",
-        "The sunlight is strong."
+        "The sunlight is strong.",
+        "The intense sunlight continues to shine.",
+        "The heavy downpour continues.",
+        "A mysterious air current is protecting Flying-type Pokémon."
     ];
 
-    this.print(messages[params.weather -1]);
+    this.print("<span class='battle-message-" + weather + "'>" + messages[params.weather -1] + "</span>");
     this.trigger("weather", params.weather);
 };
 
 battledata.dealWithWeatherend = function(params) {
+    var weather = BattleTab.weathers[params.weather];
+    
     var messages = [
         "The hail stopped.",
         "The rain stopped.",
         "The sandstorm subsided.",
-        "The sunlight faded."
+        "The sunlight faded.",
+        "The harsh sunlight faded.",
+        "The heavy rain has lifted!",
+        "The mysterious air current has dissipated!"
     ];
 
-    this.print(messages[params.weather -1]);
+    this.print("<span class='battle-message-" + weather + "'>" + messages[params.weather -1] + "</span>");
 };
 
 battledata.dealWithWeatherhurt = function(params) {
     //this.damageCause.from = BattleTab.weathers[params.weather];
+    var weather = BattleTab.weathers[params.weather];
+    
     var messages = [
         "%1 is buffeted by the hail!",
         undefined,
         "%1 is buffeted by the sandstorm!",
+        undefined,
+        undefined,
+        undefined,
         undefined
     ];
+    
     if (messages[params.weather -1]) {
-        this.print(messages[params.weather -1].replace("%1", this.nick(params.spot)));
+        this.print("<span class='battle-message-" + weather + "'>" + messages[params.weather -1].replace("%1", this.nick(params.spot)) + "</span>");
     }
 };
 
@@ -537,7 +555,7 @@ battledata.dealWithChoicecancellation = function(params) {
  */
 battledata.dealWithBattleend = function(params) {
     if (params.result == 0) {
-        this.print("<strong>" + this.name(!params.winner) + " forfeited against " + this.name(params.winner) + "</strong>");
+        this.print("<strong>" + this.name(!params.winner) + " forfeited against " + this.name(params.winner) + "!</strong>");
     } else if (params.result == 1) {
         this.print("<strong>" + this.name(params.winner) + " won the battle!</strong>");
     } else if (params.result == 2) {
@@ -598,7 +616,8 @@ battledata.dealWithMovemessage = function(params) {
     if (mess.contains("%i")) mess = mess.replace("%i", iteminfo.name(params.other));
     if (mess.contains("%a")) mess = mess.replace("%a", abilityinfo.name(params.other));
     if (mess.contains("%p")) mess = mess.replace("%p", pokeinfo.name(params.other));
-    this.print(mess);
+    
+    this.print("<span class='battle-message-" + typeinfo.name(params.type).toLowerCase() + "'>" + mess + "</span>");
 };
 
 battledata.dealWithAbilitymessage = function(params) {
@@ -623,5 +642,10 @@ battledata.dealWithAbilitymessage = function(params) {
     } else {
         printHtml("AbilityMessage", toColor(escapeHtml(tu(mess)),theme()->typeColor(type)));
     } */
-    this.print(mess);
+    
+    if (params.type != 0) {
+        this.print("<span class='battle-message-" + typeinfo.name(params.type).toLowerCase() + "'>" + mess + "</span>");
+    } else {
+        this.print(mess);
+    }
 };
