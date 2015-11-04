@@ -38,9 +38,7 @@ function ChannelTab(id, name) {
     this.chat = new Chat({"findbattle": true});
     this.addTab(this.chat.element);
 
-    this.chat.on("chat", function(msg) {
-        webclient.sendMessage(msg, self.id);
-    });
+    this.chat.on("chat", this.sendMessage.bind(this));
 }
 
 utils.inherits(ChannelTab, BaseTab);
@@ -221,22 +219,7 @@ channeltab.printMessage = function(msg, html) {
 };
 
 channeltab.sendMessage = function (message) {
-    // var lines = message.trim().split('\n'),
-    //     line, pid, len, i;
-
-    // for (i = 0, len = lines.length; i < len; i += 1) {
-    //     line = lines[i];
-    //     // Temporary
-    //     if (/^\/pm/i.test(line)) {
-    //         pid = webclient.players.id(line.slice(4));
-    //         if (pid !== -1) {
-    //             webclient.pms.pm(pid).activateTab();
-    //             return;
-    //         }
-    //     }
-
-    //     network.command('chat', {channel: this.id, message: line});
-    // }
+    webclient.sendMessage(message, this.id);
 };
 
 channeltab.changeName = function (name) {

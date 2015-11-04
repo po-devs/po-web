@@ -381,7 +381,7 @@ $(function() {
             } else if (cmd === "watch") {
                 network.command('watch', {battle: +payload});
             } else if (cmd === "send") {
-                webclient.channel.sendMessage(payload);
+                webclient.currentTab.sendMessage(payload);
             } else if (cmd === "setmsg") {
                 webclient.channel.chat.input.val(payload);
             } else if (cmd === "appendmsg") {

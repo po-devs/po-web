@@ -81,3 +81,7 @@ BaseTab.prototype.removeTab = function() {
 BaseTab.prototype.onSetCurrent = function() {
 
 };
+
+BaseTab.prototype.sendMessage = function() {
+
+};

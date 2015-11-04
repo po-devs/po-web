@@ -9,14 +9,16 @@ function PMTab(id) {
     this.chat = new Chat();
     this.addTab(this.chat.element);
 
-    this.chat.on("chat", function(msg) {
-        webclient.sendPM(msg, self.id);
-    });
+    this.chat.on("chat", this.sendMessage.bind(this));
 }
 
 utils.inherits(PMTab, BaseTab);
 
 var pmtab = PMTab.prototype;
+
+pmtab.sendMessage = function(msg) {
+    webclient.sendPM(msg, this.id);
+};
 
 pmtab.onSetCurrent = function() {
     this.chat.scrollDown();
