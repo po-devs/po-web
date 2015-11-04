@@ -413,7 +413,16 @@ battledata.dealWithWeatherstart = function(params) {
     } else {
         this.print(weatherRegularMessage[params.weather-1]);
     }
-    this.trigger("weather", params.weather);
+
+    /* Hack to remove new weathers since it makes battle window crash */
+    var weather = params.weather;
+    if (weather > 4) {
+        if (weather == 5) weather = 4;
+        if (weather == 6) weather = 2;
+    }
+    if (weather <= 4) {
+        this.trigger("weather", weather);
+    }
 };
 
 battledata.dealWithFeelweather = function(params) {
