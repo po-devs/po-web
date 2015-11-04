@@ -274,8 +274,9 @@ battledata.dealWithStatus = function(params) {
 
     this.pokes[params.spot].status = params.status;
     this.tpoke(params.spot).status = params.status;
-
-    this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + messages[params.status].replace("%1", this.nick(params.spot)) + "</span>");
+    
+    var message = messages[params.status + (status == "tox" ? 1 : 0)].replace("%1", this.nick(params.spot));
+    this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + message + "</span>");
 
     this.trigger("statuschange", params.spot, params.status);
     //this.damageCause = {};
