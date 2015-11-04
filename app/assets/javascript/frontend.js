@@ -269,6 +269,9 @@ var webclientUI = {
                 case "item":
                     img.attr("src", iteminfo.itemSprite(query));
                     break;
+                case "icon":
+                    img.attr("src", pokeinfo.icon(query));
+                    break;
                 case "trainer":
                     img.attr("src", pokeinfo.trainerSprite(query));
                     break;
