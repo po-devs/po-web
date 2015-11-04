@@ -722,7 +722,10 @@ BattleTab.weathers = {
     1: "hail",
     2: "raindance",
     3: "sandstorm",
-    4: "sunnyday"
+    4: "sunnyday",
+    5: "strongsun",
+    6: "strongrain",
+    7: "strongwinds"
 };
 
 BattleTab.clauses = {
