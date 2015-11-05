@@ -160,7 +160,7 @@ battledata.dealWithKo = function(params) {
 
 battledata.dealWithMove = function(params) {
     if (!params.silent) {
-        this.print(this.nick(params.spot) + " used <strong class='battle-message-" + typeinfo.name(moveinfo.type(params.move)).toLowerCase() + "'>" + moveinfo.name(params.move) + "</strong>!");
+        this.print("<span class='use-battle-move'>" + this.nick(params.spot) + " used <strong class='battle-message-" + typeinfo.name(moveinfo.type(params.move)).toLowerCase() + "'>" + moveinfo.name(params.move) + "</strong>!</span>");
     }
 
     //this.animator.on("attack", params.spot, params.move);
