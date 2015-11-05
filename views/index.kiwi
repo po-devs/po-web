@@ -4,13 +4,40 @@
   <title>Play Pok&eacute;mon Online!</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="public/assets/stylesheets/frontend.css">
   <link rel="icon" type="image/png" href="public/favicon.png">
-  <script src="public/assets/javascript/frontend.js"></script>
-  <script src="public/assets/javascript/backend.js"></script>
+  <script src="public/assets/javascript/jquery.min.js"></script>
 </head>
 <body>
+<div class="loading-overlay" style="z-index: 9000; position: fixed; left: 0; top: 0; right: 0; bottom: 0; vertical-align: middle; text-align: center; background: #FFFFFD">
+  <div style="margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 80px; position: absolute;">
+    <h1>Loading<span class="dot0">.</span><span class="dot1">.</span><span class="dot2">.</span></h1>
+    <p>Pikachu is recharging its batteries</p>
+  </div>
+</div>
+
+<script type="text/javascript">
+var initLoadingTimer = function() {
+  var dotCount = 3;
+  loadingTimer = setInterval(function() {
+      if (!$(".loading-overlay").is(":visible")) {
+        clearInterval(loadingTimer);
+        return;
+      }
+      dotCount = (dotCount+1) % 4;
+      for (var i = 0; i < 3; i++) {
+        $(".loading-overlay h1 .dot" + i).css("visibility", i < dotCount ? "visible": "hidden");
+      }
+    }, 740);
+};
+
+initLoadingTimer();
+
+$(function() {
+  //$(".loading-overlay, .loading-overlay h1, .loading-overlay p").fadeOut(1500);
+  $(".loading-overlay").hide();
+});
+
+</script>
 
 <!-- use of tabindex to be able to give focus (so that it can be scrolled
   on mobile) -->
@@ -99,5 +126,10 @@
     <li id="channels-chanevents-menu"><a tabindex="-1" href="po:chanevents/">Enable channel events</a></li>
   </ul>
 </div>
+  <!-- load stuff at the end -->
+  <script src="public/assets/javascript/frontend.js"></script>
+  <script src="public/assets/javascript/backend.js"></script>
+  <link rel="stylesheet" href="public/assets/stylesheets/frontend.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 </body>
 </html>

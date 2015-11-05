@@ -64,7 +64,6 @@ module.exports = function(grunt) {
   ];
 
   var js_frontend = [
-    './bower_components/jquery/dist/jquery.js',
     './bower_components/bootstrap/dist/js/bootstrap.min.js',
     './bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js',
     './bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js',
@@ -173,10 +172,11 @@ module.exports = function(grunt) {
         files: [
           {expand: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true},
           {expand: true, src: ['bower_components/font-awesome/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true},
+          {expand: true, src: ['bower_components/jquery/dist/jquery.min.js'], dest: './public/assets/javascript/', filter: 'isFile', flatten: true},
           {expand: true, cwd: 'animated-battle-window/html/build/dist/html/', src: ['**'], dest: './public/battle/html/'},
           {expand: true, cwd: 'animated-battle-window/assets/', src: ['**', '!**.zip'], dest: './public/battle/'},
           {expand: true, cwd: 'animated-battle-window/html/build/dist/assets/', src: ['**'], dest: './public/battle/'},
-          {expand: true, cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img/', src: ['**'], dest: './public/assets/img/'}
+          {expand: true, cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img/', src: ['**'], dest: './public/assets/img/'},
         ]
       }
     },
