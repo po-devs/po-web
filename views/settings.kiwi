@@ -1,11 +1,20 @@
 <form role="form" class="">
-  <div class="form-group">
-    <label for="#username">Username: </label>
-    <input type="text" class="form-control" id="username">
-  </div>
-  <div class="form-group">
-    <label for="usercolor">Color:</label>
-    <input type="text" class="form-control" id="usercolor">
+  <div class="flex-row-basic">
+    <div class="form-group avatar-selector">
+      <label for="useravatar">Avatar:</label>
+      <img src="http://pokemon-online.eu/images/trainers/167.png" id="settings-avatar-image" class="form-control player-avatar">
+      <input type="number" class="avatar-number-input" min="1" max="729" width="40" class="form-control" id="useravatar">
+    </div>
+    <div class="stretchX">
+      <div class="form-group">
+        <label for="#username">Username: </label>
+        <input type="text" class="form-control" id="username">
+      </div>
+      <div class="form-group">
+        <label for="usercolor">Color:</label>
+        <input type="text" class="form-control" id="usercolor">
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="userinfo">Trainer info:</label>
