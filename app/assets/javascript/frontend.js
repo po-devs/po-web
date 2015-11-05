@@ -328,8 +328,13 @@ var webclientUI = {
                         }
                         content.find("#settings-avatar-image").attr("src", pokeinfo.trainerSprite(num));
                     };
+                    var updateLimitCounter = function () {
+                        content.find(".userinfo-limit-counter").text(content.find("#userinfo").val().length + "/" + content.find("#userinfo").attr("maxlength"));
+                    };
                     setAvatar();
+                    updateLimitCounter();
                     content.find("#useravatar").on("change keyup", setAvatar);
+                    content.find("#userinfo").on("change keyup", updateLimitCounter);
                 });
                 return content;
             },

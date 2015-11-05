@@ -18,7 +18,8 @@
   </div>
   <div class="form-group">
     <label for="userinfo">Trainer info</label>
-    <textarea rows="4" id="userinfo" class="form-control">
-    </textarea> 
+    <textarea rows="4" id="userinfo" class="form-control" maxlength="500">
+    </textarea>
+    <p class="userinfo-limit-counter pull-right">0/500</p>
   </div>
 </form>
