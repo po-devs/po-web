@@ -116,6 +116,23 @@ var webclientUI = {
             }
         }
 
+        if (webclient.battles.isBattling(id)) {
+            fullInfo = $("<div>").addClass("flex-column").append(fullInfo);
+
+            var battling = pl.name + " is battling against ";
+
+            var battleList = [];
+            var battles = webclient.battles.battlesOfPlayer(id);
+
+            for (var x in battles) {
+                var battle = battles[x];
+                var opp = battle.ids[0] == id ? battle.ids[1] : battle.ids[0];
+                battleList.push("<a href='po:watch/" + battle.id + "'>" + utils.escapeHtml(webclient.players.name(opp)) + "</a>");
+            }
+
+            fullInfo.append($("<p>").append(battling + battleList.join(", ") + "."));
+        }
+
         var buttons;
 
         if (!params.desc) {
@@ -151,7 +168,7 @@ var webclientUI = {
                     dialogItself.setData("declined", true);
                     dialogItself.close();
 
-                    webclientUI.printHtml("<span class='challenge-refused'>You refused " + webclient.players.name(params.id) + "'s challenge.</span>");
+                    webclientUI.printHtml("<span class='challenge-refused'>You refused " + pl.name + "'s challenge.</span>");
                 }
             }, {
                 label: 'Accept',
@@ -165,7 +182,7 @@ var webclientUI = {
         }
 
         var dialogInstance = new BootstrapDialog({
-            title: utils.escapeHtml(webclient.players.name(id)) + (params.desc? " challenged you in " + params.tier + "!" : ""),
+            title: utils.escapeHtml(pl.name) + (params.desc? " challenged you in " + params.tier + "!" : ""),
             message: fullInfo,
             "buttons": buttons ,
             onhidden: function(dialogItself) {

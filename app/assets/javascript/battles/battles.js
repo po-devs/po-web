@@ -18,6 +18,10 @@ Battles.prototype.battleOfPlayer = function(pid) {
     }
 };
 
+Battles.prototype.battlesOfPlayer = function(pid) {
+    return this.battlesByPlayer[pid];
+};
+
 Battles.prototype.addBattle = function (battles) {
     for (var id in battles) {
         var battle = battles[id];
