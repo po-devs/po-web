@@ -226,6 +226,8 @@ Poke.prototype.setElement = function(element) {
     this.ui.nature.on("change", function() {
         self.nature = $(this).val();
         self.updateStatsGui();
+    }).on("focusin", function() {
+        self.updateDescription({"type": "nature"});
     });
 
     this.ui.level.on("change", function() {
@@ -332,6 +334,8 @@ Poke.prototype.updateDescription = function(what) {
         this.ui.desc.html("<img src='"+iteminfo.itemSprite(what.item)+"'/> - " + iteminfo.desc(what.item));//Todo: add item descriptions to PO!
     } else if (what.type == "ability") {
         this.ui.desc.text(abilityinfo.desc(this.ability));
+    } else if (what.type == "nature") {
+        this.ui.desc.html("<strong>Tip: </strong>You can easily adjust the nature of a Pok&eacute;mon by clicking / right-clicking the stats or their label.");
     }
 }
 
