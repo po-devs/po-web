@@ -44,7 +44,7 @@ var webclient = {
         }
 
         loginInfo.color = poStorage.get('player.color') || "";
-        loginInfo.info = {"avatar": poStorage.get("player.avatar") || 167, "info": poStorage.get('player.info')};
+        loginInfo.info = {"avatar": 167, "info": poStorage.get('player.info')};
 
         if (webclient.team) {
             webclient.cacheTeam();
