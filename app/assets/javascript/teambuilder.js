@@ -171,6 +171,34 @@ Poke.prototype.setElement = function(element) {
             }
             self.updateStatGui(i);
         }).on("focusin change", function(){self.updateDescription({"type": "iv"})});
+
+        element.find(".tb-ev-name, .tb-stat").on("click", function() {
+            var stat = $(this).closest(".tb-ev-row").attr("evslot");
+            if (stat == 0) { 
+                return ; 
+            }
+            var negstat = natureinfo.reducedStat(self.nature);
+            if (negstat == -1 || negstat == stat) {
+                negstat = stat == 1 ? 2 : 1;
+            }
+            self.nature = natureinfo.getNatureForBoosts(stat, negstat);
+            self.updateStatsGui();
+            self.ui.nature.val(self.nature);
+        }).on("contextmenu", function() {
+            var stat = $(this).closest(".tb-ev-row").attr("evslot");
+            if (stat == 0) { 
+                return ; 
+            }
+            var negstat = natureinfo.reducedStat(self.nature);
+            if (negstat == -1 || negstat == stat) {
+                negstat = stat == 1 ? 2 : 1;
+            }
+            self.nature = natureinfo.getNatureForBoosts(negstat, stat);
+            self.updateStatsGui();
+            self.ui.nature.val(self.nature);
+
+            return false;
+        });
     }
     this.ui.moves = element.find(".tb-move-selection");
     this.ui.poke = element.find(".tb-poke-selection");

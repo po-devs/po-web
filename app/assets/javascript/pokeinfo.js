@@ -458,6 +458,15 @@ natureinfo.reducedStat = function(nature_id) {
     return -1;
 };
 
+natureinfo.getNatureForBoosts = function(plus_boost, neg_boost) {
+    for (var i = 0; i < 25; i++) {
+        if (natureinfo.boostedStat(i) == plus_boost && natureinfo.reducedStat(i) == neg_boost) {
+            return i;
+        }
+    }
+    return -1;
+};
+
 moveinfo.list = function() {
     return pokedex.moves.moves;
 };

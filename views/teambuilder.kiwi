@@ -97,7 +97,7 @@
         <div class="col-sm-9">
           <div class="tb-ev-group">
           {{each(name, i) ["HP","Atk","Def","S. Atk", "S. Def", "Speed"]}}
-            <div class="tb-ev-row tb-ev-row-${i}">
+            <div class="tb-ev-row tb-ev-row-${i}" evslot="${i}">
               <span class="tb-ev-name">${name}</span> 
               <span class="tb-stat">0</span>
               <input class="tb-ev-slider" data-slider-id='ev${$value}-${i}-slider' type="text" data-slider-min="0" data-slider-max="252" data-slider-step="4" data-slider-tooltip="hide" data-slider-value="0">
