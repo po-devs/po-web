@@ -101,7 +101,7 @@ var webclientUI = {
         info.updateRatings = params.desc ? false: true;
         webclient.requestInfo(id);
 
-        var fullInfo = $("<div>").addClass("flex-row").append(info);
+        var fullInfo = $("<div>").addClass("flex-row-basic").append(info);
         var clauses = $("<div>").addClass("input-group checkbox battle-clauses");
         for (var i in BattleTab.clauses) {
             clauses.append("<div class='checkbox'><label title='" + BattleTab.clauseDescs[i] + "'><input type='checkbox'>" + BattleTab.clauses[i] + "</label></div>");
