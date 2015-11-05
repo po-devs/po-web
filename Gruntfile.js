@@ -150,18 +150,6 @@ module.exports = function(grunt) {
         src: js_teambuilder,
         dest: './public/assets/javascript/teambuilder.js',
       },
-      simple_copy: {
-        src: ['./views/index.kiwi'],
-        dest: './index.html'
-      },
-      simple_copy_battle: {
-        src: ['./views/battle-canvas.kiwi'],
-        dest: './battle-canvas.html'
-      },
-      simple_copy_settings: {
-        src: ['./views/settings.kiwi'],
-        dest: './settings.html'
-      },
       simple_copy_colors: {
         src: ['./bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'],
         dest: './app/assets/stylesheets/bootstrap-colorpicker.less'
