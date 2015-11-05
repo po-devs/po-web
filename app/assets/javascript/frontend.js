@@ -321,7 +321,17 @@ var webclientUI = {
                     content.find("#username").val(poStorage.get("user") || "");
                     content.find("#usercolor").val(poStorage.get("player.color") || "").colorpicker({"format":"hex"});
                     content.find("#userinfo").val(poStorage.get("player.info") || "");
-                    content.find("#useravatar").val(poStorage.get("player.avatar") || 167);
+                    content.find("#useravatar").val(poStorage.get("player.avatar") || 0);
+                    var setAvatar = function () {
+                        var num = parseInt(content.find("#useravatar").val());
+                        if (isNaN(num) || num < 1 || num > 729) {
+                            // nothing or invalid avatar given, do not change
+                            return;
+                        }
+                        content.find("#settings-avatar-image").attr("src", pokeinfo.trainerSprite(num));
+                    };
+                    setAvatar();
+                    content.find("#useravatar").on("change keyup", setAvatar);
                 });
                 return content;
             },
@@ -339,7 +349,7 @@ var webclientUI = {
                         poStorage.set("user", userName);
                         poStorage.set("player.color", userColor);
                         poStorage.set("player.info", userInfo);
-                        poStorage.set("player.avatar", (parseInt(userAvatar) === 0 ? 1 : userAvatar));
+                        poStorage.set("player.avatar", Math.floor(Math.min(729, Math.max(userAvatar, 0))));
 
                         var update = {};
 
