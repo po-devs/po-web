@@ -56,7 +56,7 @@ var webclientUI = {
         }
         info = $("<div class='well well-sm info-block'>").append(info);
 
-        var firstRow = $("<div class='flex-row-no-shrink'>").append("<img src='" + pokeinfo.trainerSprite(pl.avatar || 167) + "' alt='trainer sprite' class='player-avatar'>");
+        var firstRow = $("<div class='flex-row-no-shrink'>").append("<img src='" + pokeinfo.trainerSprite(pl.avatar) + "' alt='trainer sprite' class='player-avatar'>");
         firstRow.append($("<div class='player-teams'><div class='form-group'><label for='opp-team'>Opponent's team:</label><select class='form-control' id='opp-team'></select></div><div class='form-group'><label for='your-team'>Your team:</label><select class='form-control' id='your-team'></select></div></div>"));
         info = $("<div class='flex-column'>").append(firstRow).append(info);
 
@@ -319,6 +319,17 @@ var webclientUI = {
                     content.find("#username").val(poStorage.get("user") || "");
                     content.find("#usercolor").val(poStorage.get("player.color") || "").colorpicker({"format":"hex"});
                     content.find("#userinfo").val(poStorage.get("player.info") || "");
+                    content.find("#useravatar").val(poStorage.get("player.avatar") || 0);
+                    var setAvatar = function () {
+                        var num = parseInt(content.find("#useravatar").val());
+                        if (isNaN(num) || num < 0 || num > 729) {
+                            // nothing or invalid avatar given, do not change
+                            return;
+                        }
+                        content.find("#settings-avatar-image").attr("src", pokeinfo.trainerSprite(num));
+                    };
+                    setAvatar();
+                    content.find("#useravatar").on("change keyup", setAvatar);
                 });
                 return content;
             },
@@ -331,10 +342,12 @@ var webclientUI = {
                         }
                         var userName = content.find("#username").val();
                         var userColor = content.find("#usercolor").val();
-                        var userInfo = content.find("#userinfo").val()
+                        var userInfo = content.find("#userinfo").val();
+                        var userAvatar = content.find("#useravatar").val();
                         poStorage.set("user", userName);
                         poStorage.set("player.color", userColor);
                         poStorage.set("player.info", userInfo);
+                        poStorage.set("player.avatar", Math.floor(Math.min(729, Math.max(userAvatar, 0))));
 
                         var update = {};
 
@@ -344,8 +357,8 @@ var webclientUI = {
                         if (userColor != webclient.players.color(webclient.ownId) && userColor) {
                             update.color = userColor;
                         }
-                        if (userInfo != webclient.ownPlayer().info && userInfo) {
-                            update.info = {"avatar": 167, "info": userInfo};
+                        if (userInfo != webclient.ownPlayer().info && userInfo || userAvatar != webclient.ownPlayer().avatar) {
+                            update.info = {"avatar": poStorage.get("player.avatar") || 167, "info": userInfo};
                         }
                         network.command("teamchange", update);
 
