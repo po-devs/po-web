@@ -102,7 +102,7 @@ Poke.prototype.export = function() {
 	}
 	name += " ";
 
-	if (this.gen.num > 1 && this.gender == 2) {
+	if (gen.num > 1 && this.gender == 2) {
 		name += "(F) ";
 	}
 
@@ -114,7 +114,7 @@ Poke.prototype.export = function() {
 		lines.push("Level: " + this.level);
 	}
 
-	if (this.gen.num > 2) {
+	if (gen.num > 2) {
 		lines.push("Trait: " + abilityinfo.name(this.ability));
 	}
 
@@ -122,7 +122,7 @@ Poke.prototype.export = function() {
 	var evNames = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
 
 	for (var i in evNames) {
-		if (this.gen.num > 2) {
+		if (gen.num > 2) {
 			if (this.evs[i]) {
 				evs.push(this.evs[i] + " " + evNames[i]);
 			}	
