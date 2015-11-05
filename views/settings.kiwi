@@ -49,7 +49,7 @@ $("#useravatar").select(function () {
       <img src="http://pokemon-online.eu/images/trainers/167.png" id="settings-avatar-image" class="form-control player-avatar">
       <input type="number" class="avatar-number-input" min="1" max="729" width="40" class="form-control" id="useravatar">
     </div>
-    <div>
+    <div class="stretchX">
       <div class="form-group">
         <label for="#username">Username: </label>
         <input type="text" class="form-control" id="username">
