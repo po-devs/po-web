@@ -174,7 +174,8 @@ var webclientUI = {
                         webclient.declineChallenge(params);
                     }
                 }
-            }
+            },
+            closeByBackdrop: params.desc ? false : true
         });
         dialogInstance.open();
         dialogInstance.setData("params", params);
@@ -441,6 +442,7 @@ $(function() {
 
                         return content;
                     },
+                    closeByBackdrop: false,
                     onhidden: function() {
                         webclientUI.teambuilderOpen = false;
                     },
