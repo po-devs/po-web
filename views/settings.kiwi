@@ -60,9 +60,9 @@ $("#useravatar").select(function () {
       </div>
     </div>
   </div>
-    <div class="form-group">
-      <label for="userinfo">Trainer info:</label>
-      <textarea rows="4" id="userinfo" class="form-control">
-      </textarea> 
-    </div>
+  <div class="form-group">
+    <label for="userinfo">Trainer info:</label>
+    <textarea rows="4" id="userinfo" class="form-control">
+    </textarea> 
+  </div>
 </form>
