@@ -1,15 +1,68 @@
+<script>
+var selected = false;
+var setAvatar = function () {
+    var num = parseInt($("#useravatar").val());
+    if (isNaN(num) || num < 1 || num > 729) {
+        // nothing or invalid avatar given, do not change
+        return;
+    }
+    $("#settings-avatar-image").attr("src", pokeinfo.trainerSprite(num));
+};
+$(function () {
+    setAvatar();
+});
+$("#useravatar").change(function () {
+    setAvatar();
+});
+$("#useravatar").keyup(function () {
+    setAvatar();
+});
+$("#useravatar").keydown(function (e) {
+    // Allow: backspace, delete, tab, escape, enter and .
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+    // Allow: Ctrl+A, Command+A
+    (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+    // Allow: home, end, left, right, down, up
+    (e.keyCode >= 35 && e.keyCode <= 40)) {
+        // let it happen, don't do anything
+        return;
+    }
+    // Do not allow numbers smaller than 1 or greater than 729 (invalid avatars)
+    var num = parseInt($("#useravatar").val() + "" + String.fromCharCode(e.keyCode));
+    if (num < 1 || num  > 729 && !selected) {
+        e.preventDefault();
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+    }
+    selected = false;
+});
+$("#useravatar").select(function () {
+    selected = true;
+});
+</script>
 <form role="form" class="">
-  <div class="form-group">
-    <label for="#username">Username: </label>
-    <input type="text" class="form-control" id="username">
+  <div class="flex-row-basic">
+    <div class="form-group">
+      <label for="settings-avatar-image">Avatar:</label>
+        <img style="width: 80px; height: 80px;" src="http://pokemon-online.eu/images/trainers/167.png" id="settings-avatar-image" class="form-control">
+        <input type="number" class="number-input" min="1" max="729" width="40" class="form-control" id="useravatar">
+      </div>
   </div>
-  <div class="form-group">
-    <label for="usercolor">Color:</label>
-    <input type="text" class="form-control" id="usercolor">
-  </div>
-  <div class="form-group">
-    <label for="userinfo">Trainer info:</label>
-    <textarea rows="4" id="userinfo" class="form-control">
-    </textarea> 
+  <div>
+    <div class="form-group">
+      <label for="#username">Username: </label>
+      <input type="text" class="form-control" id="username">
+    </div>
+    <div class="form-group">
+      <label for="usercolor">Color:</label>
+      <input type="text" class="form-control" id="usercolor">
+    </div>
+    <div class="form-group">
+      <label for="userinfo">Trainer info:</label>
+      <textarea rows="4" id="userinfo" class="form-control">
+      </textarea> 
+    </div>
   </div>
 </form>
