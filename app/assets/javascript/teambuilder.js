@@ -357,7 +357,7 @@ Poke.prototype.updateSets = function() {
         set.moves.forEach(function(elem) {
             if (elem) {
                 if (elem.startsWith("Hidden Power")) {
-                    res.push("- Hidden Power");
+                    res.push("- Hidden Power [" + elem.substr(13).trim() + "]");
                 } else {
                     res.push("- " + elem);
                 }

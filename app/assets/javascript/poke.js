@@ -235,6 +235,18 @@ Poke.prototype.import = function(str) {
 			}
 			var end = line.substr(line.indexOf("-")+1).trim();
 			if (end.indexOf("[") != -1) {
+				if (end.toLowerCase().startsWith("hidden power")) {
+					var type = end.substr(13).replace("[", "").replace("]", "").trim();
+					for (var i in typeinfo.list()) {
+						if (typeinfo.name(i) == type) {
+							//do not change ivs if current IVs already are a match
+							if (moveinfo.getHiddenPowerType(this.gen, this.ivs) != i) {
+								this.ivs = moveinfo.getHiddenPowerIVs(i, this.gen)[0];
+                                break;
+	            			}
+						}
+					}
+				}
 				end = end.substr(0, end.indexOf("[")).trim();
 			}
 			var move = moveinfo.num(end);
