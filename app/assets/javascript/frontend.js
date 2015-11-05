@@ -543,6 +543,7 @@ $(function() {
         
         /* Display username in header */
         $(".displayUsername").html(webclient.ownName());
+        $(".avatar-miniature").attr("src", pokeinfo.trainerSprite(webclient.ownPlayer().avatar));
     });
 
 

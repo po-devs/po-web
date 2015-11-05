@@ -86,6 +86,9 @@ $(function() {
             <li id="register-dd" class="disabled"><a href="po:register/">Register</a></li>
           </ul>
         </div>
+        <div class="navbar navbar-nav navbar-right">
+          <img class="avatar-miniature" src="http://pokemon-online.eu/images/trainers/167.png">
+        </div>
     </div>
   </nav>
   <div class="flex-row">
