@@ -368,6 +368,10 @@ battledata.dealWithSpectatorchat = function(params) {
     this.print(params.message, {"spectator": params.id});
 };
 
+battledata.dealWithNotice = function(params) {
+    this.print(params.content);
+};
+
 battledata.dealWithClock = function(params) {
     this.updateClock(params.player, params.time, params.status == "ticking")
 };
