@@ -64,6 +64,7 @@ pmtab.printMessage = function(id, msg) {
         if ("Notification" in window) {
             //console.log("spawning notification");
             var notification = new window.Notification(this.name() + " says: ", {body: orMsg});
+            setTimeout(function() {notification.close();}, 4000);
         }
     }
 };
