@@ -1,6 +1,6 @@
 if(!pokedex.items)pokedex.items={};
 pokedex.items.items_description = {
-﻿0:"(No Item)",
+0:"(No Item)",
 1:"Increases the healing effect of Absorb, Aqua Ring, Drain Punch, Draining Kiss, Dream Eater, Giga Drain, Horn Leech, Ingrain, Leech Life, Leech Seed, Mega Drain, Oblivion Wing, and Parabolic Charge used by the holder by 30%.",
 2:"Increases the holder's Beauty stat in contests.",
 3:"Increases the holder's evasion by 10%.",

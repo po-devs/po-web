@@ -1,6 +1,6 @@
 if(!pokedex.moves)pokedex.moves={};
 pokedex.moves.moves = {
-﻿0:"(No Move)",
+0:"(No Move)",
 1:"Pound",
 2:"Karate Chop",
 3:"Double Slap",

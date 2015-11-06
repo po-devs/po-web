@@ -1,6 +1,6 @@
 if(!pokedex.items)pokedex.items={};
 pokedex.items.items = {
-﻿0:"(No Item)",
+0:"(No Item)",
 1:"Big Root",
 2:"Blue Scarf",
 3:"Bright Powder",

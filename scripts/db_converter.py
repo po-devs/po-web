@@ -11,10 +11,14 @@ def ensure_dir(f):
         os.makedirs(d)
 
 def removeUTF8Codec(line):
+    #python 3
+    if len(line) > 0 and ord(line[0]) == 65279:
+        line = line[1:]
     if len(line) < len(codecs.BOM_UTF8):
         return line 
+    #python 2
     for i in range(len(codecs.BOM_UTF8)):
-        if ord(line[i]) != codecs.BOM_UTF8[i]:
+        if line[i] != codecs.BOM_UTF8[i]:
             return line
     return line[len(codecs.BOM_UTF8):]
 

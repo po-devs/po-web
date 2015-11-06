@@ -1,6 +1,6 @@
 if(!pokedex.items)pokedex.items={};
 pokedex.items.item_messages = {
-﻿0:"(No Item)",
+0:"(No Item)",
 3:"%s restored its stats using White Herb!",
 4:"%s hung on thanks to its Focus Band!",
 5:"%s hung on using its Focus Sash!",

@@ -1,7 +1,7 @@
 if(!pokedex.items)pokedex.items={};
 if(!pokedex.items.released_items)pokedex.items.released_items=[];
 pokedex.items.released_items[6] = {
-﻿0:true,
+0:true,
 1:true,
 2:true,
 3:true,
@@ -393,7 +393,7 @@ pokedex.items.released_items[6] = {
 2047:true,
 };
 pokedex.items.released_items[5] = {
-﻿0:true,
+0:true,
 1:true,
 2:true,
 3:true,
@@ -724,7 +724,7 @@ pokedex.items.released_items[5] = {
 329:true,
 };
 pokedex.items.released_items[4] = {
-﻿0:true,
+0:true,
 1:true,
 2:true,
 3:true,
@@ -978,7 +978,7 @@ pokedex.items.released_items[4] = {
 329:true,
 };
 pokedex.items.released_items[3] = {
-﻿0:true,
+0:true,
 2:true,
 3:true,
 4:true,
@@ -1133,7 +1133,7 @@ pokedex.items.released_items[3] = {
 324:true,
 };
 pokedex.items.released_items[2] = {
-﻿0:true,
+0:true,
 3:true,
 9:true,
 15:true,

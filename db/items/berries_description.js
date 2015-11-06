@@ -1,6 +1,6 @@
 if(!pokedex.items)pokedex.items={};
 pokedex.items.berries_description = {
-﻿0:"(No Description)",
+0:"(No Description)",
 1:"Automatically cures the holder of being Paralyzed. Consumed after use.",
 2:"Automatically cures the holder of being Asleep. Consumed after use.",
 3:"Automatically cures the holder of being Poisoned. Consumed after use.",

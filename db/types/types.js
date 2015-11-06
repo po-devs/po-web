@@ -1,6 +1,6 @@
 if(!pokedex.types)pokedex.types={};
 pokedex.types.types = {
-﻿0:"Normal",
+0:"Normal",
 1:"Fighting",
 2:"Flying",
 3:"Poison",

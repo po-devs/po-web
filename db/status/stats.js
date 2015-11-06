@@ -1,6 +1,6 @@
 if(!pokedex.status)pokedex.status={};
 pokedex.status.stats = {
-﻿0:"HP",
+0:"HP",
 1:"Attack",
 2:"Defense",
 3:"Sp. Att.",

@@ -1,6 +1,6 @@
 if(!pokedex.abilities)pokedex.abilities={};
 pokedex.abilities.ability_desc = {
-﻿0:"(No Ability)",
+0:true,
 1:"The stench helps keep wild Pokémon away.",
 2:"The Pokémon makes it rain if it appears in battle.",
 3:"The Pokémon's Speed stat is gradually boosted.",
