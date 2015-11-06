@@ -446,7 +446,15 @@ battledata.dealWithFeelweather = function(params) {
     ];
 
     this.print("<span class='battle-message-" + weather + "'>" + messages[params.weather -1] + "</span>");
-    this.trigger("weather", params.weather);
+
+    weather = params.weather;
+    if (weather > 4) {
+        if (weather == 5) weather = 4;
+        if (weather == 6) weather = 2;
+    }
+    if (weather <= 4) {
+        this.trigger("weather", weather);
+    }
 };
 
 battledata.dealWithWeatherend = function(params) {
