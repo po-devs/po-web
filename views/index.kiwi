@@ -8,7 +8,7 @@
   <meta property="og:title" content="Play Pokémon Online">
   <meta property="og:type" content="web.app">
   <meta property="og:image" content="public/favicon.png">
-  <meta property="og:url" content="web.pokemon-online.eu">
+  <meta property="og:url" content="http://web.pokemon-online.eu">
   <meta property="og:description" content="Play Pokémon in your browser. Ready your teams and battle other trainers in the various tiers available.">
   <script src="public/assets/javascript/jquery.min.js"></script>
 </head>
