@@ -419,9 +419,9 @@ $(function() {
             } else if (cmd === "send") {
                 webclient.currentTab.sendMessage(payload);
             } else if (cmd === "setmsg") {
-                webclient.channel.chat.input.val(payload);
+                webclient.currentTab.chat.chatSend.val(payload);
             } else if (cmd === "appendmsg") {
-                webclient.channel.chat.input.val(webclient.channel.chat.input.val() + payload);
+                webclient.currentTab.chat.chatSend.val(webclient.currentTab.chat.chatSend.val() + payload);
             } else if (cmd === "reconnect") {
                 //window.location.href= window.location.pathname;
                 window.location.reload();
