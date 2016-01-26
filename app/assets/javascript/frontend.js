@@ -97,9 +97,13 @@ var webclientUI = {
             }
         }
 
+        info.updateRatings = true;
         webclientUI.waitingInfos[id] = info;
-        info.updateRatings = params.desc ? false: true;
         webclient.requestInfo(id);
+        if (id !== webclient.ownId) {
+            webclientUI.waitingInfos[webclient.ownId] = info;
+            webclient.requestInfo(webclient.ownId);
+        }
 
         var fullInfo = $("<div>").addClass("flex-row-basic").append(info);
         var clauses = $("<div>").addClass("input-group checkbox battle-clauses");
@@ -113,6 +117,9 @@ var webclientUI = {
                 if (params.clauses[i]) {
                     clauses.find("input:eq(" + i + ")").prop("checked", true);
                 }
+            }
+            if (params.desc) {
+                clauses.find("input").prop("disabled", true);
             }
         }
 
@@ -230,18 +237,24 @@ var webclientUI = {
             plInfo.find(".player-info").attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
 
             if (plInfo.updateRatings) {
-                var oppTeams = plInfo.find("#opp-team");
-                oppTeams.prop("disabled", false);
+                var oppTeams, prefix = "";
+                if (id == webclient.ownId) {
+                    oppTeams = plInfo.find("#your-team");
+                } else {
+                    oppTeams = plInfo.find("#opp-team");
+                }
                 oppTeams.html("");
-                var selected = false;
+                var selected = false, c = 1;;
                 for (tier in oppPl.ratings) {
+                    prefix = id == webclient.ownId ? "Team " + c +": " : "";
                     /* If the opponent shares a tier with us, challenge them in that tier */
                     if (!selected && webclient.ownTiers.indexOf(tier) != -1) {
-                        selected = true;
-                        oppTeams.append($("<option selected>").text(tier).attr("value", tier));
+                        selected = true; 
+                        oppTeams.append($("<option selected>").text(prefix + tier + " (" + oppPl.ratings[tier] + ")").attr("value", tier));
                     } else {
-                        oppTeams.append($("<option>").text(tier).attr("value", tier));
+                        oppTeams.append($("<option>").text(prefix + tier + " (" + oppPl.ratings[tier] + ")").attr("value", tier));
                     }
+                    c++;
                 }
             }
             delete webclientUI.waitingInfos[id];
