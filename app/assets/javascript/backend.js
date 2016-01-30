@@ -127,9 +127,9 @@ var webclient = {
     onChat: function(params) {
         var chan = webclientUI.channels.channel(params.channel);
 
-        if ((params.channel == -1 && params.message.charAt(0) != "~") || !chan) {
+        if ((params.channel == -1 && params.message.charAt(0) != "~")) {
             webclientUI.printMessage(params.message, params.html);
-        } else {
+        } else if (chan) {
             chan.printMessage(params.message, params.html);
         }
     },
