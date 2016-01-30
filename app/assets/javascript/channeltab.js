@@ -165,15 +165,19 @@ channeltab.printHtml = function(html) {
 
 channeltab.printMessage = function(msg, html) {
     var flash = false;
-    if (!msg.startsWith(webclient.ownName()) && msg.toLowerCase().indexOf(webclient.ownName().toLowerCase()) != -1) {
-        this.flashTab();
-        flash = true;
+    var ownname = webclient.ownName();
+    if (ownname !== "???") { //Because webclient.ownName() returns "???" when starting up the client and that messes with the RegExp
+        var ex = new RegExp("\\b" + ownname + "\\b", "gi");
+        if (ex.test(msg.indexOf(":") !== -1 ? msg.substr(msg.indexOf(":")) : msg)) {
+            this.flashTab();
+            flash = true;
 
-        /* When flashed, also display a notification */
-        if (!window.isActive) {
-            if ("Notification" in window) {
-                //console.log("spawning notification");
-                var notification = new window.Notification("In #"+this.name + ": ", {body: html ? utils.stripHtml(msg): msg});
+            /* When flashed, also display a notification */
+            if (!window.isActive) {
+                if ("Notification" in window) {
+                    //console.log("spawning notification");
+                    var notification = new window.Notification("In #"+this.name + ": ", {body: html ? utils.stripHtml(msg): msg});
+                }
             }
         }
     }
