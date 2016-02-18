@@ -43,7 +43,8 @@ var webclientUI = {
     displayPlayerWindow : function(id, params) {
         var params = params || {};
         var info = "Loading player info...";
-        var pl = webclient.players.player(id);
+        var pl = webclient.players.player(id) || webclient.ownPlayer();
+        var self = webclient.ownId === id;
 
         if (! ("clauses" in params) ) {
             params.clauses = poStorage.get("challenge.clauses", "array") || [];
@@ -57,7 +58,7 @@ var webclientUI = {
         info = $("<div class='well well-sm info-block'>").append(info);
 
         var firstRow = $("<div class='flex-row-no-shrink'>").append("<img src='" + pokeinfo.trainerSprite(pl.avatar) + "' alt='trainer sprite' class='player-avatar'>");
-        firstRow.append($("<div class='player-teams'><div class='form-group'><label for='opp-team'>Opponent's team:</label><select class='form-control' id='opp-team'></select></div><div class='form-group'><label for='your-team'>Your team:</label><select class='form-control' id='your-team'></select></div></div>"));
+        firstRow.append($("<div class='player-teams'>" + (!self ? "<div class='form-group'><label for='opp-team'>Opponent's team:</label><select class='form-control' id='opp-team'></select></div>" : "") + "<div class='form-group'><label for='your-team'>Your team:</label><select class='form-control' id='your-team'></select></div></div>"));
         info = $("<div class='flex-column'>").append(firstRow).append(info);
 
         var ownTeams = info.find("#your-team");
@@ -100,7 +101,7 @@ var webclientUI = {
         info.updateRatings = true;
         webclientUI.waitingInfos[id] = info;
         webclient.requestInfo(id);
-        if (id !== webclient.ownId) {
+        if (!self) {
             webclientUI.waitingInfos[webclient.ownId] = info;
             webclient.requestInfo(webclient.ownId);
         }
@@ -143,30 +144,48 @@ var webclientUI = {
         var buttons;
 
         if (!params.desc) {
-            buttons = [{
-                label: 'Private Message',
-                action: function(dialogItself){
-                    webclient.pms.pm(id);
-                    dialogItself.close();
-                }
-            }, {
-                label: 'Challenge',
-                action: function(dialogItself){
-                    var params = {"team": 0, "mode": 0};
-                    params.clauses = [];
-
-                    for (var i in BattleTab.clauses) {
-                        params.clauses.push(clauses.find("input:eq(" + i + ")").prop("checked") ? 1 : 0);
+            var isIgnored = webclient.players.isIgnored(id);
+            if (!self) {
+                buttons = [{
+                    label: (isIgnored ? 'Unignore' : 'Ignore'),
+                    action: function(dialogItself){
+                        if (!isNaN(id)) {
+                            if (!isIgnored) {
+                                webclient.players.addIgnore(id);
+                            } else {
+                                webclient.players.removeIgnore(id);
+                            }
+                            webclientUI.players.updatePlayer(+id);
+                        }
+                        dialogItself.close();
                     }
-                    params.tier = info.find("#opp-team").val();
-                    params.team = info.find("#your-team").val();
+                }, {
+                    label: 'Private Message',
+                    action: function(dialogItself){
+                        webclient.pms.pm(id);
+                        dialogItself.close();
+                    }
+                }, {
+                    label: 'Challenge',
+                    action: function(dialogItself){
+                        var params = {"team": 0, "mode": 0};
+                        params.clauses = [];
 
-                    poStorage.set("challenge.clauses", params.clauses);
+                        for (var i in BattleTab.clauses) {
+                            params.clauses.push(clauses.find("input:eq(" + i + ")").prop("checked") ? 1 : 0);
+                        }
+                        params.tier = info.find("#opp-team").val();
+                        params.team = info.find("#your-team").val();
 
-                    webclient.challenge(id, params);
-                    dialogItself.close();
-                }
-            }];
+                        poStorage.set("challenge.clauses", params.clauses);
+
+                        webclient.challenge(id, params);
+                        dialogItself.close();
+                    }
+                }];
+            } else {
+                buttons = [];
+            }
         } else {
             buttons = [{
                 label: 'Decline',
