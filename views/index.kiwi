@@ -96,8 +96,14 @@ $(function() {
         </div>
     </div>
   </nav>
+    <button type="button" class="btn btn-default btn-sm toggle-sidebar-btn leftbar hide">
+      Show Tabs
+    </button>
   <div class="flex-row">
-    <div class="flex-column leftbar">
+    <div class="flex-column leftbar" id="leftmenu">
+      <button type="button" class="btn btn-default btn-sm toggle-sidebar-btn">
+        Hide Tabs
+      </button>
       <div id="po-tabs-list" style="max-height: 50%" oncontextmenu="return false" class="hiddenScroll">
         <ul id="channellist" class="list-group" tabindex=1></ul>
         <ul id="battlelist" class="list-group" tabindex=2></ul>

@@ -60,6 +60,14 @@ battledata.dealWithSendback = function(params) {
 
     //this.animator.on("sendback", params.spot);
 
+    if (pl == this.myself) {
+        var moves = this.teams[pl][params.spot].moves;
+        for (var i in moves) {
+            moves[i].tempmove = 0;
+            moves[i].temppp = 0;
+        }
+    }
+    
     if (!params.silent) {
         this.print(this.name(pl) + " called " + poke.name + " back!");
     }
@@ -137,6 +145,20 @@ battledata.dealWithPpchange = function(params) {
     this.teams[this.player(params.spot)][this.slot(params.spot)].moves[params.move].pp = params.pp;
 
     this.trigger("ppchange", params);
+};
+
+battledata.dealWithMovechange = function(params) {
+    console.log("Move Change");
+    console.log(params);
+    
+    var poke = this.teams[this.myself][params.spot];
+    
+    if (params.temporary) {
+        poke.moves[params.slot].tempmove = params.move;
+        poke.moves[params.slot].temppp = moveinfo.pp(params.move);
+    } else {
+        poke.moves[params.slot].move = params.move;
+    }
 };
 
 battledata.dealWithOfferchoice = function(params) {
