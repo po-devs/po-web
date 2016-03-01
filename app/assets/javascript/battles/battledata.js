@@ -79,7 +79,7 @@ battledata.start = function(data) {
         while (self.teams[id].length < 6) {
             var moves = [];
             for (var j = 0; j < 4; j++) {
-                moves.push({"move":0,"pp":0,"totalpp":0});
+                moves.push({"move":0,"pp":0,"totalpp":0,"tempmove":0, "temppp": 0});
             }
             self.teams[id].push({"moves": moves, num: 0, level: 0});
         }
@@ -255,6 +255,9 @@ battledata.dealWithCommand = function(params) {
     var funcName = "dealWith"+params.command[0].toUpperCase() + params.command.slice(1);
     if (funcName in BattleData.prototype) {
         this[funcName](params);
+    } else {
+        console.log(funcName + " not found!");
+        console.log(params);
     }
 };
 

@@ -361,11 +361,11 @@ span.glyphicon {
 }*/
 
 /* When editing those test by typing a very long unbreakable word in chat, i.e. "aaaaaaaaaaa..."*/
-.leftbar {
+/*.leftbar {
   width: 27.5%;
   max-width: 27.5%;
   min-width: 27.5%;
-}
+}*/
 
 .rightbar {
   width: 72.5%;
@@ -402,13 +402,22 @@ iframe.player-info {
   margin-left: 15px;
   width: 100%;
 }
-
-@media screen and (min-width: 909px) {
+.leftbar {
+    width: 250px;
+    max-width: 250px;
+    min-width: 250px;
+  }
+/*@media screen and (min-width: 909px) {
   .leftbar {
     width: 250px;
     max-width: 250px;
     min-width: 250px;
   }
+}*/
+@media only screen and (min-width: 768px) {
+    .toggle-sidebar-btn {
+        display: none;
+    }
 }
 
 /* typeahead stuff */

@@ -105,6 +105,7 @@ module.exports = function(grunt) {
     './db/moves/power.js',
     './db/moves/accuracy.js',
     './db/moves/damage_class.js',
+    './db/moves/pp.js',
     './db/pokes/gender.js',
     './db/abilities/ability_desc.js',
     './db/natures/nature.js',
