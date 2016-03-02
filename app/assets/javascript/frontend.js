@@ -631,20 +631,16 @@ $(function() {
         '<script src="public/assets/javascript/teambuilder.js"></script>'
         ].join("\n")
     );
-    $(".toggle-sidebar-btn").click(function(){
+    $("#toggleSidebar").click(function(evt){
+        evt.preventDefault();
         $("#leftmenu").toggleClass("hide");
-        $(".toggle-sidebar-btn").toggleClass("hide");
     });
     
     var checkCompact = function() {
         if ($(window).width() < 768) {
            $("#leftmenu").addClass("hide");
-           $(".toggle-sidebar-btn").removeClass("hide");
-           $("#leftmenu .toggle-sidebar-btn").addClass("hide");
         } else {
            $("#leftmenu").removeClass("hide");
-           $(".toggle-sidebar-btn").addClass("hide");
-           $("#leftmenu .toggle-sidebar-btn").removeClass("hide"); 
         }
     };
     checkCompact();

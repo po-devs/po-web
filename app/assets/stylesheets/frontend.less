@@ -103,7 +103,7 @@ body {
   width: @nav-height;
   text-align: center;
   background: @baseColor;
-  display: block;
+  display: inline-block;
 }
 
 .navbar-default {
@@ -407,17 +407,15 @@ iframe.player-info {
     max-width: 250px;
     min-width: 250px;
   }
-/*@media screen and (min-width: 909px) {
-  .leftbar {
-    width: 250px;
-    max-width: 250px;
-    min-width: 250px;
-  }
-}*/
 @media only screen and (min-width: 768px) {
-    .toggle-sidebar-btn {
+    #toggleSidebar {
         display: none;
     }
+}
+#toggleSidebar {
+    float: none;
+    color: rgb(136, 136, 136);
+    margin-left: 6px;
 }
 
 /* typeahead stuff */

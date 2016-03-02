@@ -58,6 +58,7 @@ $(function() {
             <span class="icon-bar"></span>
         </button>
             <a href="http://pokemon-online.eu"><img src="public/logo-small.png"></a>
+            <button class="navbar-toggle" id="toggleSidebar"><span class="glyphicon glyphicon-list-alt"></span></button>
     </div>
     <!-- Collection of nav links and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
@@ -96,14 +97,8 @@ $(function() {
         </div>
     </div>
   </nav>
-    <button type="button" class="btn btn-default btn-sm toggle-sidebar-btn leftbar hide">
-      Show Tabs
-    </button>
   <div class="flex-row">
     <div class="flex-column leftbar" id="leftmenu">
-      <button type="button" class="btn btn-default btn-sm toggle-sidebar-btn">
-        Hide Tabs
-      </button>
       <div id="po-tabs-list" style="max-height: 50%" oncontextmenu="return false" class="hiddenScroll">
         <ul id="channellist" class="list-group" tabindex=1></ul>
         <ul id="battlelist" class="list-group" tabindex=2></ul>
