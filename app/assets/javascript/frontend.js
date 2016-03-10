@@ -616,7 +616,8 @@ $(function() {
 
 window.onbeforeunload = function(e) {
     if (webclientUI.exitWarning) {
-        if (webclient.connectedToServer) {
+        // don't show message when staying on the site
+        if (webclient.connectedToServer && window.location.href != e.target.baseURI) {
             return 'Are you sure you want to disconnect from the server?';
         }
     }
