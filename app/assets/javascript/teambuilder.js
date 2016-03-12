@@ -141,6 +141,13 @@ Poke.prototype.setElement = function(element) {
                 $(this).slider("setValue", self.evs[i]);
             }
             self.ui.evVals[i].val(self.evs[i]);
+            if (self.gen && self.gen.num <= 2 && i == 3) {
+                // link sp.atk to sp.def
+                self.evs[4] = self.evs[i];
+                self.ui.evs[4].slider("setValue", self.evs[i]);
+                self.ui.evVals[4].val(self.evs[i]);
+                self.updateStatGui(4);
+            }
             self.updateStatGui(i);
         });
         this.ui.evVals[i].data("slot", i).on("change", function() {
@@ -160,13 +167,21 @@ Poke.prototype.setElement = function(element) {
                 $(this).val(self.evs[i]);
             }
             self.ui.evs[i].slider("setValue", self.evs[i]);
+            if (self.gen && self.gen.num <= 2 && i == 3) {
+                // link sp.atk to sp.def
+                self.evs[4] = self.evs[i];
+                self.ui.evs[4].slider("setValue", self.evs[i]);
+                self.ui.evVals[4].val(self.evs[i]);
+                self.updateStatGui(4);
+            }
             self.updateStatGui(i);
         });
         this.ui.ivVals[i].data("slot", i).on("change", function() {
+            var maxIV = (self.gen && self.gen.num <= 2 ? 15 : 31);
             var i = $(this).data("slot");
             self.ivs[i] = +$(this).val();
-            if (self.ivs[i] > 31) {
-                self.ivs[i] = 31;
+            if (self.ivs[i] > maxIV) {
+                self.ivs[i] = maxIV;
                 $(this).val(self.ivs[i]);
             }
             self.updateStatGui(i);
@@ -469,7 +484,23 @@ Poke.prototype.updateGui = function()
         self.ui.evs[i].slider("setValue", self.evs[i]);
         self.ui.evVals[i].val(self.evs[i]);
         self.ui.ivVals[i].val(self.ivs[i]);
+
+        if (this.gen && this.gen.num <= 2) {
+            // set max ivs to 15
+            this.ui.ivVals[i].prop("max", 15).prop("value", 15);
+        }
     }
+
+    if (this.gen && this.gen.num <= 2) {
+        // lock hp and spdef for gen 1/2
+        this.ui.ivVals[0].prop("readonly", true).addClass("tb-input-disabled");
+        this.ui.ivVals[4].prop("readonly", true).addClass("tb-input-disabled");
+
+        // lock spdef evs too
+        this.ui.evs[4].prop("readonly", true).slider("disable");
+        this.ui.evVals[4].prop("readonly", true).addClass("tb-input-disabled");
+    }
+
     this.updateStatsGui();
 
     this.ui.sprite.attr("src", pokeinfo.sprite(this));
