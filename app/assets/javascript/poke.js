@@ -1,6 +1,4 @@
-
-function Poke()
-{
+function Poke() {
 	this.reset();
 }
 
@@ -10,13 +8,13 @@ Poke.prototype.reset = function() {
 	this.nick = "";
 	this.item = 0;
 	this.ability = 0;
-	this.moves = [0,0,0,0];
+	this.moves = [0, 0, 0, 0];
 	if (this.gen && this.gen.num <= 2) {
-		this.evs = [252,252,252,252,252,252];
-		this.ivs = [15,15,15,15,15,15];
+		this.evs = [252, 252, 252, 252, 252, 252];
+		this.ivs = [15, 15, 15, 15, 15, 15];
 	} else {
-		this.evs = [0,0,0,0,0,0];
-		this.ivs = [31,31,31,31,31,31];
+		this.evs = [0, 0, 0, 0, 0, 0];
+		this.ivs = [31, 31, 31, 31, 31, 31];
 	}
 	this.happiness = 0;
 	this.level = 100;
@@ -28,18 +26,18 @@ Poke.prototype.reset = function() {
 Poke.prototype.load = function(poke) {
     var alreadySet = false;
 
-    if (this.num && pokeinfo.toNum(this) == pokeinfo.toNum(poke)) {
+    if (this.num && PokeInfo.toNum(this) === PokeInfo.toNum(poke)) {
         alreadySet = true;
     } else {
         this.reset();
     }
-    poke = pokeinfo.toObject(poke);
+    poke = PokeInfo.toObject(poke);
     this.num = poke.num;
     this.forme = poke.forme;
 
     if (!alreadySet && !this.illegal) {
     	/* Change mega forme to base + item, and so on */
-    	var item = pokeinfo.itemForForme(this);
+    	var item = PokeInfo.itemForForme(this);
     	if (item) {
     		this.forme = 0;
     		this.item = item;
@@ -48,28 +46,28 @@ Poke.prototype.load = function(poke) {
 
     this.data = {};
     this.data.moveNames = [];
-    this.data.types = pokeinfo.types(this);
+    this.data.types = PokeInfo.types(this, this.gen);
 
-    this.data.gender = pokeinfo.gender(this);
+    this.data.gender = PokeInfo.gender(this);
 
     if (this.illegal) {
-    	this.data.allMoves = Object.keys(moveinfo.list());
-    	this.data.abilities = Object.keys(abilityinfo.list());
+    	this.data.allMoves = Object.keys(MoveInfo.list());
+    	this.data.abilities = Object.keys(AbilityInfo.list());
     } else {
-    	this.data.allMoves = pokeinfo.allMoves(this, this.gen);
-    	this.data.abilities = pokeinfo.abilities(this, this.gen);
-    	if (!this.data.abilities[2] || this.data.abilities[2] == this.data.abilities[0]) {
+    	this.data.allMoves = PokeInfo.allMoves(this, this.gen);
+    	this.data.abilities = PokeInfo.abilities(this, this.gen);
+    	if (!this.data.abilities[2] || this.data.abilities[2] === this.data.abilities[0]) {
         	this.data.abilities.splice(2, 1);
 	    }
-	    if (!this.data.abilities[1] || this.data.abilities[1] == this.data.abilities[0]) {
+	    if (!this.data.abilities[1] || this.data.abilities[1] === this.data.abilities[0]) {
 	        this.data.abilities.splice(1, 1);
 	    }
     }
 
     if (!alreadySet) {
-        this.nick = this.num == 0 ? "" : pokeinfo.name(this);
+        this.nick = this.num === 0 ? "" : PokeInfo.name(this);
         this.ability = this.data.abilities[0];
-        this.gender = this.data.gender == 3 ? (1 + Math.floor(2*Math.random())) : this.data.gender;
+        this.gender = this.data.gender === 3 ? (1 + Math.floor(2 * Math.random())) : this.data.gender;
     }
 };
 
@@ -81,9 +79,8 @@ Poke.prototype.evSurplus = function() {
     for (var i = 0; i < 6; i++) {
         sum = sum + this.evs[i];
     }
-    return sum-510;
+    return sum - 510;
 };
-
 
 Poke.prototype.export = function() {
 	if (!this.num) {
@@ -93,43 +90,41 @@ Poke.prototype.export = function() {
 
 	var lines = [];
 
-	var name = pokeinfo.name(this);
+	var name = PokeInfo.name(this);
 
-	if (name == this.nick || !this.nick) {
-		name += this.shiny? "*" : "";
+	if (name === this.nick || !this.nick) {
+		name += this.shiny ? "*" : "";
 	} else {
-		name = this.nick + (this.shiny? "*" : "") + " (" + name + ")";
-	}
-	name += " ";
-
-	if (gen.num > 1 && this.gender == 2) {
-		name += "(F) ";
+		name = this.nick + (this.shiny ? "*" : "") + " (" + name + ")";
 	}
 
-	name += "@ " + iteminfo.name(this.item);
+	if (gen.num > 1 && this.gender > 0) {
+		name += ["", " (M)", " (F)"][this.gender % 3];
+	}
+
+	name += " @ " + ItemInfo.name(this.item);
 
 	lines.push(name);
 
-	if (this.level != 100) {
+	if (this.level !== 100) {
 		lines.push("Level: " + this.level);
 	}
 
 	if (gen.num > 2) {
-		lines.push("Trait: " + abilityinfo.name(this.ability));
+		lines.push("Ability: " + AbilityInfo.name(this.ability));
 	}
 
-	var evs = [];
-	var evNames = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
+	var statNames = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
 
-	for (var i in evNames) {
-		if (gen.num > 2) {
-			if (this.evs[i]) {
-				evs.push(this.evs[i] + " " + evNames[i]);
-			}	
-		} else {
-			if (this.evs[i] < 252) {
-				evs.push(this.evs[i] + " " + evNames[i]);
-			}
+	var evs = [];
+	var ivs = [];
+
+	for (var s = 0; s < 6; s++) {
+		if ((gen.num > 2 && this.evs[s] > 0) || (gen.num <= 2 && this.evs[s] < 252)) {
+			evs.push(this.evs[s] + " " + statNames[s]);
+		}
+		if ((gen.num > 2 && this.ivs[s] < 31) || (gen.num <= 2 && this.ivs[s] < 15)) {
+			ivs.push(this.ivs[s] + " " + statNames[s]);
 		}
 	}
 
@@ -137,32 +132,26 @@ Poke.prototype.export = function() {
 		lines.push("EVs: " + evs.join(" / "));
 	}
 
-	var ivs = [];
-	for (var i in evNames) {
-		if (this.gen > 2 && this.ivs[i] != 31 || this.gen <= 2 && this.ivs[i] != 15) {
-			ivs.push(this.ivs[i] + " " + evNames[i]);
-		}
-	}
 	if (ivs.length > 0) {
 		lines.push("IVs: " + ivs.join(" / "));
 	}
 
-	if (this.gen > 2) {
-		var nature = natureinfo.name(this.nature) + " nature";
-
-		if (natureinfo.boostedStat(this.nature) != -1) {
-			nature += " (+" + evNames[natureinfo.boostedStat(this.nature)] + ", -" + evNames[natureinfo.reducedStat(this.nature)] + ")";
+	if (gen.num > 2) {
+		var nature = NatureInfo.name(this.nature) + " Nature";
+		if (NatureInfo.boostedStat(this.nature) > -1) {
+			nature += " (+" + statNames[NatureInfo.boostedStat(this.nature)] +
+					  ", -" + statNames[NatureInfo.reducedStat(this.nature)] + ")";
 		}
 		lines.push(nature);
 	}
 
-	for (var i in this.moves) {
-		if (this.moves[i]) {
-			var name = moveinfo.name(this.moves[i]);
-			if (name == "Hidden Power") {
-				name += " [" + typeinfo.name(moveinfo.getHiddenPowerType(this.gen, this.ivs)) + "]";
+	for (var m = 0; m < this.moves.length; m++) {
+		if (this.moves[m]) {
+			var moveName = MoveInfo.name(this.moves[m]);
+			if (moveName === "Hidden Power") {
+				moveName += " [" + TypeInfo.name(MoveInfo.getHiddenPowerType(this.ivs, this.gen)) + "]";
 			}
-			lines.push("- " + name);
+			lines.push("- " + moveName);
 		}
 	}
 
@@ -172,88 +161,110 @@ Poke.prototype.export = function() {
 Poke.prototype.import = function(str) {
 	this.reset();
 
-	var lines = str.split("\n");
+	var gen = getGen(this.gen);
+	var lines = str.replace("\r", "").split("\n");
 	var nameLine = lines.splice(0, 1)[0];
 	var nameItem = nameLine.split("@");
 
-	var nick = nameItem[0].replace("(M)", "").replace("*", "").replace("(F)", "").trim();
-	if (nick.indexOf("(") != 0 && nick.indexOf(")") > nick.indexOf("(")) {
-		var left = nick.indexOf("(")+1;
-		var right = nick.indexOf(")");
-		this.load(pokeinfo.num(nick.substr(left, right - left)));
-		this.nick = nick.substr(0, left-1).trim();
+	var nick = nameItem[0].replace("(M)", "").replace("(F)", "").replace("*", "").trim();
+	var left = nick.indexOf("(");
+	var right = nick.indexOf(")");
+	if (left > -1 && right > left) {
+		this.load(PokeInfo.num(nick.substring(left + 1, right)));
+		this.nick = nick.substring(0, left).trim();
 	} else {
-		this.load(pokeinfo.num(nick));
+		this.load(PokeInfo.num(nick));
 	}
 
-	if (nameItem[0].indexOf("*") != -1) {
-		this.shiny = true;
-	}
+	this.shiny = nameItem[0].indexOf("*") > -1 && gen.num > 1;
 
-	if (nameItem[0].indexOf("(F)") != -1) {
+	if (gen.num > 1 && nameItem[0].indexOf("(M)") > -1) {
+		this.gender = 1;
+	} else if (gen.num > 1 && nameItem[0].indexOf("(F)") > -1) {
 		this.gender = 2;
-	} else if (this.data.gender == 3) {
-		//If both are possible and female was not specified, default to male
+	} else if (gen.num > 1 && this.data.gender == 3) {
+		// If both are possible and none specified, default to male
 		this.gender = 1;
 	}
 
-	if (nameItem.length > 1) {
-		this.item = iteminfo.num(nameItem[1].trim());
+	if (nameItem.length > 1 && gen.num > 1) {
+		this.item = ItemInfo.num(nameItem[1].trim());
 	} else {
 		this.item = 0;
 	}
 
-	var statNames = ["HP", "Atk", "Def", "SAtk", "SDef", "Spd", "HP", "Atk", "Def", "SpA", "SpD", "Spe"];
+	var statNames = {
+		"HP": 0, "Atk": 1, "Def": 2,
+		"SAtk": 3, "SpA": 3, "Spc": 3,
+		"SDef": 4, "SpD": 4,
+		"Spd": 5, "Spe": 5
+	};
 	var moveIndex = 0;
 
 	while (lines.length > 0) {
 		var line = lines.splice(0, 1)[0];
-		var lline = line.toLowerCase();
-		if (lline.startsWith("level:")) {
-			this.level = +line.substr(line.indexOf(":")+1).trim();
-		} else if (lline.startsWith("shiny:")) {
-			this.shiny = lline.substr(line.indexOf(":")+1).trim() == "yes";
-		} else if (lline.startsWith("evs:") || lline.startsWith("ivs:")) {
+		var lower = line.toLowerCase();
+		if (lower.startsWith("level:")) {
+			this.level = parseInt(line.substr(line.indexOf(":") + 1), 10);
+			if (!(this.level >= 1 && this.level <= 100)) {
+				this.level = 100;
+			}
+		} else if (lower.startsWith("shiny:")) {
+			this.shiny = lower.indexOf("yes") > -1;
+		} else if (lower.startsWith("evs:")) {
 			var evs = line.substr(4).split("/");
-			for (var i in evs) {
-				var ev = evs[i].trim().split(" ");
+			for (var e = 0; e < evs.length; e++) {
+				var ev = evs[e].trim().split(" ");
 				if (ev.length < 2) {
 					continue;
 				}
-				var num = +ev[0];
-				var stat = statNames.indexOf(ev[1].trim());
-				if (stat == -1) {
+				var evNum = parseInt(ev[0]);
+				if (!(evNum >= 0 && evNum <= 252)) {
 					continue;
 				}
-				(lline.startsWith("evs:") ? this.evs : this.ivs)[stat % 6] = num;
+				if (!statNames.hasOwnProperty(ev[1].trim())) {
+					continue;
+				}
+				this.evs[statNames[ev[1].trim()]] = evNum;
 			}
-		} else if (lline.startsWith("trait:") || lline.startsWith("ability:")) {
-			this.ability = abilityinfo.num(lline.split(":")[1].trim());
+		} else if (lower.startsWith("ivs:")) {
+			var ivs = line.substr(4).split("/");
+			var ivMax = gen.num > 2 ? 31 : 15;
+			for (var i = 0; i < ivs.length; i++) {
+				var iv = ivs[i].trim().split(" ");
+				if (iv.length < 2) {
+					continue;
+				}
+				var ivNum = parseInt(iv[0]);
+				if (!(ivNum >= 0 && ivNum <= ivMax)) {
+					continue;
+				}
+				if (!statNames.hasOwnProperty(iv[1].trim())) {
+					continue;
+				}
+				this.ivs[statNames[iv[1].trim()]] = ivNum;
+			}
+		} else if (lower.startsWith("trait:") || lower.startsWith("ability:")) {
+			this.ability = AbilityInfo.num(lower.split(":")[1].trim());
 		} else if (line.trim().startsWith("-")) {
 			if (moveIndex >= 4) {
 				continue;
 			}
-			var end = line.substr(line.indexOf("-")+1).trim();
-			if (end.indexOf("[") != -1) {
-				if (end.toLowerCase().startsWith("hidden power")) {
-					var type = end.substr(13).replace("[", "").replace("]", "").trim();
-					for (var i in typeinfo.list()) {
-						if (typeinfo.name(i) == type) {
-							//do not change ivs if current IVs already are a match
-							if (moveinfo.getHiddenPowerType(this.gen, this.ivs) != i) {
-								this.ivs = moveinfo.getHiddenPowerIVs(i, this.gen)[0];
-                                break;
-	            			}
-						}
+			line = line.substr(line.indexOf("-") + 1).trim();
+			if (line.indexOf("[") > -1) {
+				if (line.toLowerCase().startsWith("hidden power")) {
+					var type = TypeInfo.num(line.substr(12).replace("[", "").replace("]", "").trim());
+					if (type > 0 && MoveInfo.getHiddenPowerType(this.ivs, this.gen) !== type) {
+						// do not change ivs if current ivs already are a match
+						this.ivs = MoveInfo.getHiddenPowerIVs(type, this.gen)[0];
 					}
 				}
-				end = end.substr(0, end.indexOf("[")).trim();
+				line = line.substring(0, line.indexOf("[")).trim();
 			}
-			var move = moveinfo.num(end);
-			this.moves[moveIndex++] = move;
-		} else if (lline.contains("nature")) {
+			this.moves[moveIndex++] = MoveInfo.num(line);
+		} else if (lower.contains("nature")) {
 			line = line.trim();
-			this.nature = natureinfo.num(line.substr(0, line.indexOf(" ")));
+			this.nature = NatureInfo.num(line.substring(0, line.indexOf(" ")));
 		}
 	}
 };

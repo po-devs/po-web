@@ -28,7 +28,7 @@ var  queryField = function (key, default_,query) {
 
 var battleId = queryField("battle");
 var battle = window.top.webclient.battles.battle(battleId);
-var pokeinfo = window.top.pokeinfo;
+var PokeInfo = window.top.PokeInfo;
 
 </script>
 <div align="center" id="embed-html"></div>

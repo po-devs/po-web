@@ -33,7 +33,6 @@ pmlist.addPM = function(id) {
 };
 
 pmlist.removePM = function(id) {
-    console.log("removing pm " + id);
     if (this.hasPM(id)) {
         this.element.find("#pm-" + id).remove();
         this.pm(id).close();

@@ -79,7 +79,8 @@ $(function() {
           <ul class="dropdown-menu">
             <li><a href="po:idle/" class="checkbox-dd"><input type="checkbox" id="checkbox-idle-dd"/>&nbsp;Idle</a></li>
             <li><a href="po:timestamps/" class="checkbox-dd"><input type="checkbox" id="checkbox-timestamps-dd"/>&nbsp;Timestamps</a></li>
-            <li><a href="po:rainbow/" class="checkbox-dd"><input type="checkbox" id="checkbox-rainbow-dd"/>&nbsp;Rainbow mode</a></li>
+            <li><a href="po:sortauth/" class="checkbox-dd"><input type="checkbox" id="checkbox-sortauth-dd"/>&nbsp;Sort by auth</a></li>
+            <li><a href="po:rainbow/" class="checkbox-dd"><input type="checkbox" id="checkbox-rainbow-dd"/>&nbsp;Colored playerlist</a></li>
             <li><a href="po:exitwarning/" class="checkbox-dd"><input type="checkbox" id="checkbox-exitwarning-dd"/>&nbsp;Show Exit Warning</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="po:download/"><span class="glyphicon glyphicon-save"></span> Download data</a>
@@ -107,7 +108,6 @@ $(function() {
       <form role="search" class="playerFilter">
         <div class="form-group">
           <div class="input-group">
-           <span class="input-group-btn" title="Sort by authority"><span class="btn btn-default" id="sort-by-auth"><span class="glyphicon glyphicon-king"></span></span>  </span>
             <input type="text" class="form-control" id="player-filter" placeholder="Players, #channels...">
           </div>
         </div>

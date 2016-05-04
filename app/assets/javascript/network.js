@@ -4,97 +4,96 @@ function createNetwork(WebSocket) {
         Open: 1,
         Closing: 2,
         Closed: 3,
-        '0': 'Connecting',
-        '1': 'Open',
-        '2': 'Closing',
-        '3': 'Closed'
+        "0": "Connecting",
+        "1": "Open",
+        "2": "Closing",
+        "3": "Closed"
     };
 
     // TODO: Organize this
     var transformers = {
         register: function () {
-            return 'register|';
+            return "register|";
         },
         registry: function () {
-            return 'registry';
+            return "registry";
         },
         // ?
         teamchange: function (payload) {
-            console.log(payload);
-            return 'teamchange|' + JSON.stringify(payload);
+            return "teamchange|" + JSON.stringify(payload);
         },
-        changetier: function(payload) {
-            return 'changetier|' + JSON.stringify(payload);
+        changetier: function (payload) {
+            return "changetier|" + JSON.stringify(payload);
         },
         // battle: number
         watch: function (payload) {
-            return 'watch|' + payload.battle;
+            return "watch|" + payload.battle;
         },
         // battle: number
         stopwatching: function (payload) {
-            return 'stopwatching|' + payload.battle;
+            return "stopwatching|" + payload.battle;
         },
         // sameTier: boolean, range: number
         findbattle: function (payload) {
-            return 'findbattle|' + JSON.stringify(payload);
+            return "findbattle|" + JSON.stringify(payload);
         },
         // ?
         battlechoice: function (payload) {
-            return 'battlechoice|' + payload.id + '|' + JSON.stringify(payload.choice);
+            return "battlechoice|" + payload.id + "|" + JSON.stringify(payload.choice);
         },
         // battle: number
         forfeit: function (payload) {
-            return 'forfeit|' + payload.battle;
+            return "forfeit|" + payload.battle;
         },
         // id: number
         player: function (payload) {
-            return 'player|' + payload.id;
+            return "player|" + payload.id;
         },
         // ip: string
         connect: function (payload) {
-            return 'connect|' + payload.ip;
+            return "connect|" + payload.ip;
         },
-        replay: function(payload) {
-            return 'replay|' + payload.battle;
+        replay: function (payload) {
+            return "replay|" + payload.battle;
         },
         // channel: string
         joinchannel: function (payload) {
-            return 'join|' + payload.channel;
+            return "join|" + payload.channel;
         },
         // channel: number
         leavechannel: function (payload) {
-            return 'leave|' + payload.channel;
+            return "leave|" + payload.channel;
         },
         // message: string, channel: number
         chat: function (payload) {
-            return 'chat|' + JSON.stringify(payload);
+            return "chat|" + JSON.stringify(payload);
         },
         // to: number, message: string
         pm: function (payload) {
-            return 'pm|' + JSON.stringify(payload);
+            return "pm|" + JSON.stringify(payload);
         },
         // battle: number, message: string
         battlechat: function (payload) {
-            return 'battlechat|' + payload.battle + '|' + payload.message;
+            return "battlechat|" + payload.battle + "|" + payload.message;
         },
         // battle: number, message: string
         spectatingchat: function (payload) {
-            return 'spectatingchat|' + payload.battle + '|' + payload.message;
+            return "spectatingchat|" + payload.battle + "|" + payload.message;
         },
         // version: number, name: string, default: string, autojoin: string, ladder: boolean, idle: boolean, color: string
         login: function (payload) {
-            return 'login|' + JSON.stringify(payload);
+            return "login|" + JSON.stringify(payload);
         },
         // hash: string
         auth: function (payload) {
-            return 'auth|' + payload.hash;
+            return "auth|" + payload.hash;
         },
         // id: number
         getrankings: function (payload) {
-            return 'getrankings|' + payload.id;
+            return "getrankings|" + payload.id;
         },
         //id: number, tier: string, team: number (of own team slot), clauses: number
-        challengeplayer : function(payload) {
+        challengeplayer: function (payload) {
             /* Convert clauses as an array to a number */
             var copy = $.extend({}, payload, {"clauses": 0});
             var mult = 1;
@@ -102,21 +101,19 @@ function createNetwork(WebSocket) {
                 copy.clauses += mult * payload.clauses[i];
                 mult *= 2;
             }
-            //console.log(payload);
-            //console.log(copy);
-            return 'challenge|' + JSON.stringify(copy);
+            return "challenge|" + JSON.stringify(copy);
         },
-        kick : function(payload) {
-            return 'kick|' + payload.id;
+        kick: function (payload) {
+            return "kick|" + payload.id;
         },
-        ban : function(payload) {
-            return 'ban|' + payload.id;
+        ban: function (payload) {
+            return "ban|" + payload.id;
         },
-        idle : function(payload) {
-            return 'idle|' + (payload.away ? 1 : 0);
+        idle: function (payload) {
+            return "idle|" + (payload.away ? 1 : 0);
         },
-        ladder : function(payload) {
-            return 'ladder|' + (payload.ladder ? 1 : 0);
+        ladder: function (payload) {
+            return "ladder|" + (payload.ladder ? 1 : 0);
         }
     };
 
@@ -132,7 +129,7 @@ function createNetwork(WebSocket) {
             if (utils.queryField("autoconnect") === "true") {
                 webclient.connectToServer();
             } else {
-                this.command('registry');
+                this.command("registry");
             }
         },
         servers: function (payload) {
@@ -142,7 +139,7 @@ function createNetwork(WebSocket) {
 
             for (i = 0, len = servers.length; i < len; i += 1) {
                 server = servers[i];
-                html += "<tr><td class='server-name'>" + server.name + "</td><td>" + server.num + ("max" in server ? " / " + server.max : "") + "</td>" + "<td class='server-ip'>" + server.ip + ":" + server.port + "</td></tr>";
+                html += "<tr><td class='server-name'>" + server.name + "</td><td>" + server.num + ("max" in server ? " / " + server.max : "") + "</td><td class='server-ip'>" + server.ip + ":" + server.port + "</td></tr>";
                 webclient.registry.descriptions[server.name] = server.description;
             }
 
@@ -166,27 +163,26 @@ function createNetwork(WebSocket) {
             webclient.print(payload);
         },
         chat: function (payload) {
-            var params = JSON.parse(payload);
-            webclient.onChat(params);
+            webclient.onChat(JSON.parse(payload));
         },
         playerkick: function (payload) {
             var params = JSON.parse(payload);
             if (params.source) {
-                webclientUI.printHtml('<span class="player-kick">' + utils.escapeHtml(webclient.players.name(params.source)) + ' kicked ' + 
-                    utils.escapeHtml(webclient.players.name(params.target)) + '!</span>');
+                webclientUI.printHtml("<span class='player-kick'>" + utils.escapeHtml(webclient.players.name(params.source)) + " kicked " +
+                    utils.escapeHtml(webclient.players.name(params.target)) + "!</span>");
             } else {
-                webclientUI.printHtml('<span class="player-kick">' + utils.escapeHtml(webclient.players.name(params.target)) +
-                    ' was kicked by the server!</span>');
+                webclientUI.printHtml("<span class='player-kick'>" + utils.escapeHtml(webclient.players.name(params.target)) +
+                    " was kicked by the server!</span>");
             }
         },
         playerban: function (payload) {
             var params = JSON.parse(payload);
             if (params.source) {
-                webclientUI.printHtml('<span class="player-ban">' + utils.escapeHtml(webclient.players.name(params.source)) + ' banned ' + 
-                    utils.escapeHtml(webclient.players.name(params.target)) + (params.hasOwnProperty('time') ? ' for ' + params.time + ' minute(s)' : '') + '!</span>');
+                webclientUI.printHtml("<span class='player-ban'>" + utils.escapeHtml(webclient.players.name(params.source)) + " banned " +
+                    utils.escapeHtml(webclient.players.name(params.target)) + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
             } else {
-                webclientUI.printHtml('<span class="player-ban">' + utils.escapeHtml(webclient.players.name(params.target)) +
-                    ' was banned by the server' + (params.hasOwnProperty('time') ? ' for ' + params.time + ' minute(s)' : '') + '!</span>');
+                webclientUI.printHtml("<span class='player-ban'>" + utils.escapeHtml(webclient.players.name(params.target)) +
+                    " was banned by the server" + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
             }
         },
         challenge: function (payload) {
@@ -202,17 +198,17 @@ function createNetwork(WebSocket) {
 
             if (password) {
                 hash = MD5(MD5(password) + payload);
-                net.send('auth', {hash: hash});
+                net.send("auth", {hash: hash});
             } else {
                 vex.dialog.open({
-                    message: 'Please enter your password, <strong>' + poStorage.get("user") +'</strong> (<small><a href="' + window.location.pathname + '" target="_self" onclick="poStorage.remove(\'user\');">Not you?</a></small>):',
-                    input: '<input name="password" type="password" placeholder="Password" required />',
+                    message: "Please enter your password, <strong>" + poStorage.get("user") +"</strong> (<small><a href='" + window.location.pathname + "' target='_self' onclick='poStorage.remove(\"user\");'>Not you?</a></small>):",
+                    input: "<input name='password' type='password' placeholder='Password' required />",
                     callback: function (res) {
                         if (res && res.password) {
                             // after clicking OK
                             // res.password is the value from the textbox
                             hash = MD5(MD5(res.password) + payload);
-                            net.send('auth', {hash: hash});
+                            net.send("auth", {hash: hash});
                         } else {
                             // after clicking Cancel
                             net.close();
@@ -232,7 +228,6 @@ function createNetwork(WebSocket) {
                 }
             }
             params.clauses = clauses;
-            console.log(params);
 
             webclient.dealWithChallenge(params);
         },
@@ -288,7 +283,7 @@ function createNetwork(WebSocket) {
             webclient.ownTiers = params.tiers;
             webclient.players.login(params.id, params.info);
 
-            this.command('getrankings', {id: params.id});
+            this.command("getrankings", {id: params.id});
         },
         unregistered: function (payload) {
             $("#register-dd").removeClass("disabled");
@@ -312,7 +307,7 @@ function createNetwork(WebSocket) {
                 webclient.battles.dealWithCommand(battleid, JSON.parse(payload.slice(battleid.length + 1)));
             }
         },
-        replaycommand: function(payload) {
+        replaycommand: function (payload) {
             var time = payload.split("|")[0];
             webclient.battles.dealWithCommand(+time, JSON.parse(payload.slice(time.length + 1)));
         },
@@ -349,7 +344,7 @@ function createNetwork(WebSocket) {
 
             webclient.battles.battleEnded(battleid, result);
         },
-        stopwatching: function(payload) {
+        stopwatching: function (payload) {
             webclient.battles.serverStopWatching(+payload);
         },
         rankings: function (payload) {
@@ -377,7 +372,7 @@ function createNetwork(WebSocket) {
         optionschange: function (payload) {
             webclient.players.optionsChange(JSON.parse(payload));
         },
-        teamtiers: function(payload) {
+        teamtiers: function (payload) {
             webclient.ownTiers = JSON.parse(payload);
         }
     };
@@ -424,14 +419,13 @@ function createNetwork(WebSocket) {
         this.buffer = [];
         this.socket = null;
 
-        this.relay = '';
-        this.ip = '';
+        this.relay = "";
+        this.ip = "";
 
         this._opened = false;
     }
 
-    var proto = Network.prototype;
-    proto.open = function (ip, onopen, onerror, onclose) {
+    Network.prototype.open = function (ip, onopen, onerror, onclose) {
         if (this._opened) {
             return;
         }
@@ -458,13 +452,12 @@ function createNetwork(WebSocket) {
         return this;
     };
 
-    proto.command = proto.send = function (command, payload) {
-        console.log(payload);
+    Network.prototype.command = Network.prototype.send = function (command, payload) {
         this.sendRaw(transformers[command].call(this, payload));
         return this;
     };
 
-    proto.sendRaw = function (msg) {
+    Network.prototype.sendRaw = function (msg) {
         if (!this.isOpen()) {
             this.buffer.push(msg);
             return this;
@@ -476,7 +469,7 @@ function createNetwork(WebSocket) {
         return this;
     };
 
-    proto.close = function () {
+    Network.prototype.close = function () {
         if (!this.opened()) {
             return;
         }
@@ -489,27 +482,23 @@ function createNetwork(WebSocket) {
     };
 
     // State
-    proto.opened = function () {
+    Network.prototype.opened = function () {
         var socket = this.socket;
         return socket && (socket.readyState === states.Connecting || socket.readyState === states.Open);
     };
 
-    proto.isOpen = function () {
+    Network.prototype.isOpen = function () {
         var socket = this.socket;
         return socket && (socket.readyState === states.Open);
     };
 
     // Events
-    proto.onopen = function (cb) {
+    Network.prototype.onopen = function (cb) {
         var net = this;
 
         return function () {
-            var buffer = net.buffer,
-                len = buffer.length,
-                i;
-
-            for (i = 0; i < len; i += 1) {
-                net.sendRaw(buffer[i]);
+            for (var i = 0, len = net.buffer.length; i < len; i++) {
+                net.sendRaw(net.buffer[i]);
             }
 
             if (typeof cb === "function") {
@@ -518,18 +507,16 @@ function createNetwork(WebSocket) {
         };
     };
 
-    proto.onmessage = function () {
+    Network.prototype.onmessage = function () {
         var net = this;
         return function (evt) {
-            //console.log(evt.data);
             var data = evt.data,
-                pipe = data.indexOf('|'),
+                pipe = data.indexOf("|"),
                 cmd, payload;
 
             if (pipe === -1) {
                 console.error("Received raw message, should be changed in the relay station:", data);
             } else {
-                //console.log(data);
                 cmd = data.substr(0, pipe);
                 payload = data.slice(pipe + 1);
                 if (parsers.hasOwnProperty(cmd)) {
@@ -541,13 +528,13 @@ function createNetwork(WebSocket) {
         };
     };
 
-    Network.states = proto.states = states;
+    Network.states = Network.prototype.states = states;
     Network.transformers = transformers;
     Network.parsers = parsers;
 
     window.Network = Network;
     window.network = new Network();
-};
+}
 
-createNetwork(typeof MozWebSocket === 'function' ? MozWebSocket : WebSocket);
+createNetwork(typeof MozWebSocket === "function" ? MozWebSocket : WebSocket);
 var network = window.network;

@@ -22,8 +22,8 @@ function poStorage(name, type) {
 }
 
 poStorage.set = function (name, val) {
-    var namespace = window.webclientStorageNamespace || 'po.';
-    if (Array.isArray(val) || (val && val.toString() === '[object Object]')) {
+    var namespace = window.webclientStorageNamespace || "po.";
+    if (Array.isArray(val) || (val && val.toString() === "[object Object]")) {
         val = JSON.stringify(val);
     }
 
@@ -33,9 +33,9 @@ poStorage.set = function (name, val) {
 poStorage.get = function (name, type) {
     type = type || "string";
 
-    var namespace = window.webclientStorageNamespace || 'po.';
+    var namespace = window.webclientStorageNamespace || "po.";
     var value = localStorage.getItem(namespace + name);
-    if (value == null) {
+    if (value === null) {
         return value; // undefined
     }
 
@@ -47,10 +47,10 @@ poStorage.get = function (name, type) {
 };
 
 poStorage.init = function (name, val) {
-    var namespace = window.webclientStorageNamespace || 'po.',
+    var namespace = window.webclientStorageNamespace || "po.",
         value = localStorage.getItem(namespace + name);
 
-    if (value == null) {
+    if (value === null) {
         poStorage.set(name, val);
         return true;
     }
@@ -59,7 +59,7 @@ poStorage.init = function (name, val) {
 };
 
 poStorage.remove = function (name) {
-    var namespace = window.webclientStorageNamespace || 'po.';
+    var namespace = window.webclientStorageNamespace || "po.";
     localStorage.removeItem(namespace + name);
 };
 
@@ -72,20 +72,21 @@ poStorage.length = function () {
 };
 
 poStorage.keys = function () {
-    var namespace = window.webclientStorageNamespace || 'po.';
-    var keys = Object.keys(localStorage), len, i;
+    var namespace = window.webclientStorageNamespace || "po.";
+    var keys = Object.keys(localStorage);
     var list = [];
-    for (i = 0, len = keys.length; i < len; i += 1) {
+    for (var i = 0, len = keys.length; i < len; i++) {
         if (keys[i].substr(0, namespace.length) === namespace) {
             list.push(keys[i]);
         }
     }
-
     return list;
 };
 
 poStorage.toString = function () {
-    return 'poStorage [' + poStorage.keys().map(function (k) { return '"' + k + '"'; }).join(', ') + ']';
+    return "poStorage [" + poStorage.keys().map(function (k) {
+        return "'" + k + "'";
+    }).join(", ") + "]";
 };
 
 window.poStorage = poStorage;

@@ -39,7 +39,7 @@ pmtab.getPlayers = function() {
 
 pmtab.printMessage = function(id, msg) {
     this.activateTab();
-    
+
     var raw = id === -1,
         auth, pref;
     var orMsg = msg;
@@ -62,7 +62,6 @@ pmtab.printMessage = function(id, msg) {
 
     if (id == this.id && !window.isActive) {
         if ("Notification" in window) {
-            //console.log("spawning notification");
             var notification = new window.Notification(this.name() + " says: ", {body: orMsg});
             setTimeout(function() {notification.close();}, 4000);
         }
@@ -89,16 +88,12 @@ pmtab.disconnect = function() {
 
 $(function() {
     if ("Notification" in window) {
-        console.log("Requesting notification permission.");
         window.Notification.requestPermission(function(result) {
           if (result === 'denied') {
-            console.log('Permission for notifications wasn\'t granted. Allow a retry.');
             return;
           } else if (result === 'default') {
-            console.log('The permission request for notifications was dismissed.');
             return;
           }
-          console.log("The permission for notifications was accepted");
           // Do something with the granted permission.
         });
     }

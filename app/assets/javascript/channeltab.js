@@ -43,22 +43,20 @@ function ChannelTab(id, name) {
 
 utils.inherits(ChannelTab, BaseTab);
 
-var channeltab = ChannelTab.prototype;
-
-channeltab.onSetCurrent = function() {
+ChannelTab.prototype.onSetCurrent = function() {
     this.chat.scrollDown();
 };
 
-channeltab.close = function() {
+ChannelTab.prototype.close = function() {
     this.trigger("close");
     this.removeTab();
 };
 
-channeltab.getPlayers = function() {
+ChannelTab.prototype.getPlayers = function() {
     return Object.keys(this.channel.players);
 };
 
-channeltab.setPlayers = function (players) {
+ChannelTab.prototype.setPlayers = function (players) {
     // var len, id, i;
 
     // /* The server 'unclosed' us, so removing server close if there */
@@ -78,7 +76,7 @@ channeltab.setPlayers = function (players) {
     }
 };
 
-channeltab.newPlayer = function (player) {
+ChannelTab.prototype.newPlayer = function (player) {
     //this.players[player] = true;
 
     if (player != webclient.ownId && webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
@@ -90,7 +88,7 @@ channeltab.newPlayer = function (player) {
     }
 };
 
-channeltab.removePlayer = function (player) {
+ChannelTab.prototype.removePlayer = function (player) {
     // delete this.players[player];
 
     // if (player === webclient.ownId) {
@@ -101,7 +99,7 @@ channeltab.removePlayer = function (player) {
     //         this.print("<i>You were removed from this channel</i>", true);
     //     }
     // }
-    
+
     if (webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
         this.printHtml('<span class="player-leave">' + utils.escapeHtml(webclient.players.name(player)) + ' left the channel.');
     }
@@ -111,11 +109,11 @@ channeltab.removePlayer = function (player) {
     }
 };
 
-channeltab.hasPlayer = function(player) {
+ChannelTab.prototype.hasPlayer = function(player) {
 //    return player in this.players;
 };
 
-channeltab.print = function (msg, html, raw) {
+ChannelTab.prototype.print = function (msg, html, raw) {
     // var pref, id, auth;
 
     // if (raw !== true) {
@@ -159,11 +157,11 @@ channeltab.print = function (msg, html, raw) {
     //  });
 };
 
-channeltab.printHtml = function(html) {
+ChannelTab.prototype.printHtml = function(html) {
     this.printMessage(html, true);
 };
 
-channeltab.printMessage = function(msg, html) {
+ChannelTab.prototype.printMessage = function(msg, html) {
     var flash = false;
     var ownname = webclient.ownName();
     if (ownname !== "???") { //Because webclient.ownName() returns "???" when starting up the client and that messes with the RegExp
@@ -175,7 +173,6 @@ channeltab.printMessage = function(msg, html) {
             /* When flashed, also display a notification */
             if (!window.isActive) {
                 if ("Notification" in window) {
-                    //console.log("spawning notification");
                     var notification = new window.Notification("In #"+this.name + ": ", {body: html ? utils.stripHtml(msg): msg});
                 }
             }
@@ -222,22 +219,21 @@ channeltab.printMessage = function(msg, html) {
     //$(".chat").html($(".chat").html() + utils.stripHtml(msg) + "<br>");
 };
 
-channeltab.sendMessage = function (message) {
+ChannelTab.prototype.sendMessage = function (message) {
     webclient.sendMessage(message, this.id);
 };
 
-channeltab.changeName = function (name) {
+ChannelTab.prototype.changeName = function (name) {
     this.name = name;
 
     // $("#channel-tabs > ul a[href=\"#channel-" + this.id + "\"]").html("<span>" + webclient.classes.BaseTab.makeName(name) + '</span>');
 };
 
-channeltab.disconnect = function() {
+ChannelTab.prototype.disconnect = function() {
     // this.trigger("disconnect");
     // this.players = {};
 };
 
-channeltab.remove = function () {
+ChannelTab.prototype.remove = function () {
     //this.trigger("remove");
 };
-

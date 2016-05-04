@@ -22,9 +22,6 @@ battledata.dealWithSend = function(params) {
     var sl = this.slot(params.spot);
     var player = this.player(params.spot);
 
-    console.log("send");
-    console.log(params);
-
     poke = $.extend({}, this.teams[player][params.slot], poke);
     if (this.isBattle() && this.player(params.spot) == this.myself) {
         /* Don't update team poke with info from poke - could be fooled by
@@ -44,13 +41,13 @@ battledata.dealWithSend = function(params) {
 
     this.updateFieldPoke(params.spot);
     this.updateTeamPokes(player, [this.slot(params.spot), params.slot]);
-    
+
     this.trigger("sendout", params.spot);
 
-    if (pokeinfo.name(poke) == poke.name) {
+    if (PokeInfo.name(poke) == poke.name) {
         this.print(this.name(player) + " sent out " + poke.name + "!");
     } else {
-        this.print(this.name(player) + " sent out " + poke.name + "! (" + pokeinfo.name(poke) + ")");
+        this.print(this.name(player) + " sent out " + poke.name + "! (" + PokeInfo.name(poke) + ")");
     }
 };
 
@@ -67,30 +64,30 @@ battledata.dealWithSendback = function(params) {
             moves[i].temppp = 0;
         }
     }
-    
+
     if (!params.silent) {
         this.print(this.name(pl) + " called " + poke.name + " back!");
     }
-    
+
     this.trigger("sendback", params.spot);
 };
 
 battledata.dealWithVanish = function(params) {
     this.pokes[params.spot].hidden = true;
-    
+
     this.trigger("vanish", params.spot);
-}
+};
 
 battledata.dealWithReappear = function(params) {
     this.pokes[params.spot].hidden = false;
-    
+
     this.trigger("reappear", params.spot);
-}
+};
 
 /* Transform I guess, only affects poke on the field */
 battledata.dealWithSpritechange = function(params) {
     this.pokes[params.spot].sprite = params.sprite;
-    
+
     this.trigger("spritechange", params.spot);
 };
 
@@ -98,13 +95,13 @@ battledata.dealWithSpritechange = function(params) {
 battledata.dealWithSubformechange = function(params) {
     var newNum = this.pokes[params.spot].num + (1 << params.subforme);
     this.pokes[params.spot].sprite = newNum;
-    
+
     this.trigger("spritechange", params.spot);
 };
 
 /* Definite change of the poke even in the team */
 battledata.dealWithFormechange = function(params) {
-    var pokeObject = pokeinfo.toObject(params.newforme);
+    var pokeObject = PokeInfo.toObject(params.newforme);
     $.extend(this.teams[params.player][params.slot], pokeObject);
     $.extend(this.pokes[this.spot(params.player,params.slot)], pokeObject);
 
@@ -114,8 +111,6 @@ battledata.dealWithFormechange = function(params) {
 };
 
 battledata.dealWithTeampreview = function(params) {
-    console.log("Team preview");
-    console.log(params);
     var team = params.team;
     var player = params.player;
 
@@ -123,10 +118,10 @@ battledata.dealWithTeampreview = function(params) {
     var oppTeam = [];
     for (var i = 0; i< 6; i++) {
         if (this.teams[this.myself][i].num) {
-            yourTeam.push(pokeinfo.name(this.tpoke(this.myself, i)));
+            yourTeam.push(PokeInfo.name(this.tpoke(this.myself, i)));
         }
         if (team[i] && team[i].num) {
-            oppTeam.push(pokeinfo.name(team[i]));
+            oppTeam.push(PokeInfo.name(team[i]));
         }
     }
 
@@ -141,32 +136,25 @@ battledata.dealWithTeampreview = function(params) {
 };
 
 battledata.dealWithPpchange = function(params) {
-    console.log(params);
     this.teams[this.player(params.spot)][this.slot(params.spot)].moves[params.move].pp = params.pp;
 
     this.trigger("ppchange", params);
 };
 
 battledata.dealWithMovechange = function(params) {
-    console.log("Move Change");
-    console.log(params);
-    
+
     var poke = this.teams[this.myself][params.spot];
-    
+
     if (params.temporary) {
         poke.moves[params.slot].tempmove = params.move;
-        poke.moves[params.slot].temppp = moveinfo.pp(params.move);
+        poke.moves[params.slot].temppp = MoveInfo.pp(params.move);
     } else {
         poke.moves[params.slot].move = params.move;
     }
 };
 
 battledata.dealWithOfferchoice = function(params) {
-    console.log("Choice");
-    console.log(params);
-
     this.choices[params.choice.slot] = params.choice;
-
     /* Force the user to switch */
    // this.request.forceSwitch = !params.choice.attack;
 };
@@ -176,13 +164,13 @@ battledata.dealWithKo = function(params) {
     this.print("<strong>" + this.nick(params.spot) + " fainted!</strong>");
 
     this.pokes[params.spot].status = 31; //ko
-    
+
     this.trigger("ko", params.spot);
 };
 
 battledata.dealWithMove = function(params) {
     if (!params.silent) {
-        this.print("<span class='use-battle-move'>" + this.nick(params.spot) + " used <strong class='battle-message-" + typeinfo.name(moveinfo.type(params.move)).toLowerCase() + "'>" + moveinfo.name(params.move) + "</strong>!</span>");
+        this.print("<span class='use-battle-move'>" + this.nick(params.spot) + " used <strong class='battle-message-" + TypeInfo.name(MoveInfo.type(params.move)).toLowerCase() + "'>" + MoveInfo.name(params.move) + "</strong>!</span>");
     }
 
     //this.animator.on("attack", params.spot, params.move);
@@ -225,7 +213,7 @@ battledata.dealWithEffectiveness = function(params) {
         this.print("<span class='battle-message-super'>It's super effective!</span>");
     } else if (params.effectiveness < 4 && params.effectiveness > 0) {
         this.print("<span class='battle-message-notvery'>It's not very effective...</span>");
-    } else if (params.effectiveness == 0) {
+    } else if (params.effectiveness === 0) {
         this.print("It had no effect on " + this.nick(params.spot) + "!");
     }
 };
@@ -247,32 +235,30 @@ battledata.dealWithBoost = function(params) {
         return;
     }
     if (params.boost > 6) {
-        this.print(this.nick(params.spot) +"'s " + statinfo.name(params.stat) + " drastically rose!");
+        this.print(this.nick(params.spot) +"'s " + StatInfo.name(params.stat) + " drastically rose!");
     } else if (params.boost > 0) {
-        this.print(this.nick(params.spot) +"'s " + statinfo.name(params.stat) + (params.boost > 1 ? (params.boost > 2 ? " drastically " : " sharply ") : "") + " rose!");
+        this.print(this.nick(params.spot) +"'s " + StatInfo.name(params.stat) + (params.boost > 1 ? (params.boost > 2 ? " drastically " : " sharply ") : "") + " rose!");
     } else if (params.boost < 0) {
-        this.print(this.nick(params.spot) +"'s " + statinfo.name(params.stat) + (-params.boost > 1 ? (-params.boost > 2 ? " drastically " : " sharply ") : "") + " fell!");
+        this.print(this.nick(params.spot) +"'s " + StatInfo.name(params.stat) + (-params.boost > 1 ? (-params.boost > 2 ? " drastically " : " sharply ") : "") + " fell!");
     }
     //this.damageCause = {};
 };
 
 battledata.dealWithDynamicinfo = function(params) {
-    console.log(params);
     this.pokes[params.spot].boosts = params.boosts;
     this.pokes[params.spot].fieldState = params.fieldflags;
-}
+};
 
 battledata.dealWithStats = function(params) {
-    console.log(params);
     this.pokes[params.spot].stats = params.stats;
-}
+};
 
 battledata.dealWithStatus = function(params) {
-    if (params.status == 6) {
+    if (params.status === 6) {
         this.print("<span class='battle-message-confusion'>%1 became confused!</span>".replace("%1", this.nick(params.spot)));
         return;
     }
-    if (params.status == 0) {
+    if (params.status === 0) {
         this.trigger("statuschange", params.spot, params.status);
         return;
     }
@@ -296,7 +282,7 @@ battledata.dealWithStatus = function(params) {
 
     this.pokes[params.spot].status = params.status;
     this.tpoke(params.spot).status = params.status;
-    
+
     var message = messages[params.status + (status == "tox" ? 1 : 0)].replace("%1", this.nick(params.spot));
     this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + message + "</span>");
 
@@ -312,8 +298,8 @@ battledata.dealWithTeamstatus = function(params) {
 
 battledata.dealWithAlreadystatus = function(params) {
     var status = BattleTab.statuses[params.status];
-    
-    this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + this.nick(params.spot) + " is already " + statusinfo.name(params.status) + ".</span>");
+
+    this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + this.nick(params.spot) + " is already " + StatusInfo.name(params.status) + ".</span>");
 };
 
 battledata.dealWithFeelstatus = function(params) {
@@ -395,7 +381,7 @@ battledata.dealWithNotice = function(params) {
 };
 
 battledata.dealWithClock = function(params) {
-    this.updateClock(params.player, params.time, params.status == "ticking")
+    this.updateClock(params.player, params.time, params.status == "ticking");
 };
 
 battledata.dealWithNotarget = function(params) {
@@ -456,7 +442,7 @@ battledata.dealWithWeatherstart = function(params) {
 
 battledata.dealWithFeelweather = function(params) {
     var weather = BattleTab.weathers[params.weather];
-    
+
     var messages = [
         "The hail crashes down.",
         "Rain continues to fall.",
@@ -481,7 +467,7 @@ battledata.dealWithFeelweather = function(params) {
 
 battledata.dealWithWeatherend = function(params) {
     var weather = BattleTab.weathers[params.weather];
-    
+
     var messages = [
         "The hail stopped.",
         "The rain stopped.",
@@ -498,7 +484,7 @@ battledata.dealWithWeatherend = function(params) {
 battledata.dealWithWeatherhurt = function(params) {
     //this.damageCause.from = BattleTab.weathers[params.weather];
     var weather = BattleTab.weathers[params.weather];
-    
+
     var messages = [
         "%1 is buffeted by the hail!",
         undefined,
@@ -508,7 +494,7 @@ battledata.dealWithWeatherhurt = function(params) {
         undefined,
         undefined
     ];
-    
+
     if (messages[params.weather -1]) {
         this.print("<span class='battle-message-" + weather + "'>" + messages[params.weather -1].replace("%1", this.nick(params.spot)) + "</span>");
     }
@@ -565,9 +551,7 @@ battledata.dealWithRated = function(params) {
 
 battledata.dealWithChoiceselection = function(params) {
     if (this.isBattle() && this.player(params.spot) == this.myself) {
-        console.log("Make your move!");
         this.choicesAvailable = true;
-        console.log("Choices availabled");
         this.trigger("choicesavailable");
     }
 };
@@ -575,12 +559,10 @@ battledata.dealWithChoiceselection = function(params) {
 /* When we send a wrong choice */
 battledata.dealWithChoicecancellation = function(params) {
     if (this.isBattle() && params.player == this.myself) {
-        console.log("Make your move!");
         this.choicesAvailable = true;
-        console.log("Choices availabled");
         this.trigger("choicesavailable");
     }
-}
+};
 
 /*
  Forfeit,
@@ -617,16 +599,16 @@ battledata.dealWithItemmessage = function(params) {
     if (this.pokes[params.foe].num == 0 || this.pokes[params.spot].num == 0) {
         return;
     }
-    var mess = iteminfo.message(params.item, params.part);
+    var mess = ItemInfo.message(params.item, params.part);
     if (!mess) {
         return;
     }
-    if (mess.contains("%st")) mess = mess.replace("%st", statinfo.name(params.other, this.conf.gen));
+    if (mess.contains("%st")) mess = mess.replace("%st", StatInfo.name(params.other, this.conf.gen));
     if (mess.contains("%s")) mess = mess.replace("%s", this.nick(params.spot));
     if (mess.contains("%f")) mess = mess.replace("%f", this.nick(params.foe));
-    if (mess.contains("%i")) mess = mess.replace("%i", iteminfo.name(params.berry));
-    if (mess.contains("%m")) mess = mess.replace("%m", moveinfo.name(params.other));
-    if (mess.contains("%p")) mess = mess.replace("%p", pokeinfo.name(params.other));
+    if (mess.contains("%i")) mess = mess.replace("%i", ItemInfo.name(params.berry));
+    if (mess.contains("%m")) mess = mess.replace("%m", MoveInfo.name(params.other));
+    if (mess.contains("%p")) mess = mess.replace("%p", PokeInfo.name(params.other));
 
     /* Balloon gets a really special treatment */
     if (params.item == 35)
@@ -636,50 +618,50 @@ battledata.dealWithItemmessage = function(params) {
 };
 
 battledata.dealWithMovemessage = function(params) {
-    var mess = moveinfo.message(params.move, params.part);
+    var mess = MoveInfo.message(params.move, params.part);
     if (!mess) {
         return;
     }
     if (mess.contains("%s")) mess = mess.replace("%s", this.nick(params.spot));
     if (mess.contains("%ts")) mess = mess.replace("%ts", this.name(params.spot));
     if (mess.contains("%tf")) mess = mess.replace("%tf", this.name(1-params.spot));
-    if (mess.contains("%t")) mess = mess.replace("%t", typeinfo.name(params.type));
+    if (mess.contains("%t")) mess = mess.replace("%t", TypeInfo.name(params.type));
     if (mess.contains("%f")) mess = mess.replace("%f", this.nick(params.foe));
-    if (mess.contains("%m")) mess = mess.replace("%m", moveinfo.name(params.other));
+    if (mess.contains("%m")) mess = mess.replace("%m", MoveInfo.name(params.other));
     if (mess.contains("%d")) mess = mess.replace("%d", params.other);
     if (mess.contains("%q")) mess = mess.replace("%q", params.data);
-    if (mess.contains("%i")) mess = mess.replace("%i", iteminfo.name(params.other));
-    if (mess.contains("%a")) mess = mess.replace("%a", abilityinfo.name(params.other));
-    if (mess.contains("%p")) mess = mess.replace("%p", pokeinfo.name(params.other));
-    
-    this.print("<span class='battle-message-" + typeinfo.name(params.type).toLowerCase() + "'>" + mess + "</span>");
+    if (mess.contains("%i")) mess = mess.replace("%i", ItemInfo.name(params.other));
+    if (mess.contains("%a")) mess = mess.replace("%a", AbilityInfo.name(params.other));
+    if (mess.contains("%p")) mess = mess.replace("%p", PokeInfo.name(params.other));
+
+    this.print("<span class='battle-message-" + TypeInfo.name(params.type).toLowerCase() + "'>" + mess + "</span>");
 };
 
 battledata.dealWithAbilitymessage = function(params) {
-    var mess = abilityinfo.message(params.ability, params.part);
+    var mess = AbilityInfo.message(params.ability, params.part);
     if (!mess) {
         return;
     }
-    if (mess.contains("%st")) mess = mess.replace("%st", statinfo.name(params.other, this.conf.gen));
+    if (mess.contains("%st")) mess = mess.replace("%st", StatInfo.name(params.other, this.conf.gen));
     if (mess.contains("%s")) mess = mess.replace("%s", this.nick(params.spot));
     //            mess.replace("%ts", data()->name(spot));
     if (mess.contains("%tf")) mess = mess.replace("%tf", this.name(!params.spot));
-    if (mess.contains("%t")) mess = mess.replace("%t", typeinfo.name(params.type));
+    if (mess.contains("%t")) mess = mess.replace("%t", TypeInfo.name(params.type));
     if (mess.contains("%f")) mess = mess.replace("%f", this.nick(params.foe));
-    if (mess.contains("%m")) mess = mess.replace("%m", moveinfo.name(params.other));
+    if (mess.contains("%m")) mess = mess.replace("%m", MoveInfo.name(params.other));
     //            mess.replace("%d", QString::number(other));
-    if (mess.contains("%i")) mess = mess.replace("%i", iteminfo.name(params.other));
-    if (mess.contains("%a")) mess = mess.replace("%a", abilityinfo.name(params.other));
-    if (mess.contains("%p")) mess = mess.replace("%p", pokeinfo.name(params.other));
+    if (mess.contains("%i")) mess = mess.replace("%i", ItemInfo.name(params.other));
+    if (mess.contains("%a")) mess = mess.replace("%a", AbilityInfo.name(params.other));
+    if (mess.contains("%p")) mess = mess.replace("%p", PokeInfo.name(params.other));
 
     /* if (type == 0) {
         printLine("AbilityMessage", escapeHtml(tu(mess)));
     } else {
         printHtml("AbilityMessage", toColor(escapeHtml(tu(mess)),theme()->typeColor(type)));
     } */
-    
+
     if (params.type != 0) {
-        this.print("<span class='battle-message-" + typeinfo.name(params.type).toLowerCase() + "'>" + mess + "</span>");
+        this.print("<span class='battle-message-" + TypeInfo.name(params.type).toLowerCase() + "'>" + mess + "</span>");
     } else {
         this.print(mess);
     }

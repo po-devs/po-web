@@ -3,36 +3,34 @@ function ChannelList() {
     this.chanevents = {};
 }
 
-var channellist = ChannelList.prototype;
-
-channellist.createChannelItem = function (id) {
-    var name = webclient.channels.name(id),
-        ret;
-
-    ret = "<a class='list-group-item channel-list-item' href='po:tab/channel-" + id + "' ";
-    ret += "id='channel-"+id+"'><span class='channel-name'>#" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault();webclient.leaveChannel(' + id + ');;"><span aria-hidden="true">&times;</span></button></a>';
-    return ret;
+ChannelList.prototype.createChannelItem = function (id) {
+    var name = webclient.channels.name(id);
+    return "<a class='list-group-item channel-list-item' href='po:tab/channel-" + id + "' " +
+        "id='channel-" + id + "'><span class='channel-name'>#" + utils.escapeHtml(name) +
+        "</span><button type='button' class='close' aria-label='Close' " +
+        "onclick='event.stopPropagation(); event.preventDefault(); webclient.leaveChannel(" + id + ");'>" +
+        "<span aria-hidden='true'>&times;</span></button></a>";
 };
 
 
-channellist.updateChannelName = function(id) {
+ChannelList.prototype.updateChannelName = function(id) {
     if (this.hasChannel(id)) {
-        $('#channel-'+id+">.channel-name").text('#' + utils.escapeHtml(webclient.channels.name(id)));
+        $('#channel-' + id + ">.channel-name").text('#' + utils.escapeHtml(webclient.channels.name(id)));
     }
 };
 
-channellist.hasChannel = function(id) {
+ChannelList.prototype.hasChannel = function(id) {
     return id in this.ids;
 };
 
-channellist.addChannel = function(id) {
+ChannelList.prototype.addChannel = function(id) {
     if (!this.hasChannel(id)) {
         this.element.append(this.createChannelItem(id));
         this.ids[id] = new ChannelTab(id, webclient.channels.name(id));
     }
 };
 
-channellist.removeChannel = function(id) {
+ChannelList.prototype.removeChannel = function(id) {
     if (this.hasChannel(id)) {
         this.element.find("#channel-" + id).remove();
         this.channel(id).close();
@@ -40,15 +38,15 @@ channellist.removeChannel = function(id) {
     }
 };
 
-channellist.channel = function(id) {
+ChannelList.prototype.channel = function(id) {
     return this.ids[id];
 };
 
-channellist.channels = function() {
+ChannelList.prototype.channels = function() {
     return this.ids;
 };
 
-channellist.toggleChanEvents = function (id) {
+ChannelList.prototype.toggleChanEvents = function (id) {
     var chan = webclient.channels.name(id).toLowerCase();
     if (chan in this.chanevents) {
         delete this.chanevents[chan];
@@ -56,14 +54,14 @@ channellist.toggleChanEvents = function (id) {
         this.chanevents[chan] = true;
     }
 
-    poStorage.set("chanevents-"+ webclient.serverIP, this.chanevents);
-}
+    poStorage.set("chanevents-" + webclient.serverIP, this.chanevents);
+};
 
-channellist.chanEventsEnabled = function (id) {
+ChannelList.prototype.chanEventsEnabled = function (id) {
     return webclient.channels.name(id).toLowerCase() in this.chanevents;
-}
+};
 
-channellist.startObserving = function(channels) {
+ChannelList.prototype.startObserving = function(channels) {
     var self = this;
 
     channels.on("joinchannel", function(id) {
@@ -85,7 +83,7 @@ channellist.startObserving = function(channels) {
     });
 };
 
-channellist.findMatches = function(query, callback) {
+ChannelList.prototype.findMatches = function(query, callback) {
     if (!query.startsWith("#")) {
         callback([]);
         return;
@@ -99,10 +97,13 @@ channellist.findMatches = function(query, callback) {
 
     names.forEach(function(elem) {
         if (elem.toLowerCase().startsWith(query)) {
-            matches.push({"value": "#"+elem, "id": elem});
+            matches.push({
+                "value": "#" + elem,
+                "id": elem
+            });
         }
     });
-    
+
     callback(matches);
 };
 
@@ -128,10 +129,11 @@ $(function() {
         target: "#channel-context-menu",
         before: function(event, context) {
             /* the name of the channel was right clicked instead of the li */
+            var channel;
             if (event.target.tagName.toLowerCase() == "span") {
-                var channel = $(event.target.parentElement);
+                channel = $(event.target.parentElement);
             } else {
-                var channel = $(event.target);
+                channel = $(event.target);
             }
 
             var id = channel.attr("id");

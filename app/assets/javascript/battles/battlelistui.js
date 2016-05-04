@@ -6,19 +6,18 @@ var battlelist = BattleList.prototype;
 
 battlelist.createBattleItem = function (id) {
     var battle = webclient.battles.battle(id);
-    var name = "Gen " + battle.conf.gen.num + "-" + battle.conf.gen.subnum;
-    var ret;
-    name = battle.tier || ""; //better temporary name!
+    var name = battle.tier || "";
 
-    ret = "<a class='list-group-item battle-list-item' ";
-    ret += "href='po:tab/battle-" + id + "' "
-    ret += "id='battle-"+id+"'><span class='glyphicon glyphicon-fire'></span>&nbsp;<span class='battle-name'>" + utils.escapeHtml(name) + '</span><button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault(); webclientUI.battles.quit(' + id + ');"><span aria-hidden="true">&times;</span></button></a>';
+    var ret = "<a class='list-group-item battle-list-item' href='po:tab/battle-" + id + "' id='battle-" + id + "'>";
+    ret += "<span class='glyphicon glyphicon-fire'></span>&nbsp;";
+    ret += "<span class='battle-name'>" + utils.escapeHtml(name) + "</span>";
+    ret += "<button type='button' class='close' aria-label='Close' onclick='event.stopPropagation(); event.preventDefault(); webclientUI.battles.quit(" + id + ");'><span aria-hidden='true'>&times;</span></button></a>";
     return ret;
 };
 
 battlelist.changeName = function(id, name) {
     if (this.hasBattle(id)) {
-        $('#battle-'+id+">.battle-name").text(utils.escapeHtml(name));
+        $('#battle-' + id + ">.battle-name").text(utils.escapeHtml(name));
     }
 };
 
@@ -33,7 +32,6 @@ battlelist.addBattle = function(id) {
         var battle = new BattleTab(id);
         this.ids[id] = battle;
         battle.on("changename", function(id, name) {
-            //console.log("battle list changing name");
             self.changeName(id, name);
         });
         /* In case already received */

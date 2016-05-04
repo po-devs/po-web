@@ -1,30 +1,30 @@
 webclient.teambuilderLoaded = true;
 
 var substringMatcher = function(strs, partialMatch) {
-  partialMatch = partialMatch || false;
-  return function findMatches(q, cb) {
-    var matches, substringRegex;
+    partialMatch = partialMatch || false;
+    return function findMatches(q, cb) {
+        var matches, substringRegex;
 
-    // an array that will be populated with substring matches
-    matches = [];
+        // an array that will be populated with substring matches
+        matches = [];
 
-    // regex used to determine if a string contains the substring `q`
-    substrRegex = new RegExp((partialMatch ? "":"^")+q, 'i');
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp((partialMatch ? "" : "^") + q, "i");
 
-    // iterate through the pool of strings and for any string that
-    // contains the substring `q`, add it to the `matches` array
-    if (!q || q.length == 0) {
-        matches = strs;
-    } else {
-        $.each(strs, function(i, str) {
-            if (substrRegex.test(str.value)) {
-                matches.push(str);
-             }
-        });
-    }
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        if (!q || q.length === 0) {
+            matches = strs;
+        } else {
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str.value)) {
+                    matches.push(str);
+                }
+            });
+        }
 
-    cb(matches);
-  };
+        cb(matches);
+    };
 };
 
 var pokesByName = {
@@ -33,17 +33,23 @@ var pokesByName = {
 
 var pokenames = {};
 $(function() {
-    pokenames[lastgen.num] = [];
-    var lastpokenames = pokenames[lastgen.num];
+    pokenames[lastGen.num] = [];
+    var lastpokenames = pokenames[lastGen.num];
 
     pokedex.pokes.nums = {};
 
     for (var num in pokedex.pokes.pokemons) {
-        lastpokenames.push({"value": pokedex.pokes.pokemons[num], "num": pokeinfo.species(num), "forme": pokeinfo.forme(num)});
+        lastpokenames.push({
+            "value": pokedex.pokes.pokemons[num],
+            "num": PokeInfo.species(num),
+            "forme": PokeInfo.forme(num)
+        });
         pokedex.pokes.nums[pokedex.pokes.pokemons[num].toLowerCase()] = num;
     }
 
-    lastpokenames.sort(function(a, b) {return a.value > b.value;});
+    lastpokenames.sort(function(a, b) {
+        return a.value.localeCompare(b.value);
+    });
 });
 
 function getPokeNames(gen) {
@@ -53,39 +59,52 @@ function getPokeNames(gen) {
         return pokenames[num];
     }
 
-    var list = pokeinfo.releasedList(gen);
+    var list = PokeInfo.releasedList(gen);
     var arr = [];
     for (var i in list) {
-        arr.push({"value": list[i], "num": pokeinfo.species(+i), "forme": pokeinfo.forme(+i)});
+        arr.push({
+            "value": list[i],
+            "num": PokeInfo.species(+i),
+            "forme": PokeInfo.forme(+i)
+        });
     }
-    arr.sort(function(a, b) {return a.value > b.value;});
+    arr.sort(function(a, b) {
+        return a.value.localeCompare(b.value);
+    });
     pokenames[num] = arr;
     return arr;
-};
+}
 
 var itemnames = {};
 $(function() {
-    itemnames[lastgen.num] = [];
-    var lastitemnames = itemnames[lastgen.num];
+    itemnames[lastGen.num] = [];
+    var lastitemnames = itemnames[lastGen.num];
     pokedex.items.nums = {};
 
-    var keys = Object.keys(iteminfo.usefulList());
+    var keys = Object.keys(ItemInfo.usefulList());
     for (var num in keys) {
-        lastitemnames.push({"value": iteminfo.name(keys[num]), "num": keys[num]});
-        pokedex.items.nums[iteminfo.name(keys[num]).toLowerCase()] = keys[num];
+        lastitemnames.push({
+            "value": ItemInfo.name(keys[num]),
+            "num": keys[num]
+        });
+        pokedex.items.nums[ItemInfo.name(keys[num]).toLowerCase()] = keys[num];
     }
 
     for (var i in pokedex.items.berries) {
         i = +i;
-        if (i == 0 ) {
+        if (i === 0) {
             continue;
         }
-        //console.log("Adding berry " + i + ": " + iteminfo.name(i+8000));
-        lastitemnames.push({"value": iteminfo.name(i+8000), "num": i+8000});
-        pokedex.items.nums[iteminfo.name(i+8000).toLowerCase()] = i+8000;
+        lastitemnames.push({
+            "value": ItemInfo.name(i + 8000),
+            "num": i + 8000
+        });
+        pokedex.items.nums[ItemInfo.name(i + 8000).toLowerCase()] = i + 8000;
     }
 
-    lastitemnames.sort(function(a, b) {return a.value > b.value;});    
+    lastitemnames.sort(function(a, b) {
+        return a.value.localeCompare(b.value);
+    });
 });
 
 function getItemNames(gen) {
@@ -95,17 +114,22 @@ function getItemNames(gen) {
         return itemnames[num];
     }
 
-    var list = iteminfo.releasedList(gen);
+    var list = ItemInfo.releasedList(gen);
     var arr = [];
     for (var i in list) {
-        if (iteminfo.useful(i)) {
-            arr.push({"value": list[i], "num": +i});
+        if (ItemInfo.useful(i)) {
+            arr.push({
+                "value": list[i],
+                "num": +i
+            });
         }
     }
-    arr.sort(function(a, b) {return a.value > b.value;});
+    arr.sort(function(a, b) {
+        return a.value.localeCompare(b.value);
+    });
     itemnames[num] = arr;
     return arr;
-};
+}
 
 Poke.prototype.setElement = function(element) {
     var self = this;
@@ -129,7 +153,6 @@ Poke.prototype.setElement = function(element) {
             // }
         }).data("slot", i).on("change", function(event) {
             var i = $(this).data("slot");
-            //console.log(arguments);
             self.evs[i] = event.value.newValue;
             var surplus = self.evSurplus();
             if (surplus > 0 && !self.illegal) {
@@ -185,30 +208,46 @@ Poke.prototype.setElement = function(element) {
                 $(this).val(self.ivs[i]);
             }
             self.updateStatGui(i);
-        }).on("focusin change", function(){self.updateDescription({"type": "iv"})});
+            if (self.gen && self.gen.num <= 2) {
+                if (i === 3) {
+                    self.ivs[4] = self.ivs[3];
+                    self.ui.ivVals[4].data("slot", 4).val(self.ivs[4]);
+                    self.updateStatGui(4);
+                }
+                self.ivs[0] =
+                    (self.ivs[1] & 1) * 8 +
+                    (self.ivs[2] & 1) * 4 +
+                    (self.ivs[5] & 1) * 2 +
+                    (self.ivs[3] & 1);
+                self.ui.ivVals[0].data("slot", 0).val(self.ivs[0]);
+                self.updateStatGui(0);
+            }
+        }).on("focusin change", function() {
+            self.updateDescription({"type": "iv"});
+        });
 
         element.find(".tb-ev-name, .tb-stat").on("click", function() {
             var stat = $(this).closest(".tb-ev-row").attr("evslot");
-            if (stat == 0) { 
-                return ; 
+            if (stat === 0) {
+                return;
             }
-            var negstat = natureinfo.reducedStat(self.nature);
+            var negstat = NatureInfo.reducedStat(self.nature);
             if (negstat == -1 || negstat == stat) {
-                negstat = stat == 1 ? 2 : 1;
+                negstat = stat === 1 ? 2 : 1;
             }
-            self.nature = natureinfo.getNatureForBoosts(stat, negstat);
+            self.nature = NatureInfo.getNatureForBoosts(stat, negstat);
             self.updateStatsGui();
             self.ui.nature.val(self.nature);
         }).on("contextmenu", function() {
             var stat = $(this).closest(".tb-ev-row").attr("evslot");
-            if (stat == 0) { 
-                return ; 
+            if (stat === 0) {
+                return;
             }
-            var negstat = natureinfo.reducedStat(self.nature);
+            var negstat = NatureInfo.reducedStat(self.nature);
             if (negstat == -1 || negstat == stat) {
                 negstat = stat == 1 ? 2 : 1;
             }
-            self.nature = natureinfo.getNatureForBoosts(negstat, stat);
+            self.nature = NatureInfo.getNatureForBoosts(negstat, stat);
             self.updateStatsGui();
             self.ui.nature.val(self.nature);
 
@@ -273,42 +312,68 @@ Poke.setCache = {};
 
 Poke.prototype.updateDescription = function(what) {
     var self = this;
+    var ivString = function(ivs) {
+        var format = "{0} HP / {1} Atk / {2} Def / {3} SpA / {4} SpD / {5} Spe";
+        for (var i = 0; i < 6; i++) {
+            format = format.replace("{" + i + "}", ivs[i]);
+        }
+        return format;
+    };
     var addHpStuff = function(elem) {
         var hp = elem.find(".tb-hidden-power");
-        for (var i = 1; i < 17; i++) {
-            hp.append("<option value='"+i+"'>" + typeinfo.name(i) + "</option>");
+        var hpBp = elem.find(".tb-hidden-power-bp");
+        for (var t = 1; t < 17; t++) {
+            hp.append("<option value='" + t + "'>" + TypeInfo.name(t) + "</option>");
         }
-        hp.val(moveinfo.getHiddenPowerType(self.gen, self.ivs));
+        hp.val(MoveInfo.getHiddenPowerType(self.ivs, self.gen));
+        hpBp.empty();
+        var hpIvs = MoveInfo.getHiddenPowerIVs(hp.val(), self.gen);
+        for (var i = 0; i < hpIvs.length; i++) {
+            hpBp.append("<option value='" + i + "'>" + ivString(hpIvs[i]) + "</option>");
+        }
         hp.on("change", function() {
-            var config = moveinfo.getHiddenPowerIVs($(this).val(), self.gen)[0];
-            self.ivs = config;
+            hpBp.empty();
+            var hpIvs = MoveInfo.getHiddenPowerIVs($(this).val(), self.gen);
+            for (var i = 0; i < hpIvs.length; i++) {
+                hpBp.append("<option value='" + i + "'>" + ivString(hpIvs[i]) + "</option>");
+            }
+            self.ivs = hpIvs[0];
             self.updateStatsGui();
-            for (var i in self.ivs) {
+            for (var s = 0; s < self.ivs.length; s++) {
+                self.ui.ivVals[s].val(self.ivs[s]);
+            }
+        });
+        hpBp.on("change", function() {
+            self.ivs = MoveInfo.getHiddenPowerIVs(hp.val(), self.gen)[$(this).val()];
+            self.updateStatsGui();
+            for (var i = 0; i < self.ivs.length; i++) {
                 self.ui.ivVals[i].val(self.ivs[i]);
             }
         });
     };
-    if (what.type == "iv") {
-        var html = $("<div class='form-group'><label class='control-label'>Hidden Power</label><select class='form-control tb-hidden-power'></select></div>");
+    if (what.type === "iv") {
+        var html = $(
+            "<div class='form-group'><select class='form-control tb-hidden-power'></select>" +
+            "<select class='form-control tb-hidden-power-bp'></select></div>");
         this.ui.desc.html('');
         this.ui.desc.append(html);
         addHpStuff(this.ui.desc);
-    } else if (what.type == "pokemon") {
+    } else if (what.type === "pokemon") {
         var links = [
-            " - <a href='http://wiki.pokemon-online.eu/page/" + pokeinfo.name(what.poke.num).toLowerCase() + "'>Wiki</a>",
-            " - <a href='http://veekun.com/dex/pokemon/" + pokeinfo.name(what.poke.num).toLowerCase() + "'>Veekun</a>"
+            " - <a href='http://wiki.pokemon-online.eu/page/" + PokeInfo.name(what.poke.num).toLowerCase() + "'>Wiki</a>",
+            " - <a href='http://veekun.com/dex/pokemon/" + PokeInfo.name(what.poke.num).toLowerCase() + "'>Veekun</a>"
         ].join("<br/>");
         this.ui.desc.html('');
         this.ui.desc.append($("<div class='col-sm-6'>").html(links));
         this.ui.desc.append($("<div class='col-sm-6'>").html('<div class="checkbox tb-shiny-container"><label><input type="checkbox" class="shiny-input"> Shiny</label></div>')
-                                                        .append('<select class="form-control smogon-set-selection"><option value="none">Smogon sets</option></select>'));
+                                                       .append('<select class="form-control smogon-set-selection"><option value="none">Smogon sets</option></select>'));
         this.ui.desc.find(".shiny-input").prop("checked", this.shiny).on("change", function() {
             self.shiny = this.checked;
-            self.ui.sprite.attr("src", pokeinfo.sprite(self));
+            self.ui.sprite.attr("src", PokeInfo.sprite(self));
         });
 
         var url = this.getUrl();
-        if (! (url in Poke.setCache)) {
+        if (!(url in Poke.setCache)) {
             $.ajax({
                 "url": url
             }).done(function(data) {
@@ -318,45 +383,54 @@ Poke.prototype.updateDescription = function(what) {
         } else {
             this.updateSets();
         }
-    } else if (what.type == "move") {
-        if (what.move == 0) {
+    } else if (what.type === "move") {
+        if (what.move === 0) {
             return;
         }
-        var hiddenPower = moveinfo.name(what.move) == "Hidden Power";
-        var begin = "<strong>Type:</strong> <img src='"+typeinfo.sprite(moveinfo.type(what.move))+"'/> - ";
+        var hiddenPower = MoveInfo.name(what.move) === "Hidden Power";
+        var begin = "<strong>Type:</strong> <img src='" +
+            TypeInfo.sprite(MoveInfo.type(what.move, this.gen)) + "'/> - ";
         if (hiddenPower) {
             begin = "";
         }
-        var desc = begin + "<strong>Category:</strong> " + categoryinfo.name(moveinfo.category(what.move));
-        var acc = +moveinfo.accuracy(what.move);
-        var pow = moveinfo.power(what.move);
+        var desc = begin + "<strong>Category:</strong> " + CategoryInfo.name(MoveInfo.category(what.move, this.gen));
+        var acc = +MoveInfo.accuracy(what.move, this.gen);
+        var pow = MoveInfo.power(what.move, this.gen);
         if (pow > 0) {
-            desc += " - <strong>Power:</strong> " + (pow == 1 ? "???" : pow);
+            desc += " - <strong>Power:</strong> " + (pow === 1 ? "???" : pow);
         }
         if (acc > 0 && acc <= 100) {
             desc += " - <strong>Accuracy:</strong> " + acc;
         }
-        if (moveinfo.effect(what.move) && !hiddenPower) {
-            desc += "<br/><strong>Effect:</strong> " + (moveinfo.effect(what.move)||"");
+        if (MoveInfo.effect(what.move) && !hiddenPower) {
+            desc += "<br/><strong>Effect:</strong> " + (MoveInfo.effect(what.move, this.gen) || "");
         } else if (hiddenPower) {
-            desc += "<select class='form-control tb-hidden-power'></select>";
+            desc += "<div class='form-group'><select class='form-control tb-hidden-power'></select>" +
+                    "<select class='form-control tb-hidden-power-bp'></select></div>";
         }
         this.ui.desc.html(desc);
         if (hiddenPower) {
             addHpStuff(this.ui.desc);
         }
-    } else if (what.type == "item") {
-        this.ui.desc.html("<img src='"+iteminfo.itemSprite(what.item)+"'/> - " + iteminfo.desc(what.item));//Todo: add item descriptions to PO!
-    } else if (what.type == "ability") {
-        this.ui.desc.text(abilityinfo.desc(this.ability));
-    } else if (what.type == "nature") {
+    } else if (what.type === "item") {
+        var el = this.ui.desc;
+        el.html(
+            "<img src='" + ItemInfo.itemSprite(what.item) +
+            "' class='tb-item-img'/> - " + ItemInfo.desc(what.item));
+        // some past gen images don't exist
+        $(".tb-item-img").error(function () {
+            el.html(ItemInfo.desc(what.item));
+        });
+    } else if (what.type === "ability") {
+        this.ui.desc.text(AbilityInfo.desc(this.ability));
+    } else if (what.type === "nature") {
         this.ui.desc.html("<strong>Tip: </strong>You can easily adjust the nature of a Pok&eacute;mon by clicking / right-clicking the stats or their label.");
     }
-}
+};
 
 Poke.prototype.getUrl = function() {
-    return "sets/" + getGen(this.gen).num + "/" + pokeinfo.name(this);
-}
+    return "sets/" + getGen(this.gen).num + "/" + PokeInfo.name(this);
+};
 
 Poke.prototype.updateSets = function() {
     var self = this;
@@ -380,7 +454,7 @@ Poke.prototype.updateSets = function() {
         set = JSON.parse(set);
 
         var res = [];
-        res.push(pokeinfo.name(self) + " @ " + (set.item || "(No Item)"));
+        res.push(PokeInfo.name(self) + " @ " + (set.item || "(No Item)"));
         if (set.level) res.push("Level: " + set.level);
         if (set.ability) res.push("Trait: " + set.ability);
         if (set.nature) res.push(set.nature + " nature");
@@ -417,12 +491,11 @@ Poke.prototype.updateSets = function() {
 };
 
 Poke.prototype.updateStatGui = function(stat) {
-    var calced = pokeinfo.calculateStat(this, stat);
+    var calced = PokeInfo.calculateStat(this, stat, this.gen);
     this.ui.stats[stat].text(calced);
 };
 
-Poke.prototype.loadGui = function()
-{
+Poke.prototype.loadGui = function() {
     if (this.ui.guiLoaded) {
         return;
     }
@@ -439,13 +512,13 @@ Poke.prototype.unloadGui = function() {
 
 Poke.prototype.unloadAll = function() {
     this.unloadGui();
-    delete this["data"];
-}
+    delete this.data;
+};
 
 Poke.prototype.clear = function() {
     this.reset();
     this.unloadAll();
-}
+};
 
 Poke.prototype.updateGuiIfLoaded = function() {
     if (this.ui.guiLoaded) {
@@ -459,7 +532,7 @@ Poke.prototype.updateStatsGui = function() {
     for (var i = 0; i < 6; i++) {
         this.updateStatGui(i);
         this.ui.stats[i].removeClass("tb-stat-minus tb-stat-plus");
-        var effect = natureinfo.getNatureEffect(this.nature, i);
+        var effect = NatureInfo.getNatureEffect(this.nature, i);
         if (effect > 1) {
             this.ui.stats[i].addClass("tb-stat-plus");
         } else if (effect < 1) {
@@ -475,7 +548,7 @@ Poke.prototype.updateGui = function()
 
     if (this.data.moveNames.length == 0) {
         for (var i in this.data.allMoves) {
-            this.data.moveNames.push({value: moveinfo.name(this.data.allMoves[i]), id: this.data.allMoves[i]});
+            this.data.moveNames.push({value: MoveInfo.name(this.data.allMoves[i]), id: this.data.allMoves[i]});
         }
         this.data.moveNames.sort(function(a,b) {return a.value > b.value});
     }
@@ -503,13 +576,13 @@ Poke.prototype.updateGui = function()
 
     this.updateStatsGui();
 
-    this.ui.sprite.attr("src", pokeinfo.sprite(this));
-    this.ui.type1.attr("src", typeinfo.sprite(this.data.types[0]));
+    this.ui.sprite.attr("src", PokeInfo.sprite(this));
+    this.ui.type1.attr("src", TypeInfo.sprite(this.data.types[0]));
 
-    this.ui.item.typeahead("val", this.item ? iteminfo.name(this.item) : "");
+    this.ui.item.typeahead("val", this.item ? ItemInfo.name(this.item) : "");
 
     if (1 in this.data.types) {
-        this.ui.type2.attr("src", typeinfo.sprite(this.data.types[1]));
+        this.ui.type2.attr("src", TypeInfo.sprite(this.data.types[1]));
         this.ui.type2.show();
     } else {
         this.ui.type2.hide();
@@ -520,7 +593,7 @@ Poke.prototype.updateGui = function()
     this.ui.ability.html("");
     for (var x in this.data.abilities) {
         var ab = this.data.abilities[x];
-        this.ui.ability.append("<option value='" + ab + "'>" + abilityinfo.name(ab) + "</option>");
+        this.ui.ability.append("<option value='" + ab + "'>" + AbilityInfo.name(ab) + "</option>");
     }
     this.ui.ability.val(this.ability);
     this.ui.nature.val(this.nature);
@@ -562,7 +635,7 @@ Poke.prototype.updateGui = function()
     });
 
     for (var i = 0; i < 4; i++) {
-        this.ui.moves.eq(i).typeahead("val", this.moves[i] == 0 ? "" : moveinfo.name(this.moves[i]));
+        this.ui.moves.eq(i).typeahead("val", this.moves[i] == 0 ? "" : MoveInfo.name(this.moves[i]));
     }
 
     this.updateDescription({"type": "pokemon", "poke": this});
@@ -570,11 +643,10 @@ Poke.prototype.updateGui = function()
 };
 
 Poke.prototype.updatePreview = function() {
-    this.ui.preview.html("<input type='radio'><img src='" + pokeinfo.icon(this) + "' />&nbsp;" + (this.nick || pokeinfo.name(this)));
+    this.ui.preview.html("<input type='radio'><img src='" + PokeInfo.icon(this) + "' />&nbsp;" + (this.nick || PokeInfo.name(this)));
 };
 
 function Teambuilder (content) {
-    console.log("Teambuilder constructor");
 
     var self = this;
 
@@ -599,9 +671,7 @@ function Teambuilder (content) {
         self.updatePokeSelections();
         self.content.find(".tb-poke-selection").on("typeahead:select", function(event, sugg) {
             var poke = self.team.pokes[$(this).attr("slot")];
-            console.log(sugg);
             poke.load(sugg);
-            console.log(poke);
             poke.updateGui();
             $(this).typeahead('close');
         }).on("typeahead:select typeahead:autocomplete typeahead:cursorchange", function(event, sugg) {
@@ -621,11 +691,11 @@ function Teambuilder (content) {
 
     var natures = "";
     var shortStats = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
-    for (var i in natureinfo.list()) {
-        var name = natureinfo.name(i);
+    for (var i in NatureInfo.list()) {
+        var name = NatureInfo.name(i);
         // Doesn't look good
-        // var boost = natureinfo.boostedStat(i);
-        // var hinder = natureinfo.reducedStat(i);
+        // var boost = NatureInfo.boostedStat(i);
+        // var hinder = NatureInfo.reducedStat(i);
         // if (boost != -1) {
         //     name += " (+" + shortStats[boost] + ", -" + shortStats[hinder] + ")";
         // }
@@ -656,8 +726,6 @@ function Teambuilder (content) {
 
     var tiers = webclient.tiersList;
 
-    //console.log(tiers);
-
     var addTiersToList = function(parent, tiers) {
         var retS = [];
         var retC = [];
@@ -672,7 +740,6 @@ function Teambuilder (content) {
         return retS.concat(retC);
     };
     var list = addTiersToList("All", tiers);
-    //console.log(list);
 
     content.find("#tb-tier").typeahead({
         hint: true,
@@ -749,12 +816,14 @@ function Teambuilder (content) {
         var exports = [pokes[0].export(), pokes[1].export()];
         pokes[0].import(exports[1]);
         pokes[1].import(exports[0]);
-        pokes[0].unloadGui();pokes[1].unloadGui();
-        pokes[0].updatePreview();pokes[1].updatePreview();
-    }
+        pokes[0].unloadGui();
+        pokes[1].unloadGui();
+        pokes[0].updatePreview();
+        pokes[1].updatePreview();
+    };
 
     var genList = content.find("#tb-gen-list");
-    var gList = geninfo.list();
+    var gList = GenInfo.list();
     var lastNum = 1;
     for (var num in gList) {
         var gen = gList[num];
@@ -762,7 +831,7 @@ function Teambuilder (content) {
             lastNum = getGen(gen).num;
             genList.append($("<li>").addClass("divider"));
         }
-        genList.append($("<li><a href='po:tb-setgen/" + gen + "'>" + geninfo.version(gen) + "</a></li>"));
+        genList.append($("<li><a href='po:tb-setgen/" + gen + "'>" + GenInfo.version(gen) + "</a></li>"));
     }
 
     content.find(".tb-hackmons-btn").on("click", function() {
@@ -863,12 +932,12 @@ function Teambuilder (content) {
         var oldGen = self.team.gen;
         self.team.gen = team.gen;
         self.team.tier = team.tier;
-        for (var i in team.pokes) {
+        for (var i = 0; i < team.pokes.length; i++) {
             $.extend(self.team.pokes[i], team.pokes[i]);
             self.team.pokes[i].unloadAll();
         }
 
-        if (geninfo.toNum(oldGen) != geninfo.toNum(team.gen)) {
+        if (GenInfo.toNum(oldGen) !== GenInfo.toNum(team.gen)) {
             self.setGen(team.gen);
         }
         self.updateGui();
@@ -901,12 +970,12 @@ function Teambuilder (content) {
 
 Teambuilder.prototype.goToHome = function() {
     this.content.find("#tb-link-home").trigger("click");
-}
+};
 
 Teambuilder.prototype.updateGui = function() {
     this.teamName.val(this.team.name || "");
     this.content.find("#tb-tier").typeahead("val", this.team.tier || "");
-    for (var i in this.team.pokes) {
+    for (var i = 0; i < this.team.pokes.length; i++) {
         this.team.pokes[i].updateGuiIfLoaded();
     }
     if (this.team.illegal) {
@@ -915,7 +984,7 @@ Teambuilder.prototype.updateGui = function() {
         this.content.find(".tb-hackmons-btn").removeClass("active");
     }
     this.updateGenGui();
-}
+};
 
 Teambuilder.prototype.onImportable = function() {
     if (!this.content.find(".importable").hasClass("current")) {
@@ -923,12 +992,12 @@ Teambuilder.prototype.onImportable = function() {
         this.content.find(".importable").addClass("current");
 
         var current = this.currentTab();
-        if (current == -1) {
+        if (current === "-1") {
             var exports = [];
-            for (var i in this.team.pokes) {
+            for (var i = 0; i < this.team.pokes.length; i++) {
                 exports.push(this.team.pokes[i].export());
             }
-            this.content.find("#tb-importable-edit").text(exports.join("\n\n"));
+            this.content.find("#tb-importable-edit").text(exports.join("\n\n").trim());
             this.content.find(".tb-team-import-btn").attr("disabled", "true");
         } else {
             this.content.find("#tb-importable-edit").text(this.team.pokes[current].export());
@@ -941,14 +1010,14 @@ Teambuilder.prototype.onImportable = function() {
 
 Teambuilder.prototype.onNewTeam = function() {
     this.goToHome();
-    for (var poke in this.team.pokes) {
-        this.team.pokes[poke].clear();
+    for (var i = 0; i < this.team.pokes.length; i++) {
+        this.team.pokes[i].gen = GenInfo.getGen();
+        this.team.pokes[i].clear();
     }
     this.team.name = "";
     this.team.tier = "";
-    this.team.gen = geninfo.getGen();
+    this.team.gen = GenInfo.getGen();
     this.team.illegal = false;
-
     this.updateGui();
 };
 
@@ -965,57 +1034,62 @@ Teambuilder.genShortHands = {
     "Black/White 2": "BW2",
     "X/Y": "XY",
     "Omega Ruby/Alpha Sapphire": "ORAS"
-}
+};
 
 Teambuilder.prototype.setGen = function(genNum) {
     var gen = getGen(genNum);
     this.team.gen = gen;
-    this.team.pokes.forEach(function(elem) {elem.unloadAll(); elem.gen = gen});
+    for (var i = 0; i < this.team.pokes.length; i++) {
+        this.team.pokes[i].unloadAll();
+        this.team.pokes[i].gen = gen;
+    }
     this.updateGenGui();
     this.updateItemSelections();
     this.updatePokeSelections();
 };
 
 Teambuilder.prototype.updateItemSelections = function() {
-    this.content.find(".tb-item-selection").typeahead("destroy").typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 0
-    },
-    {
-      name: 'items',
-      source: substringMatcher(getItemNames(this.team.gen), true),
-      display: 'value',
-      limit: 400
-    });
+    this.content.find(".tb-item-selection").typeahead("destroy").typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 0
+        },
+        {
+            name: "items",
+            source: substringMatcher(getItemNames(this.team.gen), true),
+            display: "value",
+            limit: 400
+        }
+    );
 };
 
 Teambuilder.prototype.updatePokeSelections = function() {
-    this.content.find(".tb-poke-selection").typeahead("destroy").typeahead({
-      hint: true,
-      highlight: false,
-    },
-    {
-      name: 'pokes',
-      source: substringMatcher(getPokeNames(this.team.gen)),
-      display: 'value',
-      limit: 30,
-      templates: {
-        suggestion: Handlebars.compile('<div><strong>#{{num}}</strong> - {{value}}</div>')
-      }
-    });
+    this.content.find(".tb-poke-selection").typeahead("destroy").typeahead(
+        {
+            hint: true,
+            highlight: false,
+        },
+        {
+            name: "pokes",
+            source: substringMatcher(getPokeNames(this.team.gen)),
+            display: "value",
+            limit: 30,
+            templates: {
+                suggestion: Handlebars.compile("<div><strong>#{{num}}</strong> - {{value}}</div>")
+            }
+        }
+    );
 };
 
 Teambuilder.prototype.updateGenGui = function() {
-    var genName = geninfo.version(this.team.gen);
+    var genName = GenInfo.version(this.team.gen);
     if (genName in Teambuilder.genShortHands) {
         genName = Teambuilder.genShortHands[genName];
     }
-    this.content.find("#tb-gen-button").html(genName + ' <span class="caret"></span>');
+    this.content.find("#tb-gen-button").html(genName + " <span class='caret'></span>");
 };
 
 Teambuilder.prototype.currentTab = function() {
     return this.content.find(".tb-poke-pill.active .tb-poke-link").attr("slot");
 };
-
-console.log("loading teambuilder js file");

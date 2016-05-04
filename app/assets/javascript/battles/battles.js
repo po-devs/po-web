@@ -12,7 +12,7 @@ Battles.prototype.isBattling = function(pid) {
 
 Battles.prototype.battleOfPlayer = function(pid) {
     if (this.isBattling(pid)) {
-        for (x in this.battlesByPlayer[pid]) {
+        for (var x in this.battlesByPlayer[pid]) {
             return this.battlesByPlayer[pid][x].id;
         }
     }
@@ -49,9 +49,6 @@ Battles.prototype.addBattle = function (battles) {
 Battles.prototype.dealWithCommand = function(battleid, command) {
     if (battleid in this.battles) {
         this.battles[battleid].dealWithCommand(command);
-    } else {
-        console.log("battle command for battle " + battleid + " not found");
-        console.log(command);
     }
 };
 
@@ -63,13 +60,9 @@ Battles.results = [
 ];
 
 Battles.prototype.battleEnded = function(battleid, result) {
-    if (battleid in this.battles) {
-        console.log(arguments);
-    }
-    
+
     result = Battles.results[result.result];
 
-    //console.log("battle ended");
     if (!this.battleList.hasOwnProperty(battleid)) {
         this.leaveBattle(battleid, result);
         return;
@@ -112,7 +105,7 @@ Battles.prototype.removeBattle = function(battleid,result) {
     if (!Object.keys(this.battlesByPlayer[ids[1]]).length) {
         delete this.battlesByPlayer[ids[1]];
     }
-    
+
     this.leaveBattle(battleid, result);
 };
 
@@ -120,13 +113,10 @@ Battles.prototype.battle = function(pid) {
     if (pid in this.battles) {
         return this.battles[pid];
     }
-
-    console.log("no battle with id " + pid + " found, current ids: " + JSON.stringify(Object.keys(this.battles)));
 };
 
 Battles.prototype.watchBattle = function(bid, conf) {
     if (bid in this.battles) {
-        console.log("Already watching battle " + bid + " with conf " + JSON.stringify(conf));
         return;
     }
 
@@ -143,7 +133,6 @@ Battles.prototype.startBattle = function(battle) {
 
 Battles.prototype.leaveBattle = function(id, result) {
     if (id in this.battles) {
-        console.log("leaving battle " + id + " with result " + result);
         if (result == "close" || result == "forfeit") {
             this.battles[id].finished(result);
             delete this.battles[id];
@@ -152,7 +141,7 @@ Battles.prototype.leaveBattle = function(id, result) {
 };
 
 Battles.prototype.updateInfo = function(id, player) {
-    for (bid in this.battles) {
+    for (var bid in this.battles) {
         this.battles[bid].updateInfo(id, player);
     }
 };

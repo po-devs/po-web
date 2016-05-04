@@ -17,7 +17,6 @@ function BattleTab(id) {
     this.battle.on("playeradd", function(id) {self.newPlayer(id);});
     this.battle.on("playerremove", function(id) {self.removePlayer(id);});
     this.battle.on("tier", function(tier) {
-        //console.log("battle tab changing name");
         self.trigger("changename", id, tier);
     });
     this.battle.on("timerupdated", function(i, time) {
@@ -213,14 +212,14 @@ BattleTab.prototype.addPopover = function(item, options) {
             var slot = $(this).attr("slot");
 
             var poke = self.battle.teams[self.myself][slot];
-            var html = "Item: " + iteminfo.name(poke.item||0) + "<br>";
-            if (poke.ability) html += "Ability: " + abilityinfo.name(poke.ability||0) + "<br>";
+            var html = "Item: " + ItemInfo.name(poke.item||0) + "<br>";
+            if (poke.ability) html += "Ability: " + AbilityInfo.name(poke.ability||0) + "<br>";
             html += "<br>Moves:<br>";
             for (var i in poke.moves) {
                 var move = poke.moves[i];
-                var name = moveinfo.name(move.move);
+                var name = MoveInfo.name(move.move);
                 if (name.toLowerCase() == "hidden power") {
-                    name = name + " [" + typeinfo.name(self.getMoveType(poke, i)) + "]";
+                    name = name + " [" + TypeInfo.name(self.getMoveType(poke, i)) + "]";
                 }
                 html += "-- " + name + " - " + move.pp + "/" + move.totalpp + " PP<br>";
             }
@@ -231,7 +230,7 @@ BattleTab.prototype.addPopover = function(item, options) {
             var slot = $(this).attr("slot");
 
             var poke = self.battle.teams[self.myself][slot];
-            return pokeinfo.name(poke) + " lv. " + (poke.level ||0);
+            return PokeInfo.name(poke) + " lv. " + (poke.level ||0);
         },
         "placement": "top",
         container: "body"
@@ -247,20 +246,20 @@ BattleTab.prototype.addMovePopover = function(item) {
         trigger: "hover",
         content: function() {
             var move = battle.teams[battle.myself][0].moves[item.attr("slot")].move;
-            var cat = moveinfo.category(move);
+            var cat = MoveInfo.category(move);
             var str = "";
             if (cat) {
-                str += "<strong>Power: </strong>" + (moveinfo.power(move) == 1 ? "???" : moveinfo.power(move)) + "<br/> ";
+                str += "<strong>Power: </strong>" + (MoveInfo.power(move) == 1 ? "???" : MoveInfo.power(move)) + "<br/> ";
             }
-            var acc = moveinfo.accuracy(move);
+            var acc = MoveInfo.accuracy(move);
             if (acc == 0 || acc == 101) {
                 acc = "---";
             }
             str += "<strong>Accuracy: </strong>" + acc + "<br/> ";
-            str += "<strong>Category: </strong>" + categoryinfo.name(cat);
+            str += "<strong>Category: </strong>" + CategoryInfo.name(cat);
 
-            if (moveinfo.effect(move)) {
-                str += "<br/><strong>Effect: </strong>" + moveinfo.effect(move);
+            if (MoveInfo.effect(move)) {
+                str += "<br/><strong>Effect: </strong>" + MoveInfo.effect(move);
             }
             return str;
         },
@@ -275,9 +274,9 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
         "html": true,
         content: function() {
             var poke = battle.pokes[spot];
-            var types = pokeinfo.types(poke);
+            var types = PokeInfo.types(poke);
             for (var i in types) {
-                types[i] = typeinfo.name(types[i]);
+                types[i] = TypeInfo.name(types[i]);
             }
 
             var ret = [types.join(" / ")];
@@ -285,7 +284,7 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
 
             var table = "<table class='table table-condensed table-bordered'>";
             for (var i = 0; i < 6; i++) {
-                var stat = "<tr><td>"+statinfo.name(i) + "</td><td>";
+                var stat = "<tr><td>"+StatInfo.name(i) + "</td><td>";
                 if (poke.stats) {
                     if (i == 0) {
                         stat += poke.totalLife;
@@ -295,8 +294,8 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
                 } else {
                     var boost = poke.boosts && i > 0 && poke.boosts[i] ? poke.boosts[i] : 0;
 
-                    stat += pokeinfo.minStat($.extend({}, poke, {"boost": boost}), i) + " - " +
-                        pokeinfo.maxStat($.extend({}, poke, {"boost": boost}), i);
+                    stat += PokeInfo.minStat($.extend({}, poke, {"boost": boost}), i) + " - " +
+                        PokeInfo.maxStat($.extend({}, poke, {"boost": boost}), i);
                 }
                 stat += "</td><td>";
                 if (i > 0 && poke.boosts && poke.boosts[i]) {
@@ -403,12 +402,12 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
     var selected = -1;
     var row = $("<div>").attr("data-toggle", "buttons").addClass("btn-group-justified team-preview-row");
     for (var i  = 0; i < 6; i++) {
-        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", pokeinfo.icon(team1[i]))).attr("slot", i);
+        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", PokeInfo.icon(team1[i]))).attr("slot", i);
         if (team1[i].item) {
-            poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", pokeinfo.heldItemSprite()));
+            poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", PokeInfo.heldItemSprite()));
         }
         if(team1[i].gender) {
-            poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", pokeinfo.genderSprite(team1[i].gender)));
+            poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", PokeInfo.genderSprite(team1[i].gender)));
         }
         poke.append("<br/>").append($("<smaller>").text("Lv. " + team1[i].level));
         row.append(poke);
@@ -455,12 +454,12 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
 
     var row2 = $("<div>").addClass("btn-group-justified team-preview-row");
     for (var i  = 0; i < 6; i++) {
-        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").attr("disabled", "disabled").append($("<img>").attr("src", pokeinfo.icon(team2[i])));
+        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").attr("disabled", "disabled").append($("<img>").attr("src", PokeInfo.icon(team2[i])));
         if (team2[i].heldItem) {
-            poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", pokeinfo.heldItemSprite()));
+            poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", PokeInfo.heldItemSprite()));
         }
         if(team2[i].gender) {
-            poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", pokeinfo.genderSprite(team2[i].gender)));
+            poke.append($("<img>").addClass("team-preview-poke-gender").attr("src", PokeInfo.genderSprite(team2[i].gender)));
         }
         poke.append("<br/>").append($("<smaller>").text("Lv. " + team2[i].level));
         row2.append(poke);
@@ -528,7 +527,6 @@ BattleTab.prototype.print = function(msg, args) {
             if (this.notification) {
                 this.notification.close();
             }
-            //console.log("spawning notification");
             this.notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: utils.stripHtml(msg)});
         }
     } else if (window.isActive) {
@@ -548,7 +546,6 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
 
     for (var i = 0; i < pokes.length; i++) {
         var $img = $pokes.find(".status:eq("+pokes[i]+")");
-        //console.log(this.battle.teams);
         var tpok = this.battle.teams[player][pokes[i]];
         if (tpok) {
             $img.removeClass();
@@ -557,12 +554,12 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
             if (!tpok.num) {
                 $img.addClass("status-hidden")
             } else {
-                $img.append('<img src="' + pokeinfo.icon(tpok) + '">');
+                $img.append('<img src="' + PokeInfo.icon(tpok) + '">');
             }
 
             var tooltip = "";
-            if (tpok.num) tooltip += pokeinfo.name(tpok);
-            if (tpok.gender) tooltip += " " + genderinfo.shorthand(tpok.gender);
+            if (tpok.num) tooltip += PokeInfo.name(tpok);
+            if (tpok.gender) tooltip += " " + GenderInfo.shorthand(tpok.gender);
             if (tpok.level && tpok.level != 100) tooltip += " lv. " + tpok.level;
             if (tpok.percent !== undefined) {
                 if (tpok.totalLife != undefined) {
@@ -577,7 +574,7 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
 
             if (this.isBattle() && player == this.myself) {
                 var $ct = this.switchRow.find(".battle-poke:eq("+pokes[i]+")");
-                $ct.find("img").attr("src", pokeinfo.icon(tpok));
+                $ct.find("img").attr("src", PokeInfo.icon(tpok));
                 var text = (tpok.name||"") + "<br/>" + (tpok.life||0) + "/" + (tpok.totalLife||0);
                 $ct.find(".battle-poke-text").html(text);
 
@@ -591,9 +588,9 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
 
 BattleTab.prototype.getMoveType = function(poke, i) {
     var move = poke.moves[i];
-    var type = moveinfo.type(move.tempmove || move.move);
-    if (moveinfo.name(move.tempmove || move.move).toLowerCase() == "hidden power") {
-        type = moveinfo.getHiddenPowerType(this.battle.conf.gen, poke.ivs);
+    var type = MoveInfo.type(move.tempmove || move.move);
+    if (MoveInfo.name(move.tempmove || move.move).toLowerCase() == "hidden power") {
+        type = MoveInfo.getHiddenPowerType(poke.ivs, this.battle.conf.gen);
     }
     return type;
 }
@@ -603,13 +600,13 @@ BattleTab.prototype.updateMoveChoices = function() {
     var moves = poke.moves;
     for (var i in moves) {
         var move = moves[i];
-        var movename = moveinfo.name(move.tempmove || move.move);
+        var movename = MoveInfo.name(move.tempmove || move.move);
         var $move = this.attackRow.find(".battle-move:eq("+i+")");
         $move.find(".battle-move-text").text(movename);
         $move.find(".battle-move-pp").text(move.pp + "/" + (move.temppp || move.totalpp) + " PP");
         $move.removeClass($move.attr("typeclass") || "");
 
-        var cl = "type-" + typeinfo.css(this.getMoveType(poke, i)).toLowerCase();
+        var cl = "type-" + TypeInfo.css(this.getMoveType(poke, i)).toLowerCase();
         $move.attr("typeclass", cl);
         $move.addClass(cl);
     }
@@ -632,7 +629,6 @@ BattleTab.prototype.onControlsChooseMove = function(slot) {
  * @param $obj The button jquery object
  */
 BattleTab.prototype.onControlsChooseSwitch = function(slot) {
-    //console.log ("poke " + $obj.attr("slot") + " ( " + $obj.attr("value") + ") called");
     var choice = {"type":"switch", "slot":this.myself, "pokeSlot": +slot};
     this.choose(choice);
 };
@@ -666,8 +662,6 @@ BattleTab.prototype.getPlayers = function() {
 
 BattleTab.prototype.choose = function(choice)
 {
-    console.log("choose");
-    console.log({id: this.id, choice: choice});
     this.battle.choicesAvailable = false;
     this.disableChoices();
     network.command('battlechoice', {id: this.id, choice: choice});
@@ -796,14 +790,14 @@ BattleTab.prototype.updateMove = function(num, move) {
     var $move = this.$content.find("#move-"+num);
     $move[0].className = '';
     $move.addClass("click_button");
-    $move.addClass("type_"+moveinfo.type(move.move));
-    $move.find(".battle-move-name").text(moveinfo.name(move.move));
+    $move.addClass("type_"+MoveInfo.type(move.move));
+    $move.find(".battle-move-name").text(MoveInfo.name(move.move));
     $move.find(".battle_move_pp").text(move.pp + "/" + move.totalpp + " PP");
 };
 
 BattleTab.prototype.effects = function(spot, effect) {
     if (typeof effect == "object") {
-        return pokeinfo.spriteData(effect, {"back":spot==0});
+        return PokeInfo.spriteData(effect, {"back":spot==0});
     } else {
         return BattleTab.effects[effect] || BattleTab.effects.none;
     }

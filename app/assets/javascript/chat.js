@@ -1,4 +1,4 @@
-var chatHtml = 
+var chatHtml =
 '    <div class="chat">\
      \
     </div>\
@@ -32,11 +32,11 @@ function Chat(options) {
         }
         //$(this).val('');
     }));
-};
+}
 
 Chat.prototype.disable = function() {
     this.chatSend.prop("disabled", true);
-}
+};
 
 Chat.prototype.insertMessage = function (msg, opts) {
     var chatTextArea = this.chatTextArea;
@@ -47,15 +47,15 @@ Chat.prototype.insertMessage = function (msg, opts) {
     opts = opts || {};
 
     if (opts.timestamps) {
-        timestampPart = "<span class='timestamp'>" + utils.timestamp() + "</span>";
+        timestampPart = "<span class='timestamp'>(" + utils.timestamp() + ")</span> ";
         if (opts.html) {
             msg = msg.replace(timestampRegex, timestampPart);
         } else if (msg) {
-            msg += timestampPart;
+            msg = timestampPart + msg;
         }
     }
 
-    if (opts.linebreak !== false) {
+    if (opts.linebreak) {
         msg += "<br/>";
     }
 
@@ -82,8 +82,8 @@ $(function () {
 
         elem.hist = elem.hist || [];
         elem.histIndex = elem.histIndex || 0;
-        if (event.which == 38) { // Up
-            if (elem.histIndex == elem.hist.length && elem.value.match(/\S/)) {
+        if (event.which === 38) { // Up
+            if (elem.histIndex === elem.hist.length && elem.value.match(/\S/)) {
                 elem.hist.push(elem.value);
                 if (elem.hist.length > maxHistSize) {
                     elem.hist.shift();
@@ -92,12 +92,12 @@ $(function () {
             if (elem.histIndex > 0) {
                 elem.value = elem.hist[--elem.histIndex];
             }
-        } else if (event.which == 40) { // Down
+        } else if (event.which === 40) { // Down
             if (elem.histIndex < elem.hist.length) {
                 elem.value = elem.hist[++elem.histIndex] || "";
             }
-        } else if (event.which == 13) { // Return
-            if (elem.value.length == 0) {
+        } else if (event.which === 13) { // Return
+            if (!elem.value.length) {
                 return;
             }
             elem.hist.push(elem.value);

@@ -4,7 +4,7 @@ var webclientUI = {
     pms: new PMList(),
     battles: new BattleList(),
     tabs: [],
-    timestamps: false,
+    timestamps: true,
     challenges: [],
     waitingInfos: {},
     battleNotifications: true,
@@ -14,20 +14,19 @@ var webclientUI = {
     },
 
     printHtml : function(html) {
-        for (id in webclientUI.channels.channels()) {
+        for (var id in webclientUI.channels.channels()) {
             webclientUI.channels.channel(id).printHtml(html);
         }
     },
 
     printMessage : function(msg, html) {
-        for (id in webclientUI.channels.channels()) {
+        for (var id in webclientUI.channels.channels()) {
             webclientUI.channels.channel(id).printMessage(msg, html);
         }
     },
 
     switchToTab : function(wid) {
-        console.log("Switch to tab: " + wid);
-        var id = wid.substr(wid.lastIndexOf("-") + 1)
+        var id = wid.substr(wid.lastIndexOf("-") + 1);
         var obj;
         if (/^channel-/.test(wid)) {
             obj = webclientUI.channels.channel(id);
@@ -41,7 +40,7 @@ var webclientUI = {
     },
 
     displayPlayerWindow : function(id, params) {
-        var params = params || {};
+        params = params || {};
         var info = "Loading player info...";
         var pl = webclient.players.player(id) || webclient.ownPlayer();
         var self = webclient.ownId === id;
@@ -57,9 +56,11 @@ var webclientUI = {
         }
         info = $("<div class='well well-sm info-block'>").append(info);
 
-        var firstRow = $("<div class='flex-row-no-shrink'>").append("<img src='" + pokeinfo.trainerSprite(pl.avatar) + "' alt='trainer sprite' class='player-avatar'>");
+        var firstRow = $("<div class='flex-row-no-shrink'>").append("<img src='" + PokeInfo.trainerSprite(pl.avatar) + "' alt='trainer sprite' class='player-avatar'>");
         firstRow.append($("<div class='player-teams'>" + (!self ? "<div class='form-group'><label for='opp-team'>Opponent's team:</label><select class='form-control' id='opp-team'></select></div>" : "") + "<div class='form-group'><label for='your-team'>Your team:</label><select class='form-control' id='your-team'></select></div></div>"));
         info = $("<div class='flex-column'>").append(firstRow).append(info);
+
+        var tier, i;
 
         var ownTeams = info.find("#your-team");
         if (!webclient.ownTiers) {
@@ -69,22 +70,23 @@ var webclientUI = {
                 ownTeams.append($("<option>").text(tier).attr("value", 0));
             }
         } else {
-            for (var i in webclient.ownTiers) {
+            for (i in webclient.ownTiers) {
                 if (!params.desc || webclient.ownTiers[i].toLowerCase() == params.tier.toLowerCase()) {
                     ownTeams.append($("<option>").text("Team " + ((+i)+1) + ": " + webclient.ownTiers[i]).attr("value", i));
                 }
             }
         }
 
+        var oppTeams;
 
         if (params.hasOwnProperty("opptier")) {
-            var oppTeams = info.find("#opp-team");
+            oppTeams = info.find("#opp-team");
             oppTeams.append($("<option>").text(params.opptier));
             oppTeams.prop('disabled', 'disabled');
         }
 
         if (!params.desc && params.ratings) {
-            var oppTeams = info.find("#opp-team");
+            oppTeams = info.find("#opp-team");
             oppTeams.prop("disabled", true);
             var selected = false;
             for (tier in pl.ratings) {
@@ -108,13 +110,13 @@ var webclientUI = {
 
         var fullInfo = $("<div>").addClass("flex-row-basic").append(info);
         var clauses = $("<div>").addClass("input-group checkbox battle-clauses");
-        for (var i in BattleTab.clauses) {
+        for (i in BattleTab.clauses) {
             clauses.append("<div class='checkbox'><label title='" + BattleTab.clauseDescs[i] + "'><input type='checkbox'>" + BattleTab.clauses[i] + "</label></div>");
         }
         fullInfo.append(clauses);
 
         if (params.clauses) {
-            for (var i = 0; i < params.clauses.length; i = i+1) {
+            for (i = 0; i < params.clauses.length; i = i+1) {
                 if (params.clauses[i]) {
                     clauses.find("input:eq(" + i + ")").prop("checked", true);
                 }
@@ -227,7 +229,6 @@ var webclientUI = {
     },
 
     showChallenge : function(params) {
-        console.log(params);
         webclientUI.challenges.push(webclientUI.displayPlayerWindow(params.id, params));
     },
 
@@ -252,7 +253,7 @@ var webclientUI = {
         if (id in webclientUI.waitingInfos) {
             var plInfo = webclientUI.waitingInfos[id];
             var oppPl = webclient.players.player(id);
-            plInfo.find(".player-avatar").attr("src", pokeinfo.trainerSprite(oppPl.avatar  || 167 ));
+            plInfo.find(".player-avatar").attr("src", PokeInfo.trainerSprite(oppPl.avatar  || 167 ));
             plInfo.find(".player-info").attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
 
             if (plInfo.updateRatings) {
@@ -263,12 +264,12 @@ var webclientUI = {
                     oppTeams = plInfo.find("#opp-team");
                 }
                 oppTeams.html("");
-                var selected = false, c = 1;;
-                for (tier in oppPl.ratings) {
+                var selected = false, c = 1;
+                for (var tier in oppPl.ratings) {
                     prefix = id == webclient.ownId ? "Team " + c +": " : "";
                     /* If the opponent shares a tier with us, challenge them in that tier */
                     if (!selected && webclient.ownTiers.indexOf(tier) != -1) {
-                        selected = true; 
+                        selected = true;
                         oppTeams.append($("<option selected>").text(prefix + tier + " (" + oppPl.ratings[tier] + ")").attr("value", tier));
                     } else {
                         oppTeams.append($("<option>").text(prefix + tier + " (" + oppPl.ratings[tier] + ")").attr("value", tier));
@@ -291,7 +292,7 @@ var webclientUI = {
             switch (proto) {
                 case "pokemon":
                     query = "?" + query;
-                    var poke = pokeinfo.toArray(utils.queryField("num", query.slice(1).split("&")[0], query) || "1"),
+                    var poke = PokeInfo.toArray(utils.queryField("num", query.slice(1).split("&")[0], query) || "1"),
                         gen = utils.queryField("gen", "6", query),
                         shiny = utils.queryField("shiny", "false", query) === "true",
                         gender = utils.queryField("gender", "male", query),
@@ -313,24 +314,23 @@ var webclientUI = {
                             return;
                         }
 
-                        img.attr("src", pokeinfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
-                    }).attr("src", pokeinfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
+                        img.attr("src", PokeInfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
+                    }).attr("src", PokeInfo.sprite({num: poke[0], forme: poke[1], female: gender === "female", shiny: shiny}, {gen: gen, back: back}));
                     break;
                 case "item":
-                    img.attr("src", iteminfo.itemSprite(query));
+                    img.attr("src", ItemInfo.itemSprite(query));
                     break;
                 case "icon":
-                    img.attr("src", pokeinfo.icon(query));
+                    img.attr("src", PokeInfo.icon(query));
                     break;
                 case "trainer":
-                    img.attr("src", pokeinfo.trainerSprite(query));
+                    img.attr("src", PokeInfo.trainerSprite(query));
                     break;
                 case "http":
                 case "https":
                 case "data": /* base64 */
                     break;
                 default:
-                    console.log("Unknown protocol: " + proto);
                     break;
             }
         });
@@ -358,7 +358,7 @@ var webclientUI = {
                             // nothing or invalid avatar given, do not change
                             return;
                         }
-                        content.find("#settings-avatar-image").attr("src", pokeinfo.trainerSprite(num));
+                        content.find("#settings-avatar-image").attr("src", PokeInfo.trainerSprite(num));
                     };
                     var updateLimitCounter = function () {
                         content.find(".userinfo-limit-counter").text(content.find("#userinfo").val().length + "/" + content.find("#userinfo").attr("maxlength"));
@@ -404,6 +404,18 @@ var webclientUI = {
                 }
             ]
         });
+    },
+
+    toggleIdle: function() {
+        var isAway = webclient.players.away(webclient.ownId);
+        poStorage.set("player.idle", !isAway);
+        network.command("idle", {
+            "away": !isAway
+        });
+    },
+
+    isIdle: function() {
+        return webclient.players.away(webclient.ownId);
     }
 };
 
@@ -416,8 +428,6 @@ $(function() {
 
         if (/^po:/.test(href)) {
             event.preventDefault();
-
-            console.log("trigger " + href);
 
             sep = href.indexOf("/");
             cmd = href.slice(3, sep);
@@ -466,22 +476,25 @@ $(function() {
             } else if (cmd === "ban") {
                 network.command('ban', {id: +payload});
             } else if (cmd === "idle") {
-                var isAway = webclient.players.away(webclient.ownId);
-                poStorage.set('player.idle', !isAway);
-                network.command("idle", {"away":!isAway});
+                webclientUI.toggleIdle();
             } else if (cmd === "timestamps") {
                 webclientUI.timestamps = !webclientUI.timestamps;
-                setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps)});
+                setTimeout(function(){$("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);});
                 poStorage.set("chat.timestamps", webclientUI.timestamps);
             } else if (cmd === "rainbow") {
                 webclientUI.players.showColors = !webclientUI.players.showColors;
-                setTimeout(function(){$("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors)});
+                setTimeout(function(){$("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);});
                 poStorage.set("players.rainbow", webclientUI.players.showColors);
                 $(".chat-column").toggleClass("rainbow");
                 webclientUI.players.updatePlayers();
+            } else if (cmd === "sortauth") {
+                webclientUI.players.authFilter = !webclientUI.players.authFilter;
+                setTimeout(function(){$("#checkbox-sortauth-dd").prop("checked", webclientUI.players.authFilter);});
+                webclientUI.players.updatePlayers();
+                poStorage.set("sort-by-auth", webclientUI.players.authFilter);
             } else if (cmd === "exitwarning") {
                 webclientUI.exitWarning = !webclientUI.exitWarning;
-                setTimeout(function(){$("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning)});
+                setTimeout(function(){$("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning);});
                 poStorage.set("exitwarning", webclientUI.exitWarning);
             } else if (cmd === "register") {
                 network.command("register");
@@ -554,7 +567,7 @@ $(function() {
                         $.extend(localStorage, JSON.parse(res));
 
                         BootstrapDialog.alert("Your data was replaced! Reload the page to see immediate effects.");
-                    }
+                    };
                     fileReader.readAsText(file, "utf-8");
                 });
             }
@@ -577,10 +590,10 @@ $(function() {
         $("#checkbox-idle-dd").prop("checked", player.away);
 
         document.title = webclient.ownName() + " - Pok\u00E9mon Online";
-        
+
         /* Display username in header */
         $(".displayUsername").html(webclient.ownName());
-        $(".avatar-miniature").attr("src", pokeinfo.trainerSprite(webclient.ownPlayer().avatar));
+        $(".avatar-miniature").attr("src", PokeInfo.trainerSprite(webclient.ownPlayer().avatar));
     });
 
 
@@ -594,23 +607,20 @@ $(function() {
     //    $( event.target ).blur();
     //    //return false;
     // });
-    webclientUI.timestamps = poStorage.get("chat.timestamps", "boolean");
-    webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean");
+    webclientUI.timestamps = poStorage.get("chat.timestamps", "boolean") === null ? true : poStorage.get("chat.timestamps", "boolean");
+    webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean") === null ? true : poStorage.get("players.rainbow", "boolean");
     webclientUI.exitWarning = poStorage.get("exitwarning", "boolean") === null ? true : poStorage.get("exitwarning", "boolean");
+    webclientUI.players.authFilter = poStorage.get("sort-by-auth", "boolean") === null ? true : poStorage.get("sort-by-auth", "boolean");
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);
-    $("#checkbox-idle-dd").prop("checked", poStorage.get("player.idle", 'boolean') === null ? true: poStorage.get("player.idle", 'boolean'));
+    $("#checkbox-idle-dd").prop("checked", webclientUI.isIdle());
     $("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning);
+    $("#checkbox-sortauth-dd").prop("checked", webclientUI.players.authFilter);
 
     webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object");
-    if (webclientUI.channels.chanevents == null) {
+    if (webclientUI.channels.chanevents === null) {
         webclientUI.channels.chanevents = {};
-    }
-
-    webclientUI.exitWarning = poStorage.get("exitwarning", "boolean");
-    if (webclientUI.exitWarning == null) {
-        webclientUI.exitWarning = true;
     }
 });
 
@@ -636,7 +646,7 @@ $(function() {
         evt.preventDefault();
         $("#leftmenu").toggleClass("hide");
     });
-    
+
     var checkCompact = function() {
         if ($(window).width() < 768) {
            $("#leftmenu").addClass("hide");

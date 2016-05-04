@@ -16,6 +16,7 @@ module.exports = function(grunt) {
     './db/status/stats.js',
     './db/status/status.js',
     './db/types/types.js',
+    './db/types/category.js',
     './db/categories/categories.js',
     './db/gens/versions.js'
   ];
@@ -31,8 +32,8 @@ module.exports = function(grunt) {
     './app/assets/javascript/channels.js',
     './app/assets/javascript/pms.js',
     './app/assets/javascript/battles/battledata.js',
-    './app/assets/javascript/battles/battles.js',    
-    './app/assets/javascript/battles/commandhandling.js', 
+    './app/assets/javascript/battles/battles.js',
+    './app/assets/javascript/battles/commandhandling.js',
     './app/assets/javascript/pokeinfo.js',
     './app/assets/javascript/poke.js',
     './app/assets/javascript/backend.js'
@@ -53,8 +54,8 @@ module.exports = function(grunt) {
     './app/assets/javascript/network.js',
     './app/assets/javascript/serverconnect.js',
     './app/assets/javascript/battles/battledata.js',
-    './app/assets/javascript/battles/battles.js',    
-    './app/assets/javascript/battles/commandhandling.js', 
+    './app/assets/javascript/battles/battles.js',
+    './app/assets/javascript/battles/commandhandling.js',
     './app/assets/javascript/pokeinfo.js',
     './app/assets/javascript/poke.js',
     './db/pokes/stats.js',
@@ -102,6 +103,7 @@ module.exports = function(grunt) {
     './db/items/items_description.js',
     './db/items/berries_description.js',
     './db/moves/effect.js',
+    './db/moves/effect_chance.js',
     './db/moves/power.js',
     './db/moves/accuracy.js',
     './db/moves/damage_class.js',
@@ -192,21 +194,21 @@ module.exports = function(grunt) {
     },
     watch: {
         js_frontend: {
-          files: js_frontend,   
+          files: js_frontend,
           tasks: ['concat:js_frontend'/*,'uglify:frontend'*/],     //tasks to run
           options: {
             livereload: true                        //reloads the browser
           }
         },
         js_backend: {
-          files: js_backend,   
+          files: js_backend,
           tasks: ['concat:js_backend','uglify:backend'],     //tasks to run
           options: {
             livereload: true                        //reloads the browser
           }
         },
         simple_copy: {
-          files: ['./views/index.kiwi'],   
+          files: ['./views/index.kiwi'],
           tasks: ['concat:simple_copy'],     //tasks to run
           options: {
             livereload: true                        //reloads the browser

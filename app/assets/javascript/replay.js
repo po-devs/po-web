@@ -12,55 +12,50 @@ function ReplayBattles () {
         this.speed = speed;
         this._battle.speed = speed;
         this._battle.trigger("duration-multiplier", this.speed);
-    }
+    };
 
     this.watchBattle = function(id, params) {
-        console.log("battle started");
-        console.log(params);
         this.time = 0;
         this.refTime = +(new Date());
 
-        this._battle = new BattleData({"conf":params});
-        this._battle.start({"conf":params});
+        this._battle = new BattleData({"conf": params});
+        this._battle.start({"conf": params});
         this.battleTab = new BattleTab(0);
         this.battleTab.setCurrentTab();
 
         var battleView = this.battleTab.layout.find(".battle-view");
 
-        var tabs = '\
-            <div class="btn-group" data-toggle="buttons">\
-                <span class="btn btn-default active replay-turned" data-toggle="tab">\
-                    <input type="radio">Turn-based</span>\
-                <span class="btn btn-default replay-timed" data-toggle="tab">\
-                    <input type="radio">Time-based</span>\
-            </div>';
+        var tabs = "<div class='btn-group' data-toggle='buttons'>" +
+                "<span class='btn btn-default active replay-turned' data-toggle='tab'>" +
+                    "<input type='radio'>Turn-based</span>" +
+                "<span class='btn btn-default replay-timed' data-toggle='tab'>" +
+                    "<input type='radio'>Time-based</span>" +
+            "</div>";
         battleView.append(tabs);
 
-        var media= '\
-            <div class="btn-toolbar btn-group replay-btns" role="toolbar" data-toggle="buttons">\
-                <button class="btn btn-default replay-pause" type="button" aria-label="Pause">\
-                    <span class="glyphicon glyphicon-pause"></span></button>\
-                <button class="btn btn-default replay-next" type="button" aria-label="Next action">\
-                    <span class="glyphicon glyphicon-forward"></span></button>\
-                <button class="btn btn-default replay-skip" type="button" aria-label="Next turn">\
-                    <span class="glyphicon glyphicon-step-forward"></span></button>\
-            </div>';
+        var media = "<div class='btn-toolbar btn-group replay-btns' role='toolbar' data-toggle='buttons'>" +
+                "<button class='btn btn-default replay-pause' type='button' aria-label='Pause'>" +
+                    "<span class='glyphicon glyphicon-pause'></span></button>" +
+                "<button class='btn btn-default replay-next' type='button' aria-label='Next action'>" +
+                    "<span class='glyphicon glyphicon-forward'></span></button>" +
+                "<button class='btn btn-default replay-skip' type='button' aria-label='Next turn'>" +
+                    "<span class='glyphicon glyphicon-step-forward'></span></button>" +
+            "</div>";
         battleView.append(media);
 
-        var speed = '\
-            <div class="btn-group" data-toggle="buttons">\
-                <span class="btn btn-default active normal-speed" data-toggle="tab">\
-                    <input type="radio">Normal</span>\
-                <span class="btn btn-default fast-speed" data-toggle="tab">\
-                    <input type="radio">Fast</span>\
-            </div>';
+        var speed = "<div class='btn-group' data-toggle='buttons'>" +
+                "<span class='btn btn-default active normal-speed' data-toggle='tab'>" +
+                    "<input type='radio'>Normal</span>" +
+                "<span class='btn btn-default fast-speed' data-toggle='tab'>" +
+                    "<input type='radio'>Fast</span>" +
+            "</div>";
         battleView.append(speed);
 
         battleView.find(".replay-turned").on("click", function() {
             self.mode = "turns";
         });
         battleView.find(".replay-timed").on("click", function() {
-            self.mode= "timed";
+            self.mode = "timed";
         });
         battleView.find(".replay-pause").on("click", function() {
             if (!self.paused) {
@@ -81,9 +76,12 @@ function ReplayBattles () {
             if (self.forceNext) {
                 return;
             }
-            self.forceNext = {"turn": self.turn + 1, "oldSpeed" : self.speed};
+            self.forceNext = {
+                "turn": self.turn + 1,
+                "oldSpeed": self.speed
+            };
             self.setSpeed(1000);
-           $(this).blur(); 
+            $(this).blur();
         });
         battleView.find(".normal-speed").on("click", function() {
             self.setSpeed(1.0);
@@ -91,26 +89,25 @@ function ReplayBattles () {
         battleView.find(".fast-speed").on("click", function() {
             self.setSpeed(2.0);
         });
-    }
+    };
 
     this.battle = function(id) {
         return this._battle;
     };
 
     this.serverStopWatching = function(id) {
-        console.log("battle end");
+
     };
 
     this.dealWithCommand = function(time, params) {
-        this.commandStack.push({"time":time, "command": params});
-        //console.log(params);
+        this.commandStack.push({"time": time, "command": params});
     };
 
     this.unloadCommand = function() {
         if (this.forceNext && this.commandStack.length > 0) {
             var comm = this.commandStack[0].command;
 
-            if (comm.command == "turn" && comm.turn >= this.forceNext.turn) {
+            if (comm.command === "turn" && comm.turn >= this.forceNext.turn) {
                 if (!this.battle().paused && this.battle().emptyQueue()) {
                     if (this.forceNext.oldSpeed) {
                         this.setSpeed(this.forceNext.oldSpeed);
@@ -133,12 +130,12 @@ function ReplayBattles () {
         this.refTime = now;
 
         if (this.commandStack.length > 0) {
-            if (this.forceNext || this.mode == "turns" && !this._battle.paused || this.mode=="timed" && this.commandStack[0].time < this.time) {
+            if (this.forceNext || (this.mode === "turns" && !this._battle.paused) ||
+                (this.mode === "timed" && this.commandStack[0].time < this.time)) {
                 var obj = this.commandStack.splice(0, 1)[0];
                 this.time = obj.time;
                 var command = obj.command;
-                //console.log(command);
-                if (command.command == "turn") {
+                if (command.command === "turn") {
                     this.turn = command.turn;
                 }
                 this._battle.dealWithCommand(command);
@@ -149,34 +146,36 @@ function ReplayBattles () {
 
 var webclientUI = {
     tabs: [],
-    players: {setPlayers: function(){}, addPlayer: function(){}, removePlayer:function(){}}
+    players: {
+        setPlayers: function() {},
+        addPlayer: function() {},
+        removePlayer: function() {}
+    }
 };
 
 var webclient = {
     players: {
-        on: function(){},
-        hasPlayer: function(){return true;},
-        color: function(){return "black";}
+        on: function() {},
+        hasPlayer: function() {return true;},
+        color: function() {return "black";}
     },
     battles: new ReplayBattles(),
     channels: {
-        channelsByName: function(){return [];}
+        channelsByName: function() {return [];}
     },
     print: console.log.bind(console),
 };
 
 
-vex.defaultOptions.className = 'vex-theme-os';
+vex.defaultOptions.className = "vex-theme-os";
 
 $(function() {
-    var relayGiven = utils.queryField('relay');
-    var portGiven = utils.queryField('port');
+    var relayGiven = utils.queryField("relay");
+    var portGiven = utils.queryField("port");
 
-    serverConnect({"onconnect": function() {
-            console.log("connected callback");
-
+    serverConnect({
+        "onconnect": function() {
             network.command("replay", {battle: battleToReplay});
-
             setInterval(function(){
                 webclient.battles.unloadCommand();
             }, 20);
@@ -184,4 +183,4 @@ $(function() {
         "relay": relayGiven,
         "port": portGiven
     });
-})
+});

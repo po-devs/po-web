@@ -4,7 +4,10 @@ var webclient = {
     pms: new PMHolder(),
     battles: new Battles(),
     ownTiers: [],
-    team: {"tier": "", "pokes":[new Poke(),new Poke(),new Poke(),new Poke(),new Poke(),new Poke()]},
+    team: {
+        "tier": "",
+        "pokes": [new Poke(), new Poke(), new Poke(), new Poke(), new Poke(), new Poke()]
+    },
 
     ownName: function() {
         return webclient.players.name(webclient.ownId);
@@ -25,51 +28,55 @@ var webclient = {
     onConnected: function() {
         webclientUI.printHtml("<timestamp/> Connected to server!");
 
-        var loginInfo = {version:1};
+        var loginInfo = {
+            version: 1
+        };
 
         loginInfo.name = poStorage.get("user");
 
         // var data = {version: 1};
         // data.default = utils.queryField("channel");
-        loginInfo.autojoin = poStorage("auto-join-"+webclient.serverIP, "array");
+        loginInfo.autojoin = poStorage("auto-join-" + webclient.serverIP, "array");
 
-        loginInfo.ladder = poStorage.get('player.ladder', 'boolean');
-        if (loginInfo.ladder == null) {
+        loginInfo.ladder = poStorage.get("player.ladder", "boolean");
+        if (loginInfo.ladder === null) {
             loginInfo.ladder = true;
         }
 
-        loginInfo.idle = poStorage.get('player.idle', 'boolean');
-        if (loginInfo.idle == null) {
-            loginInfo.idle = true;
+        loginInfo.idle = poStorage.get("player.idle", "boolean");
+        if (loginInfo.idle === null) {
+            loginInfo.idle = false;
         }
 
-        loginInfo.color = poStorage.get('player.color') || "";
-        loginInfo.info = {"avatar": poStorage.get("player.avatar") || 167, "info": poStorage.get('player.info')};
+        loginInfo.color = poStorage.get("player.color") || "";
+        loginInfo.info = {
+            "avatar": poStorage.get("player.avatar") || 167,
+            "info": poStorage.get("player.info")
+        };
 
         if (webclient.team) {
             webclient.cacheTeam();
             loginInfo.teams = [webclient.getTeamData(webclient.team)];
         }
-        
+
         if (loginInfo.name) {
-            network.command('login', loginInfo);
+            network.command("login", loginInfo);
         } else {
             vex.dialog.open({
-                message: 'Enter your username:',
-                input: '<input name="username" type="text" placeholder="Username"/>',
+                message: "Enter your username:",
+                input: "<input name='username' type='text' placeholder='Username'>",
                 buttons: [
-                    $.extend({}, vex.dialog.buttons.YES, {text: 'Login'}),
-                    $.extend({}, vex.dialog.buttons.NO, {text: 'Login as Guest'})
+                    $.extend({}, vex.dialog.buttons.YES, {text: "Login"}),
+                    $.extend({}, vex.dialog.buttons.NO, {text: "Login as Guest"})
                 ],
                 callback: function (res) {
                     if (res && res.username) {
                         loginInfo.name = res.username;
                         poStorage.set("user", res.username);
                     } else {
-                        delete loginInfo.name;
+                        loginInfo.name = "guest" + Math.floor(10000 + Math.random() * 90000);
                     }
-
-                    network.command('login', loginInfo);
+                    network.command("login", loginInfo);
                 }
             });
         }
@@ -85,18 +92,17 @@ var webclient = {
     },
 
     dealWithChallenge: function(params) {
-        if (params.desc == "sent") {
-            if (webclient.players.isIgnored(params.id) || params.mode != 0) {
+        if (params.desc === "sent") {
+            if (webclient.players.isIgnored(params.id) || params.mode !== 0) {
                 webclient.declineChallenge(params);
             } else if (webclientUI.teambuilderOpen) {
                 webclient.declineChallenge(params, "busy");
             } else {
                 webclientUI.showChallenge(params);
             }
-        } else if (params.desc == "cancelled") {
+        } else if (params.desc === "cancelled") {
             webclientUI.cancelChallenge(params);
         } else {
-            console.log(params);
             var messages = {
                 "busy": "#player is busy.",
                 "refused": "#player refused your challenge.",
@@ -106,28 +112,28 @@ var webclient = {
             };
 
             if (params.desc in messages) {
-                webclientUI.printHtml($("<div>").append($("<span>").addClass("challenge-"+params.desc).text(messages[params.desc].replace("#player", webclient.players.name(params.id)))).html());
-            } else {
-                console.log("unknown challenge type received");
-                console.log(payload);
+                webclientUI.printHtml(
+                    $("<div>")
+                    .append($("<span>")
+                        .addClass("challenge-" + params.desc)
+                        .text(messages[params.desc].replace("#player", webclient.players.name(params.id))))
+                    .html());
             }
         }
     },
 
     declineChallenge: function(params, reason) {
-        console.log("declining " + JSON.stringify(params));
         network.send("challengeplayer", $.extend({}, params, {"desc": reason || "refused"}));
     },
 
     acceptChallenge: function(params) {
-        console.log("accepting " + JSON.stringify(params));
         network.send("challengeplayer", $.extend({}, params, {"desc": "accepted"}));
     },
 
     onChat: function(params) {
         var chan = webclientUI.channels.channel(params.channel);
 
-        if ((params.channel == -1 && params.message.charAt(0) != "~")) {
+        if ((params.channel === -1 && params.message.charAt(0) !== "~")) {
             webclientUI.printMessage(params.message, params.html);
         } else if (chan) {
             chan.printMessage(params.message, params.html);
@@ -139,7 +145,10 @@ var webclient = {
     },
 
     sendMessage: function (message, id) {
-        network.command('chat', {channel: id, message: message});
+        network.command("chat", {
+            channel: id,
+            message: message
+        });
     },
 
     getTeamData: function(orTeam) {
@@ -147,16 +156,14 @@ var webclient = {
         var team = {};
         team.tier = orTeam.tier;
         team.gen = orTeam.gen;
-        team.pokes = [{},{},{},{},{},{}];
+        team.pokes = [{}, {}, {}, {}, {}, {}];
         team.illegal = orTeam.illegal || false;
         team.name = orTeam.name || "";
         for (var i in orTeam.pokes) {
             $.extend(team.pokes[i], orTeam.pokes[i]);
-            delete team.pokes[i]["ui"];
-            delete team.pokes[i]["data"];
+            delete team.pokes[i].ui;
+            delete team.pokes[i].data;
         }
-
-        console.log(team);
 
         return team;
     },
@@ -171,9 +178,9 @@ var webclient = {
 
     sendTeam: function() {
         if (!webclient.team.tier || webclient.cacheTeam()) {
-            network.command("teamchange", {"teams":[webclient.getTeamData()]});
+            network.command("teamchange", {"teams": [webclient.getTeamData()]});
         } else {
-            network.command("changetier", {"0":webclient.team.tier});
+            network.command("changetier", {"0": webclient.team.tier});
         }
     },
 
@@ -183,44 +190,38 @@ var webclient = {
 
     loadTeam: function() {
         var team = poStorage.get("team", "object");
-        console.log(team);
-
         if (team) {
             webclient.team = team;
             for (var i in team.pokes) {
                 webclient.team.pokes[i] = $.extend(new Poke(), team.pokes[i]);
             }
         }
-        console.log(webclient.team);
     },
 
     sendPM: function (message, id) {
-        var lines = message.trim().split('\n'),
-            line, len, i;
+        var lines = message.trim().split("\n");
 
-        for (i = 0, len = lines.length; i < len; i += 1) {
-            line = lines[i];
-
-            this.pms.pm(id).printMessage(webclient.ownId, line);
-            network.command('pm', {to: id, message: line});
+        for (var i = 0, len = lines.length; i < len; i++) {
+            this.pms.pm(id).printMessage(webclient.ownId, lines[i]);
+            network.command("pm", {to: id, message: lines[i]});
         }
     },
 
     joinChannel: function(id) {
-        network.command('joinchannel', {channel: id});
+        network.command("joinchannel", {channel: id});
     },
 
     leaveChannel: function(id) {
-        network.command('leavechannel', {channel: id});
+        network.command("leavechannel", {channel: id});
     }
 };
 
 $(function() {
     webclient.loadTeam();
 
-    var userGiven = utils.queryField('user');
-    var relayGiven = utils.queryField('relay');
-    var portGiven = utils.queryField('port');
+    var userGiven = utils.queryField("user");
+    var relayGiven = utils.queryField("relay");
+    var portGiven = utils.queryField("port");
 
     if (userGiven) {
         poStorage.set("user", userGiven);
@@ -234,7 +235,10 @@ $(function() {
 
     webclient.channels.joinChannel(0);
 
-    serverConnect({"relay": poStorage.get("relay"), "port": poStorage.get("port")});
+    serverConnect({
+        "relay": poStorage.get("relay"),
+        "port": poStorage.get("port")
+    });
 });
 
 window.webclient = webclient;

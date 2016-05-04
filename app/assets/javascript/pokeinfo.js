@@ -1,19 +1,19 @@
 var pokedex = {};
 
-geninfo = {};
-pokeinfo = {};
-genderinfo = {};
-natureinfo = {};
-moveinfo = {};
-categoryinfo = {};
-statinfo = {};
-statusinfo = {};
-iteminfo = {};
-typeinfo = {};
-abilityinfo = {};
-lastgen = null;
+GenInfo = {};
+PokeInfo = {};
+GenderInfo = {};
+NatureInfo = {};
+MoveInfo = {};
+CategoryInfo = {};
+StatInfo = {};
+StatusInfo = {};
+ItemInfo = {};
+TypeInfo = {};
+AbilityInfo = {};
+lastGen = null;
 
-$(function () {
+$(function() {
     var maxGen = {num: 0, subnum: 0};
     for (var i in pokedex.gens.versions) {
         var num = (+i) & ((1 << 16)-1);
@@ -23,13 +23,13 @@ $(function () {
             maxGen.subnum = subnum;
         }
     }
-    lastgen = maxGen;
+    lastGen = maxGen;
 });
 
 var getGen = function(gen, correct) {
     var shouldCorrect = correct !== false;
     if (shouldCorrect) {
-        gen = gen || lastgen;
+        gen = gen || lastGen;
         if (typeof gen === "object") {
             if ("num" in gen) {
                 gen.num = +gen.num;
@@ -40,7 +40,7 @@ var getGen = function(gen, correct) {
     }
 
     if (typeof gen !== "object") {
-        gen = {"num": pokeinfo.species(gen), "subnum": pokeinfo.forme(gen)};
+        gen = {"num": PokeInfo.species(gen), "subnum": PokeInfo.forme(gen)};
     }
 
     if (shouldCorrect) {
@@ -48,97 +48,92 @@ var getGen = function(gen, correct) {
             gen.num = +gen.num;
         }
 
-        if (isNaN(gen.num) || gen.num < 1 || gen.num > lastgen.num) {
-            gen = lastgen;
+        if (isNaN(gen.num) || gen.num < 1 || gen.num > lastGen.num) {
+            gen = lastGen;
         }
     }
 
     return gen;
 };
 
-geninfo.getGen = getGen;
-geninfo.list = function () {
+GenInfo.getGen = getGen;
+GenInfo.list = function() {
     var arr = [];
     for (var i in pokedex.gens.versions) {
         arr.push(i);
     }
-    arr.sort(function(a,b) {
+    arr.sort(function(a, b) {
         var genA = getGen(a);
         var genB = getGen(b);
-        if (genA.num < genB.num) {
-            return -1;
-        } else if (genA.num == genB.num) {
-            return genA.subnum - genB.subnum;
-        } else {
-            return 1;
-        }
+        return (genA.num - genB.num) || (genA.subnum - genB.subnum);
     });
     return arr;
 };
 
-geninfo.name = function (gen) {
+GenInfo.name = function(gen) {
     var num = getGen(gen, false).num;
     return pokedex.generations.generations[num];
 };
 
-geninfo.version = function(gen) {
-    return pokedex.gens.versions[geninfo.toNum(gen)];
+GenInfo.version = function(gen) {
+    return pokedex.gens.versions[GenInfo.toNum(gen)];
 };
 
-geninfo.toNum = function(gen) {
-    var x = getGen(gen);
-    return x.num + (x.subnum << 16);
+GenInfo.toNum = function(gen) {
+    gen = getGen(gen);
+    return gen.num + (gen.subnum << 16);
 };
 
-geninfo.options = function () {
+GenInfo.options = function() {
     return pokedex.generations.options;
 };
 
-geninfo.option = function (gen) {
+GenInfo.option = function(gen) {
     return pokedex.generations.options[getGen(gen, false).num];
 };
 
-geninfo.hasOption = function (gen, option) {
-    return !!geninfo.option(gen)[option];
+GenInfo.hasOption = function(gen, option) {
+    return !!GenInfo.option(gen)[option];
 };
 
-pokeinfo.toNum = function (poke) {
-    if (typeof poke == "object") {
-        return poke.num + ( (poke.forme || 0) << 16);
+PokeInfo.toNum = function(poke) {
+    if (typeof poke === "object") {
+        return poke.num + ((poke.forme || 0) << 16);
     }
-
     return poke;
 };
 
-pokeinfo.toObject = function(poke) {
-    if (typeof poke == "object") {
+PokeInfo.toObject = function(poke) {
+    if (typeof poke === "object") {
         return poke;
     }
-
     poke = +poke;
-
-    return {num: pokeinfo.species(poke), forme: pokeinfo.forme(poke), gen: lastgen};
+    return {
+        num: PokeInfo.species(poke),
+        forme: PokeInfo.forme(poke),
+        gen: lastGen
+    };
 };
 
-pokeinfo.toArray = function (num) {
+PokeInfo.toArray = function(num) {
     var pokenum = 0,
         formenum = 0,
         poke;
 
-    if (typeof num === 'number') {
+    if (typeof num === "number") {
         poke = ["" + num];
-    } else if (typeof num === 'string') {
+    } else if (typeof num === "string") {
         poke = num.split("-");
     } else if (Array.isArray(num)) {
         poke = num;
     }
 
     if (poke.length === 1) {
-        pokenum = pokeinfo.species(+poke[0]);
-        formenum = pokeinfo.forme(+poke[0]);
+        pokenum = PokeInfo.species(+poke[0]);
+        formenum = PokeInfo.forme(+poke[0]);
     } else if (poke.length === 2) {
-        pokenum = pokeinfo.species(+poke[0]);
-        formenum = pokeinfo.species(+poke[1]);
+        pokenum = PokeInfo.species(+poke[0]);
+        formenum = PokeInfo.species(+poke[1]);
     }
 
     if (isNaN(pokenum)) {
@@ -151,15 +146,15 @@ pokeinfo.toArray = function (num) {
     return [pokenum, formenum];
 };
 
-pokeinfo.species = function(poke) {
+PokeInfo.species = function(poke) {
     return poke & ((1 << 16) - 1);
 };
 
-pokeinfo.forme = function(poke) {
+PokeInfo.forme = function(poke) {
     return poke >> 16;
 };
 
-pokeinfo.find = function(id, what, gen) {
+PokeInfo.find = function(id, what, gen) {
     gen = getGen(gen);
     id = this.toNum(id);
 
@@ -181,7 +176,7 @@ pokeinfo.find = function(id, what, gen) {
         return array[ornum];
     }
 
-    while (gennum < lastgen.num && ! (id in array) && !(ornum in array)) {
+    while (gennum < lastGen.num && ! (id in array) && !(ornum in array)) {
         array = pokedex.pokes[what][++gennum];
     }
 
@@ -197,48 +192,84 @@ pokeinfo.find = function(id, what, gen) {
     return array[id];
 };
 
-pokeinfo.trainerSprite = function (num) {
-    return 'http://pokemon-online.eu/images/trainers/' + num + '.png';
+PokeInfo.trainerSprite = function(num) {
+    return "http://pokemon-online.eu/images/trainers/" + num + ".png";
 };
 
-pokeinfo.heldItemSprite = function () {
-    return 'http://pokemon-online.eu/images/items/helditem.png';
+PokeInfo.heldItemSprite = function() {
+    return "http://pokemon-online.eu/images/items/helditem.png";
 };
 
-pokeinfo.genderSprite = function(num) {
-    return 'http://pokemon-online.eu/images/genders/ingame_gender' + num + '.png';
+PokeInfo.genderSprite = function(num) {
+    return "http://pokemon-online.eu/images/genders/ingame_gender" + num + ".png";
 };
 
-pokeinfo.sprite = function(poke, params) {
+PokeInfo.sprite = function(poke, params) {
     params = params || {};
-    poke = pokeinfo.toObject(poke);
+    poke = PokeInfo.toObject(poke);
     var gen = getGen(params.gen || poke.gen);
     var back = params.back || false;
 
     // Use last gen when dealing with missingno.
     if (poke.num === 0) {
-        return pokedex.generations.options[lastgen.num].sprite_folder + "0.png";
+        return pokedex.generations.options[lastGen.num].sprite_folder + "0.png";
     }
 
-    return pokedex.generations.options[gen.num].sprite_folder + (gen.num >= 5 ? "animated/" : "" ) + (back ? "back/" : "")
-        + (poke.shiny ? "shiny/" : "") + (poke.female && gen.num !== 6 ? "female/" : "")
-        + (gen.num >= 5 ? ("00"+poke.num).slice(-3) : poke.num ) + (poke.forme ? "-" + poke.forme : "")
-        + (gen.num >= 5 ? ".gif" : ".png");
+    var path = pokedex.generations.options[gen.num].sprite_folder;
+    if (gen.num >= 5) {
+        path += "animated/";
+    }
+    if (back) {
+        path += "back/";
+    }
+    if (poke.shiny) {
+        path += "shiny/";
+    }
+    if (poke.female && gen.num !== 6) {
+        path += "female/";
+    }
+    path += gen.num >= 5 ? ("00" + poke.num).slice(-3) : poke.num;
+    if (poke.forme) {
+        path += "-" + poke.forme;
+    }
+    path += gen.num >= 5 ? ".gif" : ".png";
+
+    return path;
 };
 
-pokeinfo.battlesprite = function(poke, params) {
+PokeInfo.battlesprite = function(poke, params) {
     params = params || {};
 
     var back = params.back || false;
-    var data = pokeinfo.spriteData(poke, params);
+    var data = PokeInfo.spriteData(poke, params);
 
-    return pokedex.generations.options[lastgen.num].sprite_folder + ( (data.ext || "gif") == "gif" ? "animated/" : "" ) + (back ? "back/" : "")
-        + (poke.shiny ? "shiny/" : "") + (poke.female ? "female/" : "")
-        + ((data.ext || "gif") == "gif" ? ("00"+poke.num).slice(-3) : poke.num ) + (poke.forme && !data.noforme ? "-" + poke.forme : "")
-        + ("." + (data.ext || "gif"));
+    var path = pokedex.generations.options[lastGen.num].sprite_folder;
+    if ((data.ext || "gif") === "gif") {
+        path += "animated/";
+    }
+    if (back) {
+        path += "back/";
+    }
+    if (poke.shiny) {
+        path += "shiny/";
+    }
+    if (poke.female) {
+        path += "female/";
+    }
+    if ((data.ext || "gif") === "gif") {
+        path += ("00" + poke.num).slice(-3);
+    } else {
+        path += poke.num;
+    }
+    if (poke.forme && !data.noforme) {
+        path += "-" + poke.forme;
+    }
+    path += "." + (data.ext || "gif");
+
+    return path;
 };
 
-pokeinfo.spriteData = function(poke, params) {
+PokeInfo.spriteData = function(poke, params) {
     var back = (params || {}).back || false;
     var num = this.toNum(poke);
 
@@ -250,28 +281,28 @@ pokeinfo.spriteData = function(poke, params) {
     return ret;
 };
 
-pokeinfo.icon = function(poke) {
-    var poke = this.toObject(poke);
+PokeInfo.icon = function(poke) {
+    poke = this.toObject(poke);
     return "http://pokemon-online.eu/images/poke_icons/" + poke.num + (poke.forme ? "-" + poke.forme : "") + ".png";
 };
 
-pokeinfo.name = function(poke) {
+PokeInfo.name = function(poke) {
     return pokedex.pokes.pokemons[this.toNum(poke)];
 };
 
-pokeinfo.num = function(name) {
+PokeInfo.num = function(name) {
     return pokedex.pokes.nums[name.toLowerCase()];
 };
 
-pokeinfo.gender = function(poke) {
+PokeInfo.gender = function(poke) {
     var pokeNum = this.toNum(poke);
-    if (! (pokeNum in pokedex.pokes.gender)) {
+    if (!(pokeNum in pokedex.pokes.gender)) {
         pokeNum %= 65536;
     }
     return pokedex.pokes.gender[pokeNum];
 };
 
-pokeinfo.height = function(poke) {
+PokeInfo.height = function(poke) {
     var pokeNum = this.toNum(poke);
     if (! (pokeNum in pokedex.pokes.height)) {
         pokeNum %= 65536;
@@ -279,7 +310,7 @@ pokeinfo.height = function(poke) {
     return pokedex.pokes.height[pokeNum];
 };
 
-pokeinfo.weight = function(poke) {
+PokeInfo.weight = function(poke) {
     var pokeNum = this.toNum(poke);
     if (! (pokeNum in pokedex.pokes.weight)) {
         pokeNum %= 65536;
@@ -287,19 +318,19 @@ pokeinfo.weight = function(poke) {
     return pokedex.pokes.weight[pokeNum];
 };
 
-pokeinfo.heldItem = function (poke) {
+PokeInfo.heldItem = function(poke) {
     return pokedex.pokes.items[this.toNum(poke)];
 };
 
-pokeinfo.stats = function(poke, gen) {
+PokeInfo.stats = function(poke, gen) {
     return this.find(poke, "stats", gen);
 };
 
-pokeinfo.stat = function(poke, stat, gen) {
+PokeInfo.stat = function(poke, stat, gen) {
     return this.stats(poke, gen)[stat];
 };
 
-pokeinfo.allMoves = function(poke, gen) {
+PokeInfo.allMoves = function(poke, gen) {
     var moves = this.find(poke, "all_moves", gen);
     if (!Array.isArray(moves)) {
         moves = [moves];
@@ -307,7 +338,7 @@ pokeinfo.allMoves = function(poke, gen) {
     return moves;
 };
 
-pokeinfo.types = function(poke, gen) {
+PokeInfo.types = function(poke, gen) {
     var type1 = this.find(poke, "type1", gen);
     var type2 = this.find(poke, "type2", gen);
     var types = [type1];
@@ -317,7 +348,7 @@ pokeinfo.types = function(poke, gen) {
     return types;
 };
 
-pokeinfo.abilities = function(poke, gen) {
+PokeInfo.abilities = function(poke, gen) {
     return [
         this.find(poke, "ability1", gen) || 0,
         this.find(poke, "ability2", gen) || 0,
@@ -325,171 +356,201 @@ pokeinfo.abilities = function(poke, gen) {
     ];
 };
 
-pokeinfo._releasedCache = {};
-pokeinfo.releasedList = function(gen, excludeFormes) {
+PokeInfo._releasedCache = {};
+PokeInfo.releasedList = function(gen, excludeFormes) {
     var gnum = getGen(gen).num;
-    if ((gnum + '_ef' + excludeFormes) in pokeinfo._releasedCache) {
-        return pokeinfo._releasedCache[gnum + '_ef' + excludeFormes];
+    if ((gnum + "_ef" + excludeFormes) in PokeInfo._releasedCache) {
+        return PokeInfo._releasedCache[gnum + "_ef" + excludeFormes];
     }
 
     var releasedList = pokedex.pokes.released[gnum],
         list = {},
         num;
 
-    for (i in releasedList) {
+    for (var i in releasedList) {
         if (excludeFormes && +i > 65535) {
             continue;
         }
 
         // In gens 1-3, the values are true instead of the pokemon names.
         if (releasedList[i] === true) {
-            list[i] = pokeinfo.name(+i);
+            list[i] = PokeInfo.name(+i);
         } else {
             list[i] = releasedList[i];
         }
     }
 
-    pokeinfo._releasedCache[gnum + '_ef' + excludeFormes] = list;
+    PokeInfo._releasedCache[gnum + "_ef" + excludeFormes] = list;
     return list;
 };
 
-pokeinfo.excludeFormes = true;
+PokeInfo.excludeFormes = true;
 
-pokeinfo.released = function(poke, gen) {
+PokeInfo.released = function(poke, gen) {
     return pokedex.pokes.released[getGen(gen).num].hasOwnProperty(this.toNum(poke));
 };
 
-pokeinfo.calculateStatInfo = function(info, stat, gen) {
-    var gen = gen || lastgen;
-    var base_stat = pokeinfo.stat(info, stat, gen);
-    
+PokeInfo.calculateStatInfo = function(info, stat, gen) {
+    if (info.num === 292 && stat === 0) {
+        return 1;
+    }
+    gen = gen || lastGen;
+    var baseStat = PokeInfo.stat(info, stat, gen);
+    var ev = Math.floor(info.ev / 4);
+    var iv = info.iv;
+    var level = info.level;
     if (stat === 0) { // HP
         if (gen.num > 2) {
-            return Math.floor(Math.floor((info.iv + (2 * base_stat) + Math.floor(info.ev/4) + 100) * info.level)/100) + 10;
+            return Math.floor((iv + 2 * baseStat + ev + 100) * level / 100) + 10;
         } else {
-            return Math.floor(((info.iv + base_stat + Math.sqrt(65535)/8 + 50) * info.level)/50 + 10);
+            return Math.max(1, Math.min(999,
+                Math.floor(((iv + baseStat) * 2 + ev) * level / 100) + level + 10));
         }
     } else {
         if (gen.num > 2) {
             var natureBoost = info.natureBoost;
-            return Math.floor(Math.floor(((info.iv + (2 * base_stat) + Math.floor(info.ev/4)) * info.level)/100 + 5)*natureBoost);
+            return Math.floor(Math.floor((iv + 2 * baseStat + ev) * level / 100 + 5) * natureBoost);
         } else {
-            return Math.floor(Math.floor((info.iv + base_stat + Math.sqrt(65535)/8) * info.level)/50 + 5);
+            return Math.max(1, Math.min(999,
+                Math.floor(((iv + baseStat) * 2 + ev) * level / 100) + 5));
         }
     }
-}
+};
 
-pokeinfo.calculateStat = function(poke, stat, gen) {
-    var gen = gen || lastgen;
-    if (poke.num == 292 && stat == 0) {
-        return 1;
+PokeInfo.calculateStat = function(poke, stat, gen) {
+    gen = gen || lastGen;
+    return PokeInfo.calculateStatInfo({
+        "num": poke.num,
+        "forme": poke.forme || 0,
+        "iv": poke.ivs[stat],
+        "ev": poke.evs[stat],
+        "level": poke.level,
+        "natureBoost": NatureInfo.getNatureEffect(poke.nature, stat)
+    }, stat, gen);
+};
+
+PokeInfo.minStat = function(poke, stat, gen) {
+    gen = gen || lastGen;
+    var ret = PokeInfo.calculateStatInfo({
+        "num": poke.num,
+        "forme": poke.forme || 0,
+        "iv": gen.num > 2 ? 31 : 15,
+        "ev": gen.num > 2 ? 0 : 255,
+        "level": poke.level,
+        "natureBoost": 1
+    }, stat, gen);
+    var boost = poke.boost || 0;
+    if (gen.num <= 2) {
+        return Math.floor(ret * Math.floor(
+            Math.max(2, 2 + boost) / Math.max(2, 2 - boost) * 100) / 100);
     }
-    return pokeinfo.calculateStatInfo({"num": poke.num, "forme": poke.forme || 0, "iv": poke.ivs[stat], "ev": poke.evs[stat],
-            "level": poke.level, "natureBoost": natureinfo.getNatureEffect(poke.nature, stat)}, stat, gen);
+    return Math.floor(ret * Math.max(2, 2 + boost) / Math.max(2, 2 - boost));
 };
 
-pokeinfo.minStat = function(poke, stat, gen) {
-    var gen = gen || lastgen;
-    var ret = pokeinfo.calculateStatInfo({"num": poke.num, "forme": poke.forme || 0, "iv": 31, "ev": 0,
-            "level": poke.level, "natureBoost": 1}, stat, gen);
+PokeInfo.maxStat = function(poke, stat, gen) {
+    gen = gen || lastGen;
+    var ret = PokeInfo.calculateStatInfo({
+        "num": poke.num,
+        "forme": poke.forme || 0,
+        "iv": gen.num > 2 ? 31 : 15,
+        "ev": 252,
+        "level": poke.level,
+        "natureBoost": 1.1
+    }, stat, gen);
     var boost = poke.boost || 0;
-    return Math.floor(ret * Math.max(2, 2+boost) / Math.max(2, 2-boost));
-}
+    if (gen.num <= 2) {
+        return Math.floor(ret * Math.floor(
+            Math.max(2, 2 + boost) / Math.max(2, 2 - boost) * 100) / 100);
+    }
+    return Math.floor(ret * Math.max(2, 2 + boost) / Math.max(2, 2 - boost));
+};
 
-pokeinfo.maxStat = function(poke, stat, gen) {
-    var gen = gen || lastgen;
-    var ret = pokeinfo.calculateStatInfo({"num": poke.num, "forme": poke.forme || 0, "iv": 31, "ev": 252,
-            "level": poke.level, "natureBoost": 1.1}, stat, gen);
-    var boost = poke.boost || 0;
-    return Math.floor(ret * Math.max(2, 2+boost) / Math.max(2, 2-boost));
-}
-
-pokeinfo.itemForForme = function(poke) {
-    var num = pokeinfo.toNum(poke);
+PokeInfo.itemForForme = function(poke) {
+    var num = PokeInfo.toNum(poke);
     return pokedex.pokes.item_for_forme[num] || 0;
-}
-
-genderinfo.name = function(gender) {
-    return {1: 'male', 2: 'female', 3: 'neutral'}[gender];
 };
 
-genderinfo.shorthand = function(gender) {
-    return {1: '(M)', 2: '(F)', 3: '', 0: ''}[gender];
+GenderInfo.name = function(gender) {
+    return {1: "male", 2: "female", 3: "neutral"}[gender];
 };
 
-natureinfo.list = function() {
+GenderInfo.shorthand = function(gender) {
+    return {1: "(M)", 2: "(F)", 3: "", 0: ""}[gender];
+};
+
+NatureInfo.list = function() {
     return pokedex.natures.nature;
 };
 
-natureinfo.name = function(nature) {
+NatureInfo.name = function(nature) {
     return pokedex.natures.nature[nature];
 };
 
-natureinfo.num = function(nature) {
+NatureInfo.num = function(nature) {
     if (!pokedex.natures.nums) {
         pokedex.natures.nums = {};
         for (var i = 0; i < 25; i++) {
-            pokedex.natures.nums[natureinfo.name(i).toLowerCase()] = i;
+            pokedex.natures.nums[NatureInfo.name(i).toLowerCase()] = i;
         }
     }
     return pokedex.natures.nums[nature.toLowerCase()];
 };
 
-natureinfo.getNatureEffect = function(nature_id, stat_id) {
-    var arr = {0:0, 1:1, 2:2, 3:4, 4:5, 5:3};
-    return (10+(-(nature_id%5 == arr[stat_id]-1) + (Math.floor(nature_id/5) == arr[stat_id]-1)))/10;
+NatureInfo.getNatureEffect = function(nature_id, stat_id) {
+    var arr = [-1, 0, 1, 3, 4, 2];
+    var n1 = (Math.floor(nature_id / 5) === arr[stat_id]) ? 1 : 0;
+    var n2 = (nature_id % 5 === arr[stat_id]) ? 1 : 0;
+    return (10 + n1 - n2) / 10;
 };
 
-natureinfo.boostedStat = function(nature_id) {
-    for (var i = 0; i < 6; i++) {
-        if (natureinfo.getNatureEffect(nature_id, i) > 1) {
-            return i;
-        }
+NatureInfo.boostedStat = function(nature_id) {
+    var arr = [1, 2, 5, 3, 4];
+    if (Math.floor(nature_id / 5) !== nature_id % 5) {
+        return arr[Math.floor(nature_id / 5)];
     }
     return -1;
 };
 
-natureinfo.reducedStat = function(nature_id) {
-    for (var i = 0; i < 6; i++) {
-        if (natureinfo.getNatureEffect(nature_id, i) < 1) {
-            return i;
-        }
+NatureInfo.reducedStat = function(nature_id) {
+    var arr = [1, 2, 5, 3, 4];
+    if (Math.floor(nature_id / 5) !== nature_id % 5) {
+        return arr[nature_id % 5];
     }
     return -1;
 };
 
-natureinfo.getNatureForBoosts = function(plus_boost, neg_boost) {
+NatureInfo.getNatureForBoosts = function(plus_boost, neg_boost) {
     for (var i = 0; i < 25; i++) {
-        if (natureinfo.boostedStat(i) == plus_boost && natureinfo.reducedStat(i) == neg_boost) {
+        if (NatureInfo.boostedStat(i) == plus_boost && NatureInfo.reducedStat(i) == neg_boost) {
             return i;
         }
     }
     return -1;
 };
 
-moveinfo.list = function() {
+MoveInfo.list = function() {
     return pokedex.moves.moves;
 };
 
-moveinfo.hasMove = function (move) {
+MoveInfo.hasMove = function(move) {
     return move in pokedex.moves.moves;
 };
 
-moveinfo.name = function(move) {
+MoveInfo.name = function(move) {
     return pokedex.moves.moves[move];
 };
 
-moveinfo.num = function(move) {
+MoveInfo.num = function(move) {
     if (!pokedex.moves.nums) {
         pokedex.moves.nums = {};
-        for (var num in moveinfo.list()) {
-            pokedex.moves.nums[moveinfo.name(num).toLowerCase()] = num;
+        for (var num in MoveInfo.list()) {
+            pokedex.moves.nums[MoveInfo.name(num).toLowerCase()] = num;
         }
     }
     return pokedex.moves.nums[move.toLowerCase()];
 };
 
-moveinfo.findId = function (move) {
+MoveInfo.findId = function(move) {
     var list = pokedex.moves.moves,
         moveNum, moveName;
 
@@ -504,7 +565,7 @@ moveinfo.findId = function (move) {
     return 0;
 };
 
-moveinfo.find = function(id, what, gen) {
+MoveInfo.find = function(id, what, gen) {
     gen = getGen(gen);
 
     if (! (what in pokedex.moves)) {
@@ -518,7 +579,7 @@ moveinfo.find = function(id, what, gen) {
         return array[id];
     }
 
-    while (gennum < lastgen.num && ! (id in array)) {
+    while (gennum < lastGen.num && ! (id in array)) {
         array = pokedex.moves[what][++gennum];
     }
 
@@ -530,105 +591,153 @@ moveinfo.find = function(id, what, gen) {
     return array[id];
 };
 
-moveinfo.accuracy = function(move, gen) {
+MoveInfo.accuracy = function(move, gen) {
     return this.find(move, "accuracy", gen) || 0;
 };
 
-moveinfo.category = function(move, gen) {
-    return this.find(move, "damage_class", gen) || 0;
+MoveInfo.category = function(move, gen) {
+    var d = this.find(move, "damage_class", gen);
+    if (d && getGen(gen).num <= 2) {
+        return TypeInfo.category(MoveInfo.type(move));
+    }
+    return d || 0;
 };
 
-moveinfo.effect = function(move, gen) {
-    return this.find(move, "effect", gen) || "";
+MoveInfo.effect = function(move, gen) {
+    var p = MoveInfo.effectChance(move, gen);
+    if (getGen(gen).num < 2) {
+        p = p + "/256 (" + Math.round(p / 256 * 100) + "%)";
+    }
+    return (this.find(move, "effect", gen) || "").replace("$effect_chance", p);
 };
 
-moveinfo.power = function(move, gen) {
+MoveInfo.effectChance = function(move, gen) {
+    return this.find(move, "effect_chance", gen) || 0;
+};
+
+MoveInfo.power = function(move, gen) {
     return this.find(move, "power", gen) || 0;
 };
 
-moveinfo.pp = function(move, gen) {
+MoveInfo.pp = function(move, gen) {
     return this.find(move, "pp", gen);
 };
 
-moveinfo.type = function(move, gen) {
+MoveInfo.type = function(move, gen) {
     return this.find(move, "type", gen) || 0;
 };
 
-moveinfo.message = function(move, part) {
+MoveInfo.message = function(move, part) {
     var messages = pokedex.moves.move_message[move];
 
     if (!messages) {
-        return '';
+        return "";
     }
 
-    var parts = messages.split('|');
+    var parts = messages.split("|");
     if (part >= 0 && part < parts.length) {
         return parts[part];
     }
 
-    return '';
+    return "";
 };
 
-moveinfo.getHiddenPowerIVs = function (type, generation) {
+MoveInfo.getHiddenPowerIVs = function(type, generation) {
     generation = getGen(generation).num;
-    var ret = [],
-        gt;
+    type = +type;
 
+    if (generation < 3) {
+        // only 1 optimal HP exists per type
+        type -= 1;
+        return [[
+            ((type & 4) << 1) | ((type & 1) << 2) | 3,
+            12 | (type >> 2),
+            12 | (type & 3),
+            15, 15, 15
+        ]];
+    }
+
+    var ivLists = [];
     for (var i = 63; i >= 0; i--) {
-        gt = moveinfo.getHiddenPowerType(generation, [i & 1, (i & 2) !== 0, (i & 4) !== 0, (i & 8) !== 0, (i & 16) !== 0, (i & 32) !== 0]);
-        if (gt == type) {
-            ret.push([(((i & 1) !== 0) + 30), (((i & 2) !== 0) + 30), (((i & 4) !== 0) + 30), (((i & 8) !== 0) + 30), (((i & 16) !== 0) + 30), (((i & 32) !== 0) + 30)]);
+        var ivs = [
+            (i & 1) ? 31 : 30,
+            (i & 2) ? 31 : 30,
+            (i & 4) ? 31 : 30,
+            (i & 8) ? 31 : 30,
+            (i & 16) ? 31 : 30,
+            (i & 32) ? 31 : 30
+        ];
+        if (MoveInfo.getHiddenPowerType(ivs, generation) === type) {
+            ivLists.push(ivs);
         }
     }
 
-    return ret;
-};
-
-moveinfo.getHiddenPowerType = function (generation, ivs) {
-    generation = getGen(generation).num;
-    var type;
-    var hp_ivs, atk_ivs, def_ivs, satk_ivs, sdef_ivs, spe_ivs;
-    hp_ivs = ivs[0];
-    atk_ivs = ivs[1]; def_ivs = ivs[2];
-    satk_ivs = ivs[3]; sdef_ivs = ivs[4];
-    spe_ivs = ivs[5];
-
-    if (generation >= 3) {
-        type = ((((hp_ivs % 2) + (2 * (atk_ivs % 2)) + (4 * (def_ivs % 2)) + (8 * (spe_ivs % 2)) + (16 * (satk_ivs % 2)) + (32 * (sdef_ivs % 2))) * 15) / 63) + 1;
-    } else {
-        type = 4 * (atk_ivs % 4) + (def_ivs % 4);
-    }
-
-    return parseInt(type, 10);
-};
-
-moveinfo.getHiddenPowerBP = function (generation, hp_ivs, atk_ivs, def_ivs, satk_ivs, sdef_ivs, spe_ivs) {
-    generation = getGen(generation).num;
-    var hpbp = geninfo.option(generation).hidden_power_bp, bp;
-    if (!hpbp) {
-        if (generation >= 3 && generation <= 5) {
-            bp = Math.floor(((hp_ivs % 2 + (2 * (atk_ivs % 2)) + (4 * (def_ivs % 2)) + (8 * (spe_ivs % 2)) + (16 * (satk_ivs % 2)) + (32 * (sdef_ivs % 2))) * 40) / 63) + 30;
-        } else if (generation >= 6) {
-            bp = 60;
-        } else {
-            bp = Math.floor(((5 * ((satk_ivs % 8 ? 1 : 0) + (2 * (spe_ivs % 8 ? 1 : 0)) + (4 * (def_ivs % 8 ? 1 : 0)) + (8 * (atk_ivs % 8 ? 1 : 0))) + (satk_ivs < 3 ? satk_ivs : 3)) / 2) + 31);
+    var statImportance = [5, 3, 0, 2, 4, 1];
+    return ivLists.sort(function(a, b) {
+        // sort for perfect speed IV
+        // sort for total perfect IVs
+        // and then sort based on which stats are more important
+        // Speed > SpAtk > HP > Def > SpDef > HP
+        if (a[5] !== b[5]) return b[5] - a[5];
+        var sumA = 0;
+        var sumB = 0;
+        var imp = 0;
+        for (var i = 0; i < 6; i++) {
+            sumA += a[i];
+            sumB += b[i];
+            if (!imp && a[statImportance[i]] !== b[statImportance[i]]) {
+                imp += b[statImportance[i]] - a[statImportance[i]];
+            }
         }
-    } else {
-        bp = hpbp;
-    }
-
-    return bp;
+        return (sumB - sumA) || imp;
+    });
 };
 
-categoryinfo.list = function() {
+MoveInfo.getHiddenPowerType = function(ivs, generation) {
+    generation = getGen(generation).num;
+    if (generation <= 2) {
+        return 1 + (ivs[1] & 3) * 4 + (ivs[2] & 3);
+    }
+    var bits = (ivs[0] & 1) +
+        ((ivs[1] & 1) * 2) +
+        ((ivs[2] & 1) * 4) +
+        ((ivs[5] & 1) * 8) +
+        ((ivs[3] & 1) * 16) +
+        ((ivs[4] & 1) * 32);
+    return 1 + Math.floor(bits * 15 / 63);
+};
+
+MoveInfo.getHiddenPowerBP = function(ivs, generation) {
+    generation = getGen(generation).num;
+    var bits;
+    if (generation <= 2) {
+        bits = (ivs[3] >> 3) +
+            ((ivs[5] >> 2) & 2) +
+            ((ivs[2] >> 1) & 4) +
+            (ivs[1] & 8);
+        return 31 + Math.floor((5 * bits + (ivs[3] & 3)) / 2);
+    }
+    if (generation <= 5) {
+        bits = (ivs[0] & 2) / 2 +
+            (ivs[1] & 2) +
+            (ivs[2] & 2) * 2 +
+            (ivs[5] & 2) * 4 +
+            (ivs[3] & 2) * 8 +
+            (ivs[4] & 2) * 16;
+        return 30 + Math.floor(bits * 40 / 63);
+    }
+    return 60;
+};
+
+CategoryInfo.list = function() {
     return pokedex.categories.categories;
 };
 
-categoryinfo.name = function(category) {
+CategoryInfo.name = function(category) {
     return pokedex.categories.categories[category];
 };
 
-iteminfo.list = function() {
+ItemInfo.list = function() {
     var list = pokedex.items.items;
     for (var i in pokedex.items.berries) {
         list[i + 8000] = pokedex.items.berries[i];
@@ -636,35 +745,35 @@ iteminfo.list = function() {
     return list;
 };
 
-iteminfo.hasItem = function(item) {
+ItemInfo.hasItem = function(item) {
     if (item >= 8000) {
-        return (item-8000) in pokedex.items.berries;
+        return (item - 8000) in pokedex.items.berries;
     } else {
         return item in pokedex.items.items;
     }
 };
 
-iteminfo.name = function(item) {
+ItemInfo.name = function(item) {
     if (item >= 8000) {
-        return pokedex.items.berries[item-8000];
+        return pokedex.items.berries[item - 8000];
     } else {
         return pokedex.items.items[item];
     }
 };
 
-iteminfo.num = function(name) {
+ItemInfo.num = function(name) {
     return pokedex.items.nums[name.toLowerCase()];
 };
 
-iteminfo.berryName = function (item) {
+ItemInfo.berryName = function(item) {
     return pokedex.items.berries[item];
 };
 
-iteminfo._releasedCache = {};
-iteminfo.releasedList = function(gen) {
+ItemInfo._releasedCache = {};
+ItemInfo.releasedList = function(gen) {
     var gnum = getGen(gen).num;
-    if (gnum in iteminfo._releasedCache) {
-        return iteminfo._releasedCache[gnum];
+    if (gnum in ItemInfo._releasedCache) {
+        return ItemInfo._releasedCache[gnum];
     }
 
     var list = {},
@@ -681,11 +790,11 @@ iteminfo.releasedList = function(gen) {
         list[+i + 8000] = pokedex.items.berries[i];
     }
 
-    iteminfo._releasedCache[gnum] = list;
+    ItemInfo._releasedCache[gnum] = list;
     return list;
 };
 
-iteminfo.released = function (item, gen) {
+ItemInfo.released = function(item, gen) {
     gen = getGen(gen).num;
     if (item >= 8000) {
         return pokedex.items.released_berries[gen].hasOwnProperty(item-8000);
@@ -694,97 +803,107 @@ iteminfo.released = function (item, gen) {
     }
 };
 
-iteminfo.usefulList = function() {
+ItemInfo.usefulList = function() {
     return pokedex.items.item_useful;
 };
 
-iteminfo.useful = function(item) {
+ItemInfo.useful = function(item) {
     return item > 8000 || pokedex.items.item_useful.hasOwnProperty(item);
 };
 
-iteminfo.message = function(item, part) {
+ItemInfo.message = function(item, part) {
     var messages = (item >= 8000 ? pokedex.items.berry_messages[item-8000] : pokedex.items.item_messages[item]);
 
     if (!messages) {
-        return '';
+        return "";
     }
 
-    var parts = messages.split('|');
+    var parts = messages.split("|");
     if (part >= 0 && part < parts.length) {
         return parts[part];
     }
 
-    return '';
+    return "";
 };
 
-iteminfo.desc = function(item) {
+ItemInfo.desc = function(item) {
     if (item >= 8000) {
-        return pokedex.items.berries_description[+item-8000] || "";
+        return pokedex.items.berries_description[+item - 8000] || "";
     } else {
         return pokedex.items.items_description[item] || "";
     }
-}
+};
 
-iteminfo.itemSprite = function(item) {
+ItemInfo.itemSprite = function(item) {
     if (+item >= 8000) {
-        return 'http://pokemon-online.eu/images/berries/' + (item-8000) + '.png';
+        return "http://pokemon-online.eu/images/berries/" + (item - 8000) + ".png";
     } else {
-        return 'http://pokemon-online.eu/images/items/' + item + '.png';
+        return "http://pokemon-online.eu/images/items/" + item + ".png";
     }
 };
 
-statinfo.list = function() {
+StatInfo.list = function() {
     return pokedex.status.stats;
 };
 
-statinfo.name = function(stat) {
+StatInfo.name = function(stat) {
     return pokedex.status.stats[stat];
 };
 
-statusinfo.list = function() {
+StatusInfo.list = function() {
     return pokedex.status.status;
 };
 
-statusinfo.name = function(status) {
+StatusInfo.name = function(status) {
     return pokedex.status.status[status];
 };
 
-typeinfo.list = function() {
+TypeInfo.list = function() {
     return pokedex.types.types;
 };
 
-typeinfo.name = function(type) {
+TypeInfo.name = function(type) {
     return pokedex.types.types[type];
 };
 
-typeinfo.css = function(type) {
+TypeInfo.num = function(type) {
+    type = type.toLowerCase();
+    for (var t in pokedex.types.types) {
+        if (type === pokedex.types.types[t].toLowerCase()) {
+            return t;
+        }
+    }
+    return -1;
+};
+
+TypeInfo.css = function(type) {
     if (type == 18) {
         return "curse";
     }
     return pokedex.types.types[type].toLowerCase();
 };
 
-typeinfo.categoryList = function() {
+TypeInfo.categoryList = function() {
     return pokedex.types.category;
 };
 
-typeinfo.category = function(type) {
+TypeInfo.category = function(type) {
     return pokedex.types.category[type];
 };
 
-typeinfo.sprite = function(type) {
-    return 'http://pokemon-online.eu/images/types/' + type + '.png';
+TypeInfo.sprite = function(type) {
+    return "http://pokemon-online.eu/images/types/" + type + ".png";
 };
 
-abilityinfo.list = function() {
+AbilityInfo.list = function() {
     return pokedex.abilities.abilities;
 };
 
-abilityinfo.name = function(ability) {
+AbilityInfo.name = function(ability) {
     return pokedex.abilities.abilities[ability];
 };
 
-abilityinfo.num = function(ability) {
+AbilityInfo.num = function(ability) {
     if (!pokedex.abilities.nums) {
         pokedex.abilities.nums = {};
         for (var num in pokedex.abilities.abilities) {
@@ -794,22 +913,22 @@ abilityinfo.num = function(ability) {
     return pokedex.abilities.nums[ability.toLowerCase()];
 };
 
-abilityinfo.desc = function(ability) {
-    return pokedex.abilities.ability_desc[ability] || "";
+AbilityInfo.desc = function(ability) {
+    return pokedex.abilities.ability_desc[ability] !== true ? pokedex.abilities.ability_desc[ability] : "No ability.";
 };
 
-abilityinfo.message = function(ability, part) {
+AbilityInfo.message = function(ability, part) {
     var messages = pokedex.abilities.ability_messages[ability];
     part = part || 0;
 
     if (!messages) {
-        return '';
+        return "";
     }
 
-    var parts = messages.split('|');
+    var parts = messages.split("|");
     if (part >= 0 && part < parts.length) {
         return parts[part];
     }
 
-    return '';
+    return "";
 };

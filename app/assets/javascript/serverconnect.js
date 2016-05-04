@@ -4,50 +4,43 @@ function serverConnect(params) {
     }
 
     params = params || {};
-    
+
     var relayIP = params.relay || config.relayIP;
     var port = params.port || config.hostPort;
 
-    params.onconnect = params.onconnect || function() {network.command("connect", {ip: "localhost:" + port});}
+    params.onconnect = params.onconnect || function() {
+        network.command("connect", {ip: "localhost:" + port});
+    };
 
     webclient.serverIP = relayIP;
-
-    //var fullIP = $("#relay").val();
-
-    //console.log("Connecting to relay @ " + fullIP);
-    //poStorage.set("relay", fullIP);
-
-    var closeFunction = function () {
-        if (webclient.connectedToServer) {
-            webclientUI.printDisconnectionMessage();
-            webclient.connectedToServer = false;
-        }
-        console.log("Disconnected from relay.");
-        network.close();
-    };
 
     network.open(
         relayIP + ":" + (utils.queryField("rport") || config.relayPort),
         // open
-        function () {
-            console.log("Connected to relay.");
+        function() {
             params.onconnect();
         },
         // error
-        function () {
+        function() {
             if (webclient.connectedToServer) {
                 closeFunction();
                 return;
             }
             vex.dialog.alert({
                 message: "Could not connect to the server. It could be offline, the address could be invalid, or you might have trouble connecting. <br><br> You will be taken back to the list of servers.",
-                callback: function() {document.location.href=config.registry;}
+                callback: function() {
+                    document.location.href = config.registry;
+                }
             });
-            console.log("Failed to connect to relay.");
-
             network.close();
         },
         // close
-        closeFunction
+        function() {
+            if (webclient.connectedToServer) {
+                webclientUI.printDisconnectionMessage();
+                webclient.connectedToServer = false;
+            }
+            network.close();
+        }
     );
-};
+}

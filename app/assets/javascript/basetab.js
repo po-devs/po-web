@@ -2,25 +2,25 @@ function BaseTab(/* id */) {
     $.observable(this);
 }
 
-BaseTab.prototype.isCurrent = function () {
+BaseTab.prototype.isCurrent = function() {
     //return this === webclient.channel;
     return this === webclient.currentTab;
 };
 
-BaseTab.prototype.activateTab = function () {
+BaseTab.prototype.activateTab = function() {
     if (!this.isCurrent()) {
         $("#" + this.shortHand + "-" + this.id).addClass("tab-active");
     }
 };
 
-BaseTab.prototype.flashTab = function () {
+BaseTab.prototype.flashTab = function() {
     if (!this.isCurrent()) {
         $("#" + this.shortHand + "-" + this.id).addClass("tab-flash");
     }
 };
 
-BaseTab.makeName = function(name) {
-    return "<span class='channel-title'>"+name+"</span>" + '<i class="fa fa-times-circle"></i>'
+BaseTab.prototype.makeName = function(name) {
+    return "<span class='channel-title'>" + name + "</span><i class='fa fa-times-circle'></i>";
 };
 
 BaseTab.prototype.setCurrentTab = function() {
@@ -73,7 +73,7 @@ BaseTab.prototype.removeTab = function() {
     webclientUI.tabs.splice(webclientUI.tabs.indexOf(this), 1);
 
     if (webclientUI.tabs.length > 0) {
-        webclientUI.tabs[webclientUI.tabs.length-1].setCurrentTab();
+        webclientUI.tabs[webclientUI.tabs.length - 1].setCurrentTab();
     }
 };
 

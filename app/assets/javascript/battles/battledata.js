@@ -2,7 +2,7 @@ function BattleData(data) {
     $.observable(this);
 
     this.addData(data);
-};
+}
 
 var battledata = BattleData.prototype;
 
@@ -15,11 +15,13 @@ battledata.print = function(msg, args) {
 };
 
 battledata.finished = function(result) {
-    console.log("battle finished with result " + result);
-    if (result == "close") {
-        this.dealWithCommand({"command": "battleend", "result": 3});
+    if (result === "close") {
+        this.dealWithCommand({
+            "command": "battleend",
+            "result": 3
+        });
     }
-    if (result == "close" || result == "forfeit") {
+    if (result === "close" || result === "forfeit") {
         this.trigger("disable");
     }
 };
@@ -44,7 +46,10 @@ battledata.start = function(data) {
     this.teams = [[{},{},{},{},{},{}], [{},{},{},{},{},{}]];
     this.choices = {};
     this.spectators = {};
-    this.timers = [{'value':300, 'ticking': false}, {'value':300, 'ticking': false}];
+    this.timers = [
+        {"value":300, "ticking": false},
+        {"value":300, "ticking": false}
+    ];
     this.players = ["", ""];
     /* player names */
     if (conf.names) {
@@ -67,47 +72,46 @@ battledata.start = function(data) {
         webclient.requestInfo(conf.players[1]);
     }
 
-/*    this.timer = setInterval(function() {
-        self.updateTimers()
-    }, 1000);
-*/
     var setTeam = function(id, team) {
-        //ugly way to clone, better way at http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
-        console.log("team: ");
-        console.log(team);
+        // ugly way to clone, better way at http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
         self.teams[id] = JSON.parse(JSON.stringify(team));
         while (self.teams[id].length < 6) {
             var moves = [];
             for (var j = 0; j < 4; j++) {
-                moves.push({"move":0,"pp":0,"totalpp":0,"tempmove":0, "temppp": 0});
+                moves.push({
+                    "move": 0,
+                    "pp":0,
+                    "totalpp":0,
+                    "tempmove":0,
+                    "temppp": 0
+                });
             }
-            self.teams[id].push({"moves": moves, num: 0, level: 0});
+            self.teams[id].push({
+                "moves": moves,
+                num: 0,
+                level: 0
+            });
         }
     };
-
 
     if (team) {
         this.myself = conf.players[1] === webclient.ownId ? 1 : 0;
         setTeam(this.myself, team);
-
-        console.log("own team");
-        console.log(this.teams[this.myself]);
         //this.updateTeamPokes(this.myself);
     } else {
         if (this.conf.teams) {
-            console.log("setting replay teams");
             setTeam(0, this.conf.teams[0]);
             setTeam(1, this.conf.teams[1]);
         }
         this.myself = 0;
     }
 
-    this.opponent = 1-this.myself;
+    this.opponent = 1 - this.myself;
 };
 
 battledata.isBattle = function() {
-    if (arguments.length == 0) {
-        return this.team ? true : false;
+    if (arguments.length === 0) {
+        return !!this.team;
     } else {
         return (this.team && this.myself == arguments[0]) || "teams" in this.conf;
     }
@@ -119,7 +123,7 @@ battledata.name = function(player) {
 };
 
 battledata.rnick = function(spot) {
-    if (! (spot in this.pokes)) {
+    if (!(spot in this.pokes)) {
         return this.teams[this.player(spot)][this.slot(spot)].name || "???";
     }
     return this.pokes[spot].name;
@@ -152,28 +156,34 @@ battledata.close = function() {
 };
 
 battledata.updateClock = function(player, time, ticking) {
-    this.timers[player] = {"time": time, "ticking": ticking, "lastupdate": new Date().getTime()};
+    this.timers[player] = {
+        "time": time,
+        "ticking": ticking,
+        "lastupdate": new Date().getTime()
+    };
     this.updateTimers();
 };
 
 battledata.updateTimers = function() {
     var self = this;
+
     for (var i = 0; i < 2; i++) {
         var time = this.timers[i].time;
         if (time === undefined) {
             time = 300;
         }
         if (this.timers[i].ticking) {
-            time -= (((new Date().getTime())-this.timers[i].lastupdate) /1000);
+            time -= (((new Date().getTime()) - this.timers[i].lastupdate) / 1000);
             if (time < 0) {
                 time = 0;
             }
         }
-        
         this.trigger("timerupdated", i, time);
     }
     if (this.timers[0].ticking || this.timers[1].ticking) {
-        setTimeout(function(){self.updateTimers();}, 1000);
+        setTimeout(function() {
+            self.updateTimers();
+        }, 1000);
     }
 };
 
@@ -206,7 +216,7 @@ battledata.allowStart = function() {
     if (!this.paused) {
         this.readQueue();
     }
-}
+};
 
 battledata.pause = function() {
     this.paused = true;
@@ -218,25 +228,21 @@ battledata.unpause = function() {
 };
 
 battledata.emptyQueue = function() {
-    return this.queue.length == 0;
+    return this.queue.length === 0;
 };
 
 battledata.readQueue = function() {
-    if (this.queue.length == 0 || this.readingQueue ||!this.canStart) {
+    if (this.queue.length === 0 || this.readingQueue ||!this.canStart) {
         return;
     }
 
     this.readingQueue = true;
-
-    var i;
-
-    for (i = 0; i < this.queue.length; i++) {
+    for (var i = 0; i < this.queue.length; i++) {
         if (this.paused) {
             break;
         }
         this.dealWithCommand(this.queue[i]);
     }
-
     this.queue = this.queue.slice(i);
     this.readingQueue = false;
 };
@@ -246,18 +252,14 @@ battledata.readQueue = function() {
    Calls the appropriate function from battle/commandshandling.js to handle it.
  */
 battledata.dealWithCommand = function(params) {
-    //console.log(params);
     var isImmediate = (params.command in BattleData.immediateCommands) && !params.end;
     if ((this.paused || !this.canStart) && !isImmediate) {
         this.queue.push(params);
         return;
     }
-    var funcName = "dealWith"+params.command[0].toUpperCase() + params.command.slice(1);
+    var funcName = "dealWith" + params.command[0].toUpperCase() + params.command.slice(1);
     if (funcName in BattleData.prototype) {
         this[funcName](params);
-    } else {
-        console.log(funcName + " not found!");
-        console.log(params);
     }
 };
 
@@ -272,13 +274,13 @@ BattleData.immediateCommands = {
 };
 
 battledata.sendMessage = function (message) {
-    var lines = message.trim().split('\n'),
-        command = (this.isBattle() ? "battlechat": "spectatingchat"),
-        line, len, i;
+    var lines = message.trim().split("\n");
+    var command = (this.isBattle() ? "battlechat": "spectatingchat");
 
-    for (i = 0, len = lines.length; i < len; i += 1) {
-        line = lines[i];
-
-        network.command(command, {battle: this.id, message: line});
+    for (var i = 0; i < lines.length; i++) {
+        network.command(command, {
+            battle: this.id,
+            message: lines[i]
+        });
     }
 };

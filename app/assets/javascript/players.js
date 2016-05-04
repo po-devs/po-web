@@ -189,15 +189,13 @@ PlayerHolder.prototype.testPlayerOnline = function (player) {
 };
 
 PlayerHolder.prototype.color = function (id) {
-    var player = this.player(id),
-        color;
+    var player = this.player(id);
 
     if (!player) {
         return "#000000";
     }
 
-    color = player.color;
-    return color ? color : namecolorlist[id % namecolorlist.length];
+    return player.color || namecolorlist[id % namecolorlist.length];
 };
 
 PlayerHolder.prototype.away = function (id) {
