@@ -203,7 +203,6 @@ ChannelTab.prototype.printMessage = function(msg, html) {
             } else if (id === -1) {
                 pref = "<span class='script-message'>" + pref + ":</span>";
             } else {
-                this.shown[id] = true;
                 pref = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(pref + ":", auth) + "</span></a>";
                 this.activateTab();
             }
