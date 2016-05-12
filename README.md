@@ -59,7 +59,7 @@ Basic explanation of the commmands:
 
 Open `index.html` with your browser. 
 
-You can instead run `nodejs server.js` and open your browser at http://localhost:7070.
+You can instead run `node server.js` and open your browser at http://localhost:7070.
 
 ### Configuration
 
