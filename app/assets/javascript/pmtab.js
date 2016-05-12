@@ -46,9 +46,9 @@ pmtab.printMessage = function(id, msg) {
 
     if (!raw) {
         auth = webclient.players.auth(id);
-
+        this.shown[id] = true;
         msg = utils.escapeHtml(msg);
-        msg = "<span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(webclient.players.name(id) + ":", auth) + "</span>"
+        msg = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(webclient.players.name(id) + ":", auth) + "</span></a>"
             + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
 
         this.activateTab();
