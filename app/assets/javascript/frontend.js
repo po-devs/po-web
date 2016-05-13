@@ -13,6 +13,24 @@ var webclientUI = {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
     },
 
+    updateBadgeCount : function() {
+        var total = -1; // NOTHING DISPLAYED
+
+        if ($(".channel-list-item.tab-active").length > 0) {
+            total = 0;
+        }
+
+        var flashes = $(".channel-list-item.tab-flash").length + $(".tab-active").length - $(".channel-list-item.tab-active").length;
+
+        if (flashes > 0) {
+            total = flashes;
+        }
+
+        /* -1 : no badge, 0+ : badge with 0+ displayed */
+        console.log("Updated badge count: " + total);
+        //Todo: remove the log and actually add the badge.
+    },
+
     printHtml : function(html) {
         for (var id in webclientUI.channels.channels()) {
             webclientUI.channels.channel(id).printHtml(html);
@@ -164,7 +182,7 @@ var webclientUI = {
                 }, {
                     label: 'Private Message',
                     action: function(dialogItself){
-                        webclient.pms.pm(id);
+                        webclient.pms.pm(id, true);
                         dialogItself.close();
                     }
                 }, {
@@ -447,7 +465,7 @@ $(function() {
                 webclient.joinChannel(payload);
             } else if (cmd === "pm") { // Create pm window
                 if (!isNaN(pid)) {
-                    webclient.pms.pm(pid).activateTab();
+                    webclient.pms.pm(pid, true);
                 }
             } else if (cmd === "ignore") {
                 // Ignore the user

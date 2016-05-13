@@ -5,7 +5,8 @@ function PMHolder() {
     self.pms = {};
 }
 
-PMHolder.prototype.pm = function (pid) {
+PMHolder.prototype.pm = function (pid, open) {
+    open = open || false;
     if (pid == webclient.ownId) {
         return;
     }
@@ -27,7 +28,11 @@ PMHolder.prototype.pm = function (pid) {
 
     this.trigger("newpm", pid);
 
-    webclientUI.switchToTab("pm-"+pid);
+    if (open) {
+        webclientUI.switchToTab("pm-"+pid);
+    } else {
+        pm.flashTab();
+    }
 
     return pm;
 };

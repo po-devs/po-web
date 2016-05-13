@@ -39,7 +39,12 @@ battlelist.addBattle = function(id) {
             this.changeName(id, battle.battle.tier);
         }
 
-        webclientUI.switchToTab("battle-"+id);
+        if (window.isActive) {
+            webclientUI.switchToTab("battle-"+id);
+        } else {
+            /* DO not open it at first in order to increase badge count */
+            battle.flashTab();
+        }
     }
 };
 

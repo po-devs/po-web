@@ -1,5 +1,6 @@
 function BaseTab(/* id */) {
     $.observable(this);
+    this.notificationCount = 0;
 }
 
 BaseTab.prototype.isCurrent = function() {
@@ -11,12 +12,15 @@ BaseTab.prototype.activateTab = function() {
     if (!this.isCurrent()) {
         $("#" + this.shortHand + "-" + this.id).addClass("tab-active");
     }
+
+    webclientUI.updateBadgeCount();
 };
 
 BaseTab.prototype.flashTab = function() {
     if (!this.isCurrent()) {
         $("#" + this.shortHand + "-" + this.id).addClass("tab-flash");
     }
+    webclientUI.updateBadgeCount();
 };
 
 BaseTab.prototype.makeName = function(name) {
@@ -46,6 +50,8 @@ BaseTab.prototype.setCurrentTab = function() {
     webclientUI.players.setPlayers(this.getPlayers());
 
     this.onSetCurrent();
+
+    webclientUI.updateBadgeCount();
 };
 
 BaseTab.prototype.addTab = function(element) {
@@ -75,6 +81,8 @@ BaseTab.prototype.removeTab = function() {
     if (webclientUI.tabs.length > 0) {
         webclientUI.tabs[webclientUI.tabs.length - 1].setCurrentTab();
     }
+
+    webclientUI.updateBadgeCount();
 };
 
 
