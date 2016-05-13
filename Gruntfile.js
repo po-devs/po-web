@@ -153,6 +153,10 @@ module.exports = function(grunt) {
         src: js_teambuilder,
         dest: './public/assets/javascript/teambuilder.js',
       },
+      js_simple_battle_window: {
+        src: ['./app/assets/javascript/battles/simplebattlewindow.js'],
+        dest: './public/assets/javascript/simplebattlewindow.js'
+      },
       simple_copy_colors: {
         src: ['./bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'],
         dest: './app/assets/stylesheets/bootstrap-colorpicker.less'

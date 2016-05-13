@@ -31,6 +31,10 @@ app.get("/battle-canvas.html", function(req, res) {
   res.render("battle-canvas.kiwi");
 });
 
+app.get("/simple-battle-canvas.html", function(req, res) {
+  res.render("simple-battle-canvas.kiwi");
+});
+
 app.get("/settings.html", function(req, res) {
   res.render("settings.kiwi");
 });

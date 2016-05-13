@@ -219,10 +219,12 @@ battledata.allowStart = function() {
 };
 
 battledata.pause = function() {
+    //console.log("pausing battle");
     this.paused = true;
 };
 
 battledata.unpause = function() {
+    //console.log("unpausing battle");
     this.paused = false;
     this.readQueue();
 };

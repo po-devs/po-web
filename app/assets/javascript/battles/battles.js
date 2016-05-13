@@ -49,6 +49,9 @@ Battles.prototype.addBattle = function (battles) {
 Battles.prototype.dealWithCommand = function(battleid, command) {
     if (battleid in this.battles) {
         this.battles[battleid].dealWithCommand(command);
+    } else {
+        console.log("battle command for battle " + battleid + " not found");
+        console.log(command);
     }
 };
 
