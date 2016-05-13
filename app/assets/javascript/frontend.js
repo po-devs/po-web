@@ -498,6 +498,10 @@ $(function() {
                 webclientUI.exitWarning = !webclientUI.exitWarning;
                 setTimeout(function(){$("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning);});
                 poStorage.set("exitwarning", webclientUI.exitWarning);
+            } else if (cmd === "simplebattle") {
+                webclientUI.battles.simpleWindow = !webclientUI.battles.simpleWindow;
+                setTimeout(function(){$("#checkbox-simplebattle-dd").prop("checked", webclientUI.battles.simpleWindow);});
+                poStorage.set("battle.simple-window", webclientUI.battles.simpleWindow);
             } else if (cmd === "register") {
                 network.command("register");
             } else if (cmd === "info") {
@@ -613,12 +617,14 @@ $(function() {
     webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean") === null ? true : poStorage.get("players.rainbow", "boolean");
     webclientUI.exitWarning = poStorage.get("exitwarning", "boolean") === null ? true : poStorage.get("exitwarning", "boolean");
     webclientUI.players.authFilter = poStorage.get("sort-by-auth", "boolean") === null ? true : poStorage.get("sort-by-auth", "boolean");
+    webclientUI.battles.simpleWindow = poStorage.get("battle.simple-window") === null ? false : poStorage.get("battle.simple-window", "boolean");
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);
     $("#checkbox-idle-dd").prop("checked", webclientUI.isIdle());
     $("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning);
     $("#checkbox-sortauth-dd").prop("checked", webclientUI.players.authFilter);
+    $("#checkbox-simplebattle-dd").prop("checked", webclientUI.battles.simpleWindow);
 
     webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object");
     if (webclientUI.channels.chanevents === null) {
