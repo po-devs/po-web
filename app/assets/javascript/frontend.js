@@ -253,8 +253,10 @@ var webclientUI = {
         if (id in webclientUI.waitingInfos) {
             var plInfo = webclientUI.waitingInfos[id];
             var oppPl = webclient.players.player(id);
-            plInfo.find(".player-avatar").attr("src", PokeInfo.trainerSprite(oppPl.avatar  || 167 ));
-            plInfo.find(".player-info").attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
+            if (id !== webclient.ownId) {
+                plInfo.find(".player-avatar").attr("src", PokeInfo.trainerSprite(oppPl.avatar  || 167 ));
+                plInfo.find(".player-info").attr("src", "data:text/html;charset=utf-8,"+webclientUI.convertImages($("<div>").html(info)).html());
+            }
 
             if (plInfo.updateRatings) {
                 var oppTeams, prefix = "";
