@@ -333,6 +333,7 @@ var webclientUI = {
                 case "data": /* base64 */
                     break;
                 default:
+                    console.log("Unknown protocol: " + proto);
                     break;
             }
         });

@@ -116,10 +116,12 @@ Battles.prototype.battle = function(pid) {
     if (pid in this.battles) {
         return this.battles[pid];
     }
+    console.log("no battle with id " + pid + " found, current ids: " + JSON.stringify(Object.keys(this.battles)));
 };
 
 Battles.prototype.watchBattle = function(bid, conf) {
     if (bid in this.battles) {
+        console.log("Already watching battle " + bid + " with conf " + JSON.stringify(conf));
         return;
     }
 

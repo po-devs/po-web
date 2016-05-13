@@ -262,6 +262,9 @@ battledata.dealWithCommand = function(params) {
     var funcName = "dealWith" + params.command[0].toUpperCase() + params.command.slice(1);
     if (funcName in BattleData.prototype) {
         this[funcName](params);
+    } else {
+        console.log("Unknown BattleData command issued.");
+        console.log(params);
     }
 };
 

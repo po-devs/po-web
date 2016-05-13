@@ -32,6 +32,7 @@ function serverConnect(params) {
                     document.location.href = config.registry;
                 }
             });
+            console.log("Failed to connect to relay.");
             network.close();
         },
         // close

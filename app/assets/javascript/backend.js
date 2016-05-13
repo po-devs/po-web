@@ -118,6 +118,9 @@ var webclient = {
                         .addClass("challenge-" + params.desc)
                         .text(messages[params.desc].replace("#player", webclient.players.name(params.id))))
                     .html());
+            } else {
+                console.log("Unknown challenge type received.");
+                console.log(payload);
             }
         }
     },
