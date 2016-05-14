@@ -268,7 +268,10 @@ html .userMenu > a:focus {
 }
 
 .chat {
-    .stretchY;
+  .stretchY;
+
+  /* This causes very annoying issues when chat has a long backlog on PC otherwise */
+  overflow-y: auto;
 
   word-wrap: break-word;
 }
