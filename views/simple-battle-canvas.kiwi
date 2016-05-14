@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- 600 x 360 px battle window -->
   <title>battle viewport</title>
   <meta charset="utf-8">
   <style type="text/css">
@@ -16,10 +17,36 @@
     right: 0px;
     overflow: hidden;
   }
+  .poke-container {
+    position: absolute;
+    width: 160px;
+  }
+  .backside {
+    bottom: 25px;
+    left: 25px;
+  }
+  .frontside {
+    bottom: 190px;
+    left: 400px;
+  }
+  .poke-sprite {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
   </style>
   <script src="public/assets/javascript/jquery.min.js"></script>
 </head>
 <body class="battle-canvas">
+
+<!-- containers are needed to properly center images of varying widths -->
+<div class="poke-container" id="poke-0">
+  <img src="public/assets/images/blank.png" class="poke-sprite">
+</div>
+<div class="poke-container" id="poke-1">
+  <img src="public/assets/images/blank.png" class="poke-sprite">
+</div>
 <script type="text/javascript">
 var  queryField = function (key, default_,query) {
     var match = new RegExp('[?&]' + key + '=([^&]*)')

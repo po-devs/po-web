@@ -141,6 +141,10 @@ battledata.player = function(spot) {
     return spot % 2;
 };
 
+battledata.side = function(spot) {
+    return this.player(spot) == this.myself ? 1 : 0;
+};
+
 battledata.updateInfo = function(id, player) {
     if (this.ids[0] == id) {
         this.players[0] = player.name;
@@ -193,6 +197,10 @@ battledata.slot = function(spot) {
 
 battledata.spot = function(player, slot) {
     return player + (slot << 1);
+};
+
+battledata.poke = function(spot) {
+    return this.pokes[spot];
 };
 
 battledata.tpoke = function(spot) {
