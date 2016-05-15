@@ -180,12 +180,11 @@ $(function() {
     webclientUI.players.element = $("#playerlist");
     webclientUI.players.count = $("#playercount");
 
-    $("#player-filter").on("input", function() {
-        if (/^\s*$/.test($("#player-filter").val())) { /* Don't search when the string is blank */
-            return;
-        }       
+    $("#player-filter").on("input", function() {     
         webclientUI.players.setFilter($(this).val());
-        if ($("#player-filter").val().charAt(0) !== '#') { /* Don't scroll on top when the first char is '#' */
+        s = $("#player-filter").val();
+        
+        if (s.length > 0 && s[0] != '#') {
             $("#playerlist").scrollTop(0);
         }
     });
