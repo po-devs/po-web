@@ -203,10 +203,14 @@ utils.inherits(BattleTab, BaseTab);
 
 BattleTab.getIframe = function(id) {
     if (webclientUI.battles.simpleWindow) {
-        return "<iframe src='/simple-battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>";
+        return "<iframe class='battle-iframe' src='/simple-battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>";
     } else {
-        return "<iframe src='/battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>";
+        return "<iframe class='battle-iframe' src='/battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>";
     }
+};
+
+BattleTab.prototype.switchToSimpleWindow = function() {
+    this.layout.find(".battle-iframe").attr("src", "/simple-battle-canvas.html?battle=" + this.id);
 };
 
 BattleTab.prototype.addPopover = function(item, options) {

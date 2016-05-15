@@ -13,6 +13,15 @@ function position(spot) {
 	}
 }
 
+function init() {
+	if (battle.poke(0).percent) {
+		battle.trigger("sendout", 0);
+	}
+	if (battle.poke(1).percent) {
+		battle.trigger("sendout", 1);
+	}
+}
+
 function updateHP(spot) {
 	hpbar(spot).find(".hp").css("width", 150*battle.poke(spot).percent/100);
 	hpbar(spot).find(".prevhp").css("width", 150*battle.poke(spot).percent/100+1);
@@ -72,6 +81,8 @@ $(function() {
 
 	position(0);
 	position(1);
+
+	init();
 
     battle.unpause();
 });

@@ -16,6 +16,7 @@
     bottom: 0px;
     right: 0px;
     overflow: hidden;
+    background: transparent;
   }
 
   </style>

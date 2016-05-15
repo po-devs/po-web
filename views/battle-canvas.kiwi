@@ -15,10 +15,13 @@
     bottom: 0px;
     right: 0px;
     overflow: hidden;
+    background: transparent;
   }
   </style>
 </head>
 <body class="battle-canvas">
+<div style="position: absolute; right: 3px;"><button type="button" class="close" aria-label="Close" onclick="battleUI.switchToSimpleWindow();" title="Use simple window"><span aria-hidden="true">×</span></button>
+</div>
 <script type="text/javascript">
 var  queryField = function (key, default_,query) {
     var match = new RegExp('[?&]' + key + '=([^&]*)')
@@ -28,6 +31,7 @@ var  queryField = function (key, default_,query) {
 
 var battleId = queryField("battle");
 var battle = window.top.webclient.battles.battle(battleId);
+var battleUI = window.top.webclientUI.battles.battle(battleId);
 var pokeinfo = window.top.PokeInfo;
 
 </script>
@@ -51,4 +55,7 @@ var pokeinfo = window.top.PokeInfo;
     document.getElementById('embed-html').addEventListener('mousedown', handleMouseDown, false);
     document.getElementById('embed-html').addEventListener('mouseup', handleMouseUp, false);
 </script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
 </html>
