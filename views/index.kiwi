@@ -135,6 +135,7 @@ $(function() {
 <div id="channel-context-menu">
   <ul class="dropdown-menu dropdown-menu-form" role="menu">
     <li id="channels-chanevents-menu"><a tabindex="-1" href="po:chanevents/">Enable channel events</a></li>
+    <li id="channels-channotifs-menu"><a tabindex="-1" href="po:channotifs/">Enable notifications</a></li>
   </ul>
 </div>
   <!-- load stuff at the end -->

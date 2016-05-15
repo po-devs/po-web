@@ -1,6 +1,7 @@
 function ChannelList() {
     this.ids = {};
     this.chanevents = {};
+    this.channotifs = {};
 }
 
 ChannelList.prototype.createChannelItem = function (id) {
@@ -12,6 +13,18 @@ ChannelList.prototype.createChannelItem = function (id) {
         "<span aria-hidden='true'>&times;</span></button></a>";
 };
 
+ChannelList.prototype.countActive = function() {
+    var cnt = 0;
+    for (var id in this.ids) {
+        if (webclient.channels.name(id).toLowerCase() in this.channotifs) {
+            if ($("#channel-" + id).hasClass("tab-active")) {
+                cnt ++;
+            }
+        }
+    }
+
+    return cnt;
+};
 
 ChannelList.prototype.updateChannelName = function(id) {
     if (this.hasChannel(id)) {
@@ -57,8 +70,23 @@ ChannelList.prototype.toggleChanEvents = function (id) {
     poStorage.set("chanevents-" + webclient.serverIP, this.chanevents);
 };
 
+ChannelList.prototype.toggleChanNotifs = function (id) {
+    var chan = webclient.channels.name(id).toLowerCase();
+    if (chan in this.channotifs) {
+        delete this.channotifs[chan];
+    } else {
+        this.channotifs[chan] = true;
+    }
+
+    poStorage.set("channotifs-" + webclient.serverIP, this.channotifs);
+};
+
 ChannelList.prototype.chanEventsEnabled = function (id) {
     return webclient.channels.name(id).toLowerCase() in this.chanevents;
+};
+
+ChannelList.prototype.chanNotifsEnabled = function (id) {
+    return webclient.channels.name(id).toLowerCase() in this.channotifs;
 };
 
 ChannelList.prototype.startObserving = function(channels) {
@@ -151,6 +179,7 @@ $(function() {
             });
 
             menu.find("#channels-chanevents-menu").find("a").text(webclientUI.channels.chanEventsEnabled(id) ? "Disable channel events" : "Enable channel events");
+            menu.find("#channels-channotifs-menu").find("a").text(webclientUI.channels.chanNotifsEnabled(id) ? "Disable notifications" : "Enable notifications");
         },
         onItem: function(context, event) {
             event.preventDefault();

@@ -17,11 +17,11 @@ var webclientUI = {
 
         var total = -1; // NOTHING DISPLAYED
 
-        if ($(".channel-list-item.tab-active").length > 0) {
+        if (webclientUI.channels.countActive() > 0) {
             total = 0;
         }
 
-        var flashes = $(".channel-list-item.tab-flash").length + $(".tab-active").length - $(".channel-list-item.tab-active").length;
+        var flashes = $(".tab-active").length + ($(".channel-list-item.tab-flash").length - $(".channel-list-item.tab-active").length);
 
         if (flashes > 0) {
             total = flashes;
@@ -529,6 +529,9 @@ $(function() {
                 webclientUI.displayPlayerWindow(+payload);
             } else if (cmd == "chanevents") {
                 webclientUI.channels.toggleChanEvents(payload);
+            } else if (cmd == "channotifs") {
+                webclientUI.channels.toggleChanNotifs(payload);
+                webclientUI.updateBadgeCount();
             } else if (cmd == "settings") {
                 webclientUI.showSettings();
             } else if (cmd == "findbattle") {
@@ -647,10 +650,8 @@ $(function() {
     $("#checkbox-sortauth-dd").prop("checked", webclientUI.players.authFilter);
     $("#checkbox-simplebattle-dd").prop("checked", webclientUI.battles.simpleWindow);
 
-    webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object");
-    if (webclientUI.channels.chanevents === null) {
-        webclientUI.channels.chanevents = {};
-    }
+    webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object") || {};
+    webclientUI.channels.channotifs = poStorage.get("channotifs-" + (poStorage.get("relay") || config.relayIP), "object") || {};
 });
 
 window.onbeforeunload = function(e) {
