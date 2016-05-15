@@ -181,8 +181,13 @@ $(function() {
     webclientUI.players.count = $("#playercount");
 
     $("#player-filter").on("input", function() {
+        if (/^\s*$/.test($("#player-filter").val())) { /* Don't search when the string is blank */
+            return;
+        }       
         webclientUI.players.setFilter($(this).val());
-        $("#playerlist").scrollTop(0);
+        if ($("#player-filter").val().charAt(0) !== '#') { /* Don't scroll on top when the first char is '#' */
+            $("#playerlist").scrollTop(0);
+        }
     });
     webclientUI.players.setFilter($("#player-filter").val());
 
