@@ -180,7 +180,7 @@ $(function() {
     webclientUI.players.element = $("#playerlist");
     webclientUI.players.count = $("#playercount");
 
-    $("#player-filter").on("input", function() {     
+    $("#player-filter").on("input", function() {
         webclientUI.players.setFilter($(this).val());
         s = $("#player-filter").val();
         
