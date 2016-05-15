@@ -70,7 +70,7 @@ module.exports = function(grunt) {
     './bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js',
     './bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
     './bower_components/typeahead.js/dist/typeahead.jquery.min.js',
-    './bower_components/favico.js/favico-0.3.10.min.js',
+    './bower_components/favico.js/favico.js',
     './app/assets/javascript/libs/vex.combined.min.js',
     './app/assets/javascript/notif.js',
     './app/assets/javascript/utils.js',
