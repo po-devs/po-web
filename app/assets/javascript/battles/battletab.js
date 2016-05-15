@@ -13,25 +13,7 @@ function BattleTab(id) {
     this.myself = this.battle.myself;
     this.opponent = this.battle.opponent;
 
-    this.battle.on("print", function(msg, args){self.print(msg, args)});
-    this.battle.on("playeradd", function(id) {self.newPlayer(id);});
-    this.battle.on("playerremove", function(id) {self.removePlayer(id);});
-    this.battle.on("tier", function(tier) {
-        self.trigger("changename", id, tier);
-    });
-    this.battle.on("timerupdated", function(i, time) {
-        time = Math.floor(time);
-        self.timers[i].text(Math.floor(time/60) + ":" + ("0" + (time%60)).substr(-2));
-        if (time <= 30) {
-            self.timers[i].addClass("time-critical");
-        } else {
-            self.timers[i].removeClass("time-critical");
-        }
-    });
-    this.battle.on("disable", function() {
-        self.chat.disable();
-    });
-
+    this.setCallbacks();
     //new BattleAnimator(this);
 
     this.battle.data.background = Math.floor(37 * Math.random());
@@ -147,28 +129,6 @@ function BattleTab(id) {
 
     self.fieldPopover = -1;
 
-    this.battle.on("updateteampokes", function(player, pokes) {
-        self.updateTeamPokes(player, pokes);
-    }).on("playernameupdated", function(spot, name) {
-        rows[spot].find(".trainer-name").text(name);
-    }).on("choicesavailable", function() {
-        self.enableChoices();
-    }).on("teampreview", function(team1, team2) {
-        self.showTeamPreview(team1, team2);
-    }).on("battle-hover", function(spot) {
-        if (spot == self.fieldPopover) {
-            return;
-        }
-        if (spot == -1) {
-            self.pokes[0].popover("hide");
-            self.pokes[1].popover("hide");
-        } else {
-            self.pokes[1-spot].popover("hide");
-            self.pokes[spot].popover("show");
-        }
-        self.fieldPopover = spot;
-    });
-
     this.canvas = layout.find(".battle-canvas");
     this.tab.on("mousemove", function(event) {
         var pos = {"top": event.pageY, "left": event.pageX};
@@ -209,7 +169,52 @@ BattleTab.getIframe = function(id) {
     }
 };
 
+BattleTab.prototype.setCallbacks = function() {
+    var self = this;
+    this.battle.on("print", function(msg, args){self.print(msg, args)});
+    this.battle.on("playeradd", function(id) {self.newPlayer(id);});
+    this.battle.on("playerremove", function(id) {self.removePlayer(id);});
+    this.battle.on("tier", function(tier) {
+        self.trigger("changename", this.id, tier);
+    });
+    this.battle.on("timerupdated", function(i, time) {
+        time = Math.floor(time);
+        self.timers[i].text(Math.floor(time/60) + ":" + ("0" + (time%60)).substr(-2));
+        if (time <= 30) {
+            self.timers[i].addClass("time-critical");
+        } else {
+            self.timers[i].removeClass("time-critical");
+        }
+    });
+    this.battle.on("disable", function() {
+        self.chat.disable();
+    });
+    this.battle.on("updateteampokes", function(player, pokes) {
+        self.updateTeamPokes(player, pokes);
+    }).on("playernameupdated", function(spot, name) {
+        rows[spot].find(".trainer-name").text(name);
+    }).on("choicesavailable", function() {
+        self.enableChoices();
+    }).on("teampreview", function(team1, team2) {
+        self.showTeamPreview(team1, team2);
+    }).on("battle-hover", function(spot) {
+        if (spot == self.fieldPopover) {
+            return;
+        }
+        if (spot == -1) {
+            self.pokes[0].popover("hide");
+            self.pokes[1].popover("hide");
+        } else {
+            self.pokes[1-spot].popover("hide");
+            self.pokes[spot].popover("show");
+        }
+        self.fieldPopover = spot;
+    });
+}
+
 BattleTab.prototype.switchToSimpleWindow = function() {
+    this.battle.off("*");
+    this.setCallbacks();
     this.layout.find(".battle-iframe").attr("src", "/simple-battle-canvas.html?battle=" + this.id);
 };
 
