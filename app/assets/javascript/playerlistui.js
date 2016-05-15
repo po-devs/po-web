@@ -182,6 +182,7 @@ $(function() {
 
     $("#player-filter").on("input", function() {
         webclientUI.players.setFilter($(this).val());
+        $("#playerlist").scrollTop(0);
     });
     webclientUI.players.setFilter($("#player-filter").val());
 
