@@ -14,6 +14,7 @@ var webclientUI = {
     },
 
     updateBadgeCount : function() {
+
         var total = -1; // NOTHING DISPLAYED
 
         if ($(".channel-list-item.tab-active").length > 0) {
@@ -27,7 +28,8 @@ var webclientUI = {
         }
 
         /* -1 : no badge, 0+ : badge with 0+ displayed */
-        console.log("Updated badge count: " + total);
+       	notif.count = total
+		notif.titleUpdate();
         //Todo: remove the log and actually add the badge.
     },
 
