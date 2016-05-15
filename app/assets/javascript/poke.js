@@ -72,7 +72,7 @@ Poke.prototype.load = function(poke) {
 };
 
 Poke.prototype.evSurplus = function() {
-	if (this.gen && this.gen.num <= 2) {
+	if (this.illegal || (this.gen && this.gen.num <= 2)) {
 		return 0;
 	}
     var sum = 0;
@@ -80,6 +80,19 @@ Poke.prototype.evSurplus = function() {
         sum = sum + this.evs[i];
     }
     return sum - 510;
+};
+
+Poke.prototype.correctSurplus = function() {
+	var surplus = this.evSurplus() + 2;
+	if (surplus <= 0 || this.illegal || (this.gen && this.gen.num <= 2)) {
+		return false;
+	}
+	for (var i = 0; i < 6; i++) {
+		var reduction = Math.min(surplus, this.evs[i]);
+		this.evs[i] -= reduction;
+		surplus -= reduction;
+	}
+	return true;
 };
 
 Poke.prototype.export = function() {

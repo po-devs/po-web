@@ -108,7 +108,7 @@ $(function() {
       </div>
       <form role="search" class="playerFilter">
         <div class="form-group">
-          <div class="input-group">
+          <div class="input-group player-filter-group">
             <input type="text" class="form-control" id="player-filter" placeholder="Players, #channels...">
           </div>
         </div>

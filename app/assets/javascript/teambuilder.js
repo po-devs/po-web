@@ -154,21 +154,10 @@ Poke.prototype.setElement = function(element) {
         }).data("slot", i).on("change", function(event) {
             var i = $(this).data("slot");
             self.evs[i] = event.value.newValue;
-            var surplus = self.evSurplus();
-            if (surplus > 0 && !self.illegal) {
-                self.evs[i] -= surplus;
-                if (self.evs[i] < 0) {
-                    self.evs[i] = 0;
-                }
-                self.evs[i] = self.evs[i] - (self.evs[i]%4);
-                $(this).slider("setValue", self.evs[i]);
-            }
-            self.ui.evVals[i].val(self.evs[i]);
+            self.correctSurplus();
             if (self.gen && self.gen.num <= 2 && i == 3) {
                 // link sp.atk to sp.def
                 self.evs[4] = self.evs[i];
-                self.ui.evs[4].slider("setValue", self.evs[i]);
-                self.ui.evVals[4].val(self.evs[i]);
                 self.updateStatGui(4);
             }
             self.updateStatGui(i);
@@ -180,21 +169,10 @@ Poke.prototype.setElement = function(element) {
                 self.evs[i] = 252;
                 $(this).val(self.evs[i]);
             }
-            var surplus = self.evSurplus();
-
-            if (surplus > 0 &&!self.illegal) {
-                self.evs[i] -= surplus;
-                if (self.evs[i] < 0) {
-                    self.evs[i] = 0;
-                }
-                $(this).val(self.evs[i]);
-            }
-            self.ui.evs[i].slider("setValue", self.evs[i]);
+            self.correctSurplus();
             if (self.gen && self.gen.num <= 2 && i == 3) {
                 // link sp.atk to sp.def
                 self.evs[4] = self.evs[i];
-                self.ui.evs[4].slider("setValue", self.evs[i]);
-                self.ui.evVals[4].val(self.evs[i]);
                 self.updateStatGui(4);
             }
             self.updateStatGui(i);
@@ -214,13 +192,13 @@ Poke.prototype.setElement = function(element) {
                     self.ui.ivVals[4].data("slot", 4).val(self.ivs[4]);
                     self.updateStatGui(4);
                 }
-                self.ivs[0] =
-                    (self.ivs[1] & 1) * 8 +
-                    (self.ivs[2] & 1) * 4 +
-                    (self.ivs[5] & 1) * 2 +
-                    (self.ivs[3] & 1);
+                self.ivs[0] = PokeInfo.calculateHpIv(self.ivs);
                 self.ui.ivVals[0].data("slot", 0).val(self.ivs[0]);
                 self.updateStatGui(0);
+                // could become shiny upon IV change in gen 2
+                if (self.gen.num === 2) {
+                    self.ui.sprite.attr("src", PokeInfo.sprite(self));
+                }
             }
         }).on("focusin change", function() {
             self.updateDescription({"type": "iv"});
@@ -228,7 +206,7 @@ Poke.prototype.setElement = function(element) {
 
         element.find(".tb-ev-name, .tb-stat").on("click", function() {
             var stat = $(this).closest(".tb-ev-row").attr("evslot");
-            if (stat === 0) {
+            if (stat === 0 || self.gen && self.gen.num <= 2) {
                 return;
             }
             var negstat = NatureInfo.reducedStat(self.nature);
@@ -240,7 +218,7 @@ Poke.prototype.setElement = function(element) {
             self.ui.nature.val(self.nature);
         }).on("contextmenu", function() {
             var stat = $(this).closest(".tb-ev-row").attr("evslot");
-            if (stat === 0) {
+            if (stat === 0 || self.gen && self.gen.num <= 2) {
                 return;
             }
             var negstat = NatureInfo.reducedStat(self.nature);
@@ -321,54 +299,54 @@ Poke.prototype.updateDescription = function(what) {
     };
     var addHpStuff = function(elem) {
         var hp = elem.find(".tb-hidden-power");
-        var hpBp = elem.find(".tb-hidden-power-bp");
+        var ivsSelection = elem.find(".tb-hidden-power-ivs");
         for (var t = 1; t < 17; t++) {
             hp.append("<option value='" + t + "'>" + TypeInfo.name(t) + "</option>");
         }
         hp.val(MoveInfo.getHiddenPowerType(self.ivs, self.gen));
-        hpBp.empty();
+        ivsSelection.empty();
         var hpIvs = MoveInfo.getHiddenPowerIVs(hp.val(), self.gen);
         for (var i = 0; i < hpIvs.length; i++) {
-            hpBp.append("<option value='" + i + "'>" + ivString(hpIvs[i]) + "</option>");
+            ivsSelection.append("<option value='" + i + "'>" + ivString(hpIvs[i]) + "</option>");
         }
         hp.on("change", function() {
-            hpBp.empty();
+            ivsSelection.empty();
             var hpIvs = MoveInfo.getHiddenPowerIVs($(this).val(), self.gen);
             for (var i = 0; i < hpIvs.length; i++) {
-                hpBp.append("<option value='" + i + "'>" + ivString(hpIvs[i]) + "</option>");
+                ivsSelection.append("<option value='" + i + "'>" + ivString(hpIvs[i]) + "</option>");
             }
             self.ivs = hpIvs[0];
             self.updateStatsGui();
-            for (var s = 0; s < self.ivs.length; s++) {
-                self.ui.ivVals[s].val(self.ivs[s]);
-            }
         });
-        hpBp.on("change", function() {
+        ivsSelection.on("change", function() {
             self.ivs = MoveInfo.getHiddenPowerIVs(hp.val(), self.gen)[$(this).val()];
             self.updateStatsGui();
-            for (var i = 0; i < self.ivs.length; i++) {
-                self.ui.ivVals[i].val(self.ivs[i]);
-            }
         });
     };
     if (what.type === "iv") {
         var html = $(
             "<div class='form-group'><select class='form-control tb-hidden-power'></select>" +
-            "<select class='form-control tb-hidden-power-bp'></select></div>");
+            "<select class='form-control tb-hidden-power-ivs'></select></div>");
         this.ui.desc.html('');
         this.ui.desc.append(html);
         addHpStuff(this.ui.desc);
     } else if (what.type === "pokemon") {
         var links = [
-            " - <a href='http://wiki.pokemon-online.eu/page/" + PokeInfo.name(what.poke.num).toLowerCase() + "'>Wiki</a>",
             " - <a href='http://veekun.com/dex/pokemon/" + PokeInfo.name(what.poke.num).toLowerCase() + "'>Veekun</a>"
         ].join("<br/>");
         this.ui.desc.html('');
         this.ui.desc.append($("<div class='col-sm-6'>").html(links));
         this.ui.desc.append($("<div class='col-sm-6'>").html('<div class="checkbox tb-shiny-container"><label><input type="checkbox" class="shiny-input"> Shiny</label></div>')
                                                        .append('<select class="form-control smogon-set-selection"><option value="none">Smogon sets</option></select>'));
-        this.ui.desc.find(".shiny-input").prop("checked", this.shiny).on("change", function() {
+        if (this.gen && this.gen.num === 1) {
+            $(".tb-shiny-container").hide();
+        }
+        this.ui.desc.find(".shiny-input").prop("checked", PokeInfo.isShiny(this)).on("change", function() {
             self.shiny = this.checked;
+            if (self.gen && self.gen.num === 2) {
+                self.ivs = self.shiny ? PokeInfo.calculateBestShiny(self) : [15, 15, 15, 15, 15, 15];
+                self.updateStatsGui();
+            }
             self.ui.sprite.attr("src", PokeInfo.sprite(self));
         });
 
@@ -406,7 +384,7 @@ Poke.prototype.updateDescription = function(what) {
             desc += "<br/><strong>Effect:</strong> " + (MoveInfo.effect(what.move, this.gen) || "");
         } else if (hiddenPower) {
             desc += "<div class='form-group'><select class='form-control tb-hidden-power'></select>" +
-                    "<select class='form-control tb-hidden-power-bp'></select></div>";
+                    "<select class='form-control tb-hidden-power-ivs'></select></div>";
         }
         this.ui.desc.html(desc);
         if (hiddenPower) {
@@ -493,6 +471,9 @@ Poke.prototype.updateSets = function() {
 Poke.prototype.updateStatGui = function(stat) {
     var calced = PokeInfo.calculateStat(this, stat, this.gen);
     this.ui.stats[stat].text(calced);
+    this.ui.evs[stat].slider("setValue", this.evs[stat]);
+    this.ui.evVals[stat].val(this.evs[stat]);
+    this.ui.ivVals[stat].val(this.ivs[stat]);
 };
 
 Poke.prototype.loadGui = function() {
@@ -532,6 +513,9 @@ Poke.prototype.updateStatsGui = function() {
     for (var i = 0; i < 6; i++) {
         this.updateStatGui(i);
         this.ui.stats[i].removeClass("tb-stat-minus tb-stat-plus");
+
+        if (this.gen && this.gen.num <= 2) continue;
+
         var effect = NatureInfo.getNatureEffect(this.nature, i);
         if (effect > 1) {
             this.ui.stats[i].addClass("tb-stat-plus");
@@ -541,26 +525,27 @@ Poke.prototype.updateStatsGui = function() {
     }
 };
 
-Poke.prototype.updateGui = function()
-{
+Poke.prototype.updateGui = function() {
     var self = this;
     this.ui.guiLoaded = true;
 
-    if (this.data.moveNames.length == 0) {
-        for (var i in this.data.allMoves) {
-            this.data.moveNames.push({value: MoveInfo.name(this.data.allMoves[i]), id: this.data.allMoves[i]});
+    if (this.data.moveNames.length === 0) {
+        for (var m in this.data.allMoves) {
+            this.data.moveNames.push({value: MoveInfo.name(this.data.allMoves[m]), id: this.data.allMoves[m]});
         }
-        this.data.moveNames.sort(function(a,b) {return a.value > b.value});
+        this.data.moveNames.sort(function(a, b) {
+            return a.value > b.value;
+        });
     }
 
-    for (var i = 0; i < 6; i++) {
-        self.ui.evs[i].slider("setValue", self.evs[i]);
-        self.ui.evVals[i].val(self.evs[i]);
-        self.ui.ivVals[i].val(self.ivs[i]);
+    for (var s = 0; s < 6; s++) {
+        this.updateStatGui(s);
 
         if (this.gen && this.gen.num <= 2) {
             // set max ivs to 15
-            this.ui.ivVals[i].prop("max", 15).prop("value", 15);
+            this.ui.ivVals[s].prop("max", 15).prop("value", 15);
+        } else {
+            this.ui.ivVals[s].prop("max", 31);
         }
     }
 
@@ -568,10 +553,26 @@ Poke.prototype.updateGui = function()
         // lock hp and spdef for gen 1/2
         this.ui.ivVals[0].prop("readonly", true).addClass("tb-input-disabled");
         this.ui.ivVals[4].prop("readonly", true).addClass("tb-input-disabled");
-
-        // lock spdef evs too
         this.ui.evs[4].prop("readonly", true).slider("disable");
         this.ui.evVals[4].prop("readonly", true).addClass("tb-input-disabled");
+        if (this.gen.num < 2) {
+            this.ui.item.parent().parent().hide();
+            this.ui.genders.parent().hide();
+        } else {
+            this.ui.item.parent().parent().show();
+            this.ui.genders.parent().show();
+        }
+        this.ui.ability.parent().hide();
+        this.ui.nature.parent().hide();
+    } else {
+        this.ui.ivVals[0].removeAttr("readonly").removeClass("tb-input-disabled");
+        this.ui.ivVals[4].removeAttr("readonly").removeClass("tb-input-disabled");
+        this.ui.evs[4].removeAttr("readonly").slider("enable");
+        this.ui.evVals[4].removeAttr("readonly").removeClass("tb-input-disabled");
+        this.ui.item.parent().parent().show();
+        this.ui.ability.parent().show();
+        this.ui.nature.parent().show();
+        this.ui.genders.parent().show();
     }
 
     this.updateStatsGui();
@@ -635,7 +636,7 @@ Poke.prototype.updateGui = function()
     });
 
     for (var i = 0; i < 4; i++) {
-        this.ui.moves.eq(i).typeahead("val", this.moves[i] == 0 ? "" : MoveInfo.name(this.moves[i]));
+        this.ui.moves.eq(i).typeahead("val", this.moves[i] === 0 ? "" : MoveInfo.name(this.moves[i]));
     }
 
     this.updateDescription({"type": "pokemon", "poke": this});
@@ -1040,8 +1041,16 @@ Teambuilder.prototype.setGen = function(genNum) {
     var gen = getGen(genNum);
     this.team.gen = gen;
     for (var i = 0; i < this.team.pokes.length; i++) {
-        this.team.pokes[i].unloadAll();
-        this.team.pokes[i].gen = gen;
+        var poke = this.team.pokes[i];
+        poke.gen = gen;
+        poke.correctSurplus();
+        if (gen.num <= 2) {
+            for (var s = 0; s < 6; s++) {
+                poke.ivs[s] = Math.min(15, poke.ivs[s]);
+            }
+        }
+        poke.updateStatsGui();
+        poke.unloadAll();
     }
     this.updateGenGui();
     this.updateItemSelections();

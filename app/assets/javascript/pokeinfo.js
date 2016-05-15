@@ -222,7 +222,7 @@ PokeInfo.sprite = function(poke, params) {
     if (back) {
         path += "back/";
     }
-    if (poke.shiny) {
+    if (PokeInfo.isShiny(poke, poke.gen)) {
         path += "shiny/";
     }
     if (poke.female && gen.num !== 6) {
@@ -388,6 +388,41 @@ PokeInfo.excludeFormes = true;
 
 PokeInfo.released = function(poke, gen) {
     return pokedex.pokes.released[getGen(gen).num].hasOwnProperty(this.toNum(poke));
+};
+
+PokeInfo.calculateHpIv = function(ivs) {
+    /* In generations 1 & 2 the HP DV/IV is calculated */
+    return (ivs[1] & 1) * 8 +
+        (ivs[2] & 1) * 4 +
+        (ivs[5] & 1) * 2 +
+        (ivs[3] & 1);
+};
+
+PokeInfo.calculateBestShiny = function(info) {
+    var shinyIvs = info.ivs.slice();
+
+    shinyIvs[2] = shinyIvs[3] = shinyIvs[4] = shinyIvs[5] = 10;
+
+    // currently only attempts to maintain hp type
+    shinyIvs[1] = 15;
+    var gen2 = getGen(2);
+    var type = MoveInfo.getHiddenPowerType(info.ivs, gen2);
+    while (shinyIvs[1] >= 0) {
+        if (type === MoveInfo.getHiddenPowerType(shinyIvs, gen2)) break;
+        shinyIvs[1] -= (shinyIvs[1] % 2) ? 1 : 3;
+    }
+    if (shinyIvs[1] < 0) {
+        shinyIvs[1] = 15;
+    }
+
+    shinyIvs[0] = PokeInfo.calculateHpIv(shinyIvs);
+    return shinyIvs;
+};
+
+PokeInfo.isShiny = function(info, gen) {
+    if (!gen || gen.num > 2) return info.shiny;
+    return info.ivs[2] === 10 && info.ivs[3] === 10 && info.ivs[5] === 10 &&
+        [2, 3, 6, 7, 10, 11, 14, 15].indexOf(info.ivs[1]) > -1;
 };
 
 PokeInfo.calculateStatInfo = function(info, stat, gen) {
