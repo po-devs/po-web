@@ -1,0 +1,93 @@
+.poke-container {
+  position: absolute;
+  width: 160px;
+}
+.backside {
+  bottom: 25px;
+  left: 25px;
+}
+.frontside {
+  bottom: 190px;
+  left: 400px;
+}
+.poke-sprite {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pokehud {
+  display: none;
+  position: absolute;
+  bottom: 130px;
+
+  text-align: left;
+  font-family: Verdana,sans-serif;
+  font-size: 10pt;
+}
+
+.pokehud .hpbar {
+  position: relative;
+  border: 1px solid #777777;
+  background: #FCFEFF;
+  padding: 1px;
+  height: 8px;
+  margin: 0 0 0 0;
+  width: 151px;
+  border-radius: 4px;
+}
+
+.rpokehud .hpbar .hptext {
+  right: -32px;
+  border-radius: 0 4px 4px 0;
+}
+.lpokehud .hpbar .hptext {
+  left: -32px;
+  border-radius: 4px 0px 0px 4px;
+}
+
+.pokehud .hpbar .hptext {
+  position: absolute;
+  background: #777777;
+  color: #EEEEEE;
+  text-shadow: #000000 0 1px 0;
+  text-stroke: 1px #000000;
+  font-size: 9px;
+  width: 32px;
+  height: 12px;
+  top: -1px;
+  text-align: center;
+}
+
+.rpokehud .hpbar .hptextborder {
+  right: -3px;
+}
+.lpokehud .hpbar .hptextborder {
+  left: -3px;
+}
+
+.pokehud .hpbar .hptextborder {
+  position: absolute;
+  background: transparent;
+  border-top: 1px solid #777777;
+  border-bottom: 1px solid #777777;
+  width: 4px;
+  top: -1px;
+  height: 10px;
+}
+
+.pokehud .hpbar .prevhp {
+  background: #BBEECC;
+  height: 8px;
+  border-radius: 3px;
+}
+
+.pokehud .hpbar .hp {
+  height: 5px;
+  border-top: 2px solid #00dd60;
+  background: #00bb51;
+  border-bottom: 2px solid #007734;
+  border-right: 1px solid #007734;
+  border-radius: 3px;
+}

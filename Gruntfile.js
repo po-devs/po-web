@@ -129,7 +129,8 @@ module.exports = function(grunt) {
               "./public/assets/stylesheets/replay.css":"./app/assets/stylesheets/replay.less",
               //compiling backend.less into backend.css
               "./public/assets/stylesheets/backend.css":"./app/assets/stylesheets/backend.less",
-              "./public/assets/stylesheets/teambuilder.css":"./app/assets/stylesheets/teambuilder.less"
+              "./public/assets/stylesheets/teambuilder.css":"./app/assets/stylesheets/teambuilder.less",
+              "./public/assets/stylesheets/simplebattlewindow.css":"./app/assets/stylesheets/simplebattlewindow.less"
             }
         }
     },

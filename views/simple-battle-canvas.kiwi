@@ -17,24 +17,7 @@
     right: 0px;
     overflow: hidden;
   }
-  .poke-container {
-    position: absolute;
-    width: 160px;
-  }
-  .backside {
-    bottom: 25px;
-    left: 25px;
-  }
-  .frontside {
-    bottom: 190px;
-    left: 400px;
-  }
-  .poke-sprite {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    margin-left: auto;
-    margin-right: auto;
-  }
+
   </style>
   <script src="public/assets/javascript/jquery.min.js"></script>
 </head>
@@ -42,9 +25,27 @@
 
 <!-- containers are needed to properly center images of varying widths -->
 <div class="poke-container" id="poke-0">
+  <div class="pokehud">
+    <div class="hpbar">
+      <div class="hptext">100%</div>
+      <div class="hptextborder"></div>
+      <div class="prevhp">
+        <div class="hp"></div>
+      </div>
+    </div>
+  </div>
   <img src="public/assets/images/blank.png" class="poke-sprite">
 </div>
 <div class="poke-container" id="poke-1">
+  <div class="pokehud">
+    <div class="hpbar">
+      <div class="hptext">100%</div>
+      <div class="hptextborder"></div>
+      <div class="prevhp">
+        <div class="hp"></div>
+      </div>
+    </div>
+  </div>
   <img src="public/assets/images/blank.png" class="poke-sprite">
 </div>
 <script type="text/javascript">
@@ -61,6 +62,6 @@ var PokeInfo = window.top.PokeInfo;
 </script>
 
 <script type="text/javascript" src="public/assets/javascript/simplebattlewindow.js"></script>
-
+<link rel="stylesheet" href="public/assets/stylesheets/simplebattlewindow.css">
 </body>
 </html>
