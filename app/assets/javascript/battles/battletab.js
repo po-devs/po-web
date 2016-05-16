@@ -311,8 +311,9 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
                 } else {
                     var boost = poke.boosts && i > 0 && poke.boosts[i] ? poke.boosts[i] : 0;
 
-                    stat += PokeInfo.minStat($.extend({}, poke, {"boost": boost}), i) + " - " +
-                        PokeInfo.maxStat($.extend({}, poke, {"boost": boost}), i);
+                    var min = PokeInfo.minStat($.extend({}, poke, {"boost": boost}), i);
+                    var max = PokeInfo.maxStat($.extend({}, poke, {"boost": boost}), i);
+                    stat += (isNaN(min) ? "???" : min) + " - " + (isNaN(max) ? "???" : max);
                 }
                 stat += "</td><td>";
                 if (i > 0 && poke.boosts && poke.boosts[i]) {
