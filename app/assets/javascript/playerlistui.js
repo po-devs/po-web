@@ -219,6 +219,10 @@ $(function() {
             var pid = player.attr("pid");
             var menu = this.getMenu();
 
+            if (!pid) {
+                return false;
+            }
+
             /* Add this once, handler of links on context menu */
             if (!menu.attr("weaned")) {
                 menu.attr("weaned", true);
