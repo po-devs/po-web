@@ -182,6 +182,11 @@ $(function() {
 
     $("#player-filter").on("input", function() {
         webclientUI.players.setFilter($(this).val());
+        s = $("#player-filter").val();
+        
+        if (s.length > 0 && s[0] != '#') {
+            $("#playerlist").scrollTop(0);
+        }
     });
     webclientUI.players.setFilter($("#player-filter").val());
 
