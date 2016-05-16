@@ -181,8 +181,8 @@ $(function() {
     webclientUI.players.count = $("#playercount");
 
     $("#player-filter").on("input", function() {
-        webclientUI.players.setFilter($(this).val());
-        s = $("#player-filter").val();
+        s = $(this).val();
+        webclientUI.players.setFilter(s);
         
         if (s.length > 0 && s[0] != '#') {
             $("#playerlist").scrollTop(0);
