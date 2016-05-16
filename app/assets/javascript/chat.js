@@ -72,7 +72,8 @@ Chat.prototype.insertMessage = function (msg, opts) {
 };
 
 Chat.prototype.scrollDown = function() {
-    this.chatTextArea.finish().animate({scrollTop: this.chatTextArea[0].scrollHeight}, "fast");
+    //this.chatTextArea.finish().animate({scrollTop: this.chatTextArea[0].scrollHeight}, "fast");
+    this.chatTextArea.scrollTop(this.chatTextArea[0].scrollHeight);
 };
 
 $(function () {
