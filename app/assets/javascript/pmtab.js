@@ -68,6 +68,10 @@ pmtab.printMessage = function(id, msg) {
 };
 
 pmtab.reconnect = function() {
+    if (this.state == "reconnected") {
+        return;
+    }
+    this.state = "reconnected";
     msg = "<span class='text-center pm-disconnect'><em>The player reconnected.</em></span>";
     this.chat.insertMessage(msg, {
         timestamps: webclientUI.timestamps,
@@ -77,6 +81,10 @@ pmtab.reconnect = function() {
 };
 
 pmtab.disconnect = function() {
+    if (this.state == "disconnected") {
+        return;
+    }
+    this.state = "disconnected";
     msg = "<span class='text-center pm-disconnect'><em>The player was disconnected.</em></span>";
     this.chat.insertMessage(msg, {
         timestamps: webclientUI.timestamps,
