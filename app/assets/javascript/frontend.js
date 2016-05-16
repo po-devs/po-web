@@ -14,7 +14,6 @@ var webclientUI = {
     },
 
     updateBadgeCount : function() {
-
         var total = -1; // NOTHING DISPLAYED
 
         if (webclientUI.channels.countActive() > 0) {

@@ -4,7 +4,7 @@
   <title>Play Pok&eacute;mon Online!</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="public/favicon.png">
+  <link rel="icon" type="image/png" href="public/favicon.png" id="favicon">
   <meta property="og:title" content="Play Pokémon Online">
   <meta property="og:type" content="web.app">
   <meta property="og:image" content="public/favicon.png">

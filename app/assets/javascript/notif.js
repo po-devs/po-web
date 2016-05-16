@@ -2,16 +2,13 @@
 	Notif
 */
 var notif = {
-    faviconNoAnim: new Favico({
-        animation: "none",
-        type: "circle"
-    }),
     count: -1,
     titleUpdate: function() {
         if (notif.count >= 0) {
-            notif.faviconNoAnim.badge(""+notif.count);
+            var x = notif.count > 9 ? 9 : notif.count;
+            $("#favicon").attr("href", "public/assets/images/favicons/favicon-"+x+".png");
         } else {
-            notif.faviconNoAnim.badge("");
+            $("#favicon").attr("href", "public/assets/images/favicons/favicon.png");
         }
     }
-}; //setInterval(function(){notif.titleUpdate()},1e3);// End notif
+};
