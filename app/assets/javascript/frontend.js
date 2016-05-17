@@ -33,7 +33,7 @@ var webclientUI = {
     },
 
     updateSearchingBattleState: function() {
-        $("#findbattle a").text(webclient.searchingForBattle ? "Searching..." : "Battle");
+        $("#findbattle a").text(webclient.searchingForBattle ? "Searching..." : "Find battle");
     },
 
     printHtml : function(html) {
