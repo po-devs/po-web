@@ -302,7 +302,7 @@ html .userMenu > a:focus {
 .chat, .chatInput {
 }
 
-#pmlist, #channellist, #battlelist, #po-tabs-list {
+#pmlist, #channellist, #battlelist, #po-tabs-list, #playerlist {
   margin-bottom: 0px;
 
   .list-group-item:last-child {
@@ -313,13 +313,13 @@ html .userMenu > a:focus {
 
   .list-group-item:first-child {
     border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 }
 
 #pmlist, #battlelist {
   .list-group-item:first-child {
     margin-top: 10px;
-    border-top-right-radius: 0;
   }
 }
 
@@ -338,11 +338,6 @@ html .userMenu > a:focus {
 
   &:not(:empty) {
     border-top: 1px solid #DDD;
-  }
-
-  .list-group-item:first-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
   }
 
   .list-group-item:first-child {
