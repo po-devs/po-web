@@ -152,7 +152,7 @@ var webclientUI = {
         removePlayer: function() {}
     },
     battles: {
-        simpleWindow: poStorage.get("battle.simple-window", "boolean") === null ? false : poStorage.get("battle.simple-window", "boolean");
+        simpleWindow: poStorage.get("battle.simple-window", "boolean") === null ? false : poStorage.get("battle.simple-window", "boolean")
     }
 };
 
