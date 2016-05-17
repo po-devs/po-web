@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="/public/assets/stylesheets/replay.css">
   <link rel="icon" type="image/png" href="/public/favicon.png">
   <script src="/public/assets/javascript/replay.js"></script>
+  <meta property="og:title" content="Watch a Pokémon Battle Replay">
+  <meta property="og:type" content="web.app">
+  <meta property="og:image" content="public/favicon.png">
+  <meta property="og:url" content="http://web.pokemon-online.eu/replay/${battleid}">
+  <meta property="og:description" content="Watch a Pokémon Online battle. Ready your teams and battle other trainers in the various tiers available on Pokémon Online.">
 </head>
 <body>
 
