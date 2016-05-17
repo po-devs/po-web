@@ -149,15 +149,15 @@ var webclientUI = {
     players: {
         setPlayers: function() {},
         addPlayer: function() {},
-        removePlayer: function() {},
-        updateBadgeCount: function() {}
+        removePlayer: function() {}
     },
     battles: {
         simpleWindow: poStorage.get("battle.simple-window", "boolean") === null ? false : poStorage.get("battle.simple-window", "boolean"),
         battle: function() {
             return webclient.battles.battleTab;
         }
-    }
+    },
+    updateBadgeCount: function() {}
 };
 
 var webclient = {
