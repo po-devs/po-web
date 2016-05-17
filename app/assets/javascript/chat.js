@@ -10,7 +10,7 @@ var chatHtml =
 // At least Chrome (I assume other browsers do the same) expand <timestamp/> to <timestamp><timestamp/> (as it is an unknown element).
 var timestampRegex = /<timestamp *\/ *>|<timestamp><\/timestamp>/gi;
 
-function Chat(options) {
+function Chat() {
     $.observable(this);
 
     this.element = $("<div class='flex-column chat-column'>").html(chatHtml);
@@ -20,10 +20,6 @@ function Chat(options) {
     this.chatTextArea = this.element.find(".chat");
     this.chatSend = this.element.find(".chatInput");
     this.chatCount = 0;
-
-    if (options && options.findbattle) {
-        this.element.find(".chatInputContainer").addClass("input-group").prepend("<span class='input-group-btn' title='Find battle'><a href='po:findbattle/' class='btn btn-default'><span class='glyphicon glyphicon-fire'></span><span class='hidden-xs hidden-sm'> Find Battle</span></a></span>");
-    }
 
     var self = this;
     this.chatSend.keydown(utils.onEnterPressed(function () {

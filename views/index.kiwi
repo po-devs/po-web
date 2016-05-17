@@ -64,7 +64,7 @@ $(function() {
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
             <!-- can use class="active" on li elems if planning to make tabs in the future-->
-            <li class="active"><a href="po:main/">Main</a></li>
+            <li class="active" id="findbattle"><a href="po:findbattle/">Battle</a></li>
             <li><a href="http://pokemon-online.eu/threads/webclient-the-third-time-is-the-right-one.32175/">Help</a></li>
             <li><a href="po:teambuilder/" id="teambuilder-link">Teambuilder</a></li>
             <li><a href="http://servers.pokemon-online.eu">Servers</a></li>

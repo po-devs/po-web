@@ -32,6 +32,10 @@ var webclientUI = {
         //Todo: remove the log and actually add the badge.
     },
 
+    updateSearchingBattleState: function() {
+        $("#findbattle a").text(webclient.searchingForBattle ? "Searching..." : "Battle");
+    },
+
     printHtml : function(html) {
         for (var id in webclientUI.channels.channels()) {
             webclientUI.channels.channel(id).printHtml(html);
@@ -420,6 +424,8 @@ var webclientUI = {
                             update.info = {"avatar": poStorage.get("player.avatar") || 167, "info": userInfo};
                         }
                         network.command("teamchange", update);
+                        webclient.searchingForBattle = false;
+                        webclientUI.updateSearchingBattleState();
 
                         dialogItself.close();
                     }
@@ -535,7 +541,14 @@ $(function() {
                 webclientUI.showSettings();
             } else if (cmd == "findbattle") {
                 //rated: bool, sameTier: bool, range: int
-                network.command("findbattle", {rated: false, sameTier: true});
+                if (!webclient.searchingForBattle) {
+                    network.command("findbattle", {rated: false, sameTier: true});
+                    webclient.searchingForBattle = true;
+                    webclientUI.updateSearchingBattleState();
+                } else {
+                    webclient.cancelFindBattle();
+                    webclientUI.updateSearchingBattleState();
+                }
             } else if (cmd == "tab") {
                 webclientUI.switchToTab(payload);
             } else if (cmd == "teambuilder") {
@@ -640,7 +653,7 @@ $(function() {
     webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean") === null ? true : poStorage.get("players.rainbow", "boolean");
     webclientUI.exitWarning = poStorage.get("exitwarning", "boolean") === null ? true : poStorage.get("exitwarning", "boolean");
     webclientUI.players.authFilter = poStorage.get("sort-by-auth", "boolean") === null ? true : poStorage.get("sort-by-auth", "boolean");
-    webclientUI.battles.simpleWindow = poStorage.get("battle.simple-window") === null ? false : poStorage.get("battle.simple-window", "boolean");
+    webclientUI.battles.simpleWindow = poStorage.get("battle.simple-window", "boolean") === null ? false : poStorage.get("battle.simple-window", "boolean");
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);

@@ -88,7 +88,8 @@ var webclient = {
     },
 
     cancelFindBattle: function() {
-        network.send("challengeplayer", {"id": 0});
+        webclient.searchingForBattle = false;
+        network.send("challengeplayer", {"id": 0, "desc": "cancelled"});
     },
 
     dealWithChallenge: function(params) {

@@ -41,6 +41,9 @@ Battles.prototype.addBattle = function (battles) {
 
         /* Is it a battle we're taking part in ? */
         if (battle.team) {
+            webclient.searchingForBattle = false;
+            webclientUI.updateSearchingBattleState();
+
             this.startBattle(battle);
         }
     }
