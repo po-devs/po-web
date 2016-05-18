@@ -46,9 +46,14 @@ function sprite(spot) {
 	return spritelist[spot];
 }
 
+function name(spot) {
+	return hud(spot).find("strong");
+};
+
 $(function() {
 	battle.on("sendout", function(spot) {
 		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
+		name(spot).text(battle.rnick(spot));
 		updateHP(spot);
 		hud(spot).show();
 	});
