@@ -11,6 +11,18 @@ var webclientUI = {
 
     printDisconnectionMessage : function(html) {
         webclientUI.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
+        webclientUI.switchToChannel();
+    },
+
+    switchToChannel: function () {
+        if (webclient.currentTab.shortHand != "channel") {
+            for (var i = webclientUI.tabs.length-1; i  >= 0; i--) {
+                if (webclientUI.tabs[i].shortHand == "channel") {
+                    webclientUI.tabs[i].setCurrentTab();
+                    return;
+                }
+            }
+        }
     },
 
     updateBadgeCount : function() {
