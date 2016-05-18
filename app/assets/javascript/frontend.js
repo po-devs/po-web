@@ -665,7 +665,7 @@ $(function() {
     webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean") === null ? true : poStorage.get("players.rainbow", "boolean");
     webclientUI.exitWarning = poStorage.get("exitwarning", "boolean") === null ? true : poStorage.get("exitwarning", "boolean");
     webclientUI.players.authFilter = poStorage.get("sort-by-auth", "boolean") === null ? true : poStorage.get("sort-by-auth", "boolean");
-    webclientUI.battles.simpleWindow = poStorage.get("battle.simple-window", "boolean") === null ? false : poStorage.get("battle.simple-window", "boolean");
+    webclientUI.battles.simpleWindow = poStorage.get("battle.simple-window", "boolean") === null ? true : poStorage.get("battle.simple-window", "boolean");
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);
