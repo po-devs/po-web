@@ -160,3 +160,14 @@ $(window).focus(function() {
 $(window).blur(function() {
     window.isActive = false;
 });
+
+/* Don't give the click element to contextmenu plugin in order to avoid
+ on FF a click on a player element that won't be handled by our handler
+ because of the e.stopPropagation() that would've happened. */
+ $(function() {
+    var ctx = $.fn.contextmenu.Constructor.prototype;
+    var ctxcm = ctx.closemenu;
+    ctx.closemenu = function(e) {
+        ctxcm.call(this);
+    };
+ });
