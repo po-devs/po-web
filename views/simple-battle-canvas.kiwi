@@ -27,7 +27,7 @@
 <!-- containers are needed to properly center images of varying widths -->
 <div class="poke-container" id="poke-0">
   <div class="pokehud">
-    <strong>Nickname</strong>
+    <strong>Nickname</strong><span class="gender"></span>
     <span class="status"></span>
     <div class="hpbar">
       <div class="hptext">100%</div>
@@ -41,7 +41,7 @@
 </div>
 <div class="poke-container" id="poke-1">
   <div class="pokehud">
-    <strong>Nickname</strong>
+    <strong>Nickname</strong><span class="gender"></span>
     <span class="status"></span>
     <div class="hpbar">
       <div class="hptext">100%</div>

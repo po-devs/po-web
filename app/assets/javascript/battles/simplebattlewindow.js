@@ -47,6 +47,17 @@ function updateStatus(spot) {
 	stat.addClass(statusList[battle.poke(spot).status]);
 }
 
+function updateGender(spot) {
+	var gnd = hud(spot).find(".gender");
+	gnd.removeClass();gnd.addClass("gender");
+	var val = battle.poke(spot).gender;
+	if (val == 1) {
+		gnd.addClass("male");
+	} else if (val == 2) {
+		gnd.addClass("female");
+	}
+}
+
 function hpbar(spot) {
 	return hud(spot).find(".hpbar");
 }
@@ -73,6 +84,7 @@ $(function() {
 	battle.on("sendout", function(spot) {
 		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
 		name(spot).text(battle.rnick(spot));
+		updateGender(spot);
 		updateHP(spot);
 		updateStatus(spot);
 		hud(spot).show();
