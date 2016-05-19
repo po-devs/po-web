@@ -1,3 +1,5 @@
+@import "../../../bower_components/bootstrap/less/bootstrap.less";
+
 .poke-container {
   position: absolute;
   width: 160px;
@@ -15,6 +17,18 @@
   bottom: 0; left: 0; right: 0;
   margin-left: auto;
   margin-right: auto;
+}
+.overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255,255,255,0.55);
+  z-index: 100;
+  display: flex;
+
+  .row {
+    margin: auto;
+  }
 }
 
 .pokehud {
@@ -84,7 +98,7 @@
   border: 1px solid #777777;
   background: #FCFEFF;
   padding: 1px;
-  height: 8px;
+  height: 11px;
   margin: 0 0 0 0;
   width: 151px;
   border-radius: 4px;
@@ -136,7 +150,7 @@
 }
 
 .pokehud .hpbar .hp {
-  height: 5px;
+  height: 7px;
   border-top: 2px solid #00dd60;
   background: #00bb51;
   border-bottom: 2px solid #007734;

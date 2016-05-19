@@ -25,6 +25,13 @@ battlelist.hasBattle = function(id) {
     return id in this.ids;
 };
 
+battlelist.setSound = function(val) {
+    this.sound = val;
+    for (var id in this.ids) {
+        this.ids[id].battle.changeSound(val);
+    }
+}
+
 battlelist.addBattle = function(id) {
     var self = this;
     if (!this.hasBattle(id)) {

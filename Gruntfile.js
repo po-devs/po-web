@@ -156,7 +156,8 @@ module.exports = function(grunt) {
         dest: './public/assets/javascript/teambuilder.js',
       },
       js_simple_battle_window: {
-        src: ['./app/assets/javascript/battles/simplebattlewindow.js'],
+        src: ['./bower_components/howler.js/howler.min.js',
+              './app/assets/javascript/battles/simplebattlewindow.js'],
         dest: './public/assets/javascript/simplebattlewindow.js'
       },
       simple_copy_colors: {

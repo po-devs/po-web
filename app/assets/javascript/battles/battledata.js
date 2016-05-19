@@ -6,6 +6,18 @@ function BattleData(data) {
 
 var battledata = BattleData.prototype;
 
+/* Called when sound settings changed from the battle interface */
+battledata.setSound = function (playSound) {
+    this.sound = playSound;
+    this.trigger("soundsettings", playSound);
+};
+
+/* Called when sound settings changed from up above */
+battledata.changeSound = function (playSound) {
+    this.sound = playSound;
+    this.trigger("soundchanged", playSound);
+};
+
 battledata.addData = function(data) {
     $.extend(this, data);
 };

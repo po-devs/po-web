@@ -80,14 +80,48 @@ function name(spot) {
 	return hud(spot).find("strong");
 };
 
+function padd(s) {
+	if (typeof s != "string") {
+		s = '' + s;
+	}
+	while (s.length < 3) {
+		s = '0' + s;
+	}
+	return s;
+}
+
+function playCry(spot) {
+	if (battle.sound !== true) {
+		return;
+	}
+	// todo : form: num + "-"+ subnum + ".wab"
+	var sound = new Howl({
+	  urls: ["public/assets/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
+	}).play();
+}
+
+if (battle.sound != "unset") {
+	$(".overlay").hide();
+} else {
+	$("#silent").click(function() {
+		battle.setSound(false);
+		$(".overlay").hide();
+	});
+	$("#nonsilent").click(function() {
+		battle.setSound(true);
+		$(".overlay").hide();
+	});
+}
+
 $(function() {
-	battle.on("sendout", function(spot) {
+		battle.on("sendout", function(spot) {
 		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
 		name(spot).text(battle.rnick(spot));
 		updateGender(spot);
 		updateHP(spot);
 		updateStatus(spot);
 		hud(spot).show();
+		playCry(spot);
 	});
 
 	battle.on("reappear", function(spot) {
@@ -108,6 +142,7 @@ $(function() {
 	});
 
 	battle.on("ko", function(spot) {
+		playCry(spot);
 		sprite(spot).attr("src", "public/assets/images/blank.png");
 		hud(spot).hide();
 	});

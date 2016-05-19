@@ -25,6 +25,13 @@ var webclientUI = {
         }
     },
 
+    setBattleSound : function(val) {
+        console.log("setting battle sounds " + val);
+        webclientUI.battles.setSound(val);
+        poStorage.set("battle.sound", val);
+        setTimeout(function(){$("#checkbox-simplesound-dd").prop("checked", webclientUI.battles.sound);});
+    },
+
     updateBadgeCount : function() {
         var total = -1; // NOTHING DISPLAYED
 
@@ -540,6 +547,9 @@ $(function() {
                 webclientUI.battles.simpleWindow = !webclientUI.battles.simpleWindow;
                 setTimeout(function(){$("#checkbox-simplebattle-dd").prop("checked", webclientUI.battles.simpleWindow);});
                 poStorage.set("battle.simple-window", webclientUI.battles.simpleWindow);
+            } else if (cmd === "battlesound") {
+                var currentSound = webclientUI.battles.sound == "unset" ? false : webclientUI.battles.sound;
+                webclientUI.setBattleSound(!currentSound);
             } else if (cmd === "register") {
                 network.command("register");
             } else if (cmd === "info") {
@@ -666,6 +676,7 @@ $(function() {
     webclientUI.exitWarning = poStorage.get("exitwarning", "boolean") === null ? true : poStorage.get("exitwarning", "boolean");
     webclientUI.players.authFilter = poStorage.get("sort-by-auth", "boolean") === null ? true : poStorage.get("sort-by-auth", "boolean");
     webclientUI.battles.simpleWindow = poStorage.get("battle.simple-window", "boolean") === null ? true : poStorage.get("battle.simple-window", "boolean");
+    webclientUI.battles.sound = poStorage.get("battle.sound", "boolean") === null ? "unset" : poStorage.get("battle.sound", "boolean");
 
     $("#checkbox-timestamps-dd").prop("checked", webclientUI.timestamps);
     $("#checkbox-rainbow-dd").prop("checked", webclientUI.players.showColors);
@@ -673,6 +684,7 @@ $(function() {
     $("#checkbox-exitwarning-dd").prop("checked", webclientUI.exitWarning);
     $("#checkbox-sortauth-dd").prop("checked", webclientUI.players.authFilter);
     $("#checkbox-simplebattle-dd").prop("checked", webclientUI.battles.simpleWindow);
+    $("#checkbox-simplesound-dd").prop("checked", webclientUI.battles.sound === true);
 
     webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object") || {};
     webclientUI.channels.channotifs = poStorage.get("channotifs-" + (poStorage.get("relay") || config.relayIP), "object") || {};

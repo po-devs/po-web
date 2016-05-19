@@ -9,6 +9,7 @@ function BattleTab(id) {
     var self = this;
 
     this.battle = databattle;
+    this.battle.sound = webclientUI.battles.sound;
     this.players = this.battle.players;
     this.myself = this.battle.myself;
     this.opponent = this.battle.opponent;
@@ -209,6 +210,8 @@ BattleTab.prototype.setCallbacks = function() {
             self.pokes[spot].popover("show");
         }
         self.fieldPopover = spot;
+    }).on("soundsettings", function(val) {
+        webclientUI.setBattleSound(val);
     });
 }
 

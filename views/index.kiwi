@@ -83,6 +83,8 @@ $(function() {
             <li><a href="po:rainbow/" class="checkbox-dd"><input type="checkbox" id="checkbox-rainbow-dd"/>&nbsp;Colored playerlist</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="po:simplebattle/" class="checkbox-dd"><input type="checkbox" id="checkbox-simplebattle-dd"/>&nbsp;Simple Battle Window</a></li>
+            <li><a href="po:battlesound/" class="checkbox-dd"><input type="checkbox" id="checkbox-simplesound-dd"/>&nbsp;Simple Battle Audio</a></li>
+            <li role="separator" class="divider"></li>
             <li><a href="po:exitwarning/" class="checkbox-dd"><input type="checkbox" id="checkbox-exitwarning-dd"/>&nbsp;Show Exit Warning</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="po:download/"><span class="glyphicon glyphicon-save"></span> Download data</a>
