@@ -174,6 +174,7 @@ module.exports = function(grunt) {
           {expand: true, cwd: 'animated-battle-window/assets/', src: ['**', '!**.zip'], dest: './public/battle/'},
           {expand: true, cwd: 'animated-battle-window/html/build/dist/assets/', src: ['**'], dest: './public/battle/'},
           {expand: true, cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img/', src: ['**'], dest: './public/assets/img/'},
+          {expand: true, cwd: 'app/assets/sounds', src: ['**'], dest: './public/assets/sounds/'},
         ]
       }
     },
