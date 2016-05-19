@@ -28,6 +28,7 @@
 <div class="poke-container" id="poke-0">
   <div class="pokehud">
     <strong>Nickname</strong>
+    <span class="status"></span>
     <div class="hpbar">
       <div class="hptext">100%</div>
       <div class="hptextborder"></div>
@@ -41,6 +42,7 @@
 <div class="poke-container" id="poke-1">
   <div class="pokehud">
     <strong>Nickname</strong>
+    <span class="status"></span>
     <div class="hpbar">
       <div class="hptext">100%</div>
       <div class="hptextborder"></div>

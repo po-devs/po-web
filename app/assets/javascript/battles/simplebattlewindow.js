@@ -3,6 +3,18 @@
 var spritelist = {};
 var hudlist = {};
 
+/* Copy of BattleTab.statuses */
+var statusList = {
+    0: "",
+    1: "par",
+    2: "slp",
+    3: "frz",
+    4: "brn",
+    5: "psn",
+    6: "confusion",
+    31: "fnt"
+};
+
 function position(spot) {
 	if (battle.side(spot) == 1) {
 		$("#poke-" + spot).addClass("backside");
@@ -26,6 +38,13 @@ function updateHP(spot) {
 	hpbar(spot).find(".hp").css("width", 150*battle.poke(spot).percent/100);
 	hpbar(spot).find(".prevhp").css("width", 150*battle.poke(spot).percent/100+1);
 	hpbar(spot).find(".hptext").text(Math.floor(battle.poke(spot).percent) + "%");
+}
+
+function updateStatus(spot) {
+	var stat = hud(spot).find(".status");
+	stat.removeClass();
+	stat.addClass("status");
+	stat.addClass(statusList[battle.poke(spot).status]);
 }
 
 function hpbar(spot) {
@@ -55,6 +74,7 @@ $(function() {
 		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
 		name(spot).text(battle.rnick(spot));
 		updateHP(spot);
+		updateStatus(spot);
 		hud(spot).show();
 	});
 
@@ -82,6 +102,10 @@ $(function() {
 
 	battle.on("hpchange", function(spot) {
 		updateHP(spot);
+	});
+
+	battle.on("statuschange", function(spot) {
+		updateStatus(spot);
 	});
 
 	$("#poke-0").mouseenter(function(){battle.trigger("battle-hover",0)})
