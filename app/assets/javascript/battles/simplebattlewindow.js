@@ -84,6 +84,11 @@ $(function() {
 		updateHP(spot);
 	});
 
+	$("#poke-0").mouseenter(function(){battle.trigger("battle-hover",0)})
+				.mouseleave(function(){battle.trigger("battle-hover",-1)});
+	$("#poke-1").mouseenter(function(){battle.trigger("battle-hover",1)})
+				.mouseleave(function(){battle.trigger("battle-hover",-1)});
+
 	position(0);
 	position(1);
 
