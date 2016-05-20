@@ -15,6 +15,30 @@ var statusList = {
     31: "fnt"
 };
 
+var musics = [
+    {file: 'Battle! Brendan _ May.mp3', loopPos:14303},
+    {file: 'Battle! Deoxys.mp3', loopPos:17959},
+    {file: 'Battle! Elite Four.mp3', loopPos:13888},
+    {file: 'Battle! Frontier Brain.mp3', loopPos:9198},
+    {file: 'Battle! Gym Leader.mp3', loopPos:15331},
+    {file: 'Battle! Rayquaza.mp3', loopPos:13579},
+    {file: 'Battle! Regi Trio.mp3', loopPos:31976},
+    {file: 'Battle! Trainer.mp3', loopPos:13579},
+    {file: 'Battle! Zinnia.mp3', loopPos:15090},
+    {file: 'Victory Road.mp3', loopPos:10950}
+];
+
+var musicdata = musics[Math.floor(Math.random()*musics.length)];
+
+var music = new Howl({
+  urls: ["public/assets/sounds/musics/"+musicdata.file],
+  onend: function() {
+  	console.log("on end");
+  	music.pos(musicdata.loopPos);
+  	music.play();
+  }
+});
+
 function position(spot) {
 	if (battle.side(spot) == 1) {
 		$("#poke-" + spot).addClass("backside");
@@ -31,6 +55,9 @@ function init() {
 	}
 	if (battle.poke(1).percent) {
 		battle.trigger("sendout", 1);
+	}
+	if (battle.sound === true) {
+		playMusic(true);
 	}
 }
 
@@ -100,6 +127,15 @@ function playCry(spot) {
 	}).play();
 }
 
+
+function playMusic(play) {
+	if (play) {
+		music.play();
+	} else {
+		music.pause();
+	}
+}
+
 if (battle.sound != "unset") {
 	$(".overlay").hide();
 } else {
@@ -112,19 +148,6 @@ if (battle.sound != "unset") {
 		$(".overlay").hide();
 	});
 }
-
-var musics = [
-    {file: 'Battle! Brendan _ May.mp3', loopPos:14303}
-    {file: 'Battle! Deoxys.mp3', loopPos:17959}
-    {file: 'Battle! Elite Four.mp3', loopPos:13888}
-    {file: 'Battle! Frontier Brain.mp3', loopPos:9198}
-    {file: 'Battle! Gym Leader.mp3', loopPos:15331}
-    {file: 'Battle! Rayquaza.mp3', loopPos:13579}
-    {file: 'Battle! Regi Trio.mp3', loopPos:31976}
-    {file: 'Battle! Trainer.mp3', loopPos:13579}
-    {file: 'Battle! Zinnia.mp3', loopPos:15090}
-    {file: 'Victory Road.mp3', loopPos:10950}
-];
 
 $(function() {
 		battle.on("sendout", function(spot) {
@@ -167,6 +190,7 @@ $(function() {
 	battle.on("statuschange", function(spot) {
 		updateStatus(spot);
 	});
+	battle.on("soundchanged", function(play) {playMusic(play);});
 
 	$("#poke-0").mouseenter(function(){battle.trigger("battle-hover",0)})
 				.mouseleave(function(){battle.trigger("battle-hover",-1)});
