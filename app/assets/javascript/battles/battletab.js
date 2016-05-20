@@ -31,6 +31,7 @@ function BattleTab(id) {
     rows[this.opponent].find('[data-toggle="tooltip"]').attr("data-placement", "top");
     rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
     rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
+    this.rows = rows;
     layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas")
         .append(BattleTab.getIframe(id))
         .append("<img src='/public/battle/background/" + this.battle.data.background  + ".png'>")).append(rows[this.myself]));
@@ -193,7 +194,7 @@ BattleTab.prototype.setCallbacks = function() {
     this.battle.on("updateteampokes", function(player, pokes) {
         self.updateTeamPokes(player, pokes);
     }).on("playernameupdated", function(spot, name) {
-        rows[spot].find(".trainer-name").text(name);
+        self.rows[spot].find(".trainer-name").text(name);
     }).on("choicesavailable", function() {
         self.enableChoices();
     }).on("teampreview", function(team1, team2) {
