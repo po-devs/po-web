@@ -2,7 +2,7 @@
 
 A simple webclient for Pokemon Online written in javascript. You can try it [online](http://web.pokemon-online.eu).
 
-[![Join the chat at https://gitter.im/po-devs/po-web](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/po-devs/po-web?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[Join dev talk at discord](http://discord.gg/010O1SggVDA5ZTBSc)
 
 ### Requirements
 
