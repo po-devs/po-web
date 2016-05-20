@@ -198,9 +198,18 @@ function unpause() {
     }
 }
 
+function updateSprite(spot) {
+    var side = battle.side(spot);
+	if (battle.poke(spot).substitute) {
+        sprite(spot).attr("src", PokeInfo.substituteSprite(side));
+	} else {
+		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": side}));
+	}
+}
+
 $(function() {
-		battle.on("sendout", function(spot) {
-		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
+	battle.on("sendout", function(spot) {
+        updateSprite(spot);
 		name(spot).text(battle.rnick(spot));
 		updateGender(spot);
 		updateHP(spot);
@@ -210,11 +219,11 @@ $(function() {
 	});
 
 	battle.on("reappear", function(spot) {
-		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
+		updateSprite(spot);
 	});
 
 	battle.on("spritechange", function(spot) {
-		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
+        updateSprite(spot);
 	});
 
 	battle.on("sendback", function(spot) {
@@ -239,6 +248,11 @@ $(function() {
 	battle.on("statuschange", function(spot) {
 		updateStatus(spot);
 	});
+
+	battle.on("substitute", function(spot, sub) {
+		updateSprite(spot);
+	});
+
 	battle.on("soundchanged", function(play) {playMusic(play);});
 
 	$("#poke-0").mouseenter(function(){battle.trigger("battle-hover",0)})

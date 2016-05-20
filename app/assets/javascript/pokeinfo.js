@@ -204,6 +204,10 @@ PokeInfo.genderSprite = function(num) {
     return "http://pokemon-online.eu/images/genders/ingame_gender" + num + ".png";
 };
 
+PokeInfo.substituteSprite = function(back) {
+    return "http://pokemon-online.eu/images/poke_img/sub" + (back ? "b":"") + ".png";
+}
+
 PokeInfo.sprite = function(poke, params) {
     params = params || {};
     poke = PokeInfo.toObject(poke);
