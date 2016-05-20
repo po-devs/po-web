@@ -30,6 +30,8 @@
     <button class="btn btn-default" id="silent"><span class='glyphicon glyphicon-volume-off'></span>Battle silently</button>
   </div>
 </div>
+<div id="weather-overlay">
+</div>
 <!-- containers are needed to properly center images of varying widths -->
 <div class="poke-container" id="poke-0">
   <div class="pokehud">

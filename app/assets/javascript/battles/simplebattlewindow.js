@@ -207,6 +207,22 @@ function updateSprite(spot) {
 	}
 }
 
+function playWeather(weather) {
+    /* 1 = hail, rain, sand, sun */
+    var weathers = {
+        1: "hail",
+        2: "rain",
+        3: "sand",
+        4: "sun"
+    }
+
+    pause();
+    $("#weather-overlay").removeClass().addClass(weathers[weather]);
+    $("#weather-overlay").animate({"opacity": 0.4}, {duration: 200, easing: "linear"})
+                         .animate({"opacity": 0.4}, {duration: 800})
+                         .animate({"opacity": 0}, {duration: 200, easing: "linear", complete:unpause});
+}
+
 $(function() {
 	battle.on("sendout", function(spot) {
         updateSprite(spot);
@@ -252,6 +268,10 @@ $(function() {
 	battle.on("substitute", function(spot, sub) {
 		updateSprite(spot);
 	});
+
+    battle.on("weather", function(weather) {
+        playWeather(weather);
+    });
 
 	battle.on("soundchanged", function(play) {playMusic(play);});
 

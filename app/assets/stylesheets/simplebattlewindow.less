@@ -31,6 +31,19 @@
   }
 }
 
+#weather-overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  z-index: 50;
+
+  &.rain {background-color: darkblue}
+  &.hail {background-color: darkturquoise}
+  &.sand {background-color: darkgoldenrod}
+  &.sun {background-color: orangered}
+}
+
 .pokehud {
   display: none;
   position: absolute;
