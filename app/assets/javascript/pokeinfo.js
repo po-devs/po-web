@@ -193,7 +193,7 @@ PokeInfo.find = function(id, what, gen) {
 };
 
 PokeInfo.trainerSprite = function(num) {
-    return "http://pokemon-online.eu/images/trainers/" + num + ".png";
+    return "http://pokemon-online.eu/images/trainers/" + (num||0) + ".png";
 };
 
 PokeInfo.heldItemSprite = function() {
