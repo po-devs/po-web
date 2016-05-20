@@ -16,26 +16,34 @@ var statusList = {
 };
 
 var musics = [
-    {file: 'Battle! Brendan _ May.mp3', loopPos:14303},
-    {file: 'Battle! Deoxys.mp3', loopPos:17959},
-    {file: 'Battle! Elite Four.mp3', loopPos:13888},
-    {file: 'Battle! Frontier Brain.mp3', loopPos:9198},
-    {file: 'Battle! Gym Leader.mp3', loopPos:15331},
-    {file: 'Battle! Rayquaza.mp3', loopPos:13579},
-    {file: 'Battle! Regi Trio.mp3', loopPos:31976},
-    {file: 'Battle! Trainer.mp3', loopPos:13579},
-    {file: 'Battle! Zinnia.mp3', loopPos:15090},
-    {file: 'Victory Road.mp3', loopPos:10950}
+    {file: 'Battle! Brendan _ May.mp3', loopPos:14303, duration: 69130},
+    {file: 'Battle! Deoxys.mp3', loopPos:17959, duration: 83370},
+    {file: 'Battle! Elite Four.mp3', loopPos:13888, duration: 64450},
+    {file: 'Battle! Frontier Brain.mp3', loopPos:9198, duration: 99328},
+    {file: 'Battle! Gym Leader.mp3', loopPos:15331, duration: 79280},
+    {file: 'Battle! Rayquaza.mp3', loopPos:13579, duration: 52880},
+    {file: 'Battle! Regi Trio.mp3', loopPos:31976, duration: 62160},
+    {file: 'Battle! Trainer.mp3', loopPos:13579, duration: 91530},
+    {file: 'Battle! Zinnia.mp3', loopPos:15090, duration: 95498},
+    {file: 'Victory Road.mp3', loopPos:10950, duration: 55861}
 ];
 
 var musicdata = musics[Math.floor(Math.random()*musics.length)];
+musicdata.looped = false;
+musicdata.started = false;
 
 var music = new Howl({
   urls: ["public/assets/sounds/musics/"+musicdata.file],
+  sprite: {
+  	intro: [0, musicdata.loopPos],
+  	theme: [musicdata.loopPos, musicdata.duration-musicdata.loopPos, true]
+  },
   onend: function() {
-  	console.log("on end");
-  	music.pos(musicdata.loopPos);
-  	music.play();
+  	if (!musicdata.looped) {
+  		musicdata.looped = true;
+  		music.play("theme");
+  	}
+  	console.log("on end: " + musicdata.file + ", " + music.pos());
   }
 });
 
@@ -130,7 +138,13 @@ function playCry(spot) {
 
 function playMusic(play) {
 	if (play) {
-		music.play();
+		if (musicdata.started) {
+			music.play();
+		} else {
+			music.play("intro");
+			musicdata.started = true;
+		}
+		//setInterval(function(){console.log(music.pos())}, 1);
 	} else {
 		music.pause();
 	}
