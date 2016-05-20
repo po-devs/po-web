@@ -141,6 +141,11 @@ battledata.dealWithPpchange = function(params) {
     this.trigger("ppchange", params);
 };
 
+battledata.dealWithPpuse = function(params) {
+    /* params: amount - the new PP, move - the move used, spot - the poke */
+    this.trigger("ppuse", params);
+}
+
 battledata.dealWithMovechange = function(params) {
 
     var poke = this.teams[this.myself][params.spot];

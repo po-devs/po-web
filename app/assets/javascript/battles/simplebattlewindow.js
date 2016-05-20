@@ -68,10 +68,28 @@ function init() {
 	}
 }
 
-function updateHP(spot) {
-	hpbar(spot).find(".hp").css("width", 150*battle.poke(spot).percent/100);
-	hpbar(spot).find(".prevhp").css("width", 150*battle.poke(spot).percent/100+1);
-	hpbar(spot).find(".hptext").text(Math.floor(battle.poke(spot).percent) + "%");
+function updateHP(spot, animated) {
+	var percent = battle.poke(spot).percent;
+	if (!animated) {
+		hpbar(spot).find(".hp").css("width", 147*percent/100);
+		hpbar(spot).find(".prevhp").css("width", 147*percent/100);
+		hpbar(spot).find(".hptext").text(Math.floor(percent) + "%");
+	} else {
+		pause();
+		var hp = hpbar(spot).find(".hp");
+		var txt = hpbar(spot).find(".hptext");
+		hp.animate({
+			width: 147*percent/100
+		}, {
+			duration: 1200,
+			easing: "linear",
+			step: function(now, tween) {txt.text(Math.floor(now/1.5) + "%")},
+			complete: function(){
+				hpbar(spot).find(".prevhp").css("width", 147*percent/100+1);
+			    unpause();
+			}
+		});
+	}
 }
 
 function updateStatus(spot) {
@@ -161,6 +179,25 @@ if (battle.sound != "unset") {
 	});
 }
 
+var pauseCounter = 0;
+
+function pause() {
+	if (pauseCounter == 0) {
+		battle.pause();
+	}
+	pauseCounter += 1;
+}
+
+function unpause() {
+	pauseCounter -= 1;
+    if (pauseCounter == 0) {
+    	battle.unpause();
+    }
+    if (pauseCounter < 0) {
+    	pauseCounter = 0;
+    }
+}
+
 $(function() {
 		battle.on("sendout", function(spot) {
 		sprite(spot).attr("src", PokeInfo.sprite(battle.poke(spot), {"back": battle.side(spot)}));
@@ -196,7 +233,7 @@ $(function() {
 	});
 
 	battle.on("hpchange", function(spot) {
-		updateHP(spot);
+		updateHP(spot, true);
 	});
 
 	battle.on("statuschange", function(spot) {
