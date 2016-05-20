@@ -218,9 +218,9 @@ function playWeather(weather) {
 
     pause();
     $("#weather-overlay").removeClass().addClass(weathers[weather]);
-    $("#weather-overlay").animate({"opacity": 0.4}, {duration: 200, easing: "linear"})
+    $("#weather-overlay").show().animate({"opacity": 0.4}, {duration: 200, easing: "linear"})
                          .animate({"opacity": 0.4}, {duration: 800})
-                         .animate({"opacity": 0}, {duration: 200, easing: "linear", complete:unpause});
+                         .animate({"opacity": 0}, {duration: 200, easing: "linear", complete:unpause}).hide();
 }
 
 $(function() {
