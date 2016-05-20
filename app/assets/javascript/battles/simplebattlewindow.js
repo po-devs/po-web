@@ -30,7 +30,6 @@ var musics = [
 
 var musicdata = musics[Math.floor(Math.random()*musics.length)];
 musicdata.looped = false;
-musicdata.started = false;
 
 var music = new Howl({
   urls: ["public/assets/sounds/musics/"+musicdata.file],
@@ -138,15 +137,14 @@ function playCry(spot) {
 
 function playMusic(play) {
 	if (play) {
-		if (musicdata.started) {
-			music.play();
-		} else {
-			music.play("intro");
-			musicdata.started = true;
-		}
-		//setInterval(function(){console.log(music.pos())}, 1);
+		music.play("intro");
 	} else {
-		music.pause();
+		//music.pause();
+		/* howler.js doesn't handle pausing / playing well with sprites and loops,
+		 so instead stopping music completely and restarting from the beginning
+		 if reactivated */
+		music.stop();
+		musicdata.looped = false;
 	}
 }
 
