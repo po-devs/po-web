@@ -165,6 +165,9 @@ $(window).blur(function() {
  on FF a click on a player element that won't be handled by our handler
  because of the e.stopPropagation() that would've happened. */
  $(function() {
+    if (!$.fn.contextmenu.Constructor) {
+        return;
+    }
     var ctx = $.fn.contextmenu.Constructor.prototype;
     var ctxcm = ctx.closemenu;
     ctx.closemenu = function(e) {
