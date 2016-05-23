@@ -675,10 +675,12 @@ function Teambuilder (content) {
             poke.load(sugg);
             poke.updateGui();
             $(this).typeahead('close');
-        }).on("typeahead:select typeahead:autocomplete typeahead:cursorchange", function(event, sugg) {
+        })/*
+        updateGui is already called, which itself calls poke.updateDescription();
+        .on("typeahead:select typeahead:autocomplete typeahead:cursorchange", function(event, sugg) {
             var poke = self.team.pokes[$(this).attr("slot")];
             poke.updateDescription({"type": "pokemon", "poke": sugg});
-        });
+        })*/;
         self.updateItemSelections();
         self.content.find(".tb-item-selection").on("typeahead:select", function(event, sugg) {
             var poke = self.team.pokes[$(this).attr("slot")];
