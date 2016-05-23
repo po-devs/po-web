@@ -1,3 +1,5 @@
+var MOVE_RETURN = 216;
+
 function Poke() {
 	this.reset();
 }
@@ -224,6 +226,8 @@ Poke.prototype.import = function(str) {
 			}
 		} else if (lower.startsWith("shiny:")) {
 			this.shiny = lower.indexOf("yes") > -1;
+		} else if (lower.startsWith("happiness:")) {
+			this.happiness = +line.substr("happiness:".length()).trim();
 		} else if (lower.startsWith("evs:")) {
 			var evs = line.substr(4).split("/");
 			for (var e = 0; e < evs.length; e++) {
@@ -274,7 +278,11 @@ Poke.prototype.import = function(str) {
 				}
 				line = line.substring(0, line.indexOf("[")).trim();
 			}
-			this.moves[moveIndex++] = MoveInfo.num(line);
+			var mv = MoveInfo.num(line);
+			this.moves[moveIndex++] = mv;
+			if (mv == MOVE_RETURN) {
+				this.happiness = 255;
+			}
 		} else if (lower.contains("nature")) {
 			line = line.trim();
 			this.nature = NatureInfo.num(line.substring(0, line.indexOf(" ")));
