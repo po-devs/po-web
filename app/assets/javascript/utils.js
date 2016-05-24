@@ -161,7 +161,7 @@ $(window).blur(function() {
     window.isActive = false;
 });
 
-/* Don't give the click element to contextmenu plugin in order to avoid
+/* Add a preventDefault on stopPropagation in order to avoid
  on FF a click on a player element that won't be handled by our handler
  because of the e.stopPropagation() that would've happened. */
  $(function() {
@@ -171,6 +171,19 @@ $(window).blur(function() {
     var ctx = $.fn.contextmenu.Constructor.prototype;
     var ctxcm = ctx.closemenu;
     ctx.closemenu = function(e) {
-        ctxcm.call(this);
+        var x;
+        if (e) {
+            x = e.stopPropagation;
+            e.stopPropagation = function () {
+                x.call(e);
+                e.preventDefault();
+            }
+        }
+        
+        ctxcm.call(this, e);
+
+        if (e) {
+            e.stopPropagation = x;
+        }
     };
  });
