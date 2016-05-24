@@ -87,11 +87,19 @@ $(function () {
                 }
             }
             if (elem.histIndex > 0) {
-                elem.value = elem.hist[--elem.histIndex];
+                var str = elem.hist[--elem.histIndex];
+                elem.value = str;
+                setTimeout(function(){
+                    elem.setSelectionRange(str.length, str.length);
+                });
             }
         } else if (event.which === 40) { // Down
             if (elem.histIndex < elem.hist.length) {
-                elem.value = elem.hist[++elem.histIndex] || "";
+                var str = elem.hist[++elem.histIndex] || ""
+                elem.value = str;
+                setTimeout(function(){
+                    elem.setSelectionRange(str.length, str.length);
+                });
             }
         } else if (event.which === 13) { // Return
             if (!elem.value.length) {
