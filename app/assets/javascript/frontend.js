@@ -688,6 +688,8 @@ $(function() {
 
     webclientUI.channels.chanevents = poStorage.get("chanevents-" + (poStorage.get("relay") || config.relayIP), "object") || {};
     webclientUI.channels.channotifs = poStorage.get("channotifs-" + (poStorage.get("relay") || config.relayIP), "object") || {};
+
+    $('[data-toggle="tooltip"]').attr("data-placement", "bottom").tooltip();
 });
 
 window.onbeforeunload = function(e) {
