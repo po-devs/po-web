@@ -164,6 +164,8 @@ ChannelTab.prototype.printHtml = function(html) {
 
 ChannelTab.prototype.printMessage = function(msg, html) {
     var flash = false;
+    var useTimeStamps = true;
+
     var ownname = webclient.ownName();
     if (ownname !== "???") { //Because webclient.ownName() returns "???" when starting up the client and that messes with the RegExp
         var ex = new RegExp("\\b" + ownname + "\\b", "gi");
@@ -180,6 +182,7 @@ ChannelTab.prototype.printMessage = function(msg, html) {
         }
     }
     if (html) {
+        useTimeStamps = msg.includes("<timestamp");
         msg = webclientUI.convertImages($("<div>").html(msg)).html();
     } else {
         msg = utils.escapeHtml(msg);
@@ -216,7 +219,7 @@ ChannelTab.prototype.printMessage = function(msg, html) {
         msg = "<mark>" + msg + "</mark>";
     }
 
-    this.chat.insertMessage(msg, {timestamps: webclientUI.timestamps});
+    this.chat.insertMessage(msg, {timestamps: webclientUI.timestamps && useTimeStamps});
     //$(".chat").html($(".chat").html() + utils.stripHtml(msg) + "<br>");
 };
 
