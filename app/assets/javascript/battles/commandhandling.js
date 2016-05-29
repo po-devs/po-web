@@ -554,6 +554,10 @@ battledata.dealWithRated = function(params) {
     }
 };
 
+battledata.dealWithRule = function(params) {
+    this.print("<strong>" + params.rule + ": </strong> " + params.content);
+};
+
 battledata.dealWithChoiceselection = function(params) {
     if (this.isBattle() && this.player(params.spot) == this.myself) {
         this.choicesAvailable = true;
