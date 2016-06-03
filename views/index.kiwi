@@ -128,6 +128,7 @@ $(function() {
     <li><a tabindex="-1" href="po:info/">Player Info</a></li>
     <li><a tabindex="-1" href="po:pm/">Private Message</a></li>
     <li id="player-ignore-menu"><a tabindex="-1" href="po:ignore/">Ignore</a></li>
+    <li id="player-idle-menu"><a tabindex="-1" href="po:idle/">Idle</a></li>
     <li id="player-watch-menu"><a tabindex="-1" href="po:watch-player/">Watch Battle</a></li>
     <li class="divider"></li>
     <li id="player-kick-menu"><a tabindex="-1" href="po:kick/">Kick</a></li>
