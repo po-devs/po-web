@@ -225,6 +225,15 @@ $(function() {
             });
 
             menu.find("#player-ignore-menu").find("a").text(webclient.players.isIgnored(pid) ? "Unignore" : "Ignore");
+            menu.find("#player-idle-menu").find("a").text(poStorage.get("player.idle", "boolean") ? "Unidle" : "Idle");
+            
+            if (webclient.players.player(pid) != webclient.ownPlayer()) {
+                menu.find("#player-ignore-menu").show();
+                menu.find("#player-idle-menu").hide();
+            } else {
+                menu.find("#player-ignore-menu").hide();
+                menu.find("#player-idle-menu").show();
+            }
 
             var ownAuth = webclient.ownAuth();
 
