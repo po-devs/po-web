@@ -2,8 +2,6 @@
 
 A simple webclient for Pokemon Online written in javascript. You can try it [online](http://web.pokemon-online.eu).
 
-[Join dev talk at discord](http://discord.gg/010O1SggVDA5ZTBSc)
-
 ### Requirements
 
 On Linux:
