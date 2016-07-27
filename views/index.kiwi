@@ -65,7 +65,7 @@ $(function() {
         <ul class="nav navbar-nav">
             <!-- can use class="active" on li elems if planning to make tabs in the future-->
             <li data-toggle='tooltip' title='Launch an automated battle search!' class="active" id="findbattle"><a href="po:findbattle/">Find battle</a></li>
-            <li data-toggle='tooltip' title='Get started here'><a href="http://pokemon-online.eu/threads/webclient-the-third-time-is-the-right-one.32175/">Help</a></li>
+            <li data-toggle='tooltip' title='Get started here'><a href="http://pokemon-online.eu/threads/34372/">Help</a></li>
             <li data-toggle='tooltip' title='Create your team'><a href="po:teambuilder/" id="teambuilder-link">Teambuilder</a></li>
             <li data-toggle='tooltip' title='Play on other servers'><a href="http://servers.pokemon-online.eu">Servers</a></li>
         </ul>
