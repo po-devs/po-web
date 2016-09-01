@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  require('load-grunt-tasks')(grunt);
+
   var poke_base_db = [
     './db/moves/moves.js',
     './db/moves/move_message.js',
@@ -115,14 +117,11 @@ module.exports = function(grunt) {
     './app/assets/javascript/teambuilder.js'
   ];
 
-  //Initializing the configuration object
     grunt.initConfig({
-
-      // Task configuration
     less: {
         development: {
             options: {
-              compress: true,  //minifying the result
+              compress: true
             },
             files: {
               //compiling frontend.less into frontend.css
@@ -181,7 +180,7 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        mangle: false  // Use if you want the names of your functions and variables unchanged
+        mangle: true
       },
       frontend: {
         files: {
@@ -194,55 +193,38 @@ module.exports = function(grunt) {
         }
       },
     },
-    phpunit: {
-        classes: {
-        },
-        options: {
-        }
-    },
     watch: {
+        // run tasks when certain files are changed
         js_frontend: {
           files: js_frontend,
-          tasks: ['concat:js_frontend'/*,'uglify:frontend'*/],     //tasks to run
+          tasks: ['concat:js_frontend'/*,'uglify:frontend'*/],
           options: {
-            livereload: true                        //reloads the browser
+            livereload: true
           }
         },
         js_backend: {
           files: js_backend,
-          tasks: ['concat:js_backend','uglify:backend'],     //tasks to run
+          tasks: ['concat:js_backend','uglify:backend'],
           options: {
-            livereload: true                        //reloads the browser
+            livereload: true
           }
         },
         simple_copy: {
           files: ['./views/index.kiwi'],
-          tasks: ['concat:simple_copy'],     //tasks to run
+          tasks: ['concat:simple_copy'],
           options: {
-            livereload: true                        //reloads the browser
+            livereload: true
           }
         },
         less: {
-          files: ['./app/assets/stylesheets/*.less'],  //watched files
-          tasks: ['less'],                          //tasks to run
+          files: ['./app/assets/stylesheets/*.less'],
+          tasks: ['less'],
           options: {
-            livereload: true                        //reloads the browser
+            livereload: true
           }
-        },
- /*       tests: {
-          files: ['app/controllers/*.php','app/models/*.php'],  //the task will run only when you save files in this location
-          tasks: ['phpunit']
-        }*/
+        }
       }
     });
-
-  // Plugin loading
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  //grunt.loadNpmTasks('grunt-phpunit');
 
   // Task definition
   grunt.registerTask('default', ['watch']);
