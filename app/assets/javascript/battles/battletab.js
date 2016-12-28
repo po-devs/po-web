@@ -34,7 +34,7 @@ function BattleTab(id) {
     this.rows = rows;
     layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas")
         .append(BattleTab.getIframe(id))
-        .append("<img src='/public/battle/background/" + this.battle.data.background  + ".png'>")).append(rows[this.myself]));
+        .append("<img src='/battle/background/" + this.battle.data.background  + ".png'>")).append(rows[this.myself]));
     layout.append(this.chat.element);
     this.layout = layout;
     this.addTab(layout);

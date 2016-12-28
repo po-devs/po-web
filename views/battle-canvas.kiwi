@@ -36,7 +36,7 @@ var pokeinfo = window.top.PokeInfo;
 
 </script>
 <div align="center" id="embed-html"></div>
-<script type="text/javascript" src="public/battle/html/html.nocache.js"></script>
+<script type="text/javascript" src="battle/html/html.nocache.js"></script>
 <p id="battle-conf"></p>
 
 </body>

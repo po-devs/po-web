@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 })); 
 
 console.log(__dirname + '/public');
-app.use("/public", express.static(__dirname + '/public'));
+app.use("/", express.static(__dirname + '/public'));
 
 app.get("/", function(req, res) {
   res.render("index.kiwi", {postData: "null"});
@@ -77,4 +77,9 @@ replayRouter.get("/:battleid", function(req, res) {
 
 app.use("/replay", replayRouter);
 
-app.listen(config.web.port);
+if (config.local) {
+  app.listen(config.web.port, "localhost");
+} else {
+  app.listen(config.web.port);
+}
+

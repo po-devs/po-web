@@ -4,12 +4,12 @@
   <title>Battle Replay - Pok&eacute;mon Online</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/public/assets/stylesheets/replay.css">
-  <link rel="icon" type="image/png" href="/public/favicon.png">
-  <script src="/public/assets/javascript/replay.js"></script>
+  <link rel="stylesheet" href="/assets/stylesheets/replay.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <script src="/assets/javascript/replay.js"></script>
   <meta property="og:title" content="Watch a Pokémon Battle Replay">
   <meta property="og:type" content="web.app">
-  <meta property="og:image" content="public/favicon.png">
+  <meta property="og:image" content="favicon.png">
   <meta property="og:url" content="http://web.pokemon-online.eu/replay/${battleid}">
   <meta property="og:description" content="Watch a Pokémon Online battle. Ready your teams and battle other trainers in the various tiers available on Pokémon Online.">
 </head>
@@ -29,7 +29,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-            <a href="http://pokemon-online.eu"><img src="/public/logo-small.svg"></a>
+            <a href="http://pokemon-online.eu"><img src="/logo-small.svg"></a>
     </div>
     <!-- Collection of nav links and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">

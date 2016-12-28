@@ -706,8 +706,8 @@ window.webclientUI = webclientUI;
 $(function() {
     /* Load heavy libraries after */
     $("body").append([
-        '<link rel="stylesheet" href="public/assets/stylesheets/teambuilder.css">',
-        '<script src="public/assets/javascript/teambuilder.js"></script>'
+        '<link rel="stylesheet" href="/assets/stylesheets/teambuilder.css">',
+        '<script src="/assets/javascript/teambuilder.js"></script>'
         ].join("\n")
     );
     $("#toggleSidebar").click(function(evt){
