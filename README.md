@@ -55,9 +55,16 @@ Basic explanation of the commmands:
 
 ### Running
 
-Open `index.html` with your browser. 
+Run `node server.js` and open your browser at http://localhost:7070.
 
-You can instead run `node server.js` and open your browser at http://localhost:7070.
+### Run locally
+
+```bash
+
+sudo npm install -g electron
+
+electron main.js
+```
 
 ### Configuration
 
