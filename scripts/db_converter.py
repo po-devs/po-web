@@ -51,7 +51,7 @@ def convert_line(line, duplicates):
 
 def deal_with_file(path, do_gens=False, file="", type="pokes", duplicates=False):
     print ("file: " + file)
-    gens = ['6', '5', '4', '3', '2', '1']
+    gens = ['7', '6', '5', '4', '3', '2', '1']
     full_moves = ''
     all_moves = ''
 

@@ -19,4 +19,5 @@ pokedex.gens.versions = {
 65541:"Black/White 2",
 6:"X/Y",
 65542:"Omega Ruby/Alpha Sapphire",
+7:"Sun/Moon",
 };

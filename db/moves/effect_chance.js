@@ -1,6 +1,6 @@
 if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.effect_chance)pokedex.moves.effect_chance=[];
-pokedex.moves.effect_chance[6] = {
+pokedex.moves.effect_chance[7] = {
 0:0,
 7:10,
 8:10,
@@ -77,6 +77,9 @@ pokedex.moves.effect_chance[6] = {
 575:100,
 579:10,
 613:30,
+692:100,
+};
+pokedex.moves.effect_chance[6] = {
 };
 pokedex.moves.effect_chance[5] = {
 305:30,

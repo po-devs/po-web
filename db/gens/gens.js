@@ -6,4 +6,5 @@ pokedex.gens.gens = {
 4:"4th gen",
 5:"5th gen",
 6:"6th gen",
+7:"7th gen",
 };
