@@ -23,7 +23,10 @@ def ensure_dir(f):
 
 
 def convert_line(line, duplicates):
-    lines = line.strip().split(' ', 1)
+    stripped = line.strip()
+    if len(stripped) == 0:
+        return ""
+    lines = stripped.split(' ', 1)
 
     if duplicates != False:
         if not line in duplicates:
@@ -48,7 +51,7 @@ def convert_line(line, duplicates):
 def deal_with_file(path, do_gens=False, file="", duplicates=False):
     print ("file: " + file)
     basefile = os.path.basename(file)
-    gens = ['6', '5', '4', '3', '2', '1']
+    gens = ['7', '6', '5', '4', '3', '2', '1']
     full_moves = ''
 
     typepath = "pokedex.pokes"
