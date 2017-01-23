@@ -17,7 +17,7 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15],
 	num_pokemon: 151,
 	num_moves: 165,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/red-blue/'
+	sprite_folder:'yellow/'
 },
 2:{
 	gender:true,
@@ -36,7 +36,7 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 	num_pokemon: 251,
 	num_moves: 251,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/crystal/'
+	sprite_folder:'crystal/'
 },
 3:{
 	gender:true,
@@ -55,7 +55,7 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 	num_pokemon: 386,
 	num_moves: 353,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/emerald/'
+	sprite_folder:'emerald/'
 },
 4:{
 	gender:true,
@@ -74,7 +74,7 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 	num_pokemon: 493,
 	num_moves: 467,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/platinum/'
+	sprite_folder:'heartgold-soulsilver/'
 },
 5:{
 	gender:true,
@@ -93,7 +93,7 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 	num_pokemon: 649,
 	num_moves: 559,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/black-white/',
+	sprite_folder:'black-white/',
 	animated: true
 },
 6:{
@@ -113,7 +113,7 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 	num_pokemon: 718,
 	num_moves: 607,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/x-y/',
+	sprite_folder:'x-y/',
 	animated: true
 },
 7:{
@@ -133,6 +133,6 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 	num_pokemon: 802,
 	num_moves: 701,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/s-m/',
+	sprite_folder:'s-m/',
 }
 };

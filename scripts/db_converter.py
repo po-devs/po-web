@@ -55,7 +55,7 @@ def convert_line(line, duplicates):
         else:
             lines[1] = '"'+lines[1].replace("\"", "\\\"") +'"'
     else:
-        lines.append('true')
+        lines.append('1')
 
     return lines[0] + ':'+lines[1]+',\n'
 

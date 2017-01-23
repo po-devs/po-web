@@ -212,17 +212,24 @@ PokeInfo.sprite = function(poke, params) {
     params = params || {};
     poke = PokeInfo.toObject(poke);
     var gen = getGen(params.gen || poke.gen);
+    /* Reuse gen 6 sprites if possible */
+    console.log(gen, poke);
+    if (gen.num > 6 && PokeInfo.released(poke, 6)) {
+        gen = getGen(6);
+    }
     var back = params.back || false;
 
     // Use last gen when dealing with missingno.
     if (poke.num === 0) {
-        return pokedex.generations.options[lastGen.num].sprite_folder + "0.png";
+        return "/images/" + pokedex.generations.options[lastGen.num].sprite_folder + "0.png";
     }
 
     var options = pokedex.generations.options[gen.num];
     var path = options.sprite_folder;
     if (options.animated) {
-        path += "animated/";
+        path = "http://pokemon-online.eu/images/pokemon/" + path + "animated/";
+    } else  {
+        path = "/images/" + path;
     }
     if (back) {
         path += "back/";
@@ -932,7 +939,7 @@ TypeInfo.category = function(type) {
 };
 
 TypeInfo.sprite = function(type) {
-    return "http://pokemon-online.eu/images/types/" + type + ".png";
+    return "/images/types/type" + type + ".png";
 };
 
 AbilityInfo.list = function() {

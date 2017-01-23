@@ -5,6 +5,8 @@ import os
 import codecs
 from distutils.dir_util import copy_tree
 
+gens = ['7', '6', '5', '4', '3', '2', '1']
+
 def removeUTF8Codec(line):
     #python 3
     if len(line) > 0 and ord(line[0]) == 65279:
@@ -44,7 +46,7 @@ def convert_line(line, duplicates):
         else:
             lines[1] = '"'+lines[1]+'"'
     else:
-        lines.append('true')
+        lines.append('1')
     lines[0] = str(int(nums[0]) + int(nums[1])*65536)
     return lines[0] + ':'+lines[1]+',\n'
 
@@ -52,7 +54,6 @@ def convert_line(line, duplicates):
 def deal_with_file(path, do_gens=False, file="", duplicates=False):
     print ("file: " + file)
     basefile = os.path.basename(file)
-    gens = ['7', '6', '5', '4', '3', '2', '1']
     full_moves = ''
 
     typepath = "pokedex.pokes"
@@ -110,6 +111,10 @@ def main(argv):
     print ("Copying icons")
     copy_tree(path+"/pokes/icons", "app/assets/images/icons", update=1)
     print ("Icons copied over")
+    for gen in gens:
+        print ("Copying images from gen" + gen)
+        copy_tree(path+"/pokes/" + gen + "G/sprites", "app/assets/images", update=1)
+        print ("Images from gen" + gen + " copied over")
 
     files = ['all_moves', 'type1', 'type2', 'ability1', 'ability2', 'ability3', 'min_levels', 'stats']
     base_files = ['gender', 'height', 'weight', 'pokemons', '../items/item_for_forme']
