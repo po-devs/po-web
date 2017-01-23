@@ -165,9 +165,9 @@ utils.inherits(BattleTab, BaseTab);
 
 BattleTab.getIframe = function(id) {
     if (webclientUI.battles.simpleWindow) {
-        return "<iframe class='battle-iframe' src='/simple-battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>";
+        return "<iframe class='battle-iframe' src='/simple-battle-canvas?battle=" + id + "' seamless='seamless'></iframe>";
     } else {
-        return "<iframe class='battle-iframe' src='/battle-canvas.html?battle=" + id + "' seamless='seamless'></iframe>";
+        return "<iframe class='battle-iframe' src='/battle-canvas?battle=" + id + "' seamless='seamless'></iframe>";
     }
 };
 
