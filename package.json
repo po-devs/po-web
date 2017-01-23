@@ -12,20 +12,19 @@
     "url": "https://github.com/coyotte508/po-web/issues"
   },
   "devDependencies": {
-    "body-parser": "^1.14.0",
-    "bower": "^1.5.2",
-    "compression": "^1.6.2",
-    "express": "^4.13.3",
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "kiwi": "^0.2.2",
     "load-grunt-tasks": "^3.5.2"
   },
   "dependencies": {
-    "ejs": "^2.5.5"
+    "ejs": "^2.5.5",
+    "body-parser": "^1.14.0",
+    "bower": "^1.5.2",
+    "compression": "^1.6.2",
+    "express": "^4.13.3"
   }
 }
