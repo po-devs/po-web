@@ -193,15 +193,15 @@ PokeInfo.find = function(id, what, gen) {
 };
 
 PokeInfo.trainerSprite = function(num) {
-    return "http://pokemon-online.eu/images/trainers/" + (num||0) + ".png";
+    return "/images/trainers/" + (num||0) + ".png";
 };
 
 PokeInfo.heldItemSprite = function() {
-    return "http://pokemon-online.eu/images/items/helditem.png";
+    return ItemInfo.itemSprite("helditem");
 };
 
 PokeInfo.genderSprite = function(num) {
-    return "http://pokemon-online.eu/images/genders/ingame_gender" + num + ".png";
+    return "/genders/ingame_gender" + num + ".png";
 };
 
 PokeInfo.substituteSprite = function(back) {
