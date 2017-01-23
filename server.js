@@ -9,20 +9,21 @@ var app = express();
 
 app.use(compression());
 
+app.set('view engine', 'ejs'); 
+
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
-console.log(__dirname + '/public');
 app.use("/", express.static(__dirname + '/public'));
 
 app.get("/", function(req, res) {
-  res.render("index.kiwi", {postData: "null"});
+  res.render("index", {postData: "null"});
 });
 
 app.post("/", function(req, res) {
-  res.render("index.kiwi", {postData: JSON.stringify(req.body)});
+  res.render("index", {postData: JSON.stringify(req.body)});
 });
 
 app.post("/podata.json", function(req, res) {
@@ -30,20 +31,20 @@ app.post("/podata.json", function(req, res) {
   res.send(req.body.data);
 });
 
-app.get("/battle-canvas.html", function(req, res) {
-  res.render("battle-canvas.kiwi");
+app.get("/battle-canvas", function(req, res) {
+  res.render("battle-canvas");
 });
 
-app.get("/simple-battle-canvas.html", function(req, res) {
-  res.render("simple-battle-canvas.kiwi");
+app.get("/simple-battle-canvas", function(req, res) {
+  res.render("simple-battle-canvas");
 });
 
-app.get("/settings.html", function(req, res) {
-  res.render("settings.kiwi");
+app.get("/settings", function(req, res) {
+  res.render("settings");
 });
 
-app.get("/teambuilder.html", function(req, res) {
-  res.render("teambuilder.kiwi", {load: req.query.load == "true" ? true : false});
+app.get("/teambuilder", function(req, res) {
+  res.render("teambuilder", {load: req.query.load == "true" ? true : false});
 });
 
 var sets = {

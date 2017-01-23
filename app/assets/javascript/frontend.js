@@ -387,7 +387,7 @@ var webclientUI = {
         BootstrapDialog.show({
             "title": "Settings for " + webclient.ownName(),
             "message": function(dialogItself) {
-                content.load("settings.html", function(response, status) {
+                content.load("settings", function(response, status) {
                     if (status == "error") {
                         dialogItself.setData("error", true);
                         //todo, error details can be gotten from arguments[2]
@@ -578,7 +578,7 @@ $(function() {
                 BootstrapDialog.show({
                     title: "Teambuilder",
                     message : function() {
-                        var content = $("<div>").load("teambuilder.html?load=" + (webclient.teambuilderLoaded ? false : true), function(response, status) {
+                        var content = $("<div>").load("teambuilder?load=" + (webclient.teambuilderLoaded ? false : true), function(response, status) {
                             if (status == "error") {
                                 return;
                             }
@@ -660,17 +660,6 @@ $(function() {
         $(".avatar-miniature").attr("src", PokeInfo.trainerSprite(webclient.ownPlayer().avatar));
     });
 
-
-    // $( '.dropdown-menu a.checkbox-dd' ).on( 'click', function( event ) {
-
-    //    var $target = $( event.currentTarget ),
-    //        $inp = $target.find( 'input' );
-
-    //     setTimeout( function() { $inp.prop( 'checked', !$inp.prop( 'checked') ) }, 0);
-
-    //    $( event.target ).blur();
-    //    //return false;
-    // });
     webclientUI.timestamps = poStorage.get("chat.timestamps", "boolean") === null ? true : poStorage.get("chat.timestamps", "boolean");
     webclientUI.players.showColors = poStorage.get("players.rainbow", "boolean") === null ? true : poStorage.get("players.rainbow", "boolean");
     webclientUI.exitWarning = poStorage.get("exitwarning", "boolean") === null ? true : poStorage.get("exitwarning", "boolean");
@@ -706,8 +695,8 @@ window.webclientUI = webclientUI;
 $(function() {
     /* Load heavy libraries after */
     $("body").append([
-        '<link rel="stylesheet" href="/assets/stylesheets/teambuilder.css">',
-        '<script src="/assets/javascript/teambuilder.js"></script>'
+        '<link rel="stylesheet" href="/stylesheets/teambuilder.css">',
+        '<script src="/javascript/teambuilder.js"></script>'
         ].join("\n")
     );
     $("#toggleSidebar").click(function(evt){

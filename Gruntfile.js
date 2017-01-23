@@ -125,12 +125,12 @@ module.exports = function(grunt) {
             },
             files: {
               //compiling frontend.less into frontend.css
-              "./public/assets/stylesheets/frontend.css":"./app/assets/stylesheets/frontend.less",
-              "./public/assets/stylesheets/replay.css":"./app/assets/stylesheets/replay.less",
+              "./public/stylesheets/frontend.css":"./app/assets/stylesheets/frontend.less",
+              "./public/stylesheets/replay.css":"./app/assets/stylesheets/replay.less",
               //compiling backend.less into backend.css
-              "./public/assets/stylesheets/backend.css":"./app/assets/stylesheets/backend.less",
-              "./public/assets/stylesheets/teambuilder.css":"./app/assets/stylesheets/teambuilder.less",
-              "./public/assets/stylesheets/simplebattlewindow.css":"./app/assets/stylesheets/simplebattlewindow.less"
+              "./public/stylesheets/backend.css":"./app/assets/stylesheets/backend.less",
+              "./public/stylesheets/teambuilder.css":"./app/assets/stylesheets/teambuilder.less",
+              "./public/stylesheets/simplebattlewindow.css":"./app/assets/stylesheets/simplebattlewindow.less"
             }
         }
     },
@@ -140,41 +140,40 @@ module.exports = function(grunt) {
       },
       js_frontend: {
         src: js_frontend,
-        dest: './public/assets/javascript/frontend.js',
+        dest: './public/javascript/frontend.js',
       },
       js_backend: {
         src: js_backend.concat(poke_base_db),
-        dest: './public/assets/javascript/backend.js',
+        dest: './public/javascript/backend.js',
       },
       js_replay: {
         src: js_replay.concat(poke_base_db),
-        dest: './public/assets/javascript/replay.js',
+        dest: './public/javascript/replay.js',
       },
       js_teambuilder: {
         src: js_teambuilder,
-        dest: './public/assets/javascript/teambuilder.js',
+        dest: './public/javascript/teambuilder.js',
       },
       js_simple_battle_window: {
         src: ['./bower_components/howler.js/howler.min.js',
               './app/assets/javascript/battles/simplebattlewindow.js'],
-        dest: './public/assets/javascript/simplebattlewindow.js'
-      },
-      simple_copy_colors: {
-        src: ['./bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'],
-        dest: './app/assets/stylesheets/bootstrap-colorpicker.less'
+        dest: './public/javascript/simplebattlewindow.js'
       }
     },
     copy: {
       files: {
         files: [
-          {expand: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true},
-          {expand: true, src: ['bower_components/font-awesome/fonts/*'], dest: './public/assets/fonts/', filter: 'isFile', flatten: true},
-          {expand: true, src: ['bower_components/jquery/dist/jquery.min.js'], dest: './public/assets/javascript/', filter: 'isFile', flatten: true},
+          {expand: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: './public/fonts/', filter: 'isFile', flatten: true},
+          {expand: true, src: ['bower_components/font-awesome/fonts/*'], dest: './public/fonts/', filter: 'isFile', flatten: true},
+          {expand: true, src: ['bower_components/jquery/dist/jquery.min.js'], dest: './public/javascript/', filter: 'isFile', flatten: true},
           {expand: true, cwd: 'animated-battle-window/html/build/dist/html/', src: ['**'], dest: './public/battle/html/'},
           {expand: true, cwd: 'animated-battle-window/assets/', src: ['**', '!**.zip'], dest: './public/battle/'},
           {expand: true, cwd: 'animated-battle-window/html/build/dist/assets/', src: ['**'], dest: './public/battle/'},
-          {expand: true, cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img/', src: ['**'], dest: './public/assets/img/'},
-          {expand: true, cwd: 'app/assets/sounds', src: ['**'], dest: './public/assets/sounds/'},
+          {expand: true, cwd: 'bower_components/mjolnic-bootstrap-colorpicker/dist/img/', src: ['**'], dest: './public/img/'},
+          {expand: true, cwd: 'app/assets/sounds', src: ['**'], dest: './public/sounds/'},
+          {expand: true, cwd: 'app/assets/fonts', src: ['**'], dest: './public/fonts/'},
+          {expand: true, cwd: 'app/assets/images', src: ['**'], dest: './public/images/'},
+          {expand: true, src: ['./bower_components/mjolnic-bootstrap-colorpicker/dist/css/*.less'], dest: './app/assets/stylesheets/', filter: 'isFile', flatten: true}
         ]
       }
     },
@@ -184,34 +183,21 @@ module.exports = function(grunt) {
       },
       frontend: {
         files: {
-          './public/assets/javascript/frontend.js': './public/assets/javascript/frontend.js',
+          './public/javascript/frontend.js': './public/javascript/frontend.js',
         }
       },
       backend: {
         files: {
-          './public/assets/javascript/backend.js': './public/assets/javascript/backend.js',
+          './public/javascript/backend.js': './public/javascript/backend.js',
         }
       },
     },
     watch: {
         // run tasks when certain files are changed
         js_frontend: {
-          files: js_frontend,
-          tasks: ['concat:js_frontend'/*,'uglify:frontend'*/],
-          options: {
-            livereload: true
-          }
-        },
-        js_backend: {
-          files: js_backend,
-          tasks: ['concat:js_backend','uglify:backend'],
-          options: {
-            livereload: true
-          }
-        },
-        simple_copy: {
-          files: ['./views/index.kiwi'],
-          tasks: ['concat:simple_copy'],
+          files: js_frontend.concat(js_backend).concat(js_teambuilder).concat(js_replay),
+          tasks: ['concat'],
+          //tasks: ['concat:js_frontend'/*,'uglify:frontend'*/],
           options: {
             livereload: true
           }
