@@ -193,6 +193,8 @@ function createNetwork(WebSocket) {
 
             //var password = $("#password").val();
             var password = '';
+            var user = poStorage.get("user");
+            var storedPw = poStorage.get("pwfor_" + network.ip + "%%" + user) || '';
 
             var hash;
 
@@ -202,13 +204,16 @@ function createNetwork(WebSocket) {
             } else {
                 vex.dialog.open({
                     message: "Please enter your password, <strong>" + poStorage.get("user") +"</strong> (<small><a href='" + window.location.pathname + "' target='_self' onclick='poStorage.remove(\"user\");'>Not you?</a></small>):",
-                    input: "<input name='password' type='password' placeholder='Password' required />",
+                    input: `<input name='password' type='password' placeholder='Password' required value='${storedPw}' />`,
                     callback: function (res) {
                         if (res && res.password) {
                             // after clicking OK
                             // res.password is the value from the textbox
                             hash = MD5(MD5(res.password) + payload);
                             net.send("auth", {hash: hash});
+
+                            //TODO: maybe use electron-side saving for electron clients
+                            poStorage.set("pwfor_" + network.ip + "%%" + user, res.password);
                         } else {
                             // after clicking Cancel
                             net.close();
