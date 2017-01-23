@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 ## Needs to be run in the db folder of the po installation
 
 import sys
@@ -116,6 +117,12 @@ def main(argv):
         path = sys.stdin.readline().strip()
     else:
         path = argv[1]
+
+    print ("Copying berries")
+    copy_tree(path+"/items/items", "app/assets/images/items", update=1)
+    print ("Copying items")
+    copy_tree(path+"/items/berries", "app/assets/images/berries", update=1)
+    print ("Items icons copied over")
 
     types = {
         'moves': {

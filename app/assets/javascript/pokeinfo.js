@@ -876,9 +876,9 @@ ItemInfo.desc = function(item) {
 
 ItemInfo.itemSprite = function(item) {
     if (+item >= 8000) {
-        return "http://pokemon-online.eu/images/berries/" + (item - 8000) + ".png";
+        return "/images/berries/" + (item - 8000) + ".png";
     } else {
-        return "http://pokemon-online.eu/images/items/" + item + ".png";
+        return "/images/items/" + item + ".png";
     }
 };
 
