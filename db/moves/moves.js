@@ -701,5 +701,5 @@ pokedex.moves.moves = {
 698:"Malicious Moonsault",
 699:"Oceanic Operetta",
 700:"Soul-Stealing 7-Star Strike",
-701:[10,000,000,Volt,Thunderbolt],
+701:"10,000,000 Volt Thunderbolt",
 };

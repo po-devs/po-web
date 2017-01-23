@@ -3,6 +3,7 @@
 import sys
 import os
 import codecs
+from distutils.dir_util import copy_tree
 
 def removeUTF8Codec(line):
     #python 3
@@ -106,7 +107,10 @@ def main(argv):
     else:
         path = argv[1]
 
-    # gens = ['6', '5', '4', '3', '2', '1']
+    print ("Copying icons")
+    copy_tree(path+"/pokes/icons", "app/assets/images/icons", update=1)
+    print ("Icons copied over")
+
     files = ['all_moves', 'type1', 'type2', 'ability1', 'ability2', 'ability3', 'min_levels', 'stats']
     base_files = ['gender', 'height', 'weight', 'pokemons', '../items/item_for_forme']
     unique_files = ['released']

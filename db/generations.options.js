@@ -93,7 +93,8 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 	num_pokemon: 649,
 	num_moves: 559,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/black-white/'
+	sprite_folder:'http://pokemon-online.eu/images/pokemon/black-white/',
+	animated: true
 },
 6:{
 	gender:true,
@@ -112,6 +113,26 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 	num_pokemon: 718,
 	num_moves: 607,
-	sprite_folder:'http://pokemon-online.eu/images/pokemon/x-y/'
+	sprite_folder:'http://pokemon-online.eu/images/pokemon/x-y/',
+	animated: true
+},
+7:{
+	gender:true,
+	shiny:true,
+	special_stat:false,
+	special_stats_same:false,
+	damage_classes_move_specific:true,
+	happiness:true,
+	ivs_limit:31,
+	hidden_power:true,
+	hidden_power_bp:60,
+	ability:true,
+	nature:true,
+	item:true,
+	evs:true,
+	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+	num_pokemon: 802,
+	num_moves: 701,
+	sprite_folder:'http://pokemon-online.eu/images/pokemon/s-m/',
 }
 };

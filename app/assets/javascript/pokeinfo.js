@@ -219,8 +219,9 @@ PokeInfo.sprite = function(poke, params) {
         return pokedex.generations.options[lastGen.num].sprite_folder + "0.png";
     }
 
-    var path = pokedex.generations.options[gen.num].sprite_folder;
-    if (gen.num >= 5) {
+    var options = pokedex.generations.options[gen.num];
+    var path = options.sprite_folder;
+    if (options.animated) {
         path += "animated/";
     }
     if (back) {
@@ -236,7 +237,7 @@ PokeInfo.sprite = function(poke, params) {
     if (poke.forme) {
         path += "-" + poke.forme;
     }
-    path += gen.num >= 5 ? ".gif" : ".png";
+    path += options.animated ? ".gif" : ".png";
 
     return path;
 };
@@ -287,7 +288,7 @@ PokeInfo.spriteData = function(poke, params) {
 
 PokeInfo.icon = function(poke) {
     poke = this.toObject(poke);
-    return "http://pokemon-online.eu/images/poke_icons/" + poke.num + (poke.forme ? "-" + poke.forme : "") + ".png";
+    return "/images/icons/" + poke.num + (poke.forme ? "-" + poke.forme : "") + ".png";
 };
 
 PokeInfo.name = function(poke) {

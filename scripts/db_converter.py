@@ -3,6 +3,7 @@
 import sys
 import os
 import codecs
+from distutils.dir_util import copy_tree
 
 
 def ensure_dir(f):
@@ -23,8 +24,17 @@ def removeUTF8Codec(line):
             return line
     return line[len(codecs.BOM_UTF8):]
 
+def made_of_digits(line):
+    for char in line:
+        if not (char.isdigit() or char.isspace()):
+            return False
+    return True
+
 def convert_line(line, duplicates):
-    lines = line.strip().split(' ', 1)
+    stripped = line.strip()
+    if len(stripped) == 0:
+        return ""
+    lines = stripped.split(' ', 1)
 
     if duplicates != False:
         if not line in duplicates:
@@ -37,7 +47,7 @@ def convert_line(line, duplicates):
         lines[0] = str(int(nums[0]) + int(nums[1])*65536)
 
     if len(lines) > 1:
-        if lines[1][0].isdigit() and (len(lines[1]) == 1 or lines[1][1].isdigit()) :
+        if made_of_digits(lines[1]) :
             lines[1] = ",".join(lines[1].split(' '))
             if lines[1].find(",") != -1:
                 lines[1] = "[" + lines[1] + "]"
