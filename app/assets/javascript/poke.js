@@ -23,6 +23,9 @@ Poke.prototype.reset = function() {
 	this.gender = 0;
 	this.nature = 0;
 	this.shiny = false;
+	if (!this.gen) {
+		this.gen = lastGen;
+	}
 };
 
 Poke.prototype.load = function(poke) {

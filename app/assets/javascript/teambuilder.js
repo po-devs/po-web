@@ -336,8 +336,12 @@ Poke.prototype.updateDescription = function(what) {
         ].join("<br/>");
         this.ui.desc.html('');
         this.ui.desc.append($("<div class='col-sm-6'>").html(links));
-        this.ui.desc.append($("<div class='col-sm-6'>").html('<div class="checkbox tb-shiny-container"><label><input type="checkbox" class="shiny-input"> Shiny</label></div>')
-                                                       .append('<select class="form-control smogon-set-selection"><option value="none">Smogon sets</option></select>'));
+        this.ui.desc.append();
+        var rightHand = $("<div class='col-sm-6'>").html('<div class="checkbox tb-shiny-container"><label><input type="checkbox" class="shiny-input"> Shiny</label></div>');
+        if (!self.gen || !pokedex.generations.options[this.gen.num].nosmogon) {
+            rightHand.append('<select class="form-control smogon-set-selection"><option value="none">Smogon sets</option></select>');
+        }
+        this.ui.desc.append(rightHand);
         if (this.gen && this.gen.num === 1) {
             $(".tb-shiny-container").hide();
         }

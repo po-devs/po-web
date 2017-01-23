@@ -213,7 +213,6 @@ PokeInfo.sprite = function(poke, params) {
     poke = PokeInfo.toObject(poke);
     var gen = getGen(params.gen || poke.gen);
     /* Reuse gen 6 sprites if possible */
-    console.log(gen, poke);
     if (gen.num > 6 && PokeInfo.released(poke, 6)) {
         gen = getGen(6);
     }
@@ -384,8 +383,8 @@ PokeInfo.releasedList = function(gen, excludeFormes) {
             continue;
         }
 
-        // In gens 1-3, the values are true instead of the pokemon names.
-        if (releasedList[i] === true) {
+        // For space economy, values can just be 1
+        if (releasedList[i] === 1) {
             list[i] = PokeInfo.name(+i);
         } else {
             list[i] = releasedList[i];
