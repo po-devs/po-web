@@ -1,6 +1,7 @@
 {
-  "name": "po-web",
-  "version": "0.0.0",
+  "name": "Pokemon-Online",
+  "version": "0.0.1",
+  "main": "main.js",
   "description": "Webclient for PO",
   "repository": {
     "type": "git",
@@ -12,6 +13,7 @@
     "url": "https://github.com/coyotte508/po-web/issues"
   },
   "devDependencies": {
+    "electron": "^1.4.15",
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",

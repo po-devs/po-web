@@ -70,6 +70,14 @@ electron main.js
 
 You can edit `serverconfig.js`.
 
+### Deploy 
+
+```bash
+sudo npm install electron-packager -g
+
+electron-packager . --all --out=build/Release --ignore="animated-battle-window" --ignore="app/assets" --ignore="build" --ignore="bower_components" --ignore="scripts"
+```
+
 ### Additional Setup
 
 You may want to install other things in order to run the scripts: `python3` and `imagemagick`. They can be both installed in a similar fashion with `apt-get` / `choco`.

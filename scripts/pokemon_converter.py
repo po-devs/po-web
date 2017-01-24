@@ -116,6 +116,10 @@ def main(argv):
         copy_tree(path+"/pokes/" + gen + "G/sprites", "app/assets/images", update=1)
         print ("Images from gen" + gen + " copied over")
 
+    print ("Copying cries")
+    copy_tree(path+"/pokes/cries", "app/assets/sounds/cries", update=1)
+    print ("Cries copied over")
+
     files = ['all_moves', 'type1', 'type2', 'ability1', 'ability2', 'ability3', 'min_levels', 'stats']
     base_files = ['gender', 'height', 'weight', 'pokemons', '../items/item_for_forme']
     unique_files = ['released']

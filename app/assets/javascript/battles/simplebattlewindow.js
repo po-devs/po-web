@@ -32,7 +32,7 @@ var musicdata = musics[Math.floor(Math.random()*musics.length)];
 musicdata.looped = false;
 
 var music = new Howl({
-  urls: ["/assets/sounds/musics/"+musicdata.file],
+  urls: ["/sounds/musics/"+musicdata.file],
   sprite: {
   	intro: [0, musicdata.loopPos],
   	theme: [musicdata.loopPos, musicdata.duration-musicdata.loopPos, true]
@@ -148,7 +148,7 @@ function playCry(spot) {
 	}
 	// todo : form: num + "-"+ subnum + ".wab"
 	var sound = new Howl({
-	  urls: ["/assets/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
+	  urls: ["/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
 	}).play();
 }
 
@@ -243,17 +243,17 @@ $(function() {
 	});
 
 	battle.on("sendback", function(spot) {
-		sprite(spot).attr("src", "/assets/images/blank.png");
+		sprite(spot).attr("src", "/images/blank.png");
 		hud(spot).hide();
 	});
 
 	battle.on("vanish", function(spot) {
-		sprite(spot).attr("src", "/assets/images/blank.png");
+		sprite(spot).attr("src", "/images/blank.png");
 	});
 
 	battle.on("ko", function(spot) {
 		playCry(spot);
-		sprite(spot).attr("src", "/assets/images/blank.png");
+		sprite(spot).attr("src", "/images/blank.png");
 		hud(spot).hide();
 	});
 
