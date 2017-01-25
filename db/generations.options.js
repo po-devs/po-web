@@ -55,7 +55,7 @@ pokedex.generations.options = {
 	types_ids:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 	num_pokemon: 386,
 	num_moves: 353,
-	sprite_folder:'emerald/'
+	sprite_folder:'firered-leafgreen/'
 },
 4:{
 	gender:true,
