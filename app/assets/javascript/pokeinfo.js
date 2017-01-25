@@ -201,7 +201,7 @@ PokeInfo.heldItemSprite = function() {
 };
 
 PokeInfo.genderSprite = function(num) {
-    return "/genders/ingame_gender" + num + ".png";
+    return "/images/genders/ingame_gender" + num + ".png";
 };
 
 PokeInfo.substituteSprite = function(back) {

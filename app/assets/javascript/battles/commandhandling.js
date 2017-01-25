@@ -159,9 +159,11 @@ battledata.dealWithMovechange = function(params) {
 };
 
 battledata.dealWithOfferchoice = function(params) {
+    /* Deal with outdated relays */
+    if (params.choice.zmove && !params.choice.zattacks) {
+        params.choice.zattacks = [true,true,true,true];
+    }
     this.choices[params.choice.slot] = params.choice;
-    /* Force the user to switch */
-   // this.request.forceSwitch = !params.choice.attack;
 };
 
 battledata.dealWithKo = function(params) {

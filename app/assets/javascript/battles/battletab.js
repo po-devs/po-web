@@ -90,15 +90,17 @@ function BattleTab(id) {
                     <input type="radio">Switch</a>\
             </div>';
 
-        var megacancel = '\
-            <div class="btn-group pull-right" data-toggle="buttons">\
-                <span class="btn btn-default battle-mega">\
-                    <input type="checkbox">Mega</span>\
-                <span class="btn btn-default battle-struggle" slot="-1" disabled>\
-                    <input type="checkbox">Struggle</span>\
-                <span class="btn btn-default battle-cancel">\
-                    Cancel</span>\
-            </div>';
+        var megacancel = `
+            <div class="btn-group pull-right" data-toggle="buttons">
+                <span class="btn btn-default battle-zmove">
+                    <input type="checkbox">Z-Move</span>
+                <span class="btn btn-default battle-mega">
+                    <input type="checkbox">Mega</span>
+                <span class="btn btn-default battle-struggle" slot="-1" disabled>
+                    <input type="checkbox">Struggle</span>
+                <span class="btn btn-default battle-cancel">
+                    Cancel</span>
+            </div>`;
 
         moveRow.addClass("tab-pane active").attr("id", "moves-" + id);
         pokeRow.addClass("tab-pane").attr("id", "switch-" + id);
@@ -108,6 +110,7 @@ function BattleTab(id) {
         this.attackButton = layout.find(".battle-attack");
         this.switchButton = layout.find(".battle-switch");
         this.megaButton = layout.find(".battle-mega");
+        this.zButton = layout.find(".battle-zmove");
         this.cancelButton = layout.find(".battle-cancel");
         this.struggleButton = layout.find(".battle-struggle");
         this.struggleButton.on("click", onMoveClicked);
@@ -118,6 +121,9 @@ function BattleTab(id) {
             }
 
             self.choose({"type": "cancel", "slot": self.myself});
+        });
+        this.zButton.on("click", function(event) {
+            self.enableChoices($(this).hasClass("active"));
         });
     }
 
@@ -351,6 +357,7 @@ BattleTab.prototype.disableChoices = function() {
     this.switchRow.find(".battle-poke").attr("disabled", "disabled");
     this.attackRow.find(".battle-move").attr("disabled", "disabled");
     this.megaButton.attr("disabled", "disabled");
+    this.zButton.attr("disabled", "disabled");
     this.struggleButton.attr("disabled", "disabled");
     this.cancelButton.removeAttr("disabled").removeClass("active");
 };
@@ -359,10 +366,11 @@ BattleTab.prototype.myTeam = function() {
     return this.battle.teams[this.myself];
 }
 
-BattleTab.prototype.enableChoices = function() {
+BattleTab.prototype.enableChoices = function(zMoving) {
     this.switchRow.find(".battle-poke").removeAttr("disabled").removeClass("active");
     this.attackRow.find(".battle-move").removeAttr("disabled").removeClass("active");
     this.megaButton.removeAttr("disabled").removeClass("active");
+    this.zButton.removeAttr("disabled").removeClass("active");
     this.struggleButton.attr("disabled", "disabled").removeClass("active");
     this.cancelButton.attr("disabled", "disabled").removeClass("active");
 
@@ -371,6 +379,7 @@ BattleTab.prototype.enableChoices = function() {
         if (!available.attack) {
             this.attackRow.find(".battle-move").attr("disabled", "disabled");
             this.megaButton.attr("disabled", "disabled");
+            this.zButton.attr("disabled", "disabled");
 
             this.switchButton.trigger("click");
         } else {
@@ -378,7 +387,7 @@ BattleTab.prototype.enableChoices = function() {
             this.attackButton.trigger("click");
             var allowed = false;
             for (var i in available.attacks) {
-                if (available.attacks[i]) {
+                if (zMoving ? available.zattacks[i] : available.attacks[i]) {
                     allowed = true;
                 } else {
                     this.attackRow.find(".battle-move:eq(" + i + ")").attr("disabled", "disabled");
@@ -389,6 +398,9 @@ BattleTab.prototype.enableChoices = function() {
             }
             if (!available.mega) {
                 this.megaButton.attr("disabled", "disabled");
+            }
+            if (!available.zmove) {
+                this.zButton.attr("disabled", "disabled");
             }
         }
         if (!available.switch) {
@@ -642,6 +654,9 @@ BattleTab.prototype.onControlsChooseMove = function(slot) {
     var choice = {"type":"attack", "slot":this.myself, "attackSlot": slot};
     if (this.megaButton.hasClass("active")) {
         choice.mega = true;
+    }
+    if (this.zButton.hasClass("active")) {
+        choice.zmove = true;
     }
     this.choose(choice);
 };
