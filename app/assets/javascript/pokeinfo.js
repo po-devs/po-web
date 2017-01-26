@@ -892,6 +892,10 @@ ItemInfo.itemSprite = function(item) {
     }
 };
 
+ItemInfo.isMegaStone = function(item) {
+    return item >= 2000 && item < 3000;
+};
+
 StatInfo.list = function() {
     return pokedex.status.stats;
 };

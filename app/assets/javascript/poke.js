@@ -44,7 +44,9 @@ Poke.prototype.load = function(poke) {
     	/* Change mega forme to base + item, and so on */
     	var item = PokeInfo.itemForForme(this);
     	if (item) {
-    		this.forme = 0;
+            if (ItemInfo.isMegaStone(item)) {
+                this.forme = 0;
+	        }
     		this.item = item;
     	}
     }
