@@ -30,9 +30,10 @@ git submodule init
 git submodule update
 npm install
 bower install
+
+grunt copy
 grunt concat
 grunt less
-grunt copy
 ```
 
 **Follow** the instructions in the [battle window folder](https://github.com/po-devs/po-battle-window) as well! Afterwards, as well as each time the battle window is rebuilt, do:
