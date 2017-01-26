@@ -1040,7 +1040,8 @@ Teambuilder.genShortHands = {
     "Black/White": "BW",
     "Black/White 2": "BW2",
     "X/Y": "XY",
-    "Omega Ruby/Alpha Sapphire": "ORAS"
+    "Omega Ruby/Alpha Sapphire": "ORAS",
+    "Sun/Moon": "SM"
 };
 
 Teambuilder.prototype.setGen = function(genNum) {
