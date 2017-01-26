@@ -134,7 +134,7 @@ pokedex.generations.options = {
 	num_pokemon: 802,
 	num_moves: 701,
 	sprite_folder:'s-m/',
-    animated: true,
+	animated: true,
 	nosmogon: true
 }
 };
