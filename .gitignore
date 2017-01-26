@@ -31,4 +31,4 @@ bower_components
 *.html
 
 #Copied from bower components by grunt concat
-app/assets/stylesheets/bootstrap-colorpicker.less
+app/assets/stylesheets/colorpicker.less

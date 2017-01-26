@@ -173,7 +173,7 @@ module.exports = function(grunt) {
           {expand: true, cwd: 'app/assets/sounds', src: ['**'], dest: './public/sounds/'},
           {expand: true, cwd: 'app/assets/fonts', src: ['**'], dest: './public/fonts/'},
           {expand: true, cwd: 'app/assets/images', src: ['**'], dest: './public/images/'},
-          {expand: true, src: ['./bower_components/mjolnic-bootstrap-colorpicker/dist/css/*.less'], dest: './app/assets/stylesheets/', filter: 'isFile', flatten: true}
+          {expand: true, src: ['./bower_components/mjolnic-bootstrap-colorpicker/src/less/*.less'], dest: './app/assets/stylesheets/', filter: 'isFile', flatten: true}
         ]
       }
     },
