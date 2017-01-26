@@ -239,7 +239,11 @@ PokeInfo.sprite = function(poke, params) {
     if (poke.female && gen.num !== 6) {
         path += "female/";
     }
-    path += gen.num >= 5 ? ("00" + poke.num).slice(-3) : poke.num;
+    if (options.animated) {
+        path += ("00" + poke.num).slice(-3);
+    } else {
+        path += poke.num;
+    }
     if (poke.forme) {
         path += "-" + poke.forme;
     }
