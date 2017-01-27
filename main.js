@@ -20,7 +20,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   win.loadURL(url.format({
-    pathname: "localhost:" + config.web.port +"/",
+    pathname: "po.web:" + config.web.port +"/",
     protocol: 'http:',
     slashes: true
   }))
@@ -36,6 +36,9 @@ function createWindow () {
     win = null
   })
 }
+
+app.commandLine.appendSwitch('host-rules', 'MAP po.web 127.0.0.1')
+//app.commandLine.appendSwitch('host-rules', 'MAP *.po-web 127.0.0.1')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
