@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const config = require('../../serverconfig.js');
+
 router.get("/", function(req, res) {
   res.render("index", {config, postData: "null"});
 });
