@@ -226,7 +226,7 @@ PokeInfo.sprite = function(poke, params) {
     var options = pokedex.generations.options[gen.num];
     var path = options.sprite_folder;
     if (options.animated) {
-        path = "http://pokemon-online.eu/images/pokemon/" + path + "animated/";
+        path = "http://web.pokemon-online.eu/images/" + path + "animated/";
     } else  {
         path = "/images/" + path;
     }
@@ -236,7 +236,7 @@ PokeInfo.sprite = function(poke, params) {
     if (PokeInfo.isShiny(poke, poke.gen)) {
         path += "shiny/";
     }
-    if (poke.female && gen.num !== 6) {
+    if (poke.female) {
         path += "female/";
     }
     if (options.animated) {
