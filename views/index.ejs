@@ -35,6 +35,9 @@ var initLoadingTimer = function() {
     }, 740);
 };
 
+serverConfig = <%- JSON.stringify(config) %>;
+console.log(serverConfig);
+
 initLoadingTimer();
 
 $(function() {

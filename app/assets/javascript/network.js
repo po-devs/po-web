@@ -194,7 +194,8 @@ function createNetwork(WebSocket) {
             //var password = $("#password").val();
             var password = '';
             var user = poStorage.get("user");
-            var storedPw = poStorage.get("pwfor_" + network.ip + "%%" + user) || '';
+            var storedPw = serverConfig.local ? (poStorage.get("pwfor_" + network.ip + "%%" + user) || '') : '';
+            console.log(serverConfig, storedPw);
 
             var hash;
 
@@ -212,8 +213,10 @@ function createNetwork(WebSocket) {
                             hash = MD5(MD5(res.password) + payload);
                             net.send("auth", {hash: hash});
 
-                            //TODO: maybe use electron-side saving for electron clients
-                            poStorage.set("pwfor_" + network.ip + "%%" + user, res.password);
+                            if (serverConfig.local) {
+                                //TODO: maybe use electron-side saving for electron clients
+                                poStorage.set("pwfor_" + network.ip + "%%" + user, res.password);
+                            }
                         } else {
                             // after clicking Cancel
                             net.close();

@@ -20,11 +20,11 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use("/", express.static(__dirname + '/public'));
 
 app.get("/", function(req, res) {
-  res.render("index", {postData: "null"});
+  res.render("index", {config, postData: "null"});
 });
 
 app.post("/", function(req, res) {
-  res.render("index", {postData: JSON.stringify(req.body)});
+  res.render("index", {config, postData: JSON.stringify(req.body)});
 });
 
 app.post("/podata.json", function(req, res) {
