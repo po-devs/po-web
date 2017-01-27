@@ -538,7 +538,7 @@ Poke.prototype.updateGui = function() {
             this.data.moveNames.push({value: MoveInfo.name(this.data.allMoves[m]), id: this.data.allMoves[m]});
         }
         this.data.moveNames.sort(function(a, b) {
-            return a.value > b.value;
+            return a.value.localeCompare(b.value);
         });
     }
 
