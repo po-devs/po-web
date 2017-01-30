@@ -588,7 +588,7 @@ BattleTab.prototype.updateTeamPokes = function(player, pokes) {
             if (!tpok.num) {
                 $img.addClass("status-hidden")
             } else {
-                $img.append('<img src="' + PokeInfo.icon(tpok) + '">');
+                $img.append('<img class="poke-icon" src="' + PokeInfo.icon(tpok) + '">');
             }
 
             var tooltip = "";
