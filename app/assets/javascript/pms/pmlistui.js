@@ -1,3 +1,5 @@
+const $ = require("jquery");
+const webclientUI = require("../frontend");
 function PMList() {
     this.ids = {};
 }
@@ -64,3 +66,5 @@ $(function() {
     webclientUI.pms.startObserving(webclient.pms);
     webclientUI.pms.element = $("#pmlist");
 });
+
+module.exports = PMList;

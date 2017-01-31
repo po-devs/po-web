@@ -1,3 +1,5 @@
+const PokeInfo = require("./pokeinfo")
+
 var MOVE_RETURN = 216;
 
 function Poke() {
@@ -294,3 +296,5 @@ Poke.prototype.import = function(str) {
 		}
 	}
 };
+
+module.exports = Poke;

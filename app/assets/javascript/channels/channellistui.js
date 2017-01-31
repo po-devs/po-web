@@ -1,3 +1,5 @@
+const webclient = require("../webclient");
+
 function ChannelList() {
     this.ids = {};
     this.chanevents = {};
@@ -187,3 +189,5 @@ $(function() {
         }
     });
 });
+
+module.exports = ChannelList;

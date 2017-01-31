@@ -1,5 +1,7 @@
+const observable = require("riot-observable")
+
 function ChannelData(id, name) {
-    $.observable(this);
+    observable(this);
 
     this.players = {};
     this.name = name || "";
@@ -45,7 +47,7 @@ ChannelData.prototype.changeName = function(name) {
 };
 
 function ChannelHolder() {
-    $.observable(this);
+    observable(this);
 
     this.joinedChannels = [];
     this.channels = {};
@@ -182,3 +184,5 @@ ChannelHolder.prototype.leaveChannel = function(id) {
         console.log("Channel not joined: " + id);
     }
 };
+
+module.exports = ChannelHolder;

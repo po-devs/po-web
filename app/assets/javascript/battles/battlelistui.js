@@ -1,3 +1,7 @@
+const webclient = require("../webclient")
+const webclientUI = require("../frontend")
+const $ = require("jquery");
+
 function BattleList() {
     this.ids = {};
 }
@@ -84,3 +88,5 @@ $(function() {
     webclientUI.battles.startObserving(webclient.battles);
     webclientUI.battles.element = $("#battlelist");
 });
+
+module.exports = BattleList;

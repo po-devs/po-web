@@ -1,8 +1,10 @@
-function PMHolder() {
-    var self = this;
-    $.observable(self);
+const observable = require("riot-observable")
+const $ = require("jquery");
 
-    self.pms = {};
+function PMHolder() {
+    observable(this);
+
+    this.pms = {};
 }
 
 PMHolder.prototype.pm = function (pid, open) {
@@ -58,3 +60,5 @@ $(function() {
         }
     });
 });
+
+module.exports = PMHolder;

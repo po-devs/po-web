@@ -23,10 +23,15 @@
     "load-grunt-tasks": "^3.5.2"
   },
   "dependencies": {
-    "ejs": "^2.5.5",
     "body-parser": "^1.14.0",
     "bower": "^1.5.2",
     "compression": "^1.6.2",
-    "express": "^4.13.3"
+    "css-loader": "^0.26.1",
+    "ejs": "^2.5.5",
+    "express": "^4.13.3",
+    "jquery": "^3.1.1",
+    "riot-observable": "^3.0.0",
+    "style-loader": "^0.13.1",
+    "vex-js": "^3.0.0"
   }
 }

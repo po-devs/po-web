@@ -1,3 +1,5 @@
+const $ = require("jquery");
+
 var pokedex = {};
 
 GenInfo = {};
@@ -986,3 +988,5 @@ AbilityInfo.message = function(ability, part) {
 
     return "";
 };
+
+module.exports = PokeInfo;

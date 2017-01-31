@@ -1,5 +1,9 @@
+const observable = require("riot-observable")
+const $ = require("jquery");
+const webclient = require("../webclient");
+
 function Battles() {
-    $.observable(this);
+    observable(this);
 
     this.battles = {};
     this.battleList = {};
@@ -159,3 +163,5 @@ $(function() {
         this.removePlayer(id);
     });
 });
+
+module.exports = Battles;

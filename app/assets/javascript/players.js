@@ -1,7 +1,9 @@
+const observable = require("riot-observable");
+
 var namecolorlist = ['#5811b1', '#399bcd', '#0474bb', '#f8760d', '#a00c9e', '#0d762b', '#5f4c00', '#9a4f6d', '#d0990f', '#1b1390', '#028678', '#0324b1'];
 
 function PlayerHolder() {
-    $.observable(this);
+    observable(this);
 
     this.players = {};
     this.names = {};
@@ -203,5 +205,4 @@ PlayerHolder.prototype.away = function (id) {
     return player ? player.away : false;
 };
 
-$(function() {
-});
+module.exports = PlayerHolder;

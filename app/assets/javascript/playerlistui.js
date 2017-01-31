@@ -1,3 +1,5 @@
+const webclientUI = require("./frontend");
+
 /* The list of players */
 function PlayerList() {
     this.ids = [];
@@ -266,3 +268,5 @@ $(function() {
         }
     });
 });
+
+module.exports = PlayerList;

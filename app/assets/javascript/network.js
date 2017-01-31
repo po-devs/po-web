@@ -1,3 +1,6 @@
+const $ = require("jquery");
+const observable = require("riot-observable");
+
 function createNetwork(WebSocket) {
     var states = {
         Connecting: 0,
@@ -422,7 +425,7 @@ function createNetwork(WebSocket) {
     };
 
     function Network() {
-        $.observable(this);
+        observable(this);
 
         this.buffer = [];
         this.socket = null;
@@ -540,9 +543,8 @@ function createNetwork(WebSocket) {
     Network.transformers = transformers;
     Network.parsers = parsers;
 
-    window.Network = Network;
-    window.network = new Network();
+    var network = new Network();
+    return network;
 }
 
-createNetwork(typeof MozWebSocket === "function" ? MozWebSocket : WebSocket);
-var network = window.network;
+module.exports = createNetwork(typeof MozWebSocket === "function" ? MozWebSocket : WebSocket);
