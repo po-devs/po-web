@@ -7,6 +7,7 @@ import {
     CategoryInfo, ItemInfo, TypeInfo, AbilityInfo
 } from "./pokeinfo";
 import poStorage from "./postorage";
+import pokedex from "./pokedex-full";
 
 webclient.teambuilderLoaded = true;
 

@@ -2,10 +2,13 @@ const webpack = require('webpack');
 const path = require("path");
 
 module.exports = {
-  entry: "./app/assets/javascript/frontend.js",
+  entry: {
+    frontend: "./app/assets/javascript/frontend.js",
+    teambuilder: "./app/assets/javascript/teambuilder.js"
+  },
   output: {
     path: path.join(__dirname, "public/javascript"),
-    filename: "bundle.js"
+    filename: "[name].js"
   },
   devtool: "source-map",
   module: {
