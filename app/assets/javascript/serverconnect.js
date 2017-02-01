@@ -34,7 +34,7 @@ export default function serverConnect(params) {
                 return;
             }
             vex.dialog.alert({
-                message: "Could not connect to the server. It could be offline, the address could be invalid, or you might have trouble connecting. <br><br> You will be taken back to the list of servers.",
+                unsafeMessage: "Could not connect to the server. It could be offline, the address could be invalid, or you might have trouble connecting. <br><br> You will be taken back to the list of servers.",
                 callback: function() {
                     document.location.href = config.registry;
                 }
