@@ -9,7 +9,7 @@ import poStorage from "./postorage";
 import serverConnect from "./serverconnect";
 import $ from "jquery";
 
-const webclient = (function() {
+function Webclient() {
   this.players = new PlayerHolder();
   this.channels = new ChannelHolder();
   this.pms = new PMHolder();
@@ -245,7 +245,9 @@ const webclient = (function() {
       channel: id
     });
   };
-})();
+};
+
+var webclient = new Webclient();
 
 $(function() {
   webclient.loadTeam();

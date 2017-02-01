@@ -2,9 +2,12 @@ import BaseTab from "../basetab";
 import Chat from "../chat";
 import webclientUI from "../frontend";
 import webclient from "../webclient";
+import observable from "riot-observable"
+import {inherits} from "../utils";
+
 
 export default function PMTab(id) {
-    $.observable(this);
+    observable(this);
     var self = this;
 
     this.shortHand = "pm";
@@ -17,7 +20,7 @@ export default function PMTab(id) {
     this.chat.on("chat", this.sendMessage.bind(this));
 }
 
-utils.inherits(PMTab, BaseTab);
+inherits(PMTab, BaseTab);
 
 var pmtab = PMTab.prototype;
 

@@ -16,7 +16,7 @@ import vexDialog from "vex-dialog";
 vex.registerPlugin(vexDialog);
 vex.defaultOptions.className = 'vex-theme-os';
 
-var webclientUI = (function() {
+function WebclientUI() {
   this.players = new PlayerList();
   this.channels = new ChannelList();
   this.pms = new PMList();
@@ -519,7 +519,9 @@ var webclientUI = (function() {
   this.isIdle = () => {
     return webclient.players.away(webclient.ownId);
   }
-})();
+};
+
+var webclientUI = new WebclientUI();
 
 $(function() {
   webclientUI.linkClickHandler = function(event) {

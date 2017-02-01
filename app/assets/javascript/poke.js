@@ -1,6 +1,7 @@
 import {
 	PokeInfo, NatureInfo, MoveInfo,
-	ItemInfo, TypeInfo, AbilityInfo
+	ItemInfo, TypeInfo, AbilityInfo,
+  lastGen
 } from "./pokeinfo";
 
 var MOVE_RETURN = 216;

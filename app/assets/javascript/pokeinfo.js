@@ -13,7 +13,7 @@ export const StatusInfo = {};
 export const ItemInfo = {};
 export const TypeInfo = {};
 export const AbilityInfo = {};
-export const lastGen = null;
+export var lastGen = null;
 
 $(function() {
     var maxGen = {num: 0, subnum: 0};

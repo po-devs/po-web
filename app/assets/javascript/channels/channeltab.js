@@ -2,9 +2,11 @@ import BaseTab from "../basetab";
 import Chat from "../chat";
 import webclientUI from "../frontend";
 import webclient from "../webclient";
+import {inherits} from "../utils"
+import observable from "riot-observable"
 
 export default function ChannelTab(id, name) {
-    $.observable(this);
+    observable(this);
     this.shortHand = "channel";
     this.id = id;
     this.name = name;
@@ -46,7 +48,7 @@ export default function ChannelTab(id, name) {
     this.chat.on("chat", this.sendMessage.bind(this));
 }
 
-utils.inherits(ChannelTab, BaseTab);
+inherits(ChannelTab, BaseTab);
 
 ChannelTab.prototype.onSetCurrent = function() {
     this.chat.scrollDown();

@@ -4,6 +4,8 @@ import {
     ItemInfo, TypeInfo, AbilityInfo
 } from "../pokeinfo";
 
+export default function CommandHandling(){};
+
 /* dealWithXxxx functions are all called from dealWithCommand */
 CommandHandling.dealWithTurn = function(params) {
     this.print("<h2>Turn " + params.turn + "</h2>", {"css": "turn"});
@@ -26,12 +28,12 @@ CommandHandling.dealWithSend = function(params) {
     var sl = this.slot(params.spot);
     var player = this.player(params.spot);
 
-    poke = $.extend({}, this.teams[player][params.slot], poke);
+    poke = Object.assign({}, this.teams[player][params.slot], poke);
     if (this.isBattle() && this.player(params.spot) == this.myself) {
         /* Don't update team poke with info from poke - could be fooled by
           zoroark etc. */
     } else {
-        $.extend(this.teams[player][params.slot], poke);
+        Object.assign(this.teams[player][params.slot], poke);
     }
     /* Stores the pokemon in field memory */
     this.pokes[params.spot] = poke;
@@ -106,8 +108,8 @@ CommandHandling.dealWithSubformechange = function(params) {
 /* Definite change of the poke even in the team */
 CommandHandling.dealWithFormechange = function(params) {
     var pokeObject = PokeInfo.toObject(params.newforme);
-    $.extend(this.teams[params.player][params.slot], pokeObject);
-    $.extend(this.pokes[this.spot(params.player,params.slot)], pokeObject);
+    Object.assign(this.teams[params.player][params.slot], pokeObject);
+    Object.assign(this.pokes[this.spot(params.player,params.slot)], pokeObject);
 
     this.updateTeamPokes(params.player, [params.slot]);
 
