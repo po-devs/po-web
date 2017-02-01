@@ -1,4 +1,4 @@
-import {escapeHtml, inherits, addChannelLinks} from "../utils";
+import {escapeHtml, inherits, addChannelLinks, stripHtml} from "../utils";
 import BaseTab from "../basetab";
 import Chat from "../chat";
 import webclientUI from "../frontend";
@@ -572,7 +572,7 @@ BattleTab.prototype.print = function(msg, args) {
             if (this.notification) {
                 this.notification.close();
             }
-            this.notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: utils.stripHtml(msg)});
+            this.notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: stripHtml(msg)});
         }
     } else if (window.isActive) {
         this.hadFocus = true;

@@ -1,3 +1,4 @@
+module.exports = pokedex => {if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes.all_moves)pokedex.pokes.all_moves=[];
 pokedex.pokes.all_moves[7] = {
@@ -3120,3 +3121,5 @@ pokedex.pokes.all_moves[1] = {
 474:[33,36,38,58,59,60,63,85,86,87,92,94,97,99,100,102,104,105,115,117,129,130,148,149,156,159,160,161,164],
 700:[28,33,34,36,38,39,44,45,92,98,99,102,104,115,116,117,129,130,156,164],
 };
+
+}

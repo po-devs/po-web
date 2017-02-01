@@ -1,3 +1,4 @@
+module.exports = pokedex => {if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes)pokedex.pokes={};
 pokedex.pokes.weight = {
 0:0.0,
@@ -898,3 +899,4 @@ pokedex.pokes.weight = {
 801:80.5,
 802:22.2,
 };
+}

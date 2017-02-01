@@ -1,4 +1,4 @@
-if(!pokedex.moves)pokedex.moves={};
+module.exports = pokedex => {if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.effect)pokedex.moves.effect=[];
 pokedex.moves.effect[7] = {
 0:"No Effect",
@@ -1722,3 +1722,5 @@ pokedex.moves.effect[1] = {
 164:"Transfers 1/4 of the user's max HP into a doll, protecting the user from further damage until it breaks.",
 165:"User takes 1/2 its max HP in recoil.",
 };
+
+}

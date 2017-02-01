@@ -1,4 +1,4 @@
-if(!pokedex.abilities)pokedex.abilities={};
+module.exports = pokedex => {if(!pokedex.abilities)pokedex.abilities={};
 pokedex.abilities.abilities = {
 0:"(No Ability)",
 1:"Stench",
@@ -234,3 +234,4 @@ pokedex.abilities.abilities = {
 231:"Beast Boost",
 232:"Prism Armor",
 };
+}

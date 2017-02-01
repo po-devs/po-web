@@ -5,6 +5,7 @@ import webclient from "./webclient";
 import poStorage from "./postorage";
 import $ from "jquery";
 import observable from "riot-observable";
+import {queryField, escapeHtml} from "./utils";
 
 function createNetwork(WebSocket) {
     var states = {
@@ -130,11 +131,11 @@ function createNetwork(WebSocket) {
             /* If the server is on the same IP as the relay, we display the server IP but
                 send localhost */
             var server = payload.replace("localhost", this.relay),
-                qserver = utils.queryField("server");
+                qserver = queryField("server");
 
             $("#advanced-connection").val((qserver && qserver !== "default") ? qserver : server);
 
-            if (utils.queryField("autoconnect") === "true") {
+            if (queryField("autoconnect") === "true") {
                 webclient.connectToServer();
             } else {
                 this.command("registry");
@@ -176,20 +177,20 @@ function createNetwork(WebSocket) {
         playerkick: function (payload) {
             var params = JSON.parse(payload);
             if (params.source) {
-                webclientUI.printHtml("<span class='player-kick'>" + utils.escapeHtml(webclient.players.name(params.source)) + " kicked " +
-                    utils.escapeHtml(webclient.players.name(params.target)) + "!</span>");
+                webclientUI.printHtml("<span class='player-kick'>" + escapeHtml(webclient.players.name(params.source)) + " kicked " +
+                    escapeHtml(webclient.players.name(params.target)) + "!</span>");
             } else {
-                webclientUI.printHtml("<span class='player-kick'>" + utils.escapeHtml(webclient.players.name(params.target)) +
+                webclientUI.printHtml("<span class='player-kick'>" + escapeHtml(webclient.players.name(params.target)) +
                     " was kicked by the server!</span>");
             }
         },
         playerban: function (payload) {
             var params = JSON.parse(payload);
             if (params.source) {
-                webclientUI.printHtml("<span class='player-ban'>" + utils.escapeHtml(webclient.players.name(params.source)) + " banned " +
-                    utils.escapeHtml(webclient.players.name(params.target)) + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
+                webclientUI.printHtml("<span class='player-ban'>" + escapeHtml(webclient.players.name(params.source)) + " banned " +
+                    escapeHtml(webclient.players.name(params.target)) + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
             } else {
-                webclientUI.printHtml("<span class='player-ban'>" + utils.escapeHtml(webclient.players.name(params.target)) +
+                webclientUI.printHtml("<span class='player-ban'>" + escapeHtml(webclient.players.name(params.target)) +
                     " was banned by the server" + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
             }
         },

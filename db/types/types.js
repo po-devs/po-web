@@ -1,4 +1,4 @@
-if(!pokedex.types)pokedex.types={};
+module.exports = pokedex => {if(!pokedex.types)pokedex.types={};
 pokedex.types.types = {
 0:"Normal",
 1:"Fighting",
@@ -20,3 +20,4 @@ pokedex.types.types = {
 17:"Fairy",
 18:"???",
 };
+}

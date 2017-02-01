@@ -1,3 +1,4 @@
+module.exports = pokedex => {if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes)pokedex.pokes={};
 pokedex.pokes.pokemons = {
 0:"Missingno",
@@ -1053,3 +1054,4 @@ pokedex.pokes.pokemons = {
 66337:"Magearna-Pokeball",
 802:"Marshadow",
 };
+}

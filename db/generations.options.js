@@ -1,4 +1,4 @@
-if(!pokedex.generations)pokedex.generations={};
+module.exports = pokedex => { if(!pokedex.generations)pokedex.generations={};
 pokedex.generations.options = {
 1:{
 	gender:false, // if this gen has gender selection
@@ -136,4 +136,5 @@ pokedex.generations.options = {
 	sprite_folder:'s-m/',
 	nosmogon: true
 }
+};
 };

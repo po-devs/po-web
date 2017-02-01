@@ -8,6 +8,7 @@ import webclientUI from "./frontend";
 import poStorage from "./postorage";
 import serverConnect from "./serverconnect";
 import $ from "jquery";
+import {queryField} from "./utils";
 
 function Webclient() {
   this.players = new PlayerHolder();
@@ -48,7 +49,7 @@ function Webclient() {
     loginInfo.name = poStorage.get("user");
 
     // var data = {version: 1};
-    // data.default = utils.queryField("channel");
+    // data.default = queryField("channel");
     loginInfo.autojoin = poStorage("auto-join-" + this.serverIP, "array");
 
     loginInfo.ladder = poStorage.get("player.ladder", "boolean");
@@ -252,9 +253,9 @@ var webclient = new Webclient();
 $(function() {
   webclient.loadTeam();
 
-  var userGiven = utils.queryField("user");
-  var relayGiven = utils.queryField("relay");
-  var portGiven = utils.queryField("port");
+  var userGiven = queryField("user");
+  var relayGiven = queryField("relay");
+  var portGiven = queryField("port");
 
   if (userGiven) {
     poStorage.set("user", userGiven);

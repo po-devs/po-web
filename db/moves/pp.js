@@ -1,4 +1,4 @@
-if(!pokedex.moves)pokedex.moves={};
+module.exports = pokedex => {if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.pp)pokedex.moves.pp=[];
 pokedex.moves.pp[7] = {
 0:0,
@@ -747,3 +747,5 @@ pokedex.moves.pp[2] = {
 };
 pokedex.moves.pp[1] = {
 };
+
+}

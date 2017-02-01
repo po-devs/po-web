@@ -1,4 +1,4 @@
-if(!pokedex.natures)pokedex.natures={};
+module.exports = pokedex => {if(!pokedex.natures)pokedex.natures={};
 pokedex.natures.nature = {
 0:"Hardy",
 1:"Lonely",
@@ -26,3 +26,4 @@ pokedex.natures.nature = {
 23:"Careful",
 24:"Quirky",
 };
+}

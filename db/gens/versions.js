@@ -1,4 +1,4 @@
-if(!pokedex.gens)pokedex.gens={};
+module.exports = pokedex => {if(!pokedex.gens)pokedex.gens={};
 pokedex.gens.versions = {
 1:"Red/Blue",
 65537:"Yellow",
@@ -21,3 +21,4 @@ pokedex.gens.versions = {
 65542:"Omega Ruby/Alpha Sapphire",
 7:"Sun/Moon",
 };
+}

@@ -1,3 +1,4 @@
+module.exports = pokedex => {if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes.stats)pokedex.pokes.stats=[];
 pokedex.pokes.stats[7] = {
@@ -1096,3 +1097,5 @@ pokedex.pokes.stats[1] = {
 146:[90,100,90,125,125,90],
 150:[106,110,90,154,154,130],
 };
+
+}

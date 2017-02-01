@@ -1,4 +1,4 @@
-if(!pokedex.moves)pokedex.moves={};
+module.exports = pokedex => {if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.accuracy)pokedex.moves.accuracy=[];
 pokedex.moves.accuracy[7] = {
 0:0,
@@ -768,3 +768,5 @@ pokedex.moves.accuracy[1] = {
 129:102,
 144:102,
 };
+
+}

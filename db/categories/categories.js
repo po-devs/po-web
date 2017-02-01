@@ -1,6 +1,7 @@
-if(!pokedex.categories)pokedex.categories={};
+module.exports = pokedex => {if(!pokedex.categories)pokedex.categories={};
 pokedex.categories.categories = {
 0:"Other",
 1:"Physical",
 2:"Special",
 };
+}

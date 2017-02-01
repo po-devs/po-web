@@ -3,6 +3,7 @@ import BattleTab from "./battles/battletab";
 import network from "./network";
 import poStorage from "./postorage";
 import webclient from "./webclient";
+import {queryField} from "./utils";
 
 export default function ReplayBattles () {
     var self = this;
@@ -183,8 +184,8 @@ var webclient = {
 vex.defaultOptions.className = "vex-theme-os";
 
 $(function() {
-    var relayGiven = utils.queryField("relay");
-    var portGiven = utils.queryField("port");
+    var relayGiven = queryField("relay");
+    var portGiven = queryField("port");
 
     serverConnect({
         "onconnect": function() {

@@ -1,4 +1,4 @@
-if(!pokedex.gens)pokedex.gens={};
+module.exports = pokedex => {if(!pokedex.gens)pokedex.gens={};
 pokedex.gens.gens = {
 1:"1st gen",
 2:"2nd gen",
@@ -8,3 +8,4 @@ pokedex.gens.gens = {
 6:"6th gen",
 7:"7th gen",
 };
+}

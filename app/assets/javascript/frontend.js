@@ -1,3 +1,8 @@
+import $ from "jquery";
+import vex from "vex-js";
+import vexDialog from "vex-dialog";
+import bootstrap from "bootstrap"; //for .tooltip. Useful?
+
 import PlayerList from "./playerlistui";
 import ChannelList from "./channels/channellistui";
 import PMList from "./pms/pmlistui";
@@ -9,9 +14,7 @@ import network from "./network";
 import BattleTab from "./battles/battletab";
 import notif from "./notif";
 import {PokeInfo, ItemInfo} from "./pokeinfo";
-import $ from "jquery";
-import vex from "vex-js";
-import vexDialog from "vex-dialog";
+import {escapeHtml, queryField} from "./utils";
 
 vex.registerPlugin(vexDialog);
 vex.defaultOptions.className = 'vex-theme-os';
@@ -199,7 +202,7 @@ function WebclientUI() {
       for (var x in battles) {
         var battle = battles[x];
         var opp = battle.ids[0] == id ? battle.ids[1] : battle.ids[0];
-        battleList.push("<a href='po:watch/" + battle.id + "'>" + utils.escapeHtml(webclient.players.name(opp)) + "</a>");
+        battleList.push("<a href='po:watch/" + battle.id + "'>" + escapeHtml(webclient.players.name(opp)) + "</a>");
       }
 
       fullInfo.append($("<p>").append(battling + battleList.join(", ") + "."));
@@ -275,7 +278,7 @@ function WebclientUI() {
     }
 
     var dialogInstance = new BootstrapDialog({
-      title: utils.escapeHtml(pl.name) + (params.desc ? " challenged you in " + params.tier + "!" : ""),
+      title: escapeHtml(pl.name) + (params.desc ? " challenged you in " + params.tier + "!" : ""),
       message: fullInfo,
       "buttons": buttons,
       onhidden: dialogItself => {
@@ -370,12 +373,12 @@ function WebclientUI() {
       switch (proto) {
         case "pokemon":
           query = "?" + query;
-          var poke = PokeInfo.toArray(utils.queryField("num", query.slice(1).split("&")[0], query) || "1"),
-            gen = utils.queryField("gen", "6", query),
-            shiny = utils.queryField("shiny", "false", query) === "true",
-            gender = utils.queryField("gender", "male", query),
-            back = utils.queryField("back", "false", query) === "true",
-            cropped = utils.queryField("cropped", "false", query) === "true";
+          var poke = PokeInfo.toArray(queryField("num", query.slice(1).split("&")[0], query) || "1"),
+            gen = queryField("gen", "6", query),
+            shiny = queryField("shiny", "false", query) === "true",
+            gender = queryField("gender", "male", query),
+            back = queryField("back", "false", query) === "true",
+            cropped = queryField("cropped", "false", query) === "true";
 
           img.error(function() {
             if (gender == "female") {
@@ -721,9 +724,9 @@ $(function() {
   $(document).on("click", "a", webclientUI.linkClickHandler);
 
   webclient.players.on("ignoreadd", function(id) {
-    webclientUI.printHtml("<em>You ignored " + utils.escapeHtml(webclient.players.name(id)) + ".</em>");
+    webclientUI.printHtml("<em>You ignored " + escapeHtml(webclient.players.name(id)) + ".</em>");
   }).on("ignoreremove", function(id) {
-    webclientUI.printHtml("<em>You stopped ignoring " + utils.escapeHtml(webclient.players.name(id)) + ".</em>");
+    webclientUI.printHtml("<em>You stopped ignoring " + escapeHtml(webclient.players.name(id)) + ".</em>");
   }).on("ownplayerupdated", function(id) {
     var player = webclient.players.player(id);
     $("#checkbox-idle-dd").prop("checked", player.away);

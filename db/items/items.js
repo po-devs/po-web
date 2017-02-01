@@ -1,4 +1,4 @@
-if(!pokedex.items)pokedex.items={};
+module.exports = pokedex => {if(!pokedex.items)pokedex.items={};
 pokedex.items.items = {
 0:"(No Item)",
 1:"Big Root",
@@ -458,3 +458,4 @@ pokedex.items.items = {
 3027:"Marshadium Z",
 3028:"Pikashunium Z",
 };
+}

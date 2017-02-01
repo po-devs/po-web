@@ -91,11 +91,15 @@ def deal_with_file(path, do_gens=False, file="", duplicates=False):
     print ("writing into " + output_name)
     output = open(output_name, "w");
 
+    output.write("module.exports = pokedex => {if(!"+typepath+")"+typepath+"={};\n")
+
     output.write("if(!"+typepath+")"+typepath+"={};\n")
     if do_gens:
         output.write("if(!"+filepath+")"+filepath+"=[];\n")
 
     output.write(full_moves)
+
+    output.write("\n}\n")
 
     output.close()
 

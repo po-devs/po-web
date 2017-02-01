@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-var pokedex = {};
+import pokedex from "./pokedex"
 
 export const GenInfo = {};
 export const PokeInfo = {};
@@ -13,20 +13,18 @@ export const StatusInfo = {};
 export const ItemInfo = {};
 export const TypeInfo = {};
 export const AbilityInfo = {};
-export var lastGen = null;
 
-$(function() {
-    var maxGen = {num: 0, subnum: 0};
-    for (var i in pokedex.gens.versions) {
-        var num = (+i) & ((1 << 16)-1);
-        var subnum = (+i) >> 16;
-        if (num >= maxGen.num) {
-            maxGen.num = num;
-            maxGen.subnum = subnum;
-        }
+var maxGen = {num: 0, subnum: 0};
+for (var i in pokedex.gens.versions) {
+    var num = (+i) & ((1 << 16)-1);
+    var subnum = (+i) >> 16;
+    if (num >= maxGen.num) {
+        maxGen.num = num;
+        maxGen.subnum = subnum;
     }
-    lastGen = maxGen;
-});
+}
+
+export const lastGen = maxGen;
 
 var getGen = function(gen, correct) {
     var shouldCorrect = correct !== false;

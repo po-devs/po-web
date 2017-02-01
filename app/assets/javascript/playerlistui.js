@@ -1,6 +1,7 @@
 import webclientUI from "./frontend";
 import webclient from "./webclient";
 import poStorage from "./postorage";
+import {escapeHtml} from "./utils";
 
 /* The list of players */
 export default function PlayerList() {
@@ -112,7 +113,7 @@ playerlist.createPlayerItem = function (id) {
         ret += "style='color:" + webclient.players.color(id) + "' ";
     }
 
-    var fullName = utils.escapeHtml(name);
+    var fullName = escapeHtml(name);
     if (this.filter) {
         fullName = fullName.replace(new RegExp("("+this.filter+")", "i"), "<b>$1</b>");
     }
