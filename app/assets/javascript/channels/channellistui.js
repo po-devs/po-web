@@ -2,6 +2,7 @@ import webclient from "../webclient";
 import ChannelTab from "./channeltab";
 import webclientUI from "../frontend";
 import poStorage from "../postorage";
+import typeahead from "typeahead";
 
 export default function ChannelList() {
     this.ids = {};
@@ -144,7 +145,7 @@ $(function() {
     webclientUI.channels.startObserving(webclient.channels);
     webclientUI.channels.element = $("#channellist");
 
-    $("#player-filter").typeahead({
+    typeahead("#player-filter", {
          hint: true,
          highlight: false,
          minLength: 1
@@ -154,7 +155,8 @@ $(function() {
         display: "value",
         limit: 200,
         source: webclientUI.channels.findMatches.bind(webclientUI.channels)
-    }).on("typeahead:select", function(event, sugg) {
+    });
+    $("#player-filter").on("typeahead:select", function(event, sugg) {
         webclient.joinChannel(sugg.id);
     });
 
