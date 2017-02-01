@@ -1,14 +1,19 @@
-const PlayerList = require("./playerlistui")
-const ChannelList = require("./channels/channellistui");
-const PMList = require("./pms/pmlistui");
-const BattleList = require("./battles/battlelistui");
-const webclient = require("./webclient");
-const config = require("./config");
-const poStorage = require("./postorage");
-const network = require("./network")
-const $ = require("jquery");
-const vex = require('vex-js');
-vex.registerPlugin(require('vex-dialog'));
+import PlayerList from "./playerlistui";
+import ChannelList from "./channels/channellistui";
+import PMList from "./pms/pmlistui";
+import BattleList from "./battles/battlelistui";
+import webclient from "./webclient";
+import config from "./config";
+import poStorage from "./postorage";
+import network from "./network";
+import BattleTab from "./battles/battletab";
+import notif from "./notif";
+import {PokeInfo, ItemInfo} from "./pokeinfo";
+import $ from "jquery";
+import vex from "vex-js";
+import vexDialog from "vex-dialog";
+
+vex.registerPlugin(vexDialog);
 vex.defaultOptions.className = 'vex-theme-os';
 
 var webclientUI = (function() {
@@ -351,7 +356,7 @@ var webclientUI = (function() {
       $.extend({}, vex.dialog.buttons.YES, {text: "Login"}),
       $.extend({}, vex.dialog.buttons.NO, {text: "Login as Guest"})
     ],
-    callback 
+    callback
   });
 
   this.convertImages = element => {
@@ -784,4 +789,4 @@ $(function() {
   });
 });
 
-module.exports = webclientUI;
+export default webclientUI;

@@ -20,7 +20,8 @@
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "load-grunt-tasks": "^3.5.2"
+    "load-grunt-tasks": "^3.5.2",
+    "webpack": "^2.2.1"
   },
   "dependencies": {
     "body-parser": "^1.14.0",

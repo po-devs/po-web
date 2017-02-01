@@ -1,4 +1,10 @@
-function ReplayBattles () {
+import serverConnect from "./serverconnect";
+import BattleTab from "./battles/battletab";
+import network from "./network";
+import poStorage from "./postorage";
+import webclient from "./webclient";
+
+export default function ReplayBattles () {
     var self = this;
     this.commandStack = [];
     this.time = 0;

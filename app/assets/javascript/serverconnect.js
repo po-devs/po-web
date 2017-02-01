@@ -1,4 +1,9 @@
-function serverConnect(params) {
+import config from "./config";
+import webclientUI from "./frontend";
+import network from "./network";
+import webclient from "./webclient";
+
+export default function serverConnect(params) {
     if (network.isOpen()) {
         network.close();
     }

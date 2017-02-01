@@ -1,6 +1,9 @@
-const webclient = require("../webclient");
+import webclient from "../webclient";
+import ChannelTab from "./channeltab";
+import webclientUI from "../frontend";
+import poStorage from "../postorage";
 
-function ChannelList() {
+export default function ChannelList() {
     this.ids = {};
     this.chanevents = {};
     this.channotifs = {};
@@ -189,5 +192,3 @@ $(function() {
         }
     });
 });
-
-module.exports = ChannelList;

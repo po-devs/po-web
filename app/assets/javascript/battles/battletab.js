@@ -1,6 +1,17 @@
+import {escapeHtml, inherits, addChannelLinks} from "../utils";
+import BaseTab from "../basetab";
+import Chat from "../chat";
+import webclientUI from "../frontend";
+import network from "../network";
+import {
+    PokeInfo, GenderInfo, MoveInfo, CategoryInfo,
+    StatInfo, ItemInfo, TypeInfo, AbilityInfo
+} from "../pokeinfo";
+import webclient from "../webclient";
+
 var pokeballrowHtml = "<span class='status status0' data-toggle='tooltip' title=''></span>".repeat(6);
 
-function BattleTab(id) {
+export default function BattleTab(id) {
     $.observable(this);
 
     var databattle = webclient.battles.battle(id);
@@ -26,10 +37,10 @@ function BattleTab(id) {
     layout.addClass("flex-row battle-tab-layout");
 
     var rows = [0,0];
-    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[this.opponent]) +
+    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + escapeHtml(this.players[this.opponent]) +
         "</span><span class='stretchX'></span><span class='timer-text'>5:00</span>"+pokeballrowHtml);
     rows[this.opponent].find('[data-toggle="tooltip"]').attr("data-placement", "top");
-    rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
+    rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + escapeHtml(this.players[this.myself]) + "</span>");
     rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
     this.rows = rows;
     layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas")
@@ -167,7 +178,7 @@ function BattleTab(id) {
     //layout.find('[data-toggle="tooltip"]').tooltip();
 };
 
-utils.inherits(BattleTab, BaseTab);
+inherits(BattleTab, BaseTab);
 
 BattleTab.getIframe = function(id) {
     if (webclientUI.battles.simpleWindow) {
@@ -538,14 +549,14 @@ BattleTab.prototype.print = function(msg, args) {
 
     if (args) {
         if ("spectator" in args) {
-            msg = utils.escapeHtml(msg);
+            msg = escapeHtml(msg);
             var name = this.battle.spectators[args.spectator];
             var pref = "<span class='spectator-message'>" + name + ":</span>";
-            msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
+            msg = pref + " " + addChannelLinks(msg, webclient.channels.channelsByName(true));
         } else if ("player" in args) {
-            msg = utils.escapeHtml(msg);
+            msg = escapeHtml(msg);
             var pref = "<span class='player-message' style='color: " + (args.player == this.myself ? "darkcyan": "darkgoldenrod")+ "'>" + this.players[args.player] + ":</span>";
-            msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
+            msg = pref + " " + addChannelLinks(msg, webclient.channels.channelsByName(true));
         } else if ("css" in args && args.css == "turn") {
             this.blankMessage = true;
             linebreak = false;

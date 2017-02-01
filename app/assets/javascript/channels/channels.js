@@ -1,4 +1,6 @@
-const observable = require("riot-observable")
+import observable from "riot-observable";
+import poStorage from "../postorage";
+import webclient from "../webclient";
 
 function ChannelData(id, name) {
     observable(this);
@@ -46,7 +48,7 @@ ChannelData.prototype.changeName = function(name) {
     this.trigger("changename", name);
 };
 
-function ChannelHolder() {
+export default function ChannelHolder() {
     observable(this);
 
     this.joinedChannels = [];
@@ -184,5 +186,3 @@ ChannelHolder.prototype.leaveChannel = function(id) {
         console.log("Channel not joined: " + id);
     }
 };
-
-module.exports = ChannelHolder;

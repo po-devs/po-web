@@ -1,19 +1,8 @@
-//console.log("loading simple battle window");
+import BattleTab from "./battletab";
+import {PokeInfo} from "../PokeInfo";
 
 var spritelist = {};
 var hudlist = {};
-
-/* Copy of BattleTab.statuses */
-var statusList = {
-    0: "",
-    1: "par",
-    2: "slp",
-    3: "frz",
-    4: "brn",
-    5: "psn",
-    6: "confusion",
-    31: "fnt"
-};
 
 var musics = [
     {file: 'Battle! Brendan _ May.mp3', loopPos:14303, duration: 69130},
@@ -96,7 +85,7 @@ function updateStatus(spot) {
 	var stat = hud(spot).find(".status");
 	stat.removeClass();
 	stat.addClass("status");
-	stat.addClass(statusList[battle.poke(spot).status]);
+	stat.addClass(BattleTab.statuses[battle.poke(spot).status]);
 }
 
 function updateGender(spot) {

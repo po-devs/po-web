@@ -1,19 +1,19 @@
-const $ = require("jquery");
+import $ from "jquery";
 
 var pokedex = {};
 
-GenInfo = {};
-PokeInfo = {};
-GenderInfo = {};
-NatureInfo = {};
-MoveInfo = {};
-CategoryInfo = {};
-StatInfo = {};
-StatusInfo = {};
-ItemInfo = {};
-TypeInfo = {};
-AbilityInfo = {};
-lastGen = null;
+export const GenInfo = {};
+export const PokeInfo = {};
+export const GenderInfo = {};
+export const NatureInfo = {};
+export const MoveInfo = {};
+export const CategoryInfo = {};
+export const StatInfo = {};
+export const StatusInfo = {};
+export const ItemInfo = {};
+export const TypeInfo = {};
+export const AbilityInfo = {};
+export const lastGen = null;
 
 $(function() {
     var maxGen = {num: 0, subnum: 0};
@@ -988,5 +988,3 @@ AbilityInfo.message = function(ability, part) {
 
     return "";
 };
-
-module.exports = PokeInfo;

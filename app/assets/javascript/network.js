@@ -1,5 +1,10 @@
-const $ = require("jquery");
-const observable = require("riot-observable");
+import BattleTab from "./battles/battletab";
+import MD5 from "./libs/md5";
+import webclientUI from "./frontend";
+import webclient from "./webclient";
+import poStorage from "./postorage";
+import $ from "jquery";
+import observable from "riot-observable";
 
 function createNetwork(WebSocket) {
     var states = {
@@ -547,4 +552,4 @@ function createNetwork(WebSocket) {
     return network;
 }
 
-module.exports = createNetwork(typeof MozWebSocket === "function" ? MozWebSocket : WebSocket);
+export default createNetwork(typeof MozWebSocket === "function" ? MozWebSocket : WebSocket);

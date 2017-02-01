@@ -1,8 +1,10 @@
-const webclient = require("../webclient")
-const webclientUI = require("../frontend")
-const $ = require("jquery");
+import webclient from "../webclient";
+import webclientUI from "../frontend";
+import {escapeHtml} from "../utils";
+import BattleTab from "./battletab";
+import $ from "jquery";
 
-function BattleList() {
+export default function BattleList() {
     this.ids = {};
 }
 
@@ -14,14 +16,14 @@ battlelist.createBattleItem = function (id) {
 
     var ret = "<a class='list-group-item battle-list-item' href='po:tab/battle-" + id + "' id='battle-" + id + "'>";
     ret += "<span class='glyphicon glyphicon-fire'></span>&nbsp;";
-    ret += "<span class='battle-name'>" + utils.escapeHtml(name) + "</span>";
+    ret += "<span class='battle-name'>" + escapeHtml(name) + "</span>";
     ret += "<button type='button' class='close' aria-label='Close' onclick='event.stopPropagation(); event.preventDefault(); webclientUI.battles.quit(" + id + ");'><span aria-hidden='true'>&times;</span></button></a>";
     return ret;
 };
 
 battlelist.changeName = function(id, name) {
     if (this.hasBattle(id)) {
-        $('#battle-' + id + ">.battle-name").text(utils.escapeHtml(name));
+        $('#battle-' + id + ">.battle-name").text(escapeHtml(name));
     }
 };
 
@@ -88,5 +90,3 @@ $(function() {
     webclientUI.battles.startObserving(webclient.battles);
     webclientUI.battles.element = $("#battlelist");
 });
-
-module.exports = BattleList;

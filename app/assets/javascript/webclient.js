@@ -1,14 +1,15 @@
-const PlayerHolder = require("./players");
-const ChannelHolder = require("./channels/channels");
-const PMHolder = require("./pms/pms");
-const Battles = require("./battles/battles");
-const Poke = require("./poke");
-const network = require("./network");
-const webclientUI = require("./frontend");
-const poStorage = require("./postorage");
-const $ = require("jquery");
+import PlayerHolder from "./players";
+import ChannelHolder from "./channels/channels";
+import PMHolder from "./pms/pms";
+import Battles from "./battles/battles";
+import Poke from "./poke";
+import network from "./network";
+import webclientUI from "./frontend";
+import poStorage from "./postorage";
+import serverConnect from "./serverconnect";
+import $ from "jquery";
 
-var webclient = (function() {
+const webclient = (function() {
   this.players = new PlayerHolder();
   this.channels = new ChannelHolder();
   this.pms = new PMHolder();
@@ -272,3 +273,4 @@ $(function() {
 });
 
 window.webclient = webclient;
+export default webclient;

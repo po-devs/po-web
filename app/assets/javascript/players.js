@@ -1,8 +1,9 @@
-const observable = require("riot-observable");
+import webclient from "./webclient";
+import observable from "riot-observable";
 
 var namecolorlist = ['#5811b1', '#399bcd', '#0474bb', '#f8760d', '#a00c9e', '#0d762b', '#5f4c00', '#9a4f6d', '#d0990f', '#1b1390', '#028678', '#0324b1'];
 
-function PlayerHolder() {
+export default function PlayerHolder() {
     observable(this);
 
     this.players = {};
@@ -204,5 +205,3 @@ PlayerHolder.prototype.away = function (id) {
     var player = this.player(id);
     return player ? player.away : false;
 };
-
-module.exports = PlayerHolder;
