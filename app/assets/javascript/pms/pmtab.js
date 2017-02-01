@@ -1,4 +1,9 @@
-function PMTab(id) {
+import BaseTab from "../basetab";
+import Chat from "../chat";
+import webclientUI from "../frontend";
+import webclient from "../webclient";
+
+export default function PMTab(id) {
     $.observable(this);
     var self = this;
 

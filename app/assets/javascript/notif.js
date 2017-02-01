@@ -1,7 +1,7 @@
 /*
 	Notif
 */
-var notif = {
+export default {
     count: -1,
     titleUpdate: function() {
         if (notif.count >= 0) {

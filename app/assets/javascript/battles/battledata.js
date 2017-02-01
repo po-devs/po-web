@@ -1,10 +1,20 @@
-function BattleData(data) {
+import network from "../network";
+import {
+    PokeInfo, MoveInfo, StatInfo, StatusInfo,
+    ItemInfo, TypeInfo, AbilityInfo
+} from "../pokeinfo";
+import CommandHandling from "./commandhandling";
+import webclient from "../webclient";
+
+export default function BattleData(data) {
     $.observable(this);
 
     this.addData(data);
 }
 
 var battledata = BattleData.prototype;
+
+Object.assign(battledata, CommandHandling);
 
 /* Called when sound settings changed from the battle interface */
 battledata.setSound = function (playSound) {

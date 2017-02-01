@@ -1,7 +1,10 @@
-const observable = require("riot-observable")
-const $ = require("jquery");
+import observable from "riot-observable";
+import $ from "jquery";
+import PMTab from "./pmtab";
+import webclientUI from "../frontend";
+import webclient from "../webclient";
 
-function PMHolder() {
+export default function PMHolder() {
     observable(this);
 
     this.pms = {};
@@ -60,5 +63,3 @@ $(function() {
         }
     });
 });
-
-module.exports = PMHolder;

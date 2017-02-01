@@ -17,7 +17,7 @@
 */
 
 
-function poStorage(name, type) {
+export default function poStorage(name, type) {
     return poStorage.get(name, type);
 }
 

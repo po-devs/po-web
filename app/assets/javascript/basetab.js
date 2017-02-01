@@ -1,4 +1,7 @@
-function BaseTab(/* id */) {
+import webclientUI from "./frontend";
+import webclient from "./webclient";
+
+export default function BaseTab(/* id */) {
     $.observable(this);
     this.notificationCount = 0;
 }

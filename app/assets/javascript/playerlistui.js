@@ -1,7 +1,9 @@
-const webclientUI = require("./frontend");
+import webclientUI from "./frontend";
+import webclient from "./webclient";
+import poStorage from "./postorage";
 
 /* The list of players */
-function PlayerList() {
+export default function PlayerList() {
     this.ids = [];
     this.shown = {};
     this.filter = '';
@@ -185,7 +187,7 @@ $(function() {
     $("#player-filter").on("input", function() {
         s = $(this).val();
         webclientUI.players.setFilter(s);
-        
+
         if (s.length > 0 && s[0] != '#') {
             $("#playerlist").scrollTop(0);
         }
@@ -231,7 +233,7 @@ $(function() {
 
             menu.find("#player-ignore-menu").find("a").text(webclient.players.isIgnored(pid) ? "Unignore" : "Ignore");
             menu.find("#player-idle-menu").find("a").text(poStorage.get("player.idle", "boolean") ? "Unidle" : "Idle");
-            
+
             if (webclient.players.player(pid) != webclient.ownPlayer()) {
                 menu.find("#player-ignore-menu").show();
                 menu.find("#player-idle-menu").hide();
@@ -268,5 +270,3 @@ $(function() {
         }
     });
 });
-
-module.exports = PlayerList;

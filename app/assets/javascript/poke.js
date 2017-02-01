@@ -1,8 +1,11 @@
-const PokeInfo = require("./pokeinfo")
+import {
+	PokeInfo, NatureInfo, MoveInfo,
+	ItemInfo, TypeInfo, AbilityInfo
+} from "./pokeinfo";
 
 var MOVE_RETURN = 216;
 
-function Poke() {
+export default function Poke() {
 	this.reset();
 }
 
@@ -296,5 +299,3 @@ Poke.prototype.import = function(str) {
 		}
 	}
 };
-
-module.exports = Poke;

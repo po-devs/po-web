@@ -1,6 +1,8 @@
-const $ = require("jquery");
-const webclientUI = require("../frontend");
-function PMList() {
+import $ from "jquery";
+import webclientUI from "../frontend";
+import webclient from "../webclient";
+
+export default function PMList() {
     this.ids = {};
 }
 
@@ -66,5 +68,3 @@ $(function() {
     webclientUI.pms.startObserving(webclient.pms);
     webclientUI.pms.element = $("#pmlist");
 });
-
-module.exports = PMList;

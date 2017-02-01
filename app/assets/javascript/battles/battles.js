@@ -1,8 +1,10 @@
-const observable = require("riot-observable")
-const $ = require("jquery");
-const webclient = require("../webclient");
+import observable from "riot-observable";
+import $ from "jquery";
+import webclient from "../webclient";
+import BattleData from "./battledata";
+import webclientUI from "../frontend";
 
-function Battles() {
+export default function Battles() {
     observable(this);
 
     this.battles = {};
@@ -163,5 +165,3 @@ $(function() {
         this.removePlayer(id);
     });
 });
-
-module.exports = Battles;

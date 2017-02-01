@@ -1,3 +1,5 @@
+import webclientUI from "./frontend";
+
 var chatHtml =
 '    <div class="chat">\
      \
@@ -10,7 +12,7 @@ var chatHtml =
 // At least Chrome (I assume other browsers do the same) expand <timestamp/> to <timestamp><timestamp/> (as it is an unknown element).
 var timestampRegex = /<timestamp *\/ *>|<timestamp><\/timestamp>/gi;
 
-function Chat() {
+export default function Chat() {
     $.observable(this);
 
     this.element = $("<div class='flex-column chat-column'>").html(chatHtml);

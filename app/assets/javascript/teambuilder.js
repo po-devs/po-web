@@ -1,3 +1,12 @@
+import Poke from "./poke";
+import webclientUI from "./frontend";
+import webclient from "./webclient";
+import {
+    GenInfo, PokeInfo, NatureInfo, MoveInfo,
+    CategoryInfo, ItemInfo, TypeInfo, AbilityInfo
+} from "./pokeinfo";
+import poStorage from "./postorage";
+
 webclient.teambuilderLoaded = true;
 
 var substringMatcher = function(strs, partialMatch) {
@@ -651,7 +660,7 @@ Poke.prototype.updatePreview = function() {
     this.ui.preview.html("<input type='radio'><img src='" + PokeInfo.icon(this) + "' />&nbsp;" + (this.nick || PokeInfo.name(this)));
 };
 
-function Teambuilder (content) {
+export default function Teambuilder (content) {
 
     var self = this;
 
