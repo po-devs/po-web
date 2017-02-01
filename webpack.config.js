@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require("path");
 
 module.exports = {
@@ -11,5 +12,8 @@ module.exports = {
     loaders: [
       { test: /\.css/, loader: "style!css"}
     ]
-  }
+  },
+  plugins: [
+    new webpack.ProvidePlugin({ $: 'jquery', jquery: 'jquery', jQuery: 'jquery' })
+  ]
 }
