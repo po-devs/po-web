@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 import webclient from "../webclient";
 import ChannelTab from "./channeltab";
 import webclientUI from "../frontend";
@@ -163,7 +165,7 @@ $(function() {
 
     webclientUI.channels.element.contextmenu({
         target: "#channel-context-menu",
-        before: function(event, context) {
+        before: function(event/* , context */) {
             /* the name of the channel was right clicked instead of the li */
             var channel;
             if (event.target.tagName.toLowerCase() == "span") {
@@ -182,7 +184,7 @@ $(function() {
                 menu.on("click", "a", webclientUI.linkClickHandler);
             }
 
-            menu.find("a").each(function(i) {
+            menu.find("a").each(function() {
                 this.href = this.href.substr(0, this.href.lastIndexOf("/") + 1) + id;
             });
 

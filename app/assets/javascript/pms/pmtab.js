@@ -1,9 +1,12 @@
+import $ from "jquery";
+
 import BaseTab from "../basetab";
 import Chat from "../chat";
 import webclientUI from "../frontend";
 import webclient from "../webclient";
+
 import observable from "riot-observable"
-import {inherits} from "../utils";
+import {inherits, escapeHtml, addChannelLinks, rank, rankStyle} from "../utils";
 
 
 export default function PMTab(id) {
@@ -49,14 +52,14 @@ pmtab.printMessage = function(id, msg) {
     this.activateTab();
 
     var raw = id === -1,
-        auth, pref;
+        auth;
     var orMsg = msg;
 
     if (!raw) {
         auth = webclient.players.auth(id);
-        msg = utils.escapeHtml(msg);
-        msg = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(webclient.players.name(id) + ":", auth) + "</span></a>"
-            + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
+        msg = escapeHtml(msg);
+        msg = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "'>" + rank(auth) + rankStyle(webclient.players.name(id) + ":", auth) + "</span></a>"
+            + " " + addChannelLinks(msg, webclient.channels.channelsByName(true));
 
         this.activateTab();
     }
@@ -80,7 +83,7 @@ pmtab.reconnect = function() {
         return;
     }
     this.state = "reconnected";
-    msg = "<span class='text-center pm-disconnect'><em>The player reconnected.</em></span>";
+    let msg = "<span class='text-center pm-disconnect'><em>The player reconnected.</em></span>";
     this.chat.insertMessage(msg, {
         timestamps: webclientUI.timestamps,
         html: true,
@@ -93,7 +96,7 @@ pmtab.disconnect = function() {
         return;
     }
     this.state = "disconnected";
-    msg = "<span class='text-center pm-disconnect'><em>The player was disconnected.</em></span>";
+    let msg = "<span class='text-center pm-disconnect'><em>The player was disconnected.</em></span>";
     this.chat.insertMessage(msg, {
         timestamps: webclientUI.timestamps,
         html: true,

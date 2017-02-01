@@ -1,4 +1,5 @@
 import $ from "jquery";
+
 import observable from "riot-observable";
 import webclientUI from "./frontend";
 import {onEnterPressed,timestamp} from "./utils";
@@ -92,7 +93,7 @@ $(function () {
                 }
             }
             if (elem.histIndex > 0) {
-                var str = elem.hist[--elem.histIndex];
+                let str = elem.hist[--elem.histIndex];
                 elem.value = str;
                 setTimeout(function(){
                     elem.setSelectionRange(str.length, str.length);
@@ -100,7 +101,7 @@ $(function () {
             }
         } else if (event.which === 40) { // Down
             if (elem.histIndex < elem.hist.length) {
-                var str = elem.hist[++elem.histIndex] || ""
+                let str = elem.hist[++elem.histIndex] || ""
                 elem.value = str;
                 setTimeout(function(){
                     elem.setSelectionRange(str.length, str.length);

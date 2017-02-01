@@ -1,10 +1,11 @@
+import $ from "jquery";
+import vex from "vex-js";
+import observable from "riot-observable";
 import BattleTab from "./battles/battletab";
 import MD5 from "./libs/md5";
 import webclientUI from "./frontend";
 import webclient from "./webclient";
 import poStorage from "./postorage";
-import $ from "jquery";
-import observable from "riot-observable";
 import {queryField, escapeHtml} from "./utils";
 
 function createNetwork(WebSocket) {
@@ -248,7 +249,7 @@ function createNetwork(WebSocket) {
 
             webclient.dealWithChallenge(params);
         },
-        announcement: function (payload) {
+        announcement: function (/* payload */) {
             /*webclient.sandboxHtml(announcement, payload);
             announcement.css("visibility", "visible");*/
         },
@@ -302,7 +303,7 @@ function createNetwork(WebSocket) {
 
             this.command("getrankings", {id: params.id});
         },
-        unregistered: function (payload) {
+        unregistered: function (/* payload */) {
             $("#register-dd").removeClass("disabled");
             webclient.registered = false;
         },
@@ -366,7 +367,6 @@ function createNetwork(WebSocket) {
         },
         rankings: function (payload) {
             var parts = payload.split("|"),
-                id = parts[0],
                 rankings = JSON.parse(parts[1]), tier, rank,
                 html = "";
 
@@ -482,7 +482,9 @@ function createNetwork(WebSocket) {
 
         try {
             this.socket.send(msg);
-        } catch (ex) {} // Ignore potential SYNTAX_ERRs
+        } catch (ex) {
+            // Ignore potential SYNTAX_ERRs
+        }
         return this;
     };
 

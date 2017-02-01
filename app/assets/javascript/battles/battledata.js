@@ -1,13 +1,11 @@
+import observable from "riot-observable"
 import network from "../network";
-import {
-    PokeInfo, MoveInfo, StatInfo, StatusInfo,
-    ItemInfo, TypeInfo, AbilityInfo
-} from "../pokeinfo";
+
 import CommandHandling from "./commandhandling";
 import webclient from "../webclient";
 
 export default function BattleData(data) {
-    $.observable(this);
+    observable(this);
 
     this.addData(data);
 }
@@ -29,7 +27,7 @@ battledata.changeSound = function (playSound) {
 };
 
 battledata.addData = function(data) {
-    $.extend(this, data);
+    Object.assign(this, data);
 };
 
 battledata.print = function(msg, args) {
@@ -233,7 +231,7 @@ battledata.tpoke = function(spot) {
     }
 };
 
-battledata.updateFieldPoke = function(spot) {
+battledata.updateFieldPoke = function(/* spot */) {
 };
 
 battledata.updateTeamPokes = function(player, pokes) {

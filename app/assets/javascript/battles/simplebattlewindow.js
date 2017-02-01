@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 import BattleTab from "./battletab";
 import {PokeInfo} from "../PokeInfo";
 
@@ -72,7 +74,7 @@ function updateHP(spot, animated) {
 		}, {
 			duration: 1200,
 			easing: "linear",
-			step: function(now, tween) {txt.text(Math.floor(now/1.5) + "%")},
+			step: function(now/* , tween */) {txt.text(Math.floor(now/1.5) + "%")},
 			complete: function(){
 				hpbar(spot).find(".prevhp").css("width", 147*percent/100+1);
 			    unpause();
@@ -105,21 +107,21 @@ function hpbar(spot) {
 
 function hud(spot) {
 	if (!(spot in hudlist)) {
-		hudlist[spot] = $("#poke-" + spot + " .pokehud");;
+		hudlist[spot] = $("#poke-" + spot + " .pokehud");
 	}
 	return hudlist[spot];
 }
 
 function sprite(spot) {
 	if (!(spot in spritelist)) {
-		spritelist[spot] = $("#poke-" + spot + " img.poke-sprite");;
+		spritelist[spot] = $("#poke-" + spot + " img.poke-sprite");
 	}
 	return spritelist[spot];
 }
 
 function name(spot) {
 	return hud(spot).find("strong");
-};
+}
 
 function padd(s) {
 	if (typeof s != "string") {
@@ -138,7 +140,8 @@ function playCry(spot) {
 	// todo : form: num + "-"+ subnum + ".wab"
 	var sound = new Howl({
 	  urls: ["/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
-	}).play();
+    });
+    sound.play();
 }
 
 
@@ -254,7 +257,7 @@ $(function() {
 		updateStatus(spot);
 	});
 
-	battle.on("substitute", function(spot, sub) {
+	battle.on("substitute", function(spot/*, sub */) {
 		updateSprite(spot);
 	});
 

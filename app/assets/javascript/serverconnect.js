@@ -1,3 +1,4 @@
+import vex from "vex-js";
 import config from "./config";
 import webclientUI from "./frontend";
 import network from "./network";
@@ -29,7 +30,7 @@ export default function serverConnect(params) {
         // error
         function() {
             if (webclient.connectedToServer) {
-                closeFunction();
+                // closeFunction();
                 return;
             }
             vex.dialog.alert({

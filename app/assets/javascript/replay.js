@@ -1,8 +1,10 @@
+import $ from "jquery";
+import vex from "vex-js";
 import serverConnect from "./serverconnect";
 import BattleTab from "./battles/battletab";
+import BattleData from "./battles/battledata";
 import network from "./network";
 import poStorage from "./postorage";
-import webclient from "./webclient";
 import {queryField} from "./utils";
 
 export default function ReplayBattles () {
@@ -98,11 +100,11 @@ export default function ReplayBattles () {
         });
     };
 
-    this.battle = function(id) {
+    this.battle = function(/* id */) {
         return this._battle;
     };
 
-    this.serverStopWatching = function(id) {
+    this.serverStopWatching = function(/* id */) {
 
     };
 
@@ -151,7 +153,7 @@ export default function ReplayBattles () {
     };
 }
 
-var webclientUI = {
+export const webclientUI = {
     tabs: [],
     players: {
         setPlayers: function() {},
@@ -167,7 +169,7 @@ var webclientUI = {
     updateBadgeCount: function() {}
 };
 
-var webclient = {
+export const webclient = {
     players: {
         on: function() {},
         hasPlayer: function() {return true;},

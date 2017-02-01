@@ -14,7 +14,7 @@ import network from "./network";
 import BattleTab from "./battles/battletab";
 import notif from "./notif";
 import {PokeInfo, ItemInfo} from "./pokeinfo";
-import {escapeHtml, queryField} from "./utils";
+import {queryField, escapeHtml} from "./utils";
 
 vex.registerPlugin(vexDialog);
 vex.defaultOptions.className = 'vex-theme-os';
@@ -30,7 +30,7 @@ function WebclientUI() {
   this.waitingInfos = {};
   this.battleNotifications = true;
 
-  this.printDisconnectionMessage = html => {
+  this.printDisconnectionMessage = (/* html */) => {
     this.printHtml("<b>Disconnected from Server! If the disconnect is due to an internet problem, try to <a href='po:reconnect/'>reconnect</a> once the issue is solved. You can also go back to the <a href='" + config.registry + "'>server list</a>.</b>");
     this.switchToChannel();
   };
@@ -377,8 +377,7 @@ function WebclientUI() {
             gen = queryField("gen", "6", query),
             shiny = queryField("shiny", "false", query) === "true",
             gender = queryField("gender", "male", query),
-            back = queryField("back", "false", query) === "true",
-            cropped = queryField("cropped", "false", query) === "true";
+            back = queryField("back", "false", query) === "true";
 
           img.error(function() {
             if (gender == "female") {

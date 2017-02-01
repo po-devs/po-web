@@ -1,3 +1,4 @@
+import $ from "jquery";
 import PlayerHolder from "./players";
 import ChannelHolder from "./channels/channels";
 import PMHolder from "./pms/pms";
@@ -7,7 +8,6 @@ import network from "./network";
 import webclientUI from "./frontend";
 import poStorage from "./postorage";
 import serverConnect from "./serverconnect";
-import $ from "jquery";
 import {queryField} from "./utils";
 
 function Webclient() {
@@ -132,7 +132,7 @@ function Webclient() {
             .html());
         } else {
           console.log("Unknown challenge type received.");
-          console.log(payload);
+          console.log(params);
         }
       }
     },

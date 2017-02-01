@@ -1,3 +1,4 @@
+import $ from "jquery";
 import Poke from "./poke";
 import webclientUI from "./frontend";
 import webclient from "./webclient";
@@ -12,7 +13,7 @@ webclient.teambuilderLoaded = true;
 var substringMatcher = function(strs, partialMatch) {
     partialMatch = partialMatch || false;
     return function findMatches(q, cb) {
-        var matches, substringRegex;
+        var matches, substrRegex;
 
         // an array that will be populated with substring matches
         matches = [];
@@ -36,14 +37,10 @@ var substringMatcher = function(strs, partialMatch) {
     };
 };
 
-var pokesByName = {
-
-};
-
 var pokenames = {};
 $(function() {
-    pokenames[lastGen.num] = [];
-    var lastpokenames = pokenames[lastGen.num];
+    pokenames[GenInfo.lastGen.num] = [];
+    var lastpokenames = pokenames[GenInfo.lastGen.num];
 
     pokedex.pokes.nums = {};
 
@@ -62,7 +59,7 @@ $(function() {
 });
 
 function getPokeNames(gen) {
-    gen = getGen(gen);
+    gen = GenInfo.getGen(gen);
     var num = gen.num;
     if (num in pokenames) {
         return pokenames[num];
@@ -86,8 +83,8 @@ function getPokeNames(gen) {
 
 var itemnames = {};
 $(function() {
-    itemnames[lastGen.num] = [];
-    var lastitemnames = itemnames[lastGen.num];
+    itemnames[GenInfo.lastGen.num] = [];
+    var lastitemnames = itemnames[GenInfo.lastGen.num];
     pokedex.items.nums = {};
 
     var keys = Object.keys(ItemInfo.usefulList());
@@ -117,7 +114,7 @@ $(function() {
 });
 
 function getItemNames(gen) {
-    gen = getGen(gen);
+    gen = GenInfo.getGen(gen);
     var num = gen.num;
     if (num in itemnames) {
         return itemnames[num];
@@ -420,7 +417,7 @@ Poke.prototype.updateDescription = function(what) {
 };
 
 Poke.prototype.getUrl = function() {
-    return "sets/" + getGen(this.gen).num + "/" + PokeInfo.name(this);
+    return "sets/" + GenInfo.getGen(this.gen).num + "/" + PokeInfo.name(this);
 };
 
 Poke.prototype.updateSets = function() {
@@ -454,14 +451,14 @@ Poke.prototype.updateSets = function() {
         };
         if (set.evs) {
             var evs = [];
-            for (var x in set.evs) {
+            for (const x in set.evs) {
                 evs.push(set.evs[x] + " " + corr[x]);
             }
             res.push("EVs: " + evs.join(" / "));
         }
         if (set.ivs) {
             var ivs = [];
-            for (var x in set.ivs) {
+            for (const x in set.ivs) {
                 ivs.push(set.ivs[x] + " " + corr[x]);
             }
             res.push("IVs: " + ivs.join(" / "));
@@ -668,7 +665,7 @@ export default function Teambuilder (content) {
     this.prevs = [];
 
     var team = this.team = webclient.team;
-    team.gen = getGen(team.gen);
+    team.gen = GenInfo.getGen(team.gen);
 
     for (var poke in team.pokes) {
         team.pokes[poke].setElement(content.find("#tb-poke-" + poke));
@@ -706,15 +703,8 @@ export default function Teambuilder (content) {
     });
 
     var natures = "";
-    var shortStats = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"];
     for (var i in NatureInfo.list()) {
         var name = NatureInfo.name(i);
-        // Doesn't look good
-        // var boost = NatureInfo.boostedStat(i);
-        // var hinder = NatureInfo.reducedStat(i);
-        // if (boost != -1) {
-        //     name += " (+" + shortStats[boost] + ", -" + shortStats[hinder] + ")";
-        // }
         natures += "<option value='" + i  + "'>" + name + "</option>";
     }
     content.find(".tb-nature-selection").html(natures);
@@ -781,11 +771,11 @@ export default function Teambuilder (content) {
 
     content.find(".tb-import-btn").on("click", function() {
         var _pokes = self.content.find("#tb-importable-edit").val().replace(/^\s*[\r\n]/gm, '\n').replace(/\r/g, '\n').split("\n\n");
-        for (var i in _pokes) {
+        for (const i in _pokes) {
             _pokes[i] = _pokes[i].trim();
         }
         var pokes = [];
-        for (var i in _pokes) {
+        for (const i in _pokes) {
             if (_pokes[i]) {
                 pokes.push(_pokes[i]);
             }
@@ -805,7 +795,7 @@ export default function Teambuilder (content) {
             self.onImportable();//hack to switch back
         } else {
             //Update all pokes and go back to home tab
-            for (var i in pokes) {
+            for (const i in pokes) {
                 self.team.pokes[i].import(pokes[i]);
                 self.team.pokes[i].updatePreview();
                 self.team.pokes[i].unloadGui();
@@ -843,8 +833,8 @@ export default function Teambuilder (content) {
     var lastNum = 1;
     for (var num in gList) {
         var gen = gList[num];
-        if (getGen(gen).num != lastNum) {
-            lastNum = getGen(gen).num;
+        if (GenInfo.getGen(gen).num != lastNum) {
+            lastNum = GenInfo.getGen(gen).num;
             genList.append($("<li>").addClass("divider"));
         }
         genList.append($("<li><a href='po:tb-setgen/" + gen + "'>" + GenInfo.version(gen) + "</a></li>"));
@@ -913,10 +903,10 @@ export default function Teambuilder (content) {
     deletedTeams.tagsinput("removeAll");
     storedTeams.tagsinput({"freeInput": false, "tagClass": "label label-primary"});
     storedTeams.tagsinput("removeAll");
-    for (var i in self.savedTeams) {
+    for (const i in self.savedTeams) {
         storedTeams.tagsinput("add", i);
     }
-    for (var i in self.deletedTeams) {
+    for (const i in self.deletedTeams) {
         deletedTeams.tagsinput("add", i);
     }
 
@@ -973,7 +963,7 @@ export default function Teambuilder (content) {
         poStorage.set("deleted-teams", self.deletedTeams);
     });
 
-    self.content.find("#delete-teams-btn").on("click", function(event) {
+    self.content.find("#delete-teams-btn").on("click", function(/* event */) {
         self.deletedTeams = {};
         poStorage.set("deleted-teams", self.deletedTeams);
         deletedTeams.tagsinput("removeAll");
@@ -1054,7 +1044,7 @@ Teambuilder.genShortHands = {
 };
 
 Teambuilder.prototype.setGen = function(genNum) {
-    var gen = getGen(genNum);
+    var gen = GenInfo.getGen(genNum);
     this.team.gen = gen;
     for (var i = 0; i < this.team.pokes.length; i++) {
         var poke = this.team.pokes[i];
