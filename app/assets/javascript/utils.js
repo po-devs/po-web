@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 export function toAlphanumeric(text) {
     return ("" + text).toLowerCase().replace(/[^a-z0-9]+/g, "");
 }

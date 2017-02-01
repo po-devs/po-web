@@ -1,3 +1,4 @@
+import $ from "jquery";
 import PlayerHolder from "./players";
 import ChannelHolder from "./channels/channels";
 import PMHolder from "./pms/pms";
@@ -7,7 +8,7 @@ import network from "./network";
 import webclientUI from "./frontend";
 import poStorage from "./postorage";
 import serverConnect from "./serverconnect";
-import $ from "jquery";
+import {queryField} from "./utils"
 
 const webclient = (function() {
   this.players = new PlayerHolder();
@@ -131,7 +132,7 @@ const webclient = (function() {
             .html());
         } else {
           console.log("Unknown challenge type received.");
-          console.log(payload);
+          console.log(params);
         }
       }
     },
@@ -250,9 +251,9 @@ const webclient = (function() {
 $(function() {
   webclient.loadTeam();
 
-  var userGiven = utils.queryField("user");
-  var relayGiven = utils.queryField("relay");
-  var portGiven = utils.queryField("port");
+  var userGiven = queryField("user");
+  var relayGiven = queryField("relay");
+  var portGiven = queryField("port");
 
   if (userGiven) {
     poStorage.set("user", userGiven);

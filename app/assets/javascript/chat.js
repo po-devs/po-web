@@ -1,4 +1,6 @@
+import $ from "jquery";
 import webclientUI from "./frontend";
+import {onEnterPressed, timestamp} from "./utils";
 
 var chatHtml =
 '    <div class="chat">\
@@ -24,7 +26,7 @@ export default function Chat() {
     this.chatCount = 0;
 
     var self = this;
-    this.chatSend.keydown(utils.onEnterPressed(function () {
+    this.chatSend.keydown(onEnterPressed(function () {
         if ($(this).val().length > 0) {
             self.trigger("chat", $(this).val());
         }
@@ -45,7 +47,7 @@ Chat.prototype.insertMessage = function (msg, opts) {
     opts = opts || {};
 
     if (opts.timestamps) {
-        timestampPart = "<span class='timestamp'>(" + utils.timestamp() + ")</span> ";
+        timestampPart = "<span class='timestamp'>(" + timestamp() + ")</span> ";
         if (opts.html) {
             msg = msg.replace(timestampRegex, timestampPart);
         } else if (msg) {
@@ -89,7 +91,7 @@ $(function () {
                 }
             }
             if (elem.histIndex > 0) {
-                var str = elem.hist[--elem.histIndex];
+                let str = elem.hist[--elem.histIndex];
                 elem.value = str;
                 setTimeout(function(){
                     elem.setSelectionRange(str.length, str.length);
@@ -97,7 +99,7 @@ $(function () {
             }
         } else if (event.which === 40) { // Down
             if (elem.histIndex < elem.hist.length) {
-                var str = elem.hist[++elem.histIndex] || ""
+                let str = elem.hist[++elem.histIndex] || ""
                 elem.value = str;
                 setTimeout(function(){
                     elem.setSelectionRange(str.length, str.length);

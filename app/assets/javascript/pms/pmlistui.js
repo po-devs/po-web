@@ -1,6 +1,7 @@
 import $ from "jquery";
 import webclientUI from "../frontend";
 import webclient from "../webclient";
+import {escapeHtml} from "../utils";
 
 export default function PMList() {
     this.ids = {};
@@ -14,14 +15,14 @@ pmlist.createPMItem = function (id) {
 
     ret = "<a class='list-group-item pm-list-item' ";
     ret += "href='po:tab/pm-" + id + "' "
-    ret += "id='pm-"+id+"'><span class='glyphicon glyphicon-envelope'></span>&nbsp;" + utils.escapeHtml(name) + '<button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault(); webclientUI.pms.removePM(' + id + ');"><span aria-hidden="true">&times;</span></button></a>';
+    ret += "id='pm-"+id+"'><span class='glyphicon glyphicon-envelope'></span>&nbsp;" + escapeHtml(name) + '<button type="button" class="close" aria-label="Close" onclick="event.stopPropagation(); event.preventDefault(); webclientUI.pms.removePM(' + id + ');"><span aria-hidden="true">&times;</span></button></a>';
     return ret;
 };
 
 
 pmlist.updatePMName = function(id) {
     if (this.hasPM(id)) {
-        $('#pm-'+id).text('#' + utils.escapeHtml(webclient.pms.pm(id).name()));
+        $('#pm-'+id).text('#' + escapeHtml(webclient.pms.pm(id).name()));
     }
 };
 

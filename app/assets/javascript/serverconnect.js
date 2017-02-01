@@ -1,7 +1,9 @@
+import vex from "vex-js";
 import config from "./config";
 import webclientUI from "./frontend";
 import network from "./network";
 import webclient from "./webclient";
+import {queryField} from "./utils";
 
 export default function serverConnect(params) {
     if (network.isOpen()) {
@@ -20,7 +22,7 @@ export default function serverConnect(params) {
     webclient.serverIP = relayIP;
 
     network.open(
-        relayIP + ":" + (utils.queryField("rport") || config.relayPort),
+        relayIP + ":" + (queryField("rport") || config.relayPort),
         // open
         function() {
             params.onconnect();
@@ -28,7 +30,7 @@ export default function serverConnect(params) {
         // error
         function() {
             if (webclient.connectedToServer) {
-                closeFunction();
+                // closeFunction();
                 return;
             }
             vex.dialog.alert({

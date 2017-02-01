@@ -1,3 +1,4 @@
+import $ from "jquery";
 import webclientUI from "./frontend";
 import webclient from "./webclient";
 

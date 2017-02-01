@@ -1,7 +1,9 @@
+import $ from "jquery";
 import webclient from "../webclient";
 import ChannelTab from "./channeltab";
 import webclientUI from "../frontend";
 import poStorage from "../postorage";
+import {escapeHtml} from "../utils";
 
 export default function ChannelList() {
     this.ids = {};
@@ -12,7 +14,7 @@ export default function ChannelList() {
 ChannelList.prototype.createChannelItem = function (id) {
     var name = webclient.channels.name(id);
     return "<a class='list-group-item channel-list-item' href='po:tab/channel-" + id + "' " +
-        "id='channel-" + id + "'><span class='channel-name'>#" + utils.escapeHtml(name) +
+        "id='channel-" + id + "'><span class='channel-name'>#" + escapeHtml(name) +
         "</span><button type='button' class='close' aria-label='Close' " +
         "onclick='event.stopPropagation(); event.preventDefault(); webclient.leaveChannel(" + id + ");'>" +
         "<span aria-hidden='true'>&times;</span></button></a>";
@@ -33,7 +35,7 @@ ChannelList.prototype.countActive = function() {
 
 ChannelList.prototype.updateChannelName = function(id) {
     if (this.hasChannel(id)) {
-        $('#channel-' + id + ">.channel-name").text('#' + utils.escapeHtml(webclient.channels.name(id)));
+        $('#channel-' + id + ">.channel-name").text('#' + escapeHtml(webclient.channels.name(id)));
     }
 };
 
@@ -160,7 +162,7 @@ $(function() {
 
     webclientUI.channels.element.contextmenu({
         target: "#channel-context-menu",
-        before: function(event, context) {
+        before: function(event/* , context */) {
             /* the name of the channel was right clicked instead of the li */
             var channel;
             if (event.target.tagName.toLowerCase() == "span") {
@@ -179,7 +181,7 @@ $(function() {
                 menu.on("click", "a", webclientUI.linkClickHandler);
             }
 
-            menu.find("a").each(function(i) {
+            menu.find("a").each(function() {
                 this.href = this.href.substr(0, this.href.lastIndexOf("/") + 1) + id;
             });
 

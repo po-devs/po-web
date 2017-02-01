@@ -1,8 +1,5 @@
+import $ from "jquery";
 import network from "../network";
-import {
-    PokeInfo, MoveInfo, StatInfo, StatusInfo,
-    ItemInfo, TypeInfo, AbilityInfo
-} from "../pokeinfo";
 import CommandHandling from "./commandhandling";
 import webclient from "../webclient";
 
@@ -233,7 +230,7 @@ battledata.tpoke = function(spot) {
     }
 };
 
-battledata.updateFieldPoke = function(spot) {
+battledata.updateFieldPoke = function(/* spot */) {
 };
 
 battledata.updateTeamPokes = function(player, pokes) {

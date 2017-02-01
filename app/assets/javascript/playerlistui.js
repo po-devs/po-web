@@ -1,6 +1,8 @@
+import $ from "jquery";
 import webclientUI from "./frontend";
 import webclient from "./webclient";
 import poStorage from "./postorage";
+import {escapeHtml} from "./utils";
 
 /* The list of players */
 export default function PlayerList() {
@@ -112,7 +114,7 @@ playerlist.createPlayerItem = function (id) {
         ret += "style='color:" + webclient.players.color(id) + "' ";
     }
 
-    var fullName = utils.escapeHtml(name);
+    var fullName = escapeHtml(name);
     if (this.filter) {
         fullName = fullName.replace(new RegExp("("+this.filter+")", "i"), "<b>$1</b>");
     }
@@ -185,7 +187,7 @@ $(function() {
     webclientUI.players.count = $("#playercount");
 
     $("#player-filter").on("input", function() {
-        s = $(this).val();
+        let s = $(this).val();
         webclientUI.players.setFilter(s);
 
         if (s.length > 0 && s[0] != '#') {
@@ -212,7 +214,7 @@ $(function() {
     /* Show context menu when clicked */
     webclientUI.players.element.contextmenu({
         target: "#player-context-menu",
-        before: function(event, context) {
+        before: function(event/* , context */) {
             var player = $(event.target);
             var pid = player.attr("pid");
             var menu = this.getMenu();
@@ -227,7 +229,7 @@ $(function() {
                 menu.on("click", "a", webclientUI.linkClickHandler);
             }
 
-            menu.find("a").each(function(i) {
+            menu.find("a").each(function() {
                 this.href = this.href.substr(0, this.href.lastIndexOf("/") + 1) + pid;
             });
 

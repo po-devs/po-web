@@ -1,8 +1,11 @@
-import network from "../network";
+import $ from "jquery";
 import {
     PokeInfo, MoveInfo, StatInfo, StatusInfo,
     ItemInfo, TypeInfo, AbilityInfo
 } from "../pokeinfo";
+import BattleTab from "./battletab";
+
+const CommandHandling = {};
 
 /* dealWithXxxx functions are all called from dealWithCommand */
 CommandHandling.dealWithTurn = function(params) {
@@ -10,7 +13,7 @@ CommandHandling.dealWithTurn = function(params) {
     this.trigger("turn", params.turn);
 };
 
-CommandHandling.dealWithBlank = function(params) {
+CommandHandling.dealWithBlank = function(/* params */) {
     this.print("");
 
     var self = this;
@@ -116,7 +119,7 @@ CommandHandling.dealWithFormechange = function(params) {
 
 CommandHandling.dealWithTeampreview = function(params) {
     var team = params.team;
-    var player = params.player;
+    // var player = params.player;
 
     var yourTeam = [];
     var oppTeam = [];
@@ -229,7 +232,7 @@ CommandHandling.dealWithEffectiveness = function(params) {
     }
 };
 
-CommandHandling.dealWithCritical = function(params) {
+CommandHandling.dealWithCritical = function(/* params */) {
     this.print("<span class='battle-message-crit'>A critical hit!</span>");
 };
 
@@ -395,7 +398,7 @@ CommandHandling.dealWithClock = function(params) {
     this.updateClock(params.player, params.time, params.status == "ticking");
 };
 
-CommandHandling.dealWithNotarget = function(params) {
+CommandHandling.dealWithNotarget = function(/* params */) {
     this.print("But there was no target...");
 };
 
@@ -441,13 +444,12 @@ CommandHandling.dealWithWeatherstart = function(params) {
     }
 
     /* Hack to remove new weathers since it makes battle window crash */
-    var weather = params.weather;
-    if (weather > 4) {
-        if (weather == 5) weather = 4;
-        if (weather == 6) weather = 2;
+    if (params.weather > 4) {
+        if (params.weather == 5) params.weather = 4;
+        if (params.weather == 6) params.weather = 2;
     }
-    if (weather <= 4) {
-        this.trigger("weather", weather);
+    if (params.weather <= 4) {
+        this.trigger("weather", params.weather);
     }
 };
 
@@ -681,3 +683,5 @@ CommandHandling.dealWithAbilitymessage = function(params) {
         this.print(mess);
     }
 };
+
+export default CommandHandling;
