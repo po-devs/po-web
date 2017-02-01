@@ -2,9 +2,11 @@ import {
     PokeInfo, MoveInfo, StatInfo, StatusInfo,
     ItemInfo, TypeInfo, AbilityInfo
 } from "../pokeinfo";
-
-export default function CommandHandling(){};
 import BattleTab from "./battletab";
+
+export default function CommandHandling(){
+
+};
 
 /* dealWithXxxx functions are all called from dealWithCommand */
 CommandHandling.dealWithTurn = function(params) {
@@ -682,5 +684,3 @@ CommandHandling.dealWithAbilitymessage = function(params) {
         this.print(mess);
     }
 };
-
-export default CommandHandling;
