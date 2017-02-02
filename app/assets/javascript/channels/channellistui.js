@@ -46,6 +46,7 @@ ChannelList.prototype.hasChannel = function(id) {
 };
 
 ChannelList.prototype.addChannel = function(id) {
+    console.log("Adding channel", id, "...");
     if (!this.hasChannel(id)) {
         this.element.append(this.createChannelItem(id));
         this.ids[id] = new ChannelTab(id, webclient.channels.name(id));
@@ -99,23 +100,23 @@ ChannelList.prototype.chanNotifsEnabled = function (id) {
 };
 
 ChannelList.prototype.startObserving = function(channels) {
-    var self = this;
+    console.log("observing channel events...");
 
-    channels.on("joinchannel", function(id) {
-        self.addChannel(id);
+    channels.on("joinchannel", id => {
+        this.addChannel(id);
     });
 
-    channels.on("leavechannel", function(id) {
-        self.removeChannel(id);
+    channels.on("leavechannel", id => {
+        this.removeChannel(id);
     });
 
-    channels.on("changename", function(id) {
-        self.updateChannelName(id);
+    channels.on("changename", id => {
+        this.updateChannelName(id);
     });
 
-    channels.on("nameslist", function(ids) {
+    channels.on("nameslist", ids => {
         for (var i in ids) {
-            self.updateChannelName(ids[i]);
+            this.updateChannelName(ids[i]);
         }
     });
 };
@@ -144,7 +145,7 @@ ChannelList.prototype.findMatches = function(query, callback) {
     callback(matches);
 };
 
-$(function() {
+export function afterLoad() {
     webclientUI.channels.startObserving(webclient.channels);
     webclientUI.channels.element = $("#channellist");
 
@@ -196,4 +197,4 @@ $(function() {
             //var item = $(event.target);
         }
     });
-});
+};

@@ -250,7 +250,7 @@ function Webclient() {
 
 var webclient = new Webclient();
 
-$(function() {
+export function afterLoad() {
   webclient.loadTeam();
 
   var userGiven = queryField("user");
@@ -273,7 +273,7 @@ $(function() {
     "relay": poStorage.get("relay"),
     "port": poStorage.get("port")
   });
-});
+};
 
 window.webclient = webclient;
 export default webclient;

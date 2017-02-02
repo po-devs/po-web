@@ -157,6 +157,7 @@ ChannelHolder.prototype.removeChannel = function(id) {
 
 ChannelHolder.prototype.joinChannel = function(id) {
     if (this.joinedChannels.indexOf(id) < 0) {
+        console.log("joining channel", id);
         this.joinedChannels.push(id);
         if (id !== 0) {
             this.updateAutoJoin();

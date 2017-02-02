@@ -183,7 +183,7 @@ playerlist.updatePlayer = function (id) {
     }
 };
 
-$(function() {
+export function afterLoad() {
     webclientUI.players.element = $("#playerlist");
     webclientUI.players.count = $("#playercount");
 
@@ -272,4 +272,4 @@ $(function() {
             //var item = $(event.target);
         }
     });
-});
+};

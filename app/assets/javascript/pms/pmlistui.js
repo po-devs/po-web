@@ -65,7 +65,7 @@ pmlist.startObserving = function(pms) {
     });
 };
 
-$(function() {
+export function afterLoad() {
     webclientUI.pms.startObserving(webclient.pms);
     webclientUI.pms.element = $("#pmlist");
-});
+};

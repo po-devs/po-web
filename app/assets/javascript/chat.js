@@ -78,7 +78,7 @@ Chat.prototype.scrollDown = function() {
     this.chatTextArea.scrollTop(this.chatTextArea[0].scrollHeight);
 };
 
-$(function () {
+export function  afterLoad () {
     var maxHistSize = 100;
     $(document).on("keydown", "[history]", function (event) {
         var elem = event.currentTarget;
@@ -119,4 +119,4 @@ $(function () {
             elem.value = "";
         }
     });
-});
+};

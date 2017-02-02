@@ -86,7 +86,7 @@ battlelist.startObserving = function(battles) {
     });
 };
 
-$(function() {
+export function afterLoad() {
     webclientUI.battles.startObserving(webclient.battles);
     webclientUI.battles.element = $("#battlelist");
-});
+};

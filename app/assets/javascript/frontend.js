@@ -1,7 +1,7 @@
 import $ from "jquery";
 import vex from "vex-js";
 import vexDialog from "vex-dialog";
-import bootstrap from "bootstrap"; //for .tooltip. Useful?
+import "bootstrap"; //for .tooltip. Useful?
 
 import PlayerList from "./playerlistui";
 import ChannelList from "./channels/channellistui";
@@ -15,6 +15,8 @@ import BattleTab from "./battles/battletab";
 import notif from "./notif";
 import {PokeInfo, ItemInfo} from "./pokeinfo";
 import {queryField, escapeHtml} from "./utils";
+
+import afterload from "./afterload";
 
 vex.registerPlugin(vexDialog);
 vex.defaultOptions.className = 'vex-theme-os';
@@ -791,6 +793,8 @@ $(function() {
   $(window).resize(function() {
     checkCompact();
   });
+
+  afterload();
 });
 
 export default webclientUI;

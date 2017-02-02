@@ -13,6 +13,7 @@ import {
 import observable from "riot-observable"
 
 export default function ChannelTab(id, name) {
+    console.log("open channel", id, name);
     observable(this);
 
     this.shortHand = "channel";
