@@ -1,4 +1,4 @@
-if(!pokedex.abilities)pokedex.abilities={};
+module.exports = pokedex => {if(!pokedex.abilities)pokedex.abilities={};
 pokedex.abilities.ability_desc = {
 0:true,
 1:"The stench helps keep wild Pokémon away.",
@@ -192,4 +192,5 @@ pokedex.abilities.ability_desc = {
 189:"The Pokémon creates intense sunlight if it appears in battle that lasts until the Pokémon leaves the battle.",
 190:"The Pokémon creates a heavy rain if it appears in battle that lasts until the Pokémon leaves the battle.",
 191:"The Pokémon stirs up strong winds that eliminate the effects of weather and prevents weather changes until the Pokémon leaves the battle.",
+};
 };
