@@ -2,6 +2,7 @@ import $ from "jquery";
 import vex from "vex-js";
 import vexDialog from "vex-dialog";
 import "bootstrap"; //for .tooltip. Useful?
+import BootstrapDialog from "bootstrap3-dialog";
 
 import PlayerList from "./playerlistui";
 import ChannelList from "./channels/channellistui";
