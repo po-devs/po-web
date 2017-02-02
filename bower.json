@@ -7,7 +7,6 @@
     "font-awesome": "fontawesome#~4.4.0",
     "handlebars": "~4.0.3",
     "mjolnic-bootstrap-colorpicker": "~2.3.0",
-    "seiyria-bootstrap-slider": "~5.2.4",
-    "howler.js": "howler#^1.1.29"
+    "seiyria-bootstrap-slider": "~5.2.4"
   }
 }

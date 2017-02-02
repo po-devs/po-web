@@ -3,6 +3,8 @@ import $ from "jquery";
 import BattleTab from "./battletab";
 import {PokeInfo} from "../PokeInfo";
 
+import {Howl} from "howler";
+
 /* global battle:false */
 
 var spritelist = {};
