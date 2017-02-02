@@ -56,17 +56,17 @@ describe('pokeinfo', function () {
 
   describe('.sprite', function () {
     it('should generate sprite urls from parameters', function () {
-      PokeInfo.sprite({num: 1, gen: 6}).should.equal("http://pokemon-online.eu/images/pokemon/x-y/animated/001.gif");
-      PokeInfo.sprite({num: 1, gen: {num: 6}}).should.equal("http://pokemon-online.eu/images/pokemon/x-y/animated/001.gif");
-      PokeInfo.sprite({num: 1}).should.equal("http://pokemon-online.eu/images/pokemon/x-y/animated/001.gif");
-      PokeInfo.sprite({num: 3, forme: 1, gen: {num: 6}}).should.equal("http://pokemon-online.eu/images/pokemon/x-y/animated/003-1.gif");
-      PokeInfo.sprite({num: 3, forme: 1, gen: {num: 6}}, {back: true}).should.equal("http://pokemon-online.eu/images/pokemon/x-y/animated/back/003-1.gif");
+      PokeInfo.sprite({num: 1, gen: 6}).should.equal("http://web.pokemon-online.eu/images/x-y/animated/001.gif");
+      PokeInfo.sprite({num: 1, gen: {num: 6}}).should.equal("http://web.pokemon-online.eu/images/x-y/animated/001.gif");
+      PokeInfo.sprite({num: 1}).should.equal("http://web.pokemon-online.eu/images/x-y/animated/001.gif");
+      PokeInfo.sprite({num: 3, forme: 1, gen: {num: 6}}).should.equal("http://web.pokemon-online.eu/images/x-y/animated/003-1.gif");
+      PokeInfo.sprite({num: 3, forme: 1, gen: {num: 6}}, {back: true}).should.equal("http://web.pokemon-online.eu/images/x-y/animated/back/003-1.gif");
     });
   });
 
   describe('.trainerSprite', function () {
     it('should generate sprite urls from parameters', function () {
-      PokeInfo.trainerSprite(200).should.equal('http://pokemon-online.eu/images/trainers/200.png');
+      PokeInfo.trainerSprite(200).should.equal('/images/trainers/200.png');
     });
   });
 });

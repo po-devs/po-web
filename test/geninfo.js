@@ -16,9 +16,9 @@ describe('geninfo', function () {
       GenInfo.getGen(numGens + 1).should.eql({num: 7, subnum: 0});
     });
     it('should not range test generations if correct is false', function () {
-      GenInfo.getGen(-1, false).should.eql({num: -1});
-      GenInfo.getGen(numGens + 1, false).should.eql({num: numGens + 1});
-      GenInfo.getGen(undefined, false).should.eql({num: undefined});
+      GenInfo.getGen(10*65536, false).should.eql({num: 0, subnum: 10});
+      GenInfo.getGen(numGens + 1, false).should.eql({num: numGens + 1, subnum: 0});
+      GenInfo.getGen(undefined, false).should.eql({num: undefined, subnum: undefined});
     });
   });
   describe('.list', function () {
@@ -44,7 +44,7 @@ describe('geninfo', function () {
   });
   describe('.option', function () {
     it('should return options specific to a generation if given', function () {
-      GenInfo.option(1).sprite_folder.should.equal('http://pokemon-online.eu/images/pokemon/red-blue/');
+      GenInfo.option(1).sprite_folder.should.equal('yellow/');
       GenInfo.option(2).ability.should.equal(false);
       GenInfo.option({num: 4}).gender.should.equal(true);
       should(GenInfo.option(-1)).equal(undefined);

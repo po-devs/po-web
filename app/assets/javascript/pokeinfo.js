@@ -145,11 +145,11 @@ PokeInfo.toArray = function(num) {
 };
 
 PokeInfo.species = function(poke) {
-    return poke & ((1 << 16) - 1);
+    return poke === undefined ? undefined : poke & ((1 << 16) - 1);
 };
 
 PokeInfo.forme = function(poke) {
-    return poke >> 16;
+    return poke === undefined ? undefined : poke >> 16;
 };
 
 PokeInfo.find = function(id, what, gen) {
@@ -389,6 +389,7 @@ PokeInfo.calculateBestShiny = function(info) {
 
 PokeInfo.isShiny = function(info, gen) {
     if (!gen || gen.num > 2) return info.shiny;
+    if (!info.ivs || gen.num < 2) return false;
     return info.ivs[2] === 10 && info.ivs[3] === 10 && info.ivs[5] === 10 &&
         [2, 3, 6, 7, 10, 11, 14, 15].indexOf(info.ivs[1]) > -1;
 };

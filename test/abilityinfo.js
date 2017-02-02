@@ -35,14 +35,14 @@ describe('abilityinfo', function () {
     });
     it("should return the ability's message", function () {
       // Wonder Guard
-      AbilityInfo.message(71).should.equal("%s's Wonder Guard evades the attack!");
+      AbilityInfo.message(71).should.equal("%s's Wonder Guard blocks the attack!");
       // Flash Fire
       AbilityInfo.message(19).should.equal("%s's Flash Fire raised the power of its Fire-type moves!");
       AbilityInfo.message(19, 1).should.equal("%s's Flash Fire made %m ineffective!");
     });
     it("it should return an empty string if the requested part doesn't exist", function () {
       // Defiant - Defiant sharply raised %s's Attack!
-      AbilityInfo.message(80, 1).should.equal('');
+      AbilityInfo.message(78, 1).should.equal('');
     });
   });
 });

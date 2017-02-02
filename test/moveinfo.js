@@ -15,8 +15,11 @@ describe('moveinfo', function () {
     });
   });
   describe('.effect', function () {
+    it('should properly replace $effect_chance by the correct value', function () {
+      MoveInfo.effect(34).should.equal("Has a 30% chance to paralyze the target. This attack's power is doubled, and it will not miss, if the target has used Minimize.");
+    });
     it('should resolve data from older/newer gens when not found', function () {
-      MoveInfo.effect(34, 4).should.equal("Has a $effect_chance% chance to paralyze the target.");
+      MoveInfo.effect(34, 4).should.equal("Has a 30% chance to paralyze the target.");
     });
   });
   describe('.pp', function () {
