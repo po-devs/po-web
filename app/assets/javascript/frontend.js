@@ -130,45 +130,11 @@ function WebclientUI() {
 
     var tier, i;
 
-    var ownTeams = info.find("#your-team");
-    if (!webclient.ownTiers) {
-      /* Todo: remove this code, obsolete in the future */
-      var ownPl = webclient.ownPlayer();
-      for (tier in ownPl.ratings) {
-        ownTeams.append($("<option>").text(tier).attr("value", 0));
-      }
-    } else {
-      for (i in webclient.ownTiers) {
-        if (!params.desc || webclient.ownTiers[i].toLowerCase() == params.tier.toLowerCase()) {
-          ownTeams.append($("<option>").text("Team " + ((+i) + 1) + ": " + webclient.ownTiers[i]).attr("value", i));
-        }
-      }
-    }
-
-    var oppTeams;
-
-    if (params.hasOwnProperty("opptier")) {
-      oppTeams = info.find("#opp-team");
-      oppTeams.append($("<option>").text(params.opptier));
-      oppTeams.prop('disabled', 'disabled');
-    }
-
-    if (!params.desc && params.ratings) {
-      oppTeams = info.find("#opp-team");
-      oppTeams.prop("disabled", true);
-      var selected = false;
-      for (tier in pl.ratings) {
-        /* If the opponent shares a tier with us, challenge them in that tier */
-        if (!selected && webclient.ownTiers.indexOf(tier) != -1) {
-          selected = true;
-          oppTeams.append($("<option selected>").text(tier).attr("value", tier));
-        } else {
-          oppTeams.append($("<option>").text(tier).attr("value", tier));
-        }
-      }
-    }
+    this.addOwnTiers(info.find("#your-team"), params);
+    this.addOppTiers(info.find("#opp-team"), pl, params);
 
     info.updateRatings = true;
+    info.params = params;
     this.waitingInfos[id] = info;
     webclient.requestInfo(id);
     if (!self) {
@@ -294,7 +260,6 @@ function WebclientUI() {
       closeByBackdrop: params.desc ? false : true
     });
     dialogInstance.open();
-    dialogInstance.setData("params", params);
 
     return dialogInstance;
   };
@@ -330,28 +295,52 @@ function WebclientUI() {
       }
 
       if (plInfo.updateRatings) {
-        var oppTeams, prefix = "";
         if (id == webclient.ownId) {
-          oppTeams = plInfo.find("#your-team");
+          this.addOwnTiers(plInfo.find("#your-team"), plInfo.params);
         } else {
-          oppTeams = plInfo.find("#opp-team");
-        }
-        oppTeams.html("");
-        var selected = false,
-          c = 1;
-        for (var tier in oppPl.ratings) {
-          prefix = id == webclient.ownId ? "Team " + c + ": " : "";
-          /* If the opponent shares a tier with us, challenge them in that tier */
-          if (!selected && webclient.ownTiers.indexOf(tier) != -1) {
-            selected = true;
-            oppTeams.append($("<option selected>").text(prefix + tier + " (" + oppPl.ratings[tier] + ")").attr("value", tier));
-          } else {
-            oppTeams.append($("<option>").text(prefix + tier + " (" + oppPl.ratings[tier] + ")").attr("value", tier));
-          }
-          c++;
+          this.addOppTiers(plInfo.find("#opp-team"), oppPl, plInfo.params);
         }
       }
       delete this.waitingInfos[id];
+    }
+  };
+
+  this.addOwnTiers = (ownTeams, params) => {
+    var pl = webclient.ownPlayer();
+    ownTeams.html("");
+
+    webclient.ownTiers.forEach((tier, i) => {
+      if (!params.desc || tier.toLowerCase() == params.tier.toLowerCase()) {
+        var rating = (pl.ratings && pl.ratings[tier]) ? " (" + pl.ratings[tier] + ")" : "";
+        ownTeams.append($("<option>").text(`Team ${i+1}: ${tier}${rating}`).attr("value", i));
+      }
+    });
+  }
+
+  this.addOppTiers = (oppTeams, pl, params) => {
+    oppTeams.html("");
+    if ("opptier" in params) {
+      oppTeams = info.find("#opp-team");
+      oppTeams.append($("<option>").text(params.opptier));
+      oppTeams.prop('disabled', true);
+      return;
+    }
+
+    var selected = false;
+    if (pl.ratings) {
+      for (var tier in pl.ratings) {
+        /* If the opponent shares a tier with us, challenge them in that tier */
+        if (!selected && webclient.ownTiers.indexOf(tier) != -1) {
+          selected = true;
+          oppTeams.append($("<option selected>").text(tier).attr("value", tier));
+        } else {
+          oppTeams.append($("<option>").text(tier).attr("value", tier));
+        }
+      }
+    }
+
+    if (!params.desc && params.ratings) {
+      oppTeams.prop("disabled", true);
     }
   };
 
