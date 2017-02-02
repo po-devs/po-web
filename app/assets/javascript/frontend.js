@@ -370,7 +370,7 @@ function WebclientUI() {
             gender = queryField("gender", "male", query),
             back = queryField("back", "false", query) === "true";
 
-          img.error(function() {
+          img.on("error", function() {
             if (gender == "female") {
               gender = "male";
             } else if (gen < 6) {

@@ -19,5 +19,10 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin("common"),
     new webpack.ProvidePlugin({ $: 'jquery', jquery: 'jquery', jQuery: 'jquery' })
-  ]
+  ],
+  resolve: {
+    alias: {
+      handlebars: 'handlebars/dist/handlebars.min.js'
+    }
+  }
 }

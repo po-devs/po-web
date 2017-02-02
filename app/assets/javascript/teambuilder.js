@@ -8,6 +8,8 @@ import {
 } from "./pokeinfo";
 import poStorage from "./postorage";
 import pokedex from "./pokedex-full";
+import Handlebars from "handlebars";
+import "bootstrap-slider";
 
 webclient.teambuilderLoaded = true;
 
@@ -1109,3 +1111,5 @@ Teambuilder.prototype.updateGenGui = function() {
 Teambuilder.prototype.currentTab = function() {
     return this.content.find(".tb-poke-pill.active .tb-poke-link").attr("slot");
 };
+
+window.Teambuilder = Teambuilder;
