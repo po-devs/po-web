@@ -197,4 +197,4 @@ export function afterLoad() {
             //var item = $(event.target);
         }
     });
-};
+}

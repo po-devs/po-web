@@ -185,6 +185,8 @@ export const webclient = {
 
 vex.defaultOptions.className = "vex-theme-os";
 
+/* global battleToReplay:false */
+
 $(function() {
     var relayGiven = queryField("relay");
     var portGiven = queryField("port");

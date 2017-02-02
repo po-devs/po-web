@@ -42,7 +42,7 @@
     "vex-js": "^3.0.0"
   },
   "scripts": {
-    "lint": "eslint '*.js' 'app/**/*.js'",
+    "lint": "eslint app",
     "build": "webpack --config webpack.config.js",
     "test" : "npm run lint"
   }

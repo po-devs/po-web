@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import pokedex from "./pokedex"
 
 export const GenInfo = {};

@@ -10,7 +10,8 @@ export default function() {
   playerList();
   channelList();
   pms();
+  battles();
 
   //Need to be last because it joins a channel, at least needs to be after channelList()
   webclient();
-};
+}

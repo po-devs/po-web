@@ -246,7 +246,7 @@ function Webclient() {
       channel: id
     });
   };
-};
+}
 
 var webclient = new Webclient();
 
@@ -273,7 +273,7 @@ export function afterLoad() {
     "relay": poStorage.get("relay"),
     "port": poStorage.get("port")
   });
-};
+}
 
 window.webclient = webclient;
 export default webclient;

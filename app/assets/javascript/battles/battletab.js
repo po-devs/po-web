@@ -1,5 +1,7 @@
 import $ from "jquery";
-import {escapeHtml, inherits, addChannelLinks, stripHtml} from "../utils";
+
+import BootstrapDialog from "bootstrap3-dialog";
+import {escapeHtml, inherits, addChannelLinks} from "../utils";
 import BaseTab from "../basetab";
 import Chat from "../chat";
 import webclientUI from "../frontend";

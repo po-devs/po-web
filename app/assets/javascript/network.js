@@ -8,6 +8,8 @@ import webclient from "./webclient";
 import poStorage from "./postorage";
 import {queryField, escapeHtml} from "./utils";
 
+/* global MozWebSocket:false, serverConfig:false */
+
 function createNetwork(WebSocket) {
     var states = {
         Connecting: 0,

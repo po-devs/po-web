@@ -128,7 +128,7 @@ function WebclientUI() {
     firstRow.append($("<div class='player-teams'>" + (!self ? "<div class='form-group'><label for='opp-team'>Opponent's team:</label><select class='form-control' id='opp-team'></select></div>" : "") + "<div class='form-group'><label for='your-team'>Your team:</label><select class='form-control' id='your-team'></select></div></div>"));
     info = $("<div class='flex-column'>").append(firstRow).append(info);
 
-    var tier, i;
+    var i;
 
     this.addOwnTiers(info.find("#your-team"), params);
     this.addOppTiers(info.find("#opp-team"), pl, params);
@@ -320,7 +320,6 @@ function WebclientUI() {
   this.addOppTiers = (oppTeams, pl, params) => {
     oppTeams.html("");
     if ("opptier" in params) {
-      oppTeams = info.find("#opp-team");
       oppTeams.append($("<option>").text(params.opptier));
       oppTeams.prop('disabled', true);
       return;
@@ -513,7 +512,7 @@ function WebclientUI() {
   this.isIdle = () => {
     return webclient.players.away(webclient.ownId);
   }
-};
+}
 
 var webclientUI = new WebclientUI();
 
@@ -662,13 +661,13 @@ $(function() {
           },
           buttons: [{
               label: "New team",
-              action: function(dialog) {
+              action: function(/* dialog */) {
                 webclientUI.teambuilder.onNewTeam();
               }
             },
             {
               label: "Importable",
-              action: function(dialog) {
+              action: function(/* dialog */) {
                 webclientUI.teambuilder.onImportable();
               }
             },

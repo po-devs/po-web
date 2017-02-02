@@ -6,7 +6,7 @@ import BattleTab from "./battletab";
 
 export default function CommandHandling(){
 
-};
+}
 
 /* dealWithXxxx functions are all called from dealWithCommand */
 CommandHandling.dealWithTurn = function(params) {

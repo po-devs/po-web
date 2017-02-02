@@ -89,4 +89,4 @@ battlelist.startObserving = function(battles) {
 export function afterLoad() {
     webclientUI.battles.startObserving(webclient.battles);
     webclientUI.battles.element = $("#battlelist");
-};
+}

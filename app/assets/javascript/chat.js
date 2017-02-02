@@ -119,4 +119,4 @@ export function  afterLoad () {
             elem.value = "";
         }
     });
-};
+}

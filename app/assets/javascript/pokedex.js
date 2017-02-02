@@ -19,7 +19,7 @@ import typeCategories from '../../../db/types/category.js';
 import categories from '../../../db/categories/categories.js';
 import versions from '../../../db/gens/versions.js';
 
-[moves, moveMessages, moveTypes, pokemons, generations, generationsOptions, abilities, abilityMessages, items, berryMessages, 
- stats, status, types, typeCategories, categories, versions].forEach(item => item(pokedex));
+[moves, moveMessages, moveTypes, pokemons, generations, generationsOptions, abilities, abilityMessages, items, berries, 
+itemMessages, berryMessages, stats, status, types, typeCategories, categories, versions].forEach(item => item(pokedex));
 
 export default pokedex;

@@ -8,10 +8,8 @@ import webclient from "../webclient";
 import observable from "riot-observable"
 import {inherits, escapeHtml, addChannelLinks, rank, rankStyle} from "../utils";
 
-
 export default function PMTab(id) {
     observable(this);
-    var self = this;
 
     this.shortHand = "pm";
     this.id = id;
