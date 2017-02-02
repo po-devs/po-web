@@ -24,5 +24,8 @@ module.exports = {
     alias: {
       handlebars: 'handlebars/dist/handlebars.min.js'
     }
+  },
+  externals: {
+    jquery: 'jQuery'
   }
 }
