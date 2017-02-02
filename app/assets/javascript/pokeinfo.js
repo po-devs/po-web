@@ -250,50 +250,6 @@ PokeInfo.sprite = function(poke, params) {
     return path;
 };
 
-PokeInfo.battlesprite = function(poke, params) {
-    params = params || {};
-
-    var back = params.back || false;
-    var data = PokeInfo.spriteData(poke, params);
-
-    var path = pokedex.generations.options[GenInfo.lastGen.num].sprite_folder;
-    if ((data.ext || "gif") === "gif") {
-        path += "animated/";
-    }
-    if (back) {
-        path += "back/";
-    }
-    if (poke.shiny) {
-        path += "shiny/";
-    }
-    if (poke.female) {
-        path += "female/";
-    }
-    if ((data.ext || "gif") === "gif") {
-        path += ("00" + poke.num).slice(-3);
-    } else {
-        path += poke.num;
-    }
-    if (poke.forme && !data.noforme) {
-        path += "-" + poke.forme;
-    }
-    path += "." + (data.ext || "gif");
-
-    return path;
-};
-
-PokeInfo.spriteData = function(poke, params) {
-    var back = (params || {}).back || false;
-    var num = this.toNum(poke);
-
-    var ret = (back ? pokedex.pokes.images.back[num] : pokedex.pokes.images[num]);
-    if (!ret) {
-        ret = (back ? pokedex.pokes.images.back[num%65356] : pokedex.pokes.images[num%65356]) || {"w":96,"h":96};
-        ret.noforme = true;
-    }
-    return ret;
-};
-
 PokeInfo.icon = function(poke) {
     poke = this.toObject(poke);
     return "/images/icons/" + poke.num + (poke.forme ? "-" + poke.forme : "") + ".png";

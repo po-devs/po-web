@@ -32,3 +32,6 @@ bower_components
 
 #Copied from bower components by grunt concat
 app/assets/stylesheets/colorpicker.less
+
+#mocha
+.tmp

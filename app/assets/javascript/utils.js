@@ -23,11 +23,6 @@ export function queryField(key, defaultStr, query) {
     return (match && decodeURIComponent(match[1].replace(/\+/g, " "))) || defaultStr;
 }
 
-// HTML utilities
-export function escapeHtmlQuotes(str) {
-    return str.replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-}
-
 export function escapeHtml(str) {
     return (str || "").replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -164,20 +159,22 @@ unenumerable(String.prototype, "startsWith", function(str) {
     return this.lastIndexOf(str, 0) === 0;
 });
 
-window.isActive = true;
-
-$(window).focus(function() {
+if (typeof window !== "undefined") {
     window.isActive = true;
-});
 
-$(window).blur(function() {
-    window.isActive = false;
-});
+    $(window).focus(function() {
+        window.isActive = true;
+    });
+
+    $(window).blur(function() {
+        window.isActive = false;
+    });
+}
 
 /* Add a preventDefault on stopPropagation in order to avoid
  on FF a click on a player element that won't be handled by our handler
  because of the e.stopPropagation() that would've happened. */
- $(function() {
+ export function afterLoad (){
     if (!$.fn.contextmenu.Constructor) {
         return;
     }
@@ -199,4 +196,4 @@ $(window).blur(function() {
             e.stopPropagation = x;
         }
     };
- });
+}
