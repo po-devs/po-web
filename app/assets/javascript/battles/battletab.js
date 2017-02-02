@@ -4,6 +4,7 @@ import BaseTab from "../basetab";
 import Chat from "../chat";
 import webclientUI from "../frontend";
 import network from "../network";
+import observable from "riot-observable";
 import {
     PokeInfo, GenderInfo, MoveInfo, CategoryInfo,
     StatInfo, ItemInfo, TypeInfo, AbilityInfo
@@ -14,7 +15,7 @@ import webclient from "../webclient";
 var pokeballrowHtml = "<span class='status status0' data-toggle='tooltip' title=''></span>".repeat(6);
 
 export default function BattleTab(id) {
-    $.observable(this);
+    observable(this);
 
     var databattle = webclient.battles.battle(id);
     var conf = databattle.conf;

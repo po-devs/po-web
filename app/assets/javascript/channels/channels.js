@@ -159,7 +159,7 @@ ChannelHolder.prototype.joinChannel = function(id) {
     if (this.joinedChannels.indexOf(id) < 0) {
         this.joinedChannels.push(id);
         if (id !== 0) {
-             this.updateAutoJoin();
+            this.updateAutoJoin();
         }
         this.trigger("joinchannel", id);
     } else {
