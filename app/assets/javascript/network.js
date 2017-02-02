@@ -2,7 +2,7 @@ import $ from "jquery";
 import vex from "vex-js";
 import observable from "riot-observable";
 import BattleTab from "./battles/battletab";
-import MD5 from "./libs/md5";
+import MD5 from "md5";
 import webclientUI from "./frontend";
 import webclient from "./webclient";
 import poStorage from "./postorage";
