@@ -44,5 +44,6 @@
   "scripts": {
     "lint": "eslint '*.js' 'app/**/*.js'",
     "build": "webpack --config webpack.config.js"
-  }
+  },
+  "test" : "npm run lint"
 }
