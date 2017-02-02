@@ -162,6 +162,6 @@ Battles.prototype.updateInfo = function(id, player) {
 
 $(function() {
     webclient.players.on("playerremove", function(id) {
-        this.removePlayer(id);
+        webclient.battles.removePlayer(id);
     });
 });
