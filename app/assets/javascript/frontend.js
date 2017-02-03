@@ -19,7 +19,7 @@ import {queryField, escapeHtml} from "./utils";
 
 import afterload from "./afterload";
 
-require("../stylesheets/frontend.less");
+import "../stylesheets/frontend.less";
 
 vex.registerPlugin(vexDialog);
 vex.defaultOptions.className = 'vex-theme-os';

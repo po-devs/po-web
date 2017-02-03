@@ -10,5 +10,9 @@
         "no-console": "off",
         "no-mixed-spaces-and-tabs": "off",
         "no-constant-condition": ["error", {"checkLoops": false}]
+    },
+    /* Until eslint properly parses lazy module loading with import() */
+    "globals": {
+        "require": true
     }
 }

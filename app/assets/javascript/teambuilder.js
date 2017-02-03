@@ -11,7 +11,7 @@ import pokedex from "./pokedex-full";
 import Handlebars from "handlebars";
 import "bootstrap-slider";
 
-require("../stylesheets/teambuilder.less");
+import "../stylesheets/teambuilder.less";
 
 webclient.teambuilderLoaded = true;
 
