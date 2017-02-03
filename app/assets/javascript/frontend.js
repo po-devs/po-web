@@ -19,6 +19,8 @@ import {queryField, escapeHtml} from "./utils";
 
 import afterload from "./afterload";
 
+require("../stylesheets/frontend.less");
+
 vex.registerPlugin(vexDialog);
 vex.defaultOptions.className = 'vex-theme-os';
 
@@ -762,10 +764,8 @@ window.webclientUI = webclientUI;
 
 $(function() {
   /* Load heavy libraries after */
-  $("body").append([
-    '<link rel="stylesheet" href="/stylesheets/teambuilder.css">',
-    '<script src="/javascript/teambuilder.js"></script>'
-  ].join("\n"));
+  require.ensure("./teambuilder.js", () => {});
+
   $("#toggleSidebar").click(function(evt) {
     evt.preventDefault();
     $("#leftmenu").toggleClass("hide");

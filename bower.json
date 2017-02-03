@@ -1,11 +1,9 @@
 {
   "name": "po-web",
   "dependencies": {
-    "bootstrap": "~3.3.4",
     "bootstrap-contextmenu": "~0.3.3",
     "bootstrap-tagsinput": "~0.5.0",
     "font-awesome": "fontawesome#~4.4.0",
-    "mjolnic-bootstrap-colorpicker": "~2.3.0",
     "seiyria-bootstrap-slider": "~5.2.4"
   }
 }

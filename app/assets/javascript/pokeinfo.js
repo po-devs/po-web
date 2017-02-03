@@ -1,4 +1,4 @@
-import pokedex from "./pokedex"
+import pokedex from "./pokedex-basic"
 
 export const GenInfo = {};
 export const PokeInfo = {};

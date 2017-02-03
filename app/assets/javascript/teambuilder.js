@@ -11,6 +11,8 @@ import pokedex from "./pokedex-full";
 import Handlebars from "handlebars";
 import "bootstrap-slider";
 
+require("../stylesheets/teambuilder.less");
+
 webclient.teambuilderLoaded = true;
 
 var substringMatcher = function(strs, partialMatch) {
