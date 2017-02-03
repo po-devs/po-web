@@ -1,10 +1,12 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const path = require("path");
 
 module.exports = {
+  context: path.join(__dirname, 'app/assets/javascript'),
   entry: {
-    frontend: "./app/assets/javascript/frontend.js",
-    teambuilder: "./app/assets/javascript/teambuilder.js"
+    frontend: "./frontend.js",
+    teambuilder: "./teambuilder.js"
   },
   output: {
     path: path.join(__dirname, "public/javascript"),
@@ -18,7 +20,11 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin("common"),
-    new webpack.ProvidePlugin({ $: 'jquery', jquery: 'jquery', jQuery: 'jquery' })
+    new webpack.ProvidePlugin({ $: 'jquery', jquery: 'jquery', jQuery: 'jquery' }),
+    new CopyWebpackPlugin([{
+      context: __dirname,
+      from: "node_modules/jquery/dist/jquery.min.js",
+    }])
   ],
   resolve: {
     alias: {
