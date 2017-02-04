@@ -765,7 +765,7 @@ window.webclientUI = webclientUI;
 $(function() {
   /* Load heavy libraries after */
   require.ensure("./teambuilder", () => {
-    const tb = require("./teambuilder");
+    require("./teambuilder");
   });
 
   $("#toggleSidebar").click(function(evt) {
