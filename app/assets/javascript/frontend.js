@@ -646,6 +646,7 @@ $(function() {
         webclientUI.switchToTab(payload);
       } else if (cmd == "teambuilder") {
         webclientUI.teambuilderOpen = true;
+
         BootstrapDialog.show({
           title: "Teambuilder",
           message: function() {
@@ -660,6 +661,12 @@ $(function() {
           closeByBackdrop: false,
           onhidden: function() {
             webclientUI.teambuilderOpen = false;
+          },
+          onshown: function() {
+            require.ensure("./teambuilder", () => {
+              const Teambuilder = require("./teambuilder").default;
+              new Teambuilder($(".teambuilder"));
+            });
           },
           buttons: [{
               label: "New team",

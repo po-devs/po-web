@@ -5,7 +5,6 @@ import ChannelTab from "./channeltab";
 import webclientUI from "../frontend";
 import poStorage from "../postorage";
 import {escapeHtml} from "../utils";
-import  "bootstrap-3-typeahead";
 
 export default function ChannelList() {
     this.ids = {};
@@ -150,18 +149,22 @@ export function afterLoad() {
     webclientUI.channels.startObserving(webclient.channels);
     webclientUI.channels.element = $("#channellist");
 
-    $("#player-filter").typeahead({
-         hint: true,
-         highlight: false,
-         minLength: 1
-    },
-    {
-        name: "channels",
-        display: "value",
-        limit: 200,
-        source: webclientUI.channels.findMatches.bind(webclientUI.channels)
-    }).on("typeahead:select", function(event, sugg) {
-        webclient.joinChannel(sugg.id);
+    require.ensure("typeahead.js", () => {
+        require("typeahead.js");
+
+        $("#player-filter").typeahead({
+            hint: true,
+            highlight: false,
+            minLength: 1
+        },
+        {
+            name: "channels",
+            display: "value",
+            limit: 200,
+            source: webclientUI.channels.findMatches.bind(webclientUI.channels)
+        }).on("typeahead:select", function(event, sugg) {
+            webclient.joinChannel(sugg.id);
+        });
     });
 
     webclientUI.channels.element.contextmenu({
