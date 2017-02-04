@@ -10,6 +10,7 @@ import poStorage from "./postorage";
 import pokedex from "./pokedex-full";
 import Handlebars from "handlebars";
 import "bootstrap-slider";
+import "bootstrap-tagsinput";
 
 import "../stylesheets/teambuilder.less";
 
@@ -663,7 +664,7 @@ Poke.prototype.updatePreview = function() {
 };
 
 export default function Teambuilder (content) {
-
+    /* Todo: load after typeahead.js */
     var self = this;
 
     this.content = content;

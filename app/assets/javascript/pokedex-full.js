@@ -1,6 +1,7 @@
 import pokedex from "./pokedex";
 
 import moves from '../../../db/pokes/all_moves.js';
+import genders from '../../../db/pokes/gender.js';
 import stats from '../../../db/pokes/stats.js';
 import type1 from '../../../db/pokes/type1.js';
 import type2 from '../../../db/pokes/type2.js';
@@ -23,7 +24,7 @@ import pp from '../../../db/moves/pp.js';
 import abilities from '../../../db/abilities/ability_desc.js';
 import natures from '../../../db/natures/nature.js';
 
-[moves, stats, type1, type2, ab1, ab2, ab3, fitem, released, item_useful, released_berries, released_items, items_description,
+[moves, genders, stats, type1, type2, ab1, ab2, ab3, fitem, released, item_useful, released_berries, released_items, items_description,
 berries_description, effect, effect_chance, power, accuracy, damage_class, pp, abilities, natures].forEach(item => item(pokedex));
 
 export default pokedex;
