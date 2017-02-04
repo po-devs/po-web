@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const path = require("path");
 
@@ -52,7 +53,8 @@ module.exports = {
       context: __dirname,
       from: "node_modules/jquery/dist/jquery.min.js",
       to: "javascript"
-    }])
+    }]),
+    new UglifyJSPlugin()
   ],
   resolve: {
     alias: {
