@@ -53,8 +53,9 @@ module.exports = {
       context: __dirname,
       from: "node_modules/jquery/dist/jquery.min.js",
       to: "javascript"
-    }]),
-    new UglifyJSPlugin()
+    }])/* Still causes problems with arrow functions, waiting for a more stable version
+     of uglifyJS.
+    new UglifyJSPlugin() */
   ],
   resolve: {
     alias: {

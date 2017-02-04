@@ -178,7 +178,11 @@ export default function BattleTab(id) {
         this.disableChoices();
     }
 
-    this.battle.allowStart();
+    /* Make sure data needed by the battle (such as move names) is loaded */
+    require.ensure("../pokedex", () => {
+        require("../pokedex");
+        this.battle.allowStart();
+    });
 
     //layout.find('[data-toggle="tooltip"]').tooltip();
 }
