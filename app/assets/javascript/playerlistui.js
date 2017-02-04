@@ -5,6 +5,8 @@ import webclient from "./webclient";
 import poStorage from "./postorage";
 import {escapeHtml} from "./utils";
 
+import "../../../bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js"
+
 /* The list of players */
 export default function PlayerList() {
     this.ids = [];

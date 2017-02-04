@@ -22,12 +22,12 @@
         </form>
         <div class="form-group saved-teams-group">
           <label for="tb-saved-teams" class="control-label">Stored teams</label>
-          <input id="tb-saved-teams" data-role="tagsinput" value="Team1,Team2,Team3,Team4">
+          <input id="tb-saved-teams" data-role="tagsinput" class="bootstrap-tagsinput">
         </div>
         <div class="form-group deleted-teams-group">
           <label for="tb-deleted-teams" class="control-label">Deleted teams</label>
           <div class="input-group">
-            <input id="tb-deleted-teams" data-role="tagsinput" value="Team1,Team2,Team3,Team4">
+            <input id="tb-deleted-teams" data-role="tagsinput" class="bootstrap-tagsinput">
             <span class="input-group-btn" title="Delete teams">
               <button class="btn btn-default" id="delete-teams-btn"><span class="glyphicon glyphicon-trash"></span></button>
             </span>
@@ -52,7 +52,7 @@
               </div>
             </div>
             <% [1,2,3,4,5,6].forEach(value => { %>
-            <span class="btn btn-default tb-poke-preview tb-poke-preview-<%- value-1 %><%- value == 1 ? " active" : "" %>" slot="<%- value-1 %>"><input type="radio">Poke <%- value %></span>
+            <span class="btn btn-default tb-poke-preview tb-poke-preview-<%- value-1 %><%- value == 1 ? " active" : "" %>" slot="<%- value-1 %>"><input type="radio"><img src="/images/icons/0.png">&nbsp;Missingno</span>
             <% }); %>
           </div>
           <div class="flex-column tb-right-column" data-toggle="buttons">
