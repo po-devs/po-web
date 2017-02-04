@@ -37,6 +37,7 @@
   "dependencies": {
     "body-parser": "^1.14.0",
     "bootstrap": "^3.3.7",
+    "bootstrap-3-typeahead": "^4.0.2",
     "bootstrap-colorpicker": "^2.5.0",
     "bootstrap-slider": "^9.7.1",
     "bootstrap3-dialog": "^1.35.3",
@@ -53,7 +54,6 @@
     "riot-observable": "^3.0.0",
     "should": "^11.2.0",
     "style-loader": "^0.13.1",
-    "typeahead": "^0.2.2",
     "vex-js": "^3.0.0"
   },
   "scripts": {
