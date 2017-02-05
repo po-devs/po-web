@@ -1,6 +1,0 @@
-{
-  "name": "po-web",
-  "dependencies": {
-    "bootstrap-contextmenu": "~0.3.3"
-  }
-}

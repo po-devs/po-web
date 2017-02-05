@@ -40,6 +40,7 @@
     "body-parser": "^1.14.0",
     "bootstrap": "^3.3.7",
     "bootstrap-colorpicker": "^2.5.0",
+    "bootstrap-contextmenu": "^1.0.0",
     "bootstrap-slider": "^9.7.1",
     "bootstrap-tagsinput": "^0.7.1",
     "bootstrap3-dialog": "^1.35.3",
