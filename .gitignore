@@ -35,3 +35,6 @@ app/assets/stylesheets/colorpicker.less
 
 #mocha
 .tmp
+
+#yarn.lock, messes with travis
+yarn.lock
