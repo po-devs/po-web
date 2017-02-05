@@ -1,7 +1,7 @@
 import $ from "jquery";
 import vex from "vex-js";
 import observable from "riot-observable";
-import BattleTab from "./battles/battletab";
+import BattleTab from "./battles/battleconstants";
 import MD5 from "md5";
 import webclientUI from "./frontend";
 import webclient from "./webclient";
@@ -240,7 +240,7 @@ function createNetwork(WebSocket) {
         battlechallenge: function(payload) {
             var params = JSON.parse(payload);
             var clauses = [];
-            for (var i in BattleTab.clauses) {
+            for (var i in BattleConstants.clauses) {
                 if (params.clauses & (1 << i)) {
                     clauses.push(1);
                 } else {

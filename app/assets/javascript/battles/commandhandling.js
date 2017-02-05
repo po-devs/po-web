@@ -2,7 +2,7 @@ import {
     PokeInfo, MoveInfo, StatInfo, StatusInfo,
     ItemInfo, TypeInfo, AbilityInfo
 } from "../pokeinfo";
-import BattleTab from "./battletab";
+import BattleConstants from "./battleconstants";
 
 export default function CommandHandling(){
 
@@ -277,7 +277,7 @@ CommandHandling.dealWithStatus = function(params) {
         this.trigger("statuschange", params.spot, params.status);
         return;
     }
-    var status = BattleTab.statuses[params.status];
+    var status = BattleConstants.statuses[params.status];
     if (!status || status == "fnt") {
         return;
     }
@@ -312,7 +312,7 @@ CommandHandling.dealWithTeamstatus = function(params) {
 };
 
 CommandHandling.dealWithAlreadystatus = function(params) {
-    var status = BattleTab.statuses[params.status];
+    var status = BattleConstants.statuses[params.status];
 
     this.print("<span class='battle-message-" + (status == "tox" ? "psn" : status) + "'>" + this.nick(params.spot) + " is already " + StatusInfo.name(params.status) + ".</span>");
 };
@@ -321,7 +321,7 @@ CommandHandling.dealWithFeelstatus = function(params) {
     if (params.status == 6) { //confusion
         this.print("<span class='battle-message-confusion'>" + this.nick(params.spot) + " is confused!</span>");
     } else {
-        var status = BattleTab.statuses[params.status];
+        var status = BattleConstants.statuses[params.status];
         if (status == "par") {
             this.print("<span class='battle-message-par'>" + this.nick(params.spot) + " is paralyzed!</span>");
         } else if (status == "slp") {
@@ -336,7 +336,7 @@ CommandHandling.dealWithStatusdamage = function(params) {
     if (params.status == 6) {
         this.print("<span class='battle-message-confusion'>It hurt itself in its confusion!</span>");
     } else {
-        var status = BattleTab.statuses[params.status];
+        var status = BattleConstants.statuses[params.status];
 
         if (status == "brn") {
             this.print("<span class='battle-message-brn'>" + this.nick(params.spot) + " was hurt by its burn!</span>");
@@ -344,14 +344,14 @@ CommandHandling.dealWithStatusdamage = function(params) {
             this.print("<span class='battle-message-psn'>" + this.nick(params.spot) + " was hurt by poison!</span>");
         }
     }
-    //this.damageCause.from = BattleTab.statuses[params.status];
+    //this.damageCause.from = BattleConstants.statuses[params.status];
 };
 
 CommandHandling.dealWithFreestatus = function(params) {
     if (params.status == 6) { //confusion
         this.print("<span class='battle-message-statusover'>" + this.nick(params.spot) + " snapped out its confusion.</span>");
     } else {
-        var status = BattleTab.statuses[params.status];
+        var status = BattleConstants.statuses[params.status];
         if (status == "slp") {
             this.print("<span class='battle-message-statusover'>" + this.nick(params.spot) + " woke up!</span>");
         } else if (status == "frz") {
@@ -367,7 +367,7 @@ CommandHandling.dealWithFail = function(params) {
 };
 
 CommandHandling.dealWithClauseactivated = function(params) {
-    this.print(BattleTab.clauseTexts[params.clause]);
+    this.print(BattleConstants.clauseTexts[params.clause]);
 };
 
 CommandHandling.dealWithPlayerchat = function(params) {
@@ -419,7 +419,7 @@ CommandHandling.dealWithDrain = function(params) {
 };
 
 CommandHandling.dealWithWeatherstart = function(params) {
-    var weather = BattleTab.weathers[params.weather];
+    var weather = BattleConstants.weathers[params.weather];
 
     var weatherAbilityMessage = [
         "%1's Snow Warning whipped up a hailstorm!",
@@ -455,7 +455,7 @@ CommandHandling.dealWithWeatherstart = function(params) {
 };
 
 CommandHandling.dealWithFeelweather = function(params) {
-    var weather = BattleTab.weathers[params.weather];
+    var weather = BattleConstants.weathers[params.weather];
 
     var messages = [
         "The hail crashes down.",
@@ -480,7 +480,7 @@ CommandHandling.dealWithFeelweather = function(params) {
 };
 
 CommandHandling.dealWithWeatherend = function(params) {
-    var weather = BattleTab.weathers[params.weather];
+    var weather = BattleConstants.weathers[params.weather];
 
     var messages = [
         "The hail stopped.",
@@ -496,8 +496,8 @@ CommandHandling.dealWithWeatherend = function(params) {
 };
 
 CommandHandling.dealWithWeatherhurt = function(params) {
-    //this.damageCause.from = BattleTab.weathers[params.weather];
-    var weather = BattleTab.weathers[params.weather];
+    //this.damageCause.from = BattleConstants.weathers[params.weather];
+    var weather = BattleConstants.weathers[params.weather];
 
     var messages = [
         "%1 is buffeted by the hail!",
@@ -556,7 +556,7 @@ CommandHandling.dealWithRated = function(params) {
 
     while (clauses > 0) {
         if (clauses % 2) {
-            this.print("<strong>Rule: </strong> " + BattleTab.clauses[i]);
+            this.print("<strong>Rule: </strong> " + BattleConstants.clauses[i]);
         }
         clauses = Math.floor(clauses/2);
         i = i+1;

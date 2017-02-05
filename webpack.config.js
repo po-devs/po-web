@@ -8,7 +8,8 @@ module.exports = {
   context: path.join(__dirname, 'app/assets'),
   entry: {
     //teambuilder: "./javascript/teambuilder.js",
-    frontend: "./javascript/frontend.js"
+    frontend: "./javascript/frontend.js",
+    battlewindow: "./javascript/battles/simplebattlewindow.js"
   },
   output: {
     path: path.join(__dirname, "public/"),

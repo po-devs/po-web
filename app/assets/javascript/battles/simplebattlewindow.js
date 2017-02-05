@@ -1,11 +1,10 @@
 import $ from "jquery";
 
-import BattleTab from "./battletab";
-import {PokeInfo} from "../PokeInfo";
+/* global battle:false, PokeInfo:false */
 
+import {statuses} from "./battleconstants";
 import {Howl} from "howler";
 
-/* global battle:false */
 
 var spritelist = {};
 var hudlist = {};
@@ -27,7 +26,7 @@ var musicdata = musics[Math.floor(Math.random()*musics.length)];
 musicdata.looped = false;
 
 var music = new Howl({
-  urls: ["/sounds/musics/"+musicdata.file],
+  src: ["/sounds/musics/"+musicdata.file],
   sprite: {
   	intro: [0, musicdata.loopPos],
   	theme: [musicdata.loopPos, musicdata.duration-musicdata.loopPos, true]
@@ -91,7 +90,7 @@ function updateStatus(spot) {
 	var stat = hud(spot).find(".status");
 	stat.removeClass();
 	stat.addClass("status");
-	stat.addClass(BattleTab.statuses[battle.poke(spot).status]);
+	stat.addClass(statuses[battle.poke(spot).status]);
 }
 
 function updateGender(spot) {
@@ -143,7 +142,7 @@ function playCry(spot) {
 	}
 	// todo : form: num + "-"+ subnum + ".wab"
 	var sound = new Howl({
-	  urls: ["/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
+	  src: ["/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
     });
     sound.play();
 }

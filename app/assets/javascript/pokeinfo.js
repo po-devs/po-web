@@ -940,3 +940,6 @@ AbilityInfo.message = function(ability, part) {
 
     return "";
 };
+
+/* Needed by simplebattlewindow.js which is inside an iframe */
+window.PokeInfo = PokeInfo;

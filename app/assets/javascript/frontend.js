@@ -12,7 +12,7 @@ import webclient from "./webclient";
 import config from "./config";
 import poStorage from "./postorage";
 import network from "./network";
-import BattleTab from "./battles/battletab";
+import BattleConstants from "./battles/battleconstants";
 import notif from "./notif";
 import {PokeInfo, ItemInfo} from "./pokeinfo";
 import {queryField, escapeHtml} from "./utils";
@@ -146,8 +146,8 @@ function WebclientUI() {
 
     var fullInfo = $("<div>").addClass("flex-row-basic").append(info);
     var clauses = $("<div>").addClass("input-group checkbox battle-clauses");
-    for (i in BattleTab.clauses) {
-      clauses.append("<div class='checkbox'><label title='" + BattleTab.clauseDescs[i] + "'><input type='checkbox'>" + BattleTab.clauses[i] + "</label></div>");
+    for (i in BattleConstants.clauses) {
+      clauses.append("<div class='checkbox'><label title='" + BattleConstants.clauseDescs[i] + "'><input type='checkbox'>" + BattleConstants.clauses[i] + "</label></div>");
     }
     fullInfo.append(clauses);
 
@@ -212,7 +212,7 @@ function WebclientUI() {
             };
             params.clauses = [];
 
-            for (var i in BattleTab.clauses) {
+            for (var i in BattleConstants.clauses) {
               params.clauses.push(clauses.find("input:eq(" + i + ")").prop("checked") ? 1 : 0);
             }
             params.tier = info.find("#opp-team").val();
