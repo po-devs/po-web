@@ -1,0 +1,18 @@
+{
+    "root": true,
+    "parserOptions": {"ecmaVersion": 6},
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "no-console": "off",
+        "no-mixed-spaces-and-tabs": "off",
+        "no-constant-condition": ["error", {"checkLoops": false}]
+    },
+    /* Until eslint properly parses lazy module loading with import() */
+    "globals": {
+        "require": true
+    }
+}

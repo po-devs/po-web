@@ -1,3 +1,4 @@
+module.exports = pokedex => {if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes)pokedex.pokes={};
 pokedex.pokes.height = {
 0:1,
@@ -900,3 +901,4 @@ pokedex.pokes.height = {
 801:1.0,
 802:0.7,
 };
+}

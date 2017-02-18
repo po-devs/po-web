@@ -1,4 +1,4 @@
-if(!pokedex.moves)pokedex.moves={};
+module.exports = pokedex => {if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.power)pokedex.moves.power=[];
 pokedex.moves.power[7] = {
 0:0,
@@ -569,3 +569,5 @@ pokedex.moves.power[1] = {
 120:130,
 153:170,
 };
+
+}

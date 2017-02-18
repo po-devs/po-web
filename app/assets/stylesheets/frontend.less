@@ -4,7 +4,7 @@
 @import 'chat.less';
 @import 'player-list.less';
 @import 'battle.less';
-@import 'colorpicker.less';
+@import "../../../node_modules/font-awesome/less/font-awesome.less";
 
 /* A body that is full-height, full-width, but not more */
 body {
@@ -122,7 +122,10 @@ body {
   opacity: .5;
   height: @nav-height;
   line-height: @nav-height;
-  padding: 0 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  padding-left: 30px;
   font-size: 15px;
 }
 
@@ -378,7 +381,7 @@ span.glyphicon {
 iframe.player-info {
   border: 0px; /*1px solid black;*/
   padding: 0px !important;
-  margin: 0px !important:
+  margin: 0px !important;
   background: transparent;
 
   width: 100%;

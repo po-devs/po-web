@@ -1,5 +1,9 @@
+import observable from "riot-observable";
+import poStorage from "../postorage";
+import webclient from "../webclient";
+
 function ChannelData(id, name) {
-    $.observable(this);
+    observable(this);
 
     this.players = {};
     this.name = name || "";
@@ -44,8 +48,8 @@ ChannelData.prototype.changeName = function(name) {
     this.trigger("changename", name);
 };
 
-function ChannelHolder() {
-    $.observable(this);
+export default function ChannelHolder() {
+    observable(this);
 
     this.joinedChannels = [];
     this.channels = {};
@@ -153,9 +157,10 @@ ChannelHolder.prototype.removeChannel = function(id) {
 
 ChannelHolder.prototype.joinChannel = function(id) {
     if (this.joinedChannels.indexOf(id) < 0) {
+        console.log("joining channel", id);
         this.joinedChannels.push(id);
         if (id !== 0) {
-             this.updateAutoJoin();
+            this.updateAutoJoin();
         }
         this.trigger("joinchannel", id);
     } else {

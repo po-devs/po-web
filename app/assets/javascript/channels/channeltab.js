@@ -1,5 +1,21 @@
-function ChannelTab(id, name) {
-    $.observable(this);
+import $ from "jquery";
+
+import BaseTab from "../basetab";
+import Chat from "../chat";
+import webclientUI from "../frontend";
+import webclient from "../webclient";
+
+import {
+    inherits, escapeHtml, rank,
+    rankStyle, addChannelLinks,
+    stripHtml
+} from "../utils";
+import observable from "riot-observable"
+
+export default function ChannelTab(id, name) {
+    console.log("open channel", id, name);
+    observable(this);
+
     this.shortHand = "channel";
     this.id = id;
     this.name = name;
@@ -41,7 +57,7 @@ function ChannelTab(id, name) {
     this.chat.on("chat", this.sendMessage.bind(this));
 }
 
-utils.inherits(ChannelTab, BaseTab);
+inherits(ChannelTab, BaseTab);
 
 ChannelTab.prototype.onSetCurrent = function() {
     this.chat.scrollDown();
@@ -80,7 +96,7 @@ ChannelTab.prototype.newPlayer = function (player) {
     //this.players[player] = true;
 
     if (player != webclient.ownId && webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
-        this.printHtml('<span class="player-join">' + utils.escapeHtml(webclient.players.name(player)) + ' joined the channel.');
+        this.printHtml('<span class="player-join">' + escapeHtml(webclient.players.name(player)) + ' joined the channel.');
     }
 
     if (this.isCurrent()) {
@@ -101,7 +117,7 @@ ChannelTab.prototype.removePlayer = function (player) {
     // }
 
     if (webclientUI.channels.chanEventsEnabled(this.channel.id) && !this.channel.loadingPlayers) {
-        this.printHtml('<span class="player-leave">' + utils.escapeHtml(webclient.players.name(player)) + ' left the channel.');
+        this.printHtml('<span class="player-leave">' + escapeHtml(webclient.players.name(player)) + ' left the channel.');
     }
 
     if (this.isCurrent()) {
@@ -109,18 +125,18 @@ ChannelTab.prototype.removePlayer = function (player) {
     }
 };
 
-ChannelTab.prototype.hasPlayer = function(player) {
+ChannelTab.prototype.hasPlayer = function(/* player */) {
 //    return player in this.players;
 };
 
-ChannelTab.prototype.print = function (msg, html, raw) {
+ChannelTab.prototype.print = function (/* msg, html, raw */) {
     // var pref, id, auth;
 
     // if (raw !== true) {
     //     if (html) {
     //         msg = webclient.convertImages($("<div>").html(msg)).html();
     //     } else {
-    //         msg = utils.escapeHtml(msg);
+    //         msg = escapeHtml(msg);
 
     //         if (msg.substr(0, 3) === "***") {
     //             msg = "<span class='action'>" + msg + "</span>";
@@ -141,11 +157,11 @@ ChannelTab.prototype.print = function (msg, html, raw) {
     //                 pref = "<span class='script-message'>" + pref + ":</span>";
     //             } else {
     //                 this.shown[id] = true;
-                       pref = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "' oncontextmenu='return false'>" + utils.rank(auth) + utils.rankStyle(pref + ":", auth) + "</span></a>";
+    //                 pref = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "' oncontextmenu='return false'>" + rank(auth) + rankStyle(pref + ":", auth) + "</span></a>";
     //                 this.activateTab();
     //             }
 
-    //             msg = pref + utils.addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
+    //             msg = pref + addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
     //         }
     //     }
     // }
@@ -176,7 +192,7 @@ ChannelTab.prototype.printMessage = function(msg, html) {
             /* When flashed, also display a notification */
             if (!window.isActive) {
                 if ("Notification" in window) {
-                    var notification = new window.Notification("In #"+this.name + ": ", {body: html ? utils.stripHtml(msg): msg});
+                    new window.Notification("In #"+this.name + ": ", {body: html ? stripHtml(msg): msg});
                 }
             }
         }
@@ -185,7 +201,7 @@ ChannelTab.prototype.printMessage = function(msg, html) {
         useTimeStamps = msg.includes("<timestamp");
         msg = webclientUI.convertImages($("<div>").html(msg)).html();
     } else {
-        msg = utils.escapeHtml(msg);
+        msg = escapeHtml(msg);
 
         if (msg.substr(0, 3) === "***") {
             msg = "<span class='action'>" + msg + "</span>";
@@ -206,11 +222,11 @@ ChannelTab.prototype.printMessage = function(msg, html) {
             } else if (id === -1) {
                 pref = "<span class='script-message'>" + pref + ":</span>";
             } else {
-                pref = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "'>" + utils.rank(auth) + utils.rankStyle(pref + ":", auth) + "</span></a>";
+                pref = "<a href='po:info/" + id + "'><span class='player-message' style='color: " + webclient.players.color(id) + "'>" + rank(auth) + rankStyle(pref + ":", auth) + "</span></a>";
                 this.activateTab();
             }
 
-            msg = pref + utils.addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
+            msg = pref + addChannelLinks(msg.slice(msg.indexOf(":") + 1), webclient.channels.channelsByName(true));
             //msg = pref + msg.slice(msg.indexOf(":") + 1);
         }
     }
@@ -220,7 +236,7 @@ ChannelTab.prototype.printMessage = function(msg, html) {
     }
 
     this.chat.insertMessage(msg, {timestamps: webclientUI.timestamps && useTimeStamps});
-    //$(".chat").html($(".chat").html() + utils.stripHtml(msg) + "<br>");
+    //$(".chat").html($(".chat").html() + stripHtml(msg) + "<br>");
 };
 
 ChannelTab.prototype.sendMessage = function (message) {

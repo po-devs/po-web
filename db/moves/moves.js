@@ -1,4 +1,4 @@
-if(!pokedex.moves)pokedex.moves={};
+module.exports = pokedex => {if(!pokedex.moves)pokedex.moves={};
 pokedex.moves.moves = {
 0:"(No Move)",
 1:"Pound",
@@ -703,3 +703,4 @@ pokedex.moves.moves = {
 700:"Soul-Stealing 7-Star Strike",
 701:"10,000,000 Volt Thunderbolt",
 };
+}

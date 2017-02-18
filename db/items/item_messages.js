@@ -1,4 +1,4 @@
-if(!pokedex.items)pokedex.items={};
+module.exports = pokedex => {if(!pokedex.items)pokedex.items={};
 pokedex.items.item_messages = {
 0:"(No Item)",
 3:"%s restored its stats using White Herb!",
@@ -32,3 +32,4 @@ pokedex.items.item_messages = {
 1007:"%s recovered from fainting!",
 1999:"%s recovered from fainting!",
 };
+}

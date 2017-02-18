@@ -1,4 +1,4 @@
-if(!pokedex.items)pokedex.items={};
+module.exports = pokedex => {if(!pokedex.items)pokedex.items={};
 pokedex.items.berries = {
 0:"(No Berry)",
 1:"Cheri Berry",
@@ -79,3 +79,4 @@ pokedex.items.berries = {
 1008:"MiracleBerry",
 1009:"Gold Berry",
 };
+}

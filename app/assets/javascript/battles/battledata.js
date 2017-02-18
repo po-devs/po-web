@@ -1,10 +1,18 @@
-function BattleData(data) {
-    $.observable(this);
+import observable from "riot-observable"
+import network from "../network";
+
+import CommandHandling from "./commandhandling";
+import webclient from "../webclient";
+
+export default function BattleData(data) {
+    observable(this);
 
     this.addData(data);
 }
 
 var battledata = BattleData.prototype;
+
+Object.assign(battledata, CommandHandling);
 
 /* Called when sound settings changed from the battle interface */
 battledata.setSound = function (playSound) {
@@ -19,7 +27,7 @@ battledata.changeSound = function (playSound) {
 };
 
 battledata.addData = function(data) {
-    $.extend(this, data);
+    Object.assign(this, data);
 };
 
 battledata.print = function(msg, args) {
@@ -223,7 +231,7 @@ battledata.tpoke = function(spot) {
     }
 };
 
-battledata.updateFieldPoke = function(spot) {
+battledata.updateFieldPoke = function(/* spot */) {
 };
 
 battledata.updateTeamPokes = function(player, pokes) {

@@ -1,4 +1,13 @@
-function ReplayBattles () {
+import $ from "jquery";
+import vex from "vex-js";
+import serverConnect from "./serverconnect";
+import BattleTab from "./battles/battletab";
+import BattleData from "./battles/battledata";
+import network from "./network";
+import poStorage from "./postorage";
+import {queryField} from "./utils";
+
+export default function ReplayBattles () {
     var self = this;
     this.commandStack = [];
     this.time = 0;
@@ -91,11 +100,11 @@ function ReplayBattles () {
         });
     };
 
-    this.battle = function(id) {
+    this.battle = function(/* id */) {
         return this._battle;
     };
 
-    this.serverStopWatching = function(id) {
+    this.serverStopWatching = function(/* id */) {
 
     };
 
@@ -144,7 +153,7 @@ function ReplayBattles () {
     };
 }
 
-var webclientUI = {
+export const webclientUI = {
     tabs: [],
     players: {
         setPlayers: function() {},
@@ -160,7 +169,7 @@ var webclientUI = {
     updateBadgeCount: function() {}
 };
 
-var webclient = {
+export const webclient = {
     players: {
         on: function() {},
         hasPlayer: function() {return true;},
@@ -176,9 +185,11 @@ var webclient = {
 
 vex.defaultOptions.className = "vex-theme-os";
 
+/* global battleToReplay:false */
+
 $(function() {
-    var relayGiven = utils.queryField("relay");
-    var portGiven = utils.queryField("port");
+    var relayGiven = queryField("relay");
+    var portGiven = queryField("port");
 
     serverConnect({
         "onconnect": function() {

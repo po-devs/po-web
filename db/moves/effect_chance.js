@@ -1,4 +1,4 @@
-if(!pokedex.moves)pokedex.moves={};
+module.exports = pokedex => {if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.effect_chance)pokedex.moves.effect_chance=[];
 pokedex.moves.effect_chance[7] = {
 0:0,
@@ -178,3 +178,5 @@ pokedex.moves.effect_chance[1] = {
 145:26,
 158:26,
 };
+
+}

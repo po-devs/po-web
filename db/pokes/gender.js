@@ -1,3 +1,4 @@
+module.exports = pokedex => {if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes)pokedex.pokes={};
 pokedex.pokes.gender = {
 0:0,
@@ -813,3 +814,4 @@ pokedex.pokes.gender = {
 801:0,
 802:0,
 };
+}

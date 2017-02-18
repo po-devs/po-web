@@ -17,7 +17,7 @@
 */
 
 
-function poStorage(name, type) {
+export default function poStorage(name, type) {
     return poStorage.get(name, type);
 }
 
@@ -67,9 +67,9 @@ poStorage.clear = function () {
     localStorage.clear();
 };
 
-poStorage.length = function () {
-    return localStorage.length;
-};
+Object.defineProperty(poStorage.prototype, 'length', {get: function() {
+   return localStorage.length;
+}});
 
 poStorage.keys = function () {
     var namespace = window.webclientStorageNamespace || "po.";

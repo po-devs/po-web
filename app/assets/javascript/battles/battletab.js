@@ -1,11 +1,28 @@
+import $ from "jquery";
+
+import BootstrapDialog from "bootstrap3-dialog";
+import {escapeHtml, inherits, addChannelLinks} from "../utils";
+import BaseTab from "../basetab";
+import Chat from "../chat";
+import webclientUI from "../frontend";
+import network from "../network";
+import observable from "riot-observable";
+import {modes} from "./battleconstants";
+import {
+    PokeInfo, GenderInfo, MoveInfo, CategoryInfo,
+    StatInfo, ItemInfo, TypeInfo, AbilityInfo
+} from "../pokeinfo";
+
+import webclient from "../webclient";
+
 var pokeballrowHtml = "<span class='status status0' data-toggle='tooltip' title=''></span>".repeat(6);
 
-function BattleTab(id) {
-    $.observable(this);
+export default function BattleTab(id) {
+    observable(this);
 
     var databattle = webclient.battles.battle(id);
     var conf = databattle.conf;
-    var team = databattle.team;
+    // var team = databattle.team;
     var self = this;
 
     this.battle = databattle;
@@ -26,10 +43,10 @@ function BattleTab(id) {
     layout.addClass("flex-row battle-tab-layout");
 
     var rows = [0,0];
-    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + utils.escapeHtml(this.players[this.opponent]) +
+    rows[this.opponent] = $("<div>").addClass("status-row").html("<span class='trainer-name'>" + escapeHtml(this.players[this.opponent]) +
         "</span><span class='stretchX'></span><span class='timer-text'>5:00</span>"+pokeballrowHtml);
     rows[this.opponent].find('[data-toggle="tooltip"]').attr("data-placement", "top");
-    rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + utils.escapeHtml(this.players[this.myself]) + "</span>");
+    rows[this.myself] = $("<div>").addClass("status-row").html(pokeballrowHtml + "<span class='timer-text'>5:00</span><span class='stretchX'></span><span class='trainer-name'>" + escapeHtml(this.players[this.myself]) + "</span>");
     rows[this.myself].find('[data-toggle="tooltip"]').attr("data-placement", "bottom");
     this.rows = rows;
     layout.append($("<div>").addClass("battle-view").append(rows[this.opponent]).append($("<div>").addClass("battle-canvas")
@@ -45,12 +62,12 @@ function BattleTab(id) {
     /* Show switch row */
     if (this.isBattle()) {
         var pokeRow = $("<div>").addClass("battle-switchrow btn-group btn-group-justified").attr("data-toggle", "buttons");
-        for (var i in this.battle.teams[this.myself]) {
-            var poke = this.battle.teams[this.myself][i];
-            var item = $("<span>").addClass("btn btn-default battle-poke").append($("<input type='radio'>")).append($("<img>")).append($("<span>").addClass("battle-poke-text")).attr("slot", i);
+        for (const i in this.battle.teams[this.myself]) {
+            // var poke = this.battle.teams[this.myself][i];
+            const item = $("<span>").addClass("btn btn-default battle-poke").append($("<input type='radio'>")).append($("<img>")).append($("<span>").addClass("battle-poke-text")).attr("slot", i);
             pokeRow.append(item);
 
-            item.on("click", function(event) {
+            item.on("click", function(/* event */) {
                 if (!self.battle.choicesAvailable || $(this).attr("disabled")) {
                     return false;
                 }
@@ -62,7 +79,7 @@ function BattleTab(id) {
         }
         this.switchRow = pokeRow;
 
-        var onMoveClicked = function(event) {
+        var onMoveClicked = function(/* event */) {
             if (!self.battle.choicesAvailable || $(this).attr("disabled")) {
                 return false;
             }
@@ -71,8 +88,8 @@ function BattleTab(id) {
         };
 
         var moveRow = $("<div>").addClass("battle-attackrow btn-group-justified").attr("data-toggle", "buttons");
-        for (var i in this.battle.teams[this.myself][0].moves) {
-            var item = $("<span>").addClass("btn btn-default battle-move").append($("<input type='radio'>")).append($("<span>").addClass("battle-move-text")).attr("slot", i);
+        for (const i in this.battle.teams[this.myself][0].moves) {
+            const item = $("<span>").addClass("btn btn-default battle-move").append($("<input type='radio'>")).append($("<span>").addClass("battle-move-text")).attr("slot", i);
             item.append($("<span class='battle-move-pp'>"));
             moveRow.append(item);
 
@@ -115,14 +132,14 @@ function BattleTab(id) {
         this.struggleButton = layout.find(".battle-struggle");
         this.struggleButton.on("click", onMoveClicked);
 
-        this.cancelButton.on("click", function(event) {
+        this.cancelButton.on("click", function(/* event */) {
             if ($(this).attr("disabled")) {
                 return false;
             }
 
             self.choose({"type": "cancel", "slot": self.myself});
         });
-        this.zButton.on("click", function(event) {
+        this.zButton.on("click", function(/* event */) {
             self.enableChoices($(this).hasClass("active"));
         });
     }
@@ -156,18 +173,22 @@ function BattleTab(id) {
     this.id = id;
 
     this.print("<strong>Battle between " + this.battle.name(0) + " and " + this.battle.name(1) + " just started!</strong><br />");
-    this.print("<strong>Mode:</strong> " + BattleTab.modes[conf.mode]);
+    this.print("<strong>Mode:</strong> " + modes[conf.mode]);
 
     if (this.isBattle() && !this.battle.choicesAvailable) {
         this.disableChoices();
     }
 
-    this.battle.allowStart();
+    /* Make sure data needed by the battle (such as move names) is loaded */
+    require.ensure("../pokedex", () => {
+        require("../pokedex");
+        this.battle.allowStart();
+    });
 
     //layout.find('[data-toggle="tooltip"]').tooltip();
-};
+}
 
-utils.inherits(BattleTab, BaseTab);
+inherits(BattleTab, BaseTab);
 
 BattleTab.getIframe = function(id) {
     if (webclientUI.battles.simpleWindow) {
@@ -302,7 +323,7 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
         content: function() {
             var poke = battle.pokes[spot];
             var types = PokeInfo.types(poke);
-            for (var i in types) {
+            for (const i in types) {
                 types[i] = TypeInfo.name(types[i]);
             }
 
@@ -310,7 +331,7 @@ BattleTab.prototype.addFieldPopover = function(item, spot) {
             ret.push("");
 
             var table = "<table class='table table-condensed table-bordered'>";
-            for (var i = 0; i < 6; i++) {
+            for (let i = 0; i < 6; i++) {
                 var stat = "<tr><td>"+StatInfo.name(i) + "</td><td>";
                 if (poke.stats) {
                     if (i == 0) {
@@ -406,7 +427,7 @@ BattleTab.prototype.enableChoices = function(zMoving) {
         if (!available.switch) {
             this.switchRow.find(".battle-poke").attr("disabled", "disabled");
         } else {
-            for (var i in this.myTeam()) {
+            for (const i in this.myTeam()) {
                 if (this.myTeam()[i].life == 0 || this.myTeam()[i].status == 31) {
                     this.switchRow.find(".battle-poke:eq("+i+")").attr("disabled", "disabled");
                 }
@@ -435,8 +456,8 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
 
     var selected = -1;
     var row = $("<div>").attr("data-toggle", "buttons").addClass("btn-group-justified team-preview-row");
-    for (var i  = 0; i < 6; i++) {
-        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", PokeInfo.icon(team1[i]))).attr("slot", i);
+    for (let i  = 0; i < 6; i++) {
+        const poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").append("<input type='checkbox'>").append($("<img>").attr("src", PokeInfo.icon(team1[i]))).attr("slot", i);
         if (team1[i].item) {
             poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", PokeInfo.heldItemSprite()));
         }
@@ -449,7 +470,7 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
         this.addPopover(poke, {"placement": "bottom"});
     }
 
-    row.on("click", "span.team-preview-poke", function(event) {
+    row.on("click", "span.team-preview-poke", function(/* event */) {
         var clicked = $(this).attr("slot");
         var cur = $(this);
 
@@ -468,7 +489,7 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
             var s1 = cur.html();
             var s2 = sel.html();
 
-            var team = self.battle.teams[self.myself];
+            // var team = self.battle.teams[self.myself];
 
             cur.html(s2);
             cur.attr("slot", selected);
@@ -487,8 +508,8 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
     });
 
     var row2 = $("<div>").addClass("btn-group-justified team-preview-row");
-    for (var i  = 0; i < 6; i++) {
-        var poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").attr("disabled", "disabled").append($("<img>").attr("src", PokeInfo.icon(team2[i])));
+    for (let i  = 0; i < 6; i++) {
+        const poke = $("<span>").addClass("btn btn-default btn-sm team-preview-poke").attr("disabled", "disabled").append($("<img>").attr("src", PokeInfo.icon(team2[i])));
         if (team2[i].heldItem) {
             poke.append($("<img>").addClass("team-preview-poke-held-item").attr("src", PokeInfo.heldItemSprite()));
         }
@@ -510,7 +531,7 @@ BattleTab.prototype.showTeamPreview = function(team1, team2) {
                 }
             }
         ],
-        onhidden: function(dialogItself) {
+        onhidden: function(/* dialogItself */) {
             //Send team preview
             var order = [];
             for (var i = 0; i < 6; i++) {
@@ -538,14 +559,14 @@ BattleTab.prototype.print = function(msg, args) {
 
     if (args) {
         if ("spectator" in args) {
-            msg = utils.escapeHtml(msg);
+            msg = escapeHtml(msg);
             var name = this.battle.spectators[args.spectator];
-            var pref = "<span class='spectator-message'>" + name + ":</span>";
-            msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
+            const pref = "<span class='spectator-message'>" + name + ":</span>";
+            msg = pref + " " + addChannelLinks(msg, webclient.channels.channelsByName(true));
         } else if ("player" in args) {
-            msg = utils.escapeHtml(msg);
-            var pref = "<span class='player-message' style='color: " + (args.player == this.myself ? "darkcyan": "darkgoldenrod")+ "'>" + this.players[args.player] + ":</span>";
-            msg = pref + " " + utils.addChannelLinks(msg, webclient.channels.channelsByName(true));
+            msg = escapeHtml(msg);
+            const pref = "<span class='player-message' style='color: " + (args.player == this.myself ? "darkcyan": "darkgoldenrod")+ "'>" + this.players[args.player] + ":</span>";
+            msg = pref + " " + addChannelLinks(msg, webclient.channels.channelsByName(true));
         } else if ("css" in args && args.css == "turn") {
             this.blankMessage = true;
             linebreak = false;
@@ -561,7 +582,7 @@ BattleTab.prototype.print = function(msg, args) {
             if (this.notification) {
                 this.notification.close();
             }
-            this.notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: utils.stripHtml(msg)});
+            this.notification = new window.Notification(this.battle.name(0) + ' vs ' + this.battle.name(1), {body: stripHtml(msg)});
         }
     } else if (window.isActive) {
         this.hadFocus = true;
@@ -734,75 +755,6 @@ BattleTab.prototype.removePlayer = function (player) {
     if (this.isCurrent()) {
         webclientUI.players.removePlayer(player);
     }
-};
-
-
-BattleTab.statuses = {
-    0: "",
-    1: "par",
-    2: "slp",
-    3: "frz",
-    4: "brn",
-    5: "psn",
-    6: "confusion",
-    31: "fnt"
-};
-
-BattleTab.weathers = {
-    0: "none",
-    1: "hail",
-    2: "raindance",
-    3: "sandstorm",
-    4: "sunnyday",
-    5: "strongsun",
-    6: "strongrain",
-    7: "strongwinds"
-};
-
-BattleTab.clauses = {
-    0: "Sleep Clause",
-    1: "Freeze Clause",
-    2: "Disallow Spects",
-    3: "Item Clause",
-    4: "Challenge Cup",
-    5: "No Timeout",
-    6: "Species Clause",
-    7: "Team Preview",
-    8: "Self-KO Clause",
-    9: "Inverted Clause"
-};
-
-BattleTab.clauseDescs = {
-    0:"You can not put more than one Pokemon of the opposing team to sleep at the same time.",
-    1:"You can not freeze more than one Pokemon of the opposing team at the same time.",
-    2:"Nobody can watch your battle.",
-    3:"No more than one of the same items is allowed per team.",
-    4:"Random teams are given to trainers.",
-    5:"No time limit for playing.",
-    6:"One player cannot have more than one of the same pokemon per team.",
-    7:"At the beginning of the battle, you can see the opponent's team and rearrange yours accordingly.",
-    8:"The one who causes a tie (Recoil, Explosion, Destinybond, ...) loses the battle.",
-    9:"All Type Effectivenesses are inverted (Ex: Water is weak to Fire)"
-};
-
-BattleTab.clauseTexts = [
-    "Sleep Clause prevented the sleep inducing effect of the move from working.",
-    "Freeze Clause prevented the freezing effect of the move from working.",
-    "",
-    "",
-    "",
-    "The battle ended by timeout.",
-    "",
-    "",
-    "The Self-KO Clause acted as a tiebreaker.",
-    ""
-];
-
-BattleTab.modes = {
-    0: "Singles",
-    1: "Doubles",
-    2: "Triples",
-    3: "Rotation"
 };
 
 BattleTab.prototype.updatePokeData = function(spot) {

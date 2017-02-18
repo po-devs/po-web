@@ -1,4 +1,4 @@
-if(!pokedex.moves)pokedex.moves={};
+module.exports = pokedex => {if(!pokedex.moves)pokedex.moves={};
 if(!pokedex.moves.damage_class)pokedex.moves.damage_class=[];
 pokedex.moves.damage_class[7] = {
 0:0,
@@ -492,3 +492,5 @@ pokedex.moves.damage_class[2] = {
 };
 pokedex.moves.damage_class[1] = {
 };
+
+}

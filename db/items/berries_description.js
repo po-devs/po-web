@@ -1,4 +1,4 @@
-if(!pokedex.items)pokedex.items={};
+module.exports = pokedex => {if(!pokedex.items)pokedex.items={};
 pokedex.items.berries_description = {
 0:"(No Description)",
 1:"Automatically cures the holder of being Paralyzed. Consumed after use.",
@@ -79,3 +79,4 @@ pokedex.items.berries_description = {
 1008:"Automatically cures the holder of being Paralyzed, Asleep, Poisoned, Burned, or Frozen. Consumed after use.",
 1009:"Restores 30 HP to the holder when its HP falls below 50%. Consumed after use.",
 };
+}

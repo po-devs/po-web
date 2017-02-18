@@ -1,19 +1,13 @@
-//console.log("loading simple battle window");
+import $ from "jquery";
+
+/* global battle:false, PokeInfo:false */
+
+import {statuses} from "./battleconstants";
+import {Howl} from "howler";
+
 
 var spritelist = {};
 var hudlist = {};
-
-/* Copy of BattleTab.statuses */
-var statusList = {
-    0: "",
-    1: "par",
-    2: "slp",
-    3: "frz",
-    4: "brn",
-    5: "psn",
-    6: "confusion",
-    31: "fnt"
-};
 
 var musics = [
     {file: 'Battle! Brendan _ May.mp3', loopPos:14303, duration: 69130},
@@ -32,7 +26,7 @@ var musicdata = musics[Math.floor(Math.random()*musics.length)];
 musicdata.looped = false;
 
 var music = new Howl({
-  urls: ["/sounds/musics/"+musicdata.file],
+  src: ["/sounds/musics/"+musicdata.file],
   sprite: {
   	intro: [0, musicdata.loopPos],
   	theme: [musicdata.loopPos, musicdata.duration-musicdata.loopPos, true]
@@ -83,7 +77,7 @@ function updateHP(spot, animated) {
 		}, {
 			duration: 1200,
 			easing: "linear",
-			step: function(now, tween) {txt.text(Math.floor(now/1.5) + "%")},
+			step: function(now/* , tween */) {txt.text(Math.floor(now/1.5) + "%")},
 			complete: function(){
 				hpbar(spot).find(".prevhp").css("width", 147*percent/100+1);
 			    unpause();
@@ -96,7 +90,7 @@ function updateStatus(spot) {
 	var stat = hud(spot).find(".status");
 	stat.removeClass();
 	stat.addClass("status");
-	stat.addClass(statusList[battle.poke(spot).status]);
+	stat.addClass(statuses[battle.poke(spot).status]);
 }
 
 function updateGender(spot) {
@@ -116,21 +110,21 @@ function hpbar(spot) {
 
 function hud(spot) {
 	if (!(spot in hudlist)) {
-		hudlist[spot] = $("#poke-" + spot + " .pokehud");;
+		hudlist[spot] = $("#poke-" + spot + " .pokehud");
 	}
 	return hudlist[spot];
 }
 
 function sprite(spot) {
 	if (!(spot in spritelist)) {
-		spritelist[spot] = $("#poke-" + spot + " img.poke-sprite");;
+		spritelist[spot] = $("#poke-" + spot + " img.poke-sprite");
 	}
 	return spritelist[spot];
 }
 
 function name(spot) {
 	return hud(spot).find("strong");
-};
+}
 
 function padd(s) {
 	if (typeof s != "string") {
@@ -148,8 +142,9 @@ function playCry(spot) {
 	}
 	// todo : form: num + "-"+ subnum + ".wab"
 	var sound = new Howl({
-	  urls: ["/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
-	}).play();
+	  src: ["/sounds/cries/"+padd(battle.poke(spot).num) + '.wav']
+    });
+    sound.play();
 }
 
 
@@ -265,7 +260,7 @@ $(function() {
 		updateStatus(spot);
 	});
 
-	battle.on("substitute", function(spot, sub) {
+	battle.on("substitute", function(spot/*, sub */) {
 		updateSprite(spot);
 	});
 

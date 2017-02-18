@@ -1,5 +1,11 @@
-function BaseTab(/* id */) {
-    $.observable(this);
+import $ from "jquery";
+
+import webclientUI from "./frontend";
+import webclient from "./webclient";
+import observable from "riot-observable";
+
+export default function BaseTab(/* id */) {
+    observable(this);
     this.notificationCount = 0;
 }
 

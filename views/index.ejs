@@ -114,7 +114,7 @@ $(function() {
       <form role="search" class="playerFilter">
         <div class="form-group">
           <div class="input-group player-filter-group">
-            <input type="text" class="form-control" id="player-filter" placeholder="Players, #channels...">
+            <input type="text" class="form-control" id="player-filter" placeholder="Players, #channels..." data-provide="typeahead" autocomplete="off">
           </div>
         </div>
      </form>
@@ -144,9 +144,8 @@ $(function() {
   </ul>
 </div>
   <!-- load stuff at the end -->
+  <link href='/stylesheets/styles.css' rel='stylesheet' type='text/css'>
   <script src="/javascript/frontend.js"></script>
-  <script src="/javascript/backend.js"></script>
-  <link rel="stylesheet" href="/stylesheets/frontend.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 </body>
 </html>

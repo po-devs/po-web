@@ -1,8 +1,13 @@
-function PMHolder() {
-    var self = this;
-    $.observable(self);
+import observable from "riot-observable";
+import $ from "jquery";
+import PMTab from "./pmtab";
+import webclientUI from "../frontend";
+import webclient from "../webclient";
 
-    self.pms = {};
+export default function PMHolder() {
+    observable(this);
+
+    this.pms = {};
 }
 
 PMHolder.prototype.pm = function (pid, open) {

@@ -1,35 +1,33 @@
-var pokedex = {};
+import pokedex from "./pokedex-basic"
 
-GenInfo = {};
-PokeInfo = {};
-GenderInfo = {};
-NatureInfo = {};
-MoveInfo = {};
-CategoryInfo = {};
-StatInfo = {};
-StatusInfo = {};
-ItemInfo = {};
-TypeInfo = {};
-AbilityInfo = {};
-lastGen = null;
+export const GenInfo = {};
+export const PokeInfo = {};
+export const GenderInfo = {};
+export const NatureInfo = {};
+export const MoveInfo = {};
+export const CategoryInfo = {};
+export const StatInfo = {};
+export const StatusInfo = {};
+export const ItemInfo = {};
+export const TypeInfo = {};
+export const AbilityInfo = {};
 
-$(function() {
-    var maxGen = {num: 0, subnum: 0};
-    for (var i in pokedex.gens.versions) {
-        var num = (+i) & ((1 << 16)-1);
-        var subnum = (+i) >> 16;
-        if (num >= maxGen.num) {
-            maxGen.num = num;
-            maxGen.subnum = subnum;
-        }
+var maxGen = {num: 0, subnum: 0};
+for (var i in pokedex.gens.versions) {
+    var num = (+i) & ((1 << 16)-1);
+    var subnum = (+i) >> 16;
+    if (num >= maxGen.num) {
+        maxGen.num = num;
+        maxGen.subnum = subnum;
     }
-    lastGen = maxGen;
-});
+}
+
+GenInfo.lastGen = maxGen;
 
 var getGen = function(gen, correct) {
     var shouldCorrect = correct !== false;
     if (shouldCorrect) {
-        gen = gen || lastGen;
+        gen = gen || GenInfo.lastGen;
         if (typeof gen === "object") {
             if ("num" in gen) {
                 gen.num = +gen.num;
@@ -48,8 +46,8 @@ var getGen = function(gen, correct) {
             gen.num = +gen.num;
         }
 
-        if (isNaN(gen.num) || gen.num < 1 || gen.num > lastGen.num) {
-            gen = lastGen;
+        if (isNaN(gen.num) || gen.num < 1 || gen.num > GenInfo.lastGen.num) {
+            gen = GenInfo.lastGen;
         }
     }
 
@@ -111,7 +109,7 @@ PokeInfo.toObject = function(poke) {
     return {
         num: PokeInfo.species(poke),
         forme: PokeInfo.forme(poke),
-        gen: lastGen
+        gen: GenInfo.lastGen
     };
 };
 
@@ -147,11 +145,11 @@ PokeInfo.toArray = function(num) {
 };
 
 PokeInfo.species = function(poke) {
-    return poke & ((1 << 16) - 1);
+    return poke === undefined ? undefined : poke & ((1 << 16) - 1);
 };
 
 PokeInfo.forme = function(poke) {
-    return poke >> 16;
+    return poke === undefined ? undefined : poke >> 16;
 };
 
 PokeInfo.find = function(id, what, gen) {
@@ -176,7 +174,7 @@ PokeInfo.find = function(id, what, gen) {
         return array[ornum];
     }
 
-    while (gennum < lastGen.num && ! (id in array) && !(ornum in array)) {
+    while (gennum < GenInfo.lastGen.num && ! (id in array) && !(ornum in array)) {
         array = pokedex.pokes[what][++gennum];
     }
 
@@ -220,7 +218,7 @@ PokeInfo.sprite = function(poke, params) {
 
     // Use last gen when dealing with missingno.
     if (poke.num === 0) {
-        return "/images/" + pokedex.generations.options[lastGen.num].sprite_folder + "0.png";
+        return "/images/" + pokedex.generations.options[GenInfo.lastGen.num].sprite_folder + "0.png";
     }
 
     var options = pokedex.generations.options[gen.num];
@@ -250,50 +248,6 @@ PokeInfo.sprite = function(poke, params) {
     path += options.animated ? ".gif" : ".png";
 
     return path;
-};
-
-PokeInfo.battlesprite = function(poke, params) {
-    params = params || {};
-
-    var back = params.back || false;
-    var data = PokeInfo.spriteData(poke, params);
-
-    var path = pokedex.generations.options[lastGen.num].sprite_folder;
-    if ((data.ext || "gif") === "gif") {
-        path += "animated/";
-    }
-    if (back) {
-        path += "back/";
-    }
-    if (poke.shiny) {
-        path += "shiny/";
-    }
-    if (poke.female) {
-        path += "female/";
-    }
-    if ((data.ext || "gif") === "gif") {
-        path += ("00" + poke.num).slice(-3);
-    } else {
-        path += poke.num;
-    }
-    if (poke.forme && !data.noforme) {
-        path += "-" + poke.forme;
-    }
-    path += "." + (data.ext || "gif");
-
-    return path;
-};
-
-PokeInfo.spriteData = function(poke, params) {
-    var back = (params || {}).back || false;
-    var num = this.toNum(poke);
-
-    var ret = (back ? pokedex.pokes.images.back[num] : pokedex.pokes.images[num]);
-    if (!ret) {
-        ret = (back ? pokedex.pokes.images.back[num%65356] : pokedex.pokes.images[num%65356]) || {"w":96,"h":96};
-        ret.noforme = true;
-    }
-    return ret;
 };
 
 PokeInfo.icon = function(poke) {
@@ -379,8 +333,7 @@ PokeInfo.releasedList = function(gen, excludeFormes) {
     }
 
     var releasedList = pokedex.pokes.released[gnum],
-        list = {},
-        num;
+        list = {};
 
     for (var i in releasedList) {
         if (excludeFormes && +i > 65535) {
@@ -436,6 +389,7 @@ PokeInfo.calculateBestShiny = function(info) {
 
 PokeInfo.isShiny = function(info, gen) {
     if (!gen || gen.num > 2) return info.shiny;
+    if (!info.ivs || gen.num < 2) return false;
     return info.ivs[2] === 10 && info.ivs[3] === 10 && info.ivs[5] === 10 &&
         [2, 3, 6, 7, 10, 11, 14, 15].indexOf(info.ivs[1]) > -1;
 };
@@ -444,7 +398,7 @@ PokeInfo.calculateStatInfo = function(info, stat, gen) {
     if (info.num === 292 && stat === 0) {
         return 1;
     }
-    gen = gen || lastGen;
+    gen = gen || GenInfo.lastGen;
     var baseStat = PokeInfo.stat(info, stat, gen);
     var ev = Math.floor(info.ev / 4);
     var iv = info.iv;
@@ -468,7 +422,7 @@ PokeInfo.calculateStatInfo = function(info, stat, gen) {
 };
 
 PokeInfo.calculateStat = function(poke, stat, gen) {
-    gen = gen || lastGen;
+    gen = gen || GenInfo.lastGen;
     return PokeInfo.calculateStatInfo({
         "num": poke.num,
         "forme": poke.forme || 0,
@@ -480,7 +434,7 @@ PokeInfo.calculateStat = function(poke, stat, gen) {
 };
 
 PokeInfo.minStat = function(poke, stat, gen) {
-    gen = gen || lastGen;
+    gen = gen || GenInfo.lastGen;
     var ret = PokeInfo.calculateStatInfo({
         "num": poke.num,
         "forme": poke.forme || 0,
@@ -498,7 +452,7 @@ PokeInfo.minStat = function(poke, stat, gen) {
 };
 
 PokeInfo.maxStat = function(poke, stat, gen) {
-    gen = gen || lastGen;
+    gen = gen || GenInfo.lastGen;
     var ret = PokeInfo.calculateStatInfo({
         "num": poke.num,
         "forme": poke.forme || 0,
@@ -629,7 +583,7 @@ MoveInfo.find = function(id, what, gen) {
         return array[id];
     }
 
-    while (gennum < lastGen.num && ! (id in array)) {
+    while (gennum < GenInfo.lastGen.num && ! (id in array)) {
         array = pokedex.moves[what][++gennum];
     }
 
@@ -986,3 +940,6 @@ AbilityInfo.message = function(ability, part) {
 
     return "";
 };
+
+/* Needed by simplebattlewindow.js which is inside an iframe */
+if(typeof window != "undefined") window.PokeInfo = PokeInfo;

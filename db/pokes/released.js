@@ -1,3 +1,4 @@
+module.exports = pokedex => {if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes)pokedex.pokes={};
 if(!pokedex.pokes.released)pokedex.pokes.released=[];
 pokedex.pokes.released[7] = {
@@ -4109,3 +4110,5 @@ pokedex.pokes.released[1] = {
 150:1,
 151:1,
 };
+
+}

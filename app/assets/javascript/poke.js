@@ -1,6 +1,11 @@
+import {
+	PokeInfo, NatureInfo, MoveInfo, ItemInfo,
+  TypeInfo, AbilityInfo, GenInfo
+} from "./pokeinfo";
+
 var MOVE_RETURN = 216;
 
-function Poke() {
+export default function Poke() {
 	this.reset();
 }
 
@@ -24,7 +29,7 @@ Poke.prototype.reset = function() {
 	this.nature = 0;
 	this.shiny = false;
 	if (!this.gen) {
-		this.gen = lastGen;
+		this.gen = GenInfo.lastGen;
 	}
 };
 
@@ -106,7 +111,7 @@ Poke.prototype.export = function() {
 	if (!this.num) {
 		return "";
 	}
-	var gen = getGen(this.gen);
+	var gen = GenInfo.getGen(this.gen);
 
 	var lines = [];
 
@@ -181,7 +186,7 @@ Poke.prototype.export = function() {
 Poke.prototype.import = function(str) {
 	this.reset();
 
-	var gen = getGen(this.gen);
+	var gen = GenInfo.getGen(this.gen);
 	var lines = str.replace("\r", "").split("\n");
 	var nameLine = lines.splice(0, 1)[0];
 	var nameItem = nameLine.split("@");

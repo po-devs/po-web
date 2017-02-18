@@ -1,3 +1,15 @@
+import $ from "jquery";
+import vex from "vex-js";
+import observable from "riot-observable";
+import BattleConstants from "./battles/battleconstants";
+import MD5 from "md5";
+import webclientUI from "./frontend";
+import webclient from "./webclient";
+import poStorage from "./postorage";
+import {queryField, escapeHtml} from "./utils";
+
+/* global MozWebSocket:false, serverConfig:false */
+
 function createNetwork(WebSocket) {
     var states = {
         Connecting: 0,
@@ -122,11 +134,11 @@ function createNetwork(WebSocket) {
             /* If the server is on the same IP as the relay, we display the server IP but
                 send localhost */
             var server = payload.replace("localhost", this.relay),
-                qserver = utils.queryField("server");
+                qserver = queryField("server");
 
             $("#advanced-connection").val((qserver && qserver !== "default") ? qserver : server);
 
-            if (utils.queryField("autoconnect") === "true") {
+            if (queryField("autoconnect") === "true") {
                 webclient.connectToServer();
             } else {
                 this.command("registry");
@@ -168,20 +180,20 @@ function createNetwork(WebSocket) {
         playerkick: function (payload) {
             var params = JSON.parse(payload);
             if (params.source) {
-                webclientUI.printHtml("<span class='player-kick'>" + utils.escapeHtml(webclient.players.name(params.source)) + " kicked " +
-                    utils.escapeHtml(webclient.players.name(params.target)) + "!</span>");
+                webclientUI.printHtml("<span class='player-kick'>" + escapeHtml(webclient.players.name(params.source)) + " kicked " +
+                    escapeHtml(webclient.players.name(params.target)) + "!</span>");
             } else {
-                webclientUI.printHtml("<span class='player-kick'>" + utils.escapeHtml(webclient.players.name(params.target)) +
+                webclientUI.printHtml("<span class='player-kick'>" + escapeHtml(webclient.players.name(params.target)) +
                     " was kicked by the server!</span>");
             }
         },
         playerban: function (payload) {
             var params = JSON.parse(payload);
             if (params.source) {
-                webclientUI.printHtml("<span class='player-ban'>" + utils.escapeHtml(webclient.players.name(params.source)) + " banned " +
-                    utils.escapeHtml(webclient.players.name(params.target)) + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
+                webclientUI.printHtml("<span class='player-ban'>" + escapeHtml(webclient.players.name(params.source)) + " banned " +
+                    escapeHtml(webclient.players.name(params.target)) + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
             } else {
-                webclientUI.printHtml("<span class='player-ban'>" + utils.escapeHtml(webclient.players.name(params.target)) +
+                webclientUI.printHtml("<span class='player-ban'>" + escapeHtml(webclient.players.name(params.target)) +
                     " was banned by the server" + (params.hasOwnProperty("time") ? " for " + params.time + " minute(s)" : "") + "!</span>");
             }
         },
@@ -204,7 +216,7 @@ function createNetwork(WebSocket) {
                 net.send("auth", {hash: hash});
             } else {
                 vex.dialog.open({
-                    message: "Please enter your password, <strong>" + poStorage.get("user") +"</strong> (<small><a href='" + window.location.pathname + "' target='_self' onclick='poStorage.remove(\"user\");'>Not you?</a></small>):",
+                    unsafeMessage: "Please enter your password, <strong>" + poStorage.get("user") +"</strong> (<small><a href='" + window.location.pathname + "' target='_self' onclick='poStorage.remove(\"user\");'>Not you?</a></small>):",
                     input: `<input name='password' type='password' placeholder='Password' required value='${storedPw}' />`,
                     callback: function (res) {
                         if (res && res.password) {
@@ -228,7 +240,7 @@ function createNetwork(WebSocket) {
         battlechallenge: function(payload) {
             var params = JSON.parse(payload);
             var clauses = [];
-            for (var i in BattleTab.clauses) {
+            for (var i in BattleConstants.clauses) {
                 if (params.clauses & (1 << i)) {
                     clauses.push(1);
                 } else {
@@ -239,7 +251,7 @@ function createNetwork(WebSocket) {
 
             webclient.dealWithChallenge(params);
         },
-        announcement: function (payload) {
+        announcement: function (/* payload */) {
             /*webclient.sandboxHtml(announcement, payload);
             announcement.css("visibility", "visible");*/
         },
@@ -293,7 +305,7 @@ function createNetwork(WebSocket) {
 
             this.command("getrankings", {id: params.id});
         },
-        unregistered: function (payload) {
+        unregistered: function (/* payload */) {
             $("#register-dd").removeClass("disabled");
             webclient.registered = false;
         },
@@ -357,7 +369,6 @@ function createNetwork(WebSocket) {
         },
         rankings: function (payload) {
             var parts = payload.split("|"),
-                id = parts[0],
                 rankings = JSON.parse(parts[1]), tier, rank,
                 html = "";
 
@@ -422,7 +433,7 @@ function createNetwork(WebSocket) {
     };
 
     function Network() {
-        $.observable(this);
+        observable(this);
 
         this.buffer = [];
         this.socket = null;
@@ -473,7 +484,9 @@ function createNetwork(WebSocket) {
 
         try {
             this.socket.send(msg);
-        } catch (ex) {} // Ignore potential SYNTAX_ERRs
+        } catch (ex) {
+            // Ignore potential SYNTAX_ERRs
+        }
         return this;
     };
 
@@ -540,9 +553,8 @@ function createNetwork(WebSocket) {
     Network.transformers = transformers;
     Network.parsers = parsers;
 
-    window.Network = Network;
-    window.network = new Network();
+    var network = new Network();
+    return network;
 }
 
-createNetwork(typeof MozWebSocket === "function" ? MozWebSocket : WebSocket);
-var network = window.network;
+export default createNetwork(typeof MozWebSocket === "function" ? MozWebSocket : WebSocket);

@@ -1,4 +1,12 @@
-function ChannelList() {
+import $ from "jquery";
+
+import webclient from "../webclient";
+import ChannelTab from "./channeltab";
+import webclientUI from "../frontend";
+import poStorage from "../postorage";
+import {escapeHtml} from "../utils";
+
+export default function ChannelList() {
     this.ids = {};
     this.chanevents = {};
     this.channotifs = {};
@@ -7,7 +15,7 @@ function ChannelList() {
 ChannelList.prototype.createChannelItem = function (id) {
     var name = webclient.channels.name(id);
     return "<a class='list-group-item channel-list-item' href='po:tab/channel-" + id + "' " +
-        "id='channel-" + id + "'><span class='channel-name'>#" + utils.escapeHtml(name) +
+        "id='channel-" + id + "'><span class='channel-name'>#" + escapeHtml(name) +
         "</span><button type='button' class='close' aria-label='Close' " +
         "onclick='event.stopPropagation(); event.preventDefault(); webclient.leaveChannel(" + id + ");'>" +
         "<span aria-hidden='true'>&times;</span></button></a>";
@@ -28,7 +36,7 @@ ChannelList.prototype.countActive = function() {
 
 ChannelList.prototype.updateChannelName = function(id) {
     if (this.hasChannel(id)) {
-        $('#channel-' + id + ">.channel-name").text('#' + utils.escapeHtml(webclient.channels.name(id)));
+        $('#channel-' + id + ">.channel-name").text('#' + escapeHtml(webclient.channels.name(id)));
     }
 };
 
@@ -37,6 +45,7 @@ ChannelList.prototype.hasChannel = function(id) {
 };
 
 ChannelList.prototype.addChannel = function(id) {
+    console.log("Adding channel", id, "...");
     if (!this.hasChannel(id)) {
         this.element.append(this.createChannelItem(id));
         this.ids[id] = new ChannelTab(id, webclient.channels.name(id));
@@ -90,28 +99,29 @@ ChannelList.prototype.chanNotifsEnabled = function (id) {
 };
 
 ChannelList.prototype.startObserving = function(channels) {
-    var self = this;
+    console.log("observing channel events...");
 
-    channels.on("joinchannel", function(id) {
-        self.addChannel(id);
+    channels.on("joinchannel", id => {
+        this.addChannel(id);
     });
 
-    channels.on("leavechannel", function(id) {
-        self.removeChannel(id);
+    channels.on("leavechannel", id => {
+        this.removeChannel(id);
     });
 
-    channels.on("changename", function(id) {
-        self.updateChannelName(id);
+    channels.on("changename", id => {
+        this.updateChannelName(id);
     });
 
-    channels.on("nameslist", function(ids) {
+    channels.on("nameslist", ids => {
         for (var i in ids) {
-            self.updateChannelName(ids[i]);
+            this.updateChannelName(ids[i]);
         }
     });
 };
 
 ChannelList.prototype.findMatches = function(query, callback) {
+    //console.log(arguments);
     if (!query.startsWith("#")) {
         callback([]);
         return;
@@ -135,27 +145,31 @@ ChannelList.prototype.findMatches = function(query, callback) {
     callback(matches);
 };
 
-$(function() {
+export function afterLoad() {
     webclientUI.channels.startObserving(webclient.channels);
     webclientUI.channels.element = $("#channellist");
 
-    $("#player-filter").typeahead({
-         hint: true,
-         highlight: false,
-         minLength: 1
-    },
-    {
-        name: "channels",
-        display: "value",
-        limit: 200,
-        source: webclientUI.channels.findMatches.bind(webclientUI.channels)
-    }).on("typeahead:select", function(event, sugg) {
-        webclient.joinChannel(sugg.id);
+    require.ensure("typeahead.js", () => {
+        require("typeahead.js");
+
+        $("#player-filter").typeahead({
+            hint: true,
+            highlight: false,
+            minLength: 1
+        },
+        {
+            name: "channels",
+            display: "value",
+            limit: 200,
+            source: webclientUI.channels.findMatches.bind(webclientUI.channels)
+        }).on("typeahead:select", function(event, sugg) {
+            webclient.joinChannel(sugg.id);
+        });
     });
 
     webclientUI.channels.element.contextmenu({
         target: "#channel-context-menu",
-        before: function(event, context) {
+        before: function(event/* , context */) {
             /* the name of the channel was right clicked instead of the li */
             var channel;
             if (event.target.tagName.toLowerCase() == "span") {
@@ -174,7 +188,7 @@ $(function() {
                 menu.on("click", "a", webclientUI.linkClickHandler);
             }
 
-            menu.find("a").each(function(i) {
+            menu.find("a").each(function() {
                 this.href = this.href.substr(0, this.href.lastIndexOf("/") + 1) + id;
             });
 
@@ -186,4 +200,4 @@ $(function() {
             //var item = $(event.target);
         }
     });
-});
+}

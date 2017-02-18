@@ -1,17 +1,23 @@
-var chatHtml =
-'    <div class="chat">\
-     \
-    </div>\
-\
-    <div class="chatInputContainer">\
-      <input type="text" class="form-control chatInput" placeholder="Type your message..." history>\
-    </div>';
+import $ from "jquery";
+
+import observable from "riot-observable";
+import webclientUI from "./frontend";
+import {onEnterPressed,timestamp} from "./utils";
+
+var chatHtml =`
+    <div class="chat">
+
+    </div>
+
+    <div class="chatInputContainer">
+      <input type="text" class="form-control chatInput" placeholder="Type your message..." history>
+    </div>`;
 
 // At least Chrome (I assume other browsers do the same) expand <timestamp/> to <timestamp><timestamp/> (as it is an unknown element).
 var timestampRegex = /<timestamp *\/ *>|<timestamp><\/timestamp>/gi;
 
-function Chat() {
-    $.observable(this);
+export default function Chat() {
+    observable(this);
 
     this.element = $("<div class='flex-column chat-column'>").html(chatHtml);
     if (webclientUI.players.showColors) {
@@ -22,7 +28,7 @@ function Chat() {
     this.chatCount = 0;
 
     var self = this;
-    this.chatSend.keydown(utils.onEnterPressed(function () {
+    this.chatSend.keydown(onEnterPressed(function () {
         if ($(this).val().length > 0) {
             self.trigger("chat", $(this).val());
         }
@@ -43,7 +49,7 @@ Chat.prototype.insertMessage = function (msg, opts) {
     opts = opts || {};
 
     if (opts.timestamps) {
-        timestampPart = "<span class='timestamp'>(" + utils.timestamp() + ")</span> ";
+        timestampPart = "<span class='timestamp'>(" + timestamp() + ")</span> ";
         if (opts.html) {
             msg = msg.replace(timestampRegex, timestampPart);
         } else if (msg) {
@@ -72,7 +78,7 @@ Chat.prototype.scrollDown = function() {
     this.chatTextArea.scrollTop(this.chatTextArea[0].scrollHeight);
 };
 
-$(function () {
+export function  afterLoad () {
     var maxHistSize = 100;
     $(document).on("keydown", "[history]", function (event) {
         var elem = event.currentTarget;
@@ -87,7 +93,7 @@ $(function () {
                 }
             }
             if (elem.histIndex > 0) {
-                var str = elem.hist[--elem.histIndex];
+                let str = elem.hist[--elem.histIndex];
                 elem.value = str;
                 setTimeout(function(){
                     elem.setSelectionRange(str.length, str.length);
@@ -95,7 +101,7 @@ $(function () {
             }
         } else if (event.which === 40) { // Down
             if (elem.histIndex < elem.hist.length) {
-                var str = elem.hist[++elem.histIndex] || ""
+                let str = elem.hist[++elem.histIndex] || ""
                 elem.value = str;
                 setTimeout(function(){
                     elem.setSelectionRange(str.length, str.length);
@@ -113,4 +119,4 @@ $(function () {
             elem.value = "";
         }
     });
-});
+}

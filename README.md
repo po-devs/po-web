@@ -1,4 +1,5 @@
 # po-web
+[![Build Status](https://travis-ci.org/po-devs/po-web.png)](https://travis-ci.org/po-devs/po-web)
 
 A simple webclient for Pokemon Online written in javascript. You can try it [online](http://web.pokemon-online.eu).
 

@@ -1,7 +1,9 @@
 /*
 	Notif
 */
-var notif = {
+import $ from "jquery";
+
+const notif = {
     count: -1,
     titleUpdate: function() {
         if (notif.count >= 0) {
@@ -12,3 +14,5 @@ var notif = {
         }
     }
 };
+
+export default notif;

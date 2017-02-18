@@ -1,4 +1,4 @@
-if(!pokedex.items)pokedex.items={};
+module.exports = pokedex => {if(!pokedex.items)pokedex.items={};
 pokedex.items.items_description = {
 0:"(No Item)",
 1:"Increases the healing effect of Absorb, Aqua Ring, Drain Punch, Draining Kiss, Dream Eater, Giga Drain, Horn Leech, Ingrain, Leech Life, Leech Seed, Mega Drain, Oblivion Wing, and Parabolic Charge used by the holder by 30%.",
@@ -458,3 +458,4 @@ pokedex.items.items_description = {
 3027:"Enables Marshadow to upgrade Spectral Thief into the special Z Move: Soul-Stealing 7-Star Strike",
 3028:"Enables Pikachu in Cap to upgrade Thunderbolt into the special Z Move: 10,000,000 Volt Thunderbolt",
 };
+}

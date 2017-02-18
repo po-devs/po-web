@@ -1,4 +1,4 @@
-if(!pokedex.status)pokedex.status={};
+module.exports = pokedex => {if(!pokedex.status)pokedex.status={};
 pokedex.status.stats = {
 0:"HP",
 1:"Attack",
@@ -9,3 +9,4 @@ pokedex.status.stats = {
 6:"Accuracy",
 7:"Evasion",
 };
+}

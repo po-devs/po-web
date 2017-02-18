@@ -1,5 +1,11 @@
-function Battles() {
-    $.observable(this);
+import observable from "riot-observable";
+import $ from "jquery";
+import webclient from "../webclient";
+import BattleData from "./battledata";
+import webclientUI from "../frontend";
+
+export default function Battles() {
+    observable(this);
 
     this.battles = {};
     this.battleList = {};
@@ -156,6 +162,6 @@ Battles.prototype.updateInfo = function(id, player) {
 
 $(function() {
     webclient.players.on("playerremove", function(id) {
-        this.removePlayer(id);
+        webclient.battles.removePlayer(id);
     });
 });

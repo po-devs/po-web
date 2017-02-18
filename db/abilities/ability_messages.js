@@ -1,6 +1,6 @@
-if(!pokedex.abilities)pokedex.abilities={};
+module.exports = pokedex => {if(!pokedex.abilities)pokedex.abilities={};
 pokedex.abilities.ability_messages = {
-0:true,
+0:1,
 2:"%s's Aftermath damages %f!|%f is unaffected by Aftermath.",
 3:"%s maxed its Attack!",
 4:"%s's Anticipation makes it shiver!",
@@ -89,3 +89,4 @@ pokedex.abilities.ability_messages = {
 148:"%s transformed into its Complete Forme!",
 149:"%s's Shields Down deactivated!|%s's Shields Down activated!",
 };
+}

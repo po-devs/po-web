@@ -1,7 +1,10 @@
+import webclient from "./webclient";
+import observable from "riot-observable";
+
 var namecolorlist = ['#5811b1', '#399bcd', '#0474bb', '#f8760d', '#a00c9e', '#0d762b', '#5f4c00', '#9a4f6d', '#d0990f', '#1b1390', '#028678', '#0324b1'];
 
-function PlayerHolder() {
-    $.observable(this);
+export default function PlayerHolder() {
+    observable(this);
 
     this.players = {};
     this.names = {};
@@ -61,7 +64,7 @@ PlayerHolder.prototype.optionsChange = function(player) {
     var id = player.id;
     var playerObj = this.player(id);
 
-    for (x in player) {
+    for (const x in player) {
         playerObj[x] = player[x];
     }
 
@@ -165,8 +168,7 @@ PlayerHolder.prototype.auth = function (pid) {
 };
 
 PlayerHolder.prototype.id = function (name) {
-    var player = this.names[name.toLowerCase()],
-        lname = name.toLowerCase();
+    let lname = name.toLowerCase();
 
     return (lname in this.names) ? this.names[lname].id : -1;
 };
@@ -202,6 +204,3 @@ PlayerHolder.prototype.away = function (id) {
     var player = this.player(id);
     return player ? player.away : false;
 };
-
-$(function() {
-});

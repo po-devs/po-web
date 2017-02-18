@@ -1,4 +1,4 @@
-if(!pokedex.items)pokedex.items={};
+module.exports = pokedex => {if(!pokedex.items)pokedex.items={};
 pokedex.items.berry_messages = {
 0:"%s ate its %i!",
 1:"%s snapped out of its confusion!|%s's status cleared!|%s is not paralyzed anymore!|%s woke up!|%s thawed out!|%s healed from its burn!|%s is cured from its poison!",
@@ -13,3 +13,4 @@ pokedex.items.berry_messages = {
 11:"%s is already preparing its next move!",
 12:"%f is hit with recoil",
 };
+}
