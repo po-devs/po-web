@@ -1,3 +1,14 @@
+// Hack for Ubuntu on Windows: interface enumeration fails with EINVAL, so return empty.
+try {
+  require('os').networkInterfaces();
+} catch (e) {
+  require('os').networkInterfaces = () => ({});
+}
+
+var fs = require('fs');
+var gracefulFs = require('graceful-fs');
+gracefulFs.gracefulify(fs);
+
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -54,6 +65,15 @@ module.exports = {
       context: __dirname,
       from: "node_modules/jquery/dist/jquery.min.js",
       to: "javascript"
+    }, {
+      from: "images",
+      to: "images"
+    }, {
+      from: "sounds",
+      to: "sounds"
+    }, {
+      from: "fonts",
+      to: "fonts"
     }])/* Still causes problems with arrow functions, waiting for a more stable version
      of uglifyJS.
     new UglifyJSPlugin() */
