@@ -65,7 +65,11 @@ module.exports = {
       context: __dirname,
       from: "node_modules/jquery/dist/jquery.min.js",
       to: "javascript"
-    }, {
+    }, /* {
+      context: __dirname,
+      from: "node_modules/bootstrap-colorpicker/dist/img",
+      to: "img"
+    },*/ {
       from: "images",
       to: "images"
     }, {
