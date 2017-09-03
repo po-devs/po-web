@@ -412,7 +412,7 @@ Poke.prototype.updateDescription = function(what) {
             "<img src='" + ItemInfo.itemSprite(what.item) +
             "' class='tb-item-img'/> - " + ItemInfo.desc(what.item));
         // some past gen images don't exist
-        $(".tb-item-img").error(function () {
+        $(".tb-item-img").on("error", function () {
             el.html(ItemInfo.desc(what.item));
         });
     } else if (what.type === "ability") {
