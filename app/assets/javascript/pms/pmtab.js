@@ -102,15 +102,15 @@ pmtab.disconnect = function() {
     });
 };
 
-$(function() {
-    if ("Notification" in window) {
-        window.Notification.requestPermission(function(result) {
-          if (result === 'denied') {
-            return;
-          } else if (result === 'default') {
-            return;
-          }
-          // Do something with the granted permission.
-        });
-    }
-});
+// $(function() {
+//    if ("Notification" in window) {
+//         window.Notification.requestPermission(function(result) {
+//           if (result === 'denied') {
+//             return;
+//           } else if (result === 'default') {
+//             return;
+//           }
+           // Do something with the granted permission.
+//         });
+//     }
+// });
