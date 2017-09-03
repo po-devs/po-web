@@ -1,4 +1,4 @@
-import $ from "jquery";
+// import $ from "jquery";
 
 import BaseTab from "../basetab";
 import Chat from "../chat";
